@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Red & Jemie - Wedding Website</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="51">
+    <!-- Navbar Start -->
+    <nav class="navbar fixed-top shadow-sm navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5">
+        <a href="index.html" class="navbar-brand d-block d-lg-none">
+            <h1 class="font-secondary text-white mb-n2">Red <span class="text-primary">&</span> Jemie</h1>
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav ml-auto py-0">
+                <a href="#home" class="nav-item nav-link active">Home</a>
+                <a href="#about" class="nav-item nav-link">About</a>
+                <a href="#story" class="nav-item nav-link">Story</a>
+                <a href="#gallery" class="nav-item nav-link">Gallery</a>
+            </div>
+            <a href="index.html" class="navbar-brand mx-5 d-none d-lg-block">
+                <h1 class="font-secondary text-white mb-n2">Red <span class="text-primary">&</span> Jemie</h1>
+            </a>
+            <div class="navbar-nav mr-auto py-0">
+                <a href="#family" class="nav-item nav-link">Family</a>
+                <a href="#event" class="nav-item nav-link">Event</a>
+                <a href="#rsvp" class="nav-item nav-link">RSVP</a>
+                <a href="#contact" class="nav-item nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0 mb-5 pb-5" id="home">
+        
+            <div class="carousel-inner">
+                <div class="carousel-item position-relative active" style="height: 100vh; min-height: 400px;">
+                    <img class="position-absolute w-100 h-100" src="img/carousel-1.jpg" style="object-fit: cover;">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+					<br> </br> <br> </br> <br> </br>
+                        <div class="p-3" style="max-width: 900px;">
+
+						<div style="position: absolute; top: 40px; left: 40px; z-index: 2;">
+						  <img src="img/logo.png" alt="Logo"
+							   style="
+								 width: 100px;
+								 opacity: 0;
+								 animation: fadeIn 2s ease-out forwards, floatUpDown 4s ease-in-out infinite;
+								 filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+								 transition: transform 0.3s ease;
+							   "
+							   onmouseover="this.style.transform='scale(1.05)'"
+							   onmouseout="this.style.transform='scale(1)'">
+						</div>
+
+						<style>
+						@keyframes fadeIn {
+						  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+						  to   { opacity: 1; transform: translateY(0) scale(1); }
+						}
+
+						@keyframes floatUpDown {
+						  0%, 100% { transform: translateY(0); }
+						  50%      { transform: translateY(-5px); }
+						}
+						</style>
+
+
+		 
+                            <h1 class="display-1 font-secondary text-white mt-n3 mb-md-4">Red & Jemie</h1>
+                            <div class="d-inline-block border-top border-bottom border-light py-3 px-4">
+                                <h3 class="text-uppercase font-weight-normal text-white m-0" style="letter-spacing: 2px;">We're getting married</h3>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+           
+        
+    </div>
+    <!-- Carousel End -->
+
+
+    <!-- Video Modal Start -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>        
+                    <!-- 16:9 aspect ratio -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal End -->
+
+
+    <!-- About Start -->
+    <div class="container-fluid py-5" id="about">
+        <div class="container py-5">
+            <div class="section-title position-relative text-center">
+                <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">About</h6>
+                <h1 class="font-secondary display-4">Groom & Bride</h1>
+                <i class="far fa-heart text-dark"></i>
+            </div>
+            <div class="row m-0 mb-4 mb-md-0 pb-2 pb-md-0">
+                <div class="col-md-6 p-0 text-center text-md-right">
+                    <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-5">
+                        <h3 class="mb-3">The Groom</h3>
+                        <p>Redjell Kim Diola is thoughtful, driven, and full of quiet strength. With a heart that cares deeply and a mind that never stops exploring, he brings calm and confidence to every step of life.</p>
+                        <h3 class="font-secondary font-weight-normal text-muted mb-3"><i class="fa fa-male text-primary pr-3"></i>Red</h3>
+                        <div class="position-relative">
+                            <a class="btn btn-outline-primary btn-square mr-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-primary btn-square mr-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-primary
+							btn-square mr-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 p-0" style="min-height: 400px;">
+                    <img class="position-absolute w-100 h-100" src="img/about-1.jpg" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="row m-0">
+                <div class="col-md-6 p-0" style="min-height: 400px;">
+                    <img class="position-absolute w-100 h-100" src="img/about-2.jpg" style="object-fit: cover;">
+                </div>
+                <div class="col-md-6 p-0 text-center text-md-left">
+                    <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-5">
+                        <h3 class="mb-3">The Bride</h3>
+                        <p>Jemaly Naval Porlas is sweet, loving, and endlessly understanding. Hardworking and deeply loyal, she’s the kind of woman who’s always there for the people she loves — strong, steady, pierced face and full of heart.</p>
+                        <h3 class="font-secondary font-weight-normal text-muted mb-3"><i class="fa fa-female text-primary pr-3"></i>Jemie</h3>
+                        <div class="position-relative">
+                            <a class="btn btn-outline-primary btn-square mr-1" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-primary btn-square mr-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-primary btn-square mr-1" href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-primary btn-square" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Story Start -->
+    <div class="container-fluid py-5" id="story">
+        <div class="container pt-5 pb-3">
+            <div class="section-title position-relative text-center">
+                <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">Story</h6>
+                <h1 class="font-secondary display-4">Our Love Story</h1>
+                <i class="far fa-heart text-dark"></i>
+            </div>
+            <div class="container timeline position-relative p-0">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-right">
+                        <img class="img-fluid mr-md-3" src="img/story-1.jpg" alt="">
+                    </div>
+                    <div class="col-md-6 text-center text-md-left">
+                        <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-4 ml-md-3">
+                            <h4 class="mb-2">Where it All Began</h4>
+                            <p class="text-uppercase mb-2">06 Jan 2017</p>
+                            <p class="m-0">We first saw each other, met, and danced back in 2016 in Quezon City, Philippines. It all started with a chocolate bar from Bali — a sweet gesture that sparked something special between us, leading us to realize we were destined to be forever.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-right">
+                        <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-4 mr-md-3">
+                            <h4 class="mb-2">Starts of infinite love.</h4>
+                            <p class="text-uppercase mb-2">Creating Memories Together</p>
+                            <p class="m-0">First Spark of Love. When we started our journey, our life became our everyday.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center text-md-left">
+                        <img class="img-fluid ml-md-3" src="img/story-2.jpg" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-right">
+                        <img class="img-fluid mr-md-3" src="img/story-3.jpg" alt="">
+                    </div>
+                    <div class="col-md-6 text-center text-md-left">
+                        <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-4 ml-md-3">
+                            <h4 class="mb-2">The Proposal: Where ‘Until Death Do Us Part’ Began</h4>
+                            <p class="text-uppercase mb-2">28 March 2023</p>
+                            <p class="m-0">Then came Paris — the city of love. As the Eiffel Tower glittered behind us and the cool night air wrapped around the moment, everything slowed down. With a trembling hand and a heart full of certainty, the question was asked... and with a smile, tears, and a love that had only grown stronger through the years, the answer was 'yes.' Our forever officially began under the Parisian sky..</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Story End -->
+
+
+    <!-- Gallery Start -->
+    <div class="container-fluid bg-gallery" id="gallery" style="padding: 120px 0; margin: 90px 0;">
+        <div class="section-title position-relative text-center" style="margin-bottom: 150px;">
+            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">Gallery</h6>
+            <h1 class="font-secondary display-4 text-white">Our Photo Gallery</h1>
+            <i class="far fa-heart text-white"></i>
+        </div>
+        <div class="owl-carousel gallery-carousel">
+            <div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-1.jpg" alt="">
+                <a href="img/gallery-1.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+            <div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-2.jpg" alt="">
+                <a href="img/gallery-2.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+            <div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-3.jpg" alt="">
+                <a href="img/gallery-3.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+            <div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-4.jpg" alt="">
+                <a href="img/gallery-4.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+            <div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-5.jpg" alt="">
+                <a href="img/gallery-5.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+            <div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-6.jpg" alt="">
+                <a href="img/gallery-6.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+			<div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-7.jpg" alt="">
+                <a href="img/gallery-7.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+			<div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-8.jpg" alt="">
+                <a href="img/gallery-8.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+			<div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-9.jpg" alt="">
+                <a href="img/gallery-9.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+			<div class="gallery-item">
+                <img class="img-fluid w-100" src="img/gallery-10.jpg" alt="">
+                <a href="img/gallery-10.jpg" data-lightbox="gallery">
+                    <i class="fa fa-2x fa-plus text-white"></i>
+                </a>
+            </div>
+			
+            </div>
+        </div>
+    </div>
+    <!-- Gallery End -->
+
+
+			<div class="row">
+			<!-- Church Section -->
+			<div class="col-md-6 border-right border-primary">
+				<div class="text-center text-md-right mr-md-3 mb-4 mb-md-0">
+					<img class="img-fluid mb-4" src="img/event-1.jpg" alt="">
+					<h4 class="mb-3">Church Wedding</h4>
+					<p class="mb-2">Manila Cathedral</p>
+					<p class="mb-2">3:00PM - 4:00PM</p>
+					<div>
+						<a href="https://www.google.com/maps/place/Manila+Cathedral/" target="_blank" class="text-primary mx-2">
+							<i class="fas fa-map-marker-alt"></i> Google Maps
+						</a>
+						<a href="https://waze.com/ul?ll=14.591&lon=120.973&navigate=yes" target="_blank" class="text-primary mx-2">
+							<i class="fab fa-waze"></i> Waze
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Reception Section -->
+			<div class="col-md-6">
+				<div class="text-center text-md-left ml-md-3">
+					<img class="img-fluid mb-4" src="img/event-2.jpg" alt="">
+					<h4 class="mb-3">Reception</h4>
+					<p class="mb-2">Le Parc Events Hall</p>
+					<p class="mb-2">Pasay City, Philippines</p>
+					<div>
+						<a href="https://www.google.com/maps/place/Le+Parc+Event+Hall/" target="_blank" class="text-primary mx-2">
+							<i class="fas fa-map-marker-alt"></i> Google Maps
+						</a>
+						<a href="https://waze.com/ul?ll=14.536&lon=121.001&navigate=yes" target="_blank" class="text-primary mx-2">
+							<i class="fab fa-waze"></i> Waze
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+	 <!-- Event Start -->
+    <div class="container-fluid py-5" id="event">
+        <div class="container py-5">
+            <div class="section-title position-relative text-center">
+           
+                <h1 class="font-secondary display-4">Reminders</h1>
+                <i class="far fa-heart text-dark"></i>
+            </div>
+			
+			 <div class="row justify-content-center">
+				<div class="col-md-8 text-center">
+					<h4 class="font-weight-bold text-muted mb-3 pb-2">NO PLUS ONE</h4>
+					<h6 class="font-weight-normal text-muted mb-3 pb-2">
+						Due to the intimate nature of our wedding and limited seating at both the ceremony and reception, 
+						we kindly ask for your understanding that only guests who have formally confirmed their attendance 
+						can be accommodated.
+						<br><br>
+						To ensure a comfortable experience for everyone, we respectfully request that no additional guests 
+						or plus ones be brought.
+						<br><br>
+						Your cooperation in respecting this policy is sincerely appreciated. Thank you for helping us 
+						create an intimate and memorable celebration.
+					</h6>
+				</div>
+			</div>
+			
+			
+			
+			<div class="section-title position-relative text-center">
+                <i class="far fa-heart text-dark"></i>
+            </div>
+			
+			 <div class="row justify-content-center">
+				<div class="col-md-8 text-center">
+					<h4 class="font-weight-bold text-muted mb-3 pb-2">CHILDREN</h4>
+					<h6 class="font-weight-normal text-muted mb-3 pb-2">
+						Although we love your little ones, we can only accommodate the children of immediate family.
+						We apologize for the inconvenience this may cause.
+						
+					</h6>
+				</div>
+			</div>
+			
+			
+			<div class="section-title position-relative text-center">
+                <i class="far fa-heart text-dark"></i>
+            </div>
+			
+			<div class="row justify-content-center">
+				<div class="col-md-8 text-center">
+					<h4 class="font-weight-bold text-muted mb-3 pb-2">GIFT GUIDE</h4>
+					<h6 class="font-weight-normal text-muted mb-3 pb-2">
+						Your love and presence on our wedding day mean the world to us.<br>
+						If you wish to bless us with a gift, a contribution toward our future would be truly appreciated.
+						<br><br>
+						<strong>GCash</strong><br>
+						<img src="path-to-your-qr-code.jpg" alt="GCash QR Code" style="max-width: 200px; margin: 10px 0;">
+						<br><br>
+						<strong>Bank Transfer</strong><br>
+						<strong>Bank:</strong> [Your Bank Name]<br>
+						<strong>Name:</strong> [Your Full Name]<br>
+						<strong>Account No.:</strong> [XXXX-XXXX-XXXX]
+						<br><br>
+						With love,<br>
+						<strong>Redjell & Jemalyn</strong>
+					</h6>
+				</div>
+			</div>
+
+			
+
+
+						
+			<div class="section-title position-relative text-center mb-4">
+				<i class="far fa-heart text-dark"></i>
+			</div>
+
+			<div class="row justify-content-center">
+				<div class="col-md-8 text-center">
+					<h4 class="font-weight-bold text-muted mb-3">ATTIRE</h4>
+
+					<h5 class="font-weight-normal text-muted mb-2">Ladies: Midi Dress | Long Gown</h5>
+					<h6 class="font-weight-normal text-muted mb-3">For ladies: Please come in Pastel Brown Colors</h6>
+
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-6">
+							<img class="img-fluid rounded shadow-sm" src="img/pallet.jpg" alt="Color Palette">
+						</div>
+					</div>
+
+					<h5 class="font-weight-normal text-muted mb-2">Gentlemen: Black Coat & Tie | Long Sleeve</h5>
+
+					<div class="row justify-content-center mb-4">
+						<div class="col-md-6">
+							<img class="img-fluid rounded shadow-sm" src="img/mattire.jpg" alt="Men's Attire">
+						</div>
+					</div>
+
+					<p class="text-muted font-italic mb-0" style="font-size: 1rem;">
+						We kindly ask everyone to follow the attire as a gesture of respect to the special moment shared by the couple.
+						Your cooperation in dressing accordingly is a meaningful way to honor the effort, thought, and love they have poured into preparing for this day.
+						Let us come together in unity and style to celebrate their beautiful beginning as husband and wife.
+					</p>
+				</div>
+			</div>
+
+			<div class="section-title position-relative text-center">
+                <i class="far fa-heart text-dark"></i>
+            </div>
+			
+          
+    <!-- Event End -->
+
+
+    <!-- Friends & Family Start -->
+    <div class="container-fluid py-5" id="family">
+        <div class="container pt-5 pb-3">
+            <div class="section-title position-relative text-center">
+                <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">Friends & Family</h6>
+                <h1 class="font-secondary display-4">Groomsmen & Bridesmaid</h1>
+                <i class="far fa-heart text-dark"></i>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mb-2">
+                    <ul class="list-inline mb-4" id="portfolio-flters">
+                        <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".first">Groomsmen</li>
+                        <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".second">Bridesmaid</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row portfolio-container">
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
+                    <div class="position-relative mb-2">
+                        <img class="img-fluid w-100" src="img/groomsmen-1.jpg" alt="">
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">Full Name</h4>
+                            <p class="text-uppercase">Best Friend</p>
+                            <div class="d-inline-block">
+                                <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
+                    <div class="position-relative mb-2">
+                        <img class="img-fluid w-100" src="img/bridesmaid-1.jpg" alt="">
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">Full Name</h4>
+                            <p class="text-uppercase">Best Friend</p>
+                            <div class="d-inline-block">
+                                <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
+                    <div class="position-relative mb-2">
+                        <img class="img-fluid w-100" src="img/groomsmen-2.jpg" alt="">
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">Full Name</h4>
+                            <p class="text-uppercase">Best Friend</p>
+                            <div class="d-inline-block">
+                                <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
+                    <div class="position-relative mb-2">
+                        <img class="img-fluid w-100" src="img/bridesmaid-2.jpg" alt="">
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">Full Name</h4>
+                            <p class="text-uppercase">Best Friend</p>
+                            <div class="d-inline-block">
+                                <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
+                    <div class="position-relative mb-2">
+                        <img class="img-fluid w-100" src="img/groomsmen-3.jpg" alt="">
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">Full Name</h4>
+                            <p class="text-uppercase">Best Friend</p>
+                            <div class="d-inline-block">
+                                <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
+                    <div class="position-relative mb-2">
+                        <img class="img-fluid w-100" src="img/bridesmaid-3.jpg" alt="">
+                        <div class="bg-secondary text-center p-4">
+                            <h4 class="mb-3">Full Name</h4>
+                            <p class="text-uppercase">Best Friend</p>
+                            <div class="d-inline-block">
+                                <a class="mx-2" href="#"><i class="fab fa-twitter"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Friends & Family End -->
+
+
+
+
+<div class="container-fluid py-5" id="rsvp">
+    <div class="container py-5">
+        <div class="section-title position-relative text-center">
+            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">RSVP</h6>
+            <h1 class="font-secondary display-4">Join Our Party</h1>
+            <i class="far fa-heart text-dark"></i>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="text-center">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfe7pe5_-SYWoRmYtocyZ8OKb4VY3seXmDHmxTA9p9tqWrzkg/viewform?embedded=true"
+                            width="100%" height="1000" frameborder="0" marginheight="0" marginwidth="0">
+                        Loading…
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-white py-5" id="contact" style="margin-top: 90px;">
+        <div class="container text-center py-5">
+            <div class="section-title position-relative text-center">
+                <h1 class="font-secondary display-3 text-white">Thank You</h1>
+                <i class="far fa-heart text-white"></i>
+            </div>
+           
+            <p class="m-0">&copy; <a class="text-primary" href="#">Domain Name</a>. Designed by <a class="text-primary" href="https://htmlcodex.com">HTML Codex</a>
+            </p>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Scroll to Bottom -->
+    <i class="fa fa-2x fa-angle-down text-white scroll-to-bottom"></i>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-outline-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
