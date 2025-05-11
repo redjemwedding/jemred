@@ -477,7 +477,6 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 			    
     <!-- Event End -->
 
-    <!-- Friends & Family Start -->
 
 
 <!-- Friends & Family Start -->
@@ -491,62 +490,65 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 
         <!-- Filter Buttons -->
         <div class="row">
-            <div class="col-12 text-center mb-4">
-                <ul class="list-inline" id="portfolio-filters">
-                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 active" data-filter="all">Groomsmen</li>
-                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter="brides">Bridesmaids</li>
+            <div class="col-12 text-center mb-2">
+                <ul class="list-inline mb-4" id="portfolio-flters">
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".first">Groomsmen</li>
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".second">Bridesmaids</li>
                 </ul>
             </div>
         </div>
 
         <!-- Groomsmen & Bridesmaids Grid -->
-        <div class="row portfolio-container justify-content-center">
+        <div class="row portfolio-container">
             <!-- Groomsmen -->
-            <div class="col-lg-5 col-md-6 mb-4 portfolio-item first">
-                <div class="position-relative mb-3">
-                    <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="Groomsmen">
-                    <div class="bg-secondary text-center p-4 rounded-bottom">
-                        <h4 class="mb-0">Groomsmen</h4>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Bridesmaids -->
-            <div class="col-lg-5 col-md-6 mb-4 portfolio-item second">
-                <div class="position-relative mb-3">
-                    <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaids">
-                    <div class="bg-secondary text-center p-4 rounded-bottom">
-                        <h4 class="mb-0">Bridesmaids</h4>
+            <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
+                <div class="position-relative mb-2">
+                    <img class="img-fluid w-100" src="img/groomsmen-1.jpg" alt="">
+                    <div class="bg-secondary text-center p-4">
+                        <h4 class="mb-3">Groomsmen</h4>
+                        
                     </div>
                 </div>
             </div>
-        </div>
+        
+            <!-- END GROOMSMEN -->
+<br> </br>
+            <!-- START BRIDESMAIDS -->
+            <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
+                <div class="position-relative mb-2">
+                    <img class="img-fluid w-100" src="img/bridesmaid-1.jpg" alt="">
+                    <div class="bg-secondary text-center p-4">
+                        <h4 class="mb-3">Bridesmaids</h4>
+                       
+                    </div>
+                </div>
+            </div>
+		
+	</div> 
+	    
+      
     </div>
 </div>
 
-<!-- jQuery filter script -->
+<!-- JavaScript Filter Logic -->
 <script>
     $(document).ready(function () {
-        // Show both on page load
-        $(".portfolio-item").show();
+        // Show only Groomsmen by default
+        $(".portfolio-item").hide();
+        $(".first").show();
 
+        // Filter on button click
         $("#portfolio-filters li").click(function () {
             $("#portfolio-filters li").removeClass("active");
             $(this).addClass("active");
 
-            var filter = $(this).attr("data-filter");
-
-            if (filter === "all") {
-                $(".first").fadeIn(400);
-                $(".second").hide();
-            } else if (filter === "brides") {
-                $(".second").fadeIn(400);
-                $(".first").hide();
-            }
+            var selectedClass = $(this).attr("data-filter");
+            $(".portfolio-item").hide();
+            $(selectedClass).fadeIn(400);
         });
     });
 </script>
-
 
 		
 
