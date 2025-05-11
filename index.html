@@ -483,78 +483,67 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 
 <!-- Friends & Family Start -->
 <div class="container-fluid py-5" id="squad">
-  <div class="container pt-5 pb-3">
-    <div class="section-title position-relative text-center">
-      <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;"></h6>
-      <h1 class="font-secondary display-4">Squad</h1>
-      <i class="far fa-heart text-dark"></i>
-    </div>
-
-    <!-- Filter Buttons -->
-    <div class="row">
-      <div class="col-12 text-center mb-4">
-        <ul class="list-inline" id="portfolio-filters">
-          <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 active" data-filter="all">All</li>
-          <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter="first">Groomsmen</li>
-          <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter="second">Bridesmaids</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Grid -->
-    <div class="row portfolio-container justify-content-center">
-      <!-- Groomsman -->
-      <div class="col-lg-5 col-md-6 mb-4 portfolio-item first">
-        <div class="position-relative mb-2">
-          <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="Groomsman">
-          <div class="bg-secondary text-center p-4 rounded-bottom">
-            <h4 class="mb-0">Groomsman</h4>
-          </div>
+    <div class="container pt-5 pb-3">
+        <div class="section-title position-relative text-center">
+            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;"></h6>
+            <h1 class="font-secondary display-4">Squad</h1>
+            <i class="far fa-heart text-dark"></i>
         </div>
-      </div>
 
-      <!-- Bridesmaid -->
-      <div class="col-lg-5 col-md-6 mb-4 portfolio-item second">
-        <div class="position-relative mb-2">
-          <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaid">
-          <div class="bg-secondary text-center p-4 rounded-bottom">
-            <h4 class="mb-0">Bridesmaid</h4>
-          </div>
+        <!-- Filter Buttons -->
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <ul class="list-inline" id="portfolio-flters">
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".first">Groomsmen</li>
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".second">Bridesmaids</li>
+                </ul>
+            </div>
         </div>
-      </div>
+
+        <!-- Groomsmen & Bridesmaids Grid -->
+        <div class="row portfolio-container justify-content-center">
+            <!-- Groomsmen -->
+            <div class="col-lg-5 col-md-6 mb-4 portfolio-item first">
+                <div class="position-relative mb-3">
+                    <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="">
+                    <div class="bg-secondary text-center p-4 rounded-bottom">
+                        <h4 class="mb-0">Groomsmen</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bridesmaids -->
+            <div class="col-lg-5 col-md-6 mb-4 portfolio-item second">
+                <div class="position-relative mb-3">
+                    <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="">
+                    <div class="bg-secondary text-center p-4 rounded-bottom">
+                        <h4 class="mb-0">Bridesmaids</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
-<!-- JavaScript Logic -->
+<!-- JavaScript Filter Logic -->
 <script>
-  $(document).ready(function () {
-    // Show all by default
-    $(".portfolio-item").show();
-
-    $("#portfolio-filters li").click(function () {
-      var filter = $(this).data("filter");
-
-      $("#portfolio-filters li").removeClass("active");
-      $(this).addClass("active");
-
-      if (filter === "all") {
-        $(".portfolio-item").fadeIn();
-      } else {
+    $(document).ready(function () {
+        // Show only Groomsmen by default
         $(".portfolio-item").hide();
-        $("." + filter).fadeIn(400);
-      }
+        $(".first").show();
+
+        // Filter on button click
+        $("#portfolio-filters li").click(function () {
+            $("#portfolio-filters li").removeClass("active");
+            $(this).addClass("active");
+
+            var selectedClass = $(this).attr("data-filter");
+            $(".portfolio-item").hide();
+            $(selectedClass).fadeIn(400);
+        });
     });
-  });
 </script>
 
-<!-- Active Button Styling -->
-<style>
-  #portfolio-filters .active {
-    background-color: #007bff;
-    color: #fff;
-  }
-</style>
 
 		
 
