@@ -221,78 +221,117 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 
 
     <!-- Gallery Start -->
-    <div class="container-fluid bg-gallery" id="gallery" style="padding: 120px 0; margin: 90px 0;">
-        <div class="section-title position-relative text-center" style="margin-bottom: 150px;">
-            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">Gallery</h6>
-            <h1 class="font-secondary display-4 text-white">Our Photo Gallery</h1>
-            <i class="far fa-heart text-white"></i>
-        </div>
-        <div class="owl-carousel gallery-carousel">
-            <div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-1.jpg" alt="">
-                <a href="img/gallery-1.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-            <div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-2.jpg" alt="">
-                <a href="img/gallery-2.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-            <div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-3.jpg" alt="">
-                <a href="img/gallery-3.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-            <div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-4.jpg" alt="">
-                <a href="img/gallery-4.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-            <div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-5.jpg" alt="">
-                <a href="img/gallery-5.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-            <div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-6.jpg" alt="">
-                <a href="img/gallery-6.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-			<div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-7.jpg" alt="">
-                <a href="img/gallery-7.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-			<div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-8.jpg" alt="">
-                <a href="img/gallery-8.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-			<div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-9.jpg" alt="">
-                <a href="img/gallery-9.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-			<div class="gallery-item">
-                <img class="img-fluid w-100" src="img/gallery-10.jpg" alt="">
-                <a href="img/gallery-10.jpg" data-lightbox="gallery">
-                    <i class="fa fa-2x fa-plus text-white"></i>
-                </a>
-            </div>
-			
-            </div>
-        </div>
+<div class="container-fluid bg-gallery" id="gallery" style="padding: 120px 0; margin: 90px 0;">
+    <div class="section-title position-relative text-center" style="margin-bottom: 150px;">
+        <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;">Gallery</h6>
+        <h1 class="font-secondary display-4 text-white">Our Photo Gallery</h1>
+        <i class="far fa-heart text-white"></i>
     </div>
-    <!-- Gallery End -->
+
+    <div class="owl-carousel gallery-carousel">
+        <!-- Start Loop -->
+        <!-- Repeat for each gallery item -->
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-1.jpg" alt="">
+            <a href="img/gallery-1.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-2.jpg" alt="">
+            <a href="img/gallery-2.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-3.jpg" alt="">
+            <a href="img/gallery-3.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-4.jpg" alt="">
+            <a href="img/gallery-4.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-5.jpg" alt="">
+            <a href="img/gallery-5.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-6.jpg" alt="">
+            <a href="img/gallery-6.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-7.jpg" alt="">
+            <a href="img/gallery-7.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-8.jpg" alt="">
+            <a href="img/gallery-8.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-9.jpg" alt="">
+            <a href="img/gallery-9.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+
+        <div class="gallery-item position-relative overflow-hidden rounded" style="cursor: pointer;">
+            <img class="img-fluid w-100" src="img/gallery-10.jpg" alt="">
+            <a href="img/gallery-10.jpg" data-lightbox="gallery" 
+               class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+               style="background: rgba(0, 0, 0, 0.5); opacity: 0; transition: opacity 0.3s;">
+                <i class="fa fa-2x fa-plus text-white"></i>
+            </a>
+        </div>
+        <!-- End Loop -->
+    </div>
+</div>
+<!-- Gallery End -->
+
+<!-- Add this style tag or move to your CSS -->
+<style>
+    .gallery-item:hover a {
+        opacity: 1 !important;
+    }
+</style>
+ <!-- Gallery End -->
 
 <div class="row">
   <!-- Church Section -->
