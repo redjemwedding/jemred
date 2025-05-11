@@ -526,6 +526,95 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
     </div>
 </div>
 
+
+
+
+
+
+
+
+<!-- Include jQuery (if not already) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Filter Buttons -->
+<div class="row">
+    <div class="col-12 text-center mb-2">
+        <ul class="list-inline mb-4" id="portfolio-filters">
+            <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 active" data-filter=".first">Groomsmen</li>
+            <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".second">Bridesmaids</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Groomsmen & Bridesmaids Grid -->
+<div class="row portfolio-container">
+    <!-- Groomsmen -->
+    <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
+        <div class="position-relative mb-2">
+            <img class="img-fluid w-100" src="img/groomsmen-1.jpg" alt="">
+            <div class="bg-secondary text-center p-4">
+                <h4 class="mb-3">Groomsmen</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bridesmaids -->
+    <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
+        <div class="position-relative mb-2">
+            <img class="img-fluid w-100" src="img/bridesmaid-1.jpg" alt="">
+            <div class="bg-secondary text-center p-4">
+                <h4 class="mb-3">Bridesmaids</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Filter Logic -->
+<script>
+    $(document).ready(function () {
+        // Show only Groomsmen by default
+        $(".portfolio-item").hide();
+        $(".first").show();
+
+        // Filter on button click
+        $("#portfolio-filters li").click(function () {
+            $("#portfolio-filters li").removeClass("active");
+            $(this).addClass("active");
+
+            var selectedClass = $(this).attr("data-filter");
+            $(".portfolio-item").hide();
+            $(selectedClass).fadeIn(400);
+        });
+    });
+</script>
+
+<style>
+    #portfolio-filters .active {
+        background-color: #007bff;
+        color: #fff;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+
 <br></br>
 <br></br>
 <!-- Friends & Family End -->	
