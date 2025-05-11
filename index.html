@@ -501,8 +501,8 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
                 <div class="position-relative mb-2">
                     <img class="img-fluid w-100" src="img/groomsmen-1.jpg" alt="">
                     <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Groomsman 1</h4>
-                        <p class="text-uppercase">Best Friend</p>
+                        <h4 class="mb-3">Groomsman</h4>
+                        
                     </div>
                 </div>
             </div>
@@ -514,8 +514,8 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
                 <div class="position-relative mb-2">
                     <img class="img-fluid w-100" src="img/bridesmaid-1.jpg" alt="">
                     <div class="bg-secondary text-center p-4">
-                        <h4 class="mb-3">Bridesmaid 1</h4>
-                        <p class="text-uppercase">Best Friend</p>
+                        <h4 class="mb-3">Bridesmaid</h4>
+                       
                     </div>
                 </div>
             </div>
@@ -523,71 +523,8 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
         </div>
     </div>
 </div>
-<!-- Friends & Family End -->
-
-
-
-
-
-<!-- Toggle Buttons -->
-<div class="text-center my-4">
-  <button class="btn btn-primary mx-2" onclick="showGroup('groomsmen')">Groomsmen</button>
-  <button class="btn btn-secondary mx-2" onclick="showGroup('bridesmaids')">Bridesmaids</button>
-</div>
-
-<!-- Groomsmen & Bridesmaids Grid -->
-<div class="row portfolio-container justify-content-center">
-
-  <!-- Groomsman -->
-  <div class="col-lg-4 col-md-6 mb-4 portfolio-item group-groomsmen">
-    <div class="position-relative mb-2">
-      <img class="img-fluid w-100" src="img/groomsmen-1.jpg" alt="Groomsman">
-      <div class="bg-secondary text-center p-4">
-        <h4 class="mb-3">Groomsman 1</h4>
-        <p class="text-uppercase">Groomsman</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bridesmaid -->
-  <div class="col-lg-4 col-md-6 mb-4 portfolio-item group-bridesmaids d-none">
-    <div class="position-relative mb-2">
-      <img class="img-fluid w-100" src="img/bridesmaid-1.jpg" alt="Bridesmaid">
-      <div class="bg-secondary text-center p-4">
-        <h4 class="mb-3">Bridesmaid 1</h4>
-        <p class="text-uppercase">Bridesmaid</p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Show/Hide Script -->
-<script>
-  function showGroup(group) {
-    const groomsmen = document.querySelectorAll('.group-groomsmen');
-    const bridesmaids = document.querySelectorAll('.group-bridesmaids');
-
-    if (group === 'groomsmen') {
-      groomsmen.forEach(el => el.classList.remove('d-none'));
-      bridesmaids.forEach(el => el.classList.add('d-none'));
-    } else {
-      groomsmen.forEach(el => el.classList.add('d-none'));
-      bridesmaids.forEach(el => el.classList.remove('d-none'));
-    }
-  }
-
-  // Show Groomsmen by default when page loads
-  document.addEventListener("DOMContentLoaded", () => showGroup('groomsmen'));
-</script>
-
-
-
-
-		
+<!-- Friends & Family End -->	
     <!-- Friends & Family End -->
-
-
 
 
 <!-- RSVP Section: Full-Width, Seamless, and No Scroll -->
