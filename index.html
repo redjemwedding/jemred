@@ -480,7 +480,6 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
     <!-- Friends & Family Start -->
 
 
-
 <!-- Friends & Family Start -->
 <div class="container-fluid py-5" id="squad">
     <div class="container pt-5 pb-3">
@@ -493,9 +492,9 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
         <!-- Filter Buttons -->
         <div class="row">
             <div class="col-12 text-center mb-4">
-                <ul class="list-inline" id="portfolio-flters">
-                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".first">Groomsmen</li>
-                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".second">Bridesmaids</li>
+                <ul class="list-inline" id="portfolio-filters">
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 active" data-filter="all">Groomsmen</li>
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter="brides">Bridesmaids</li>
                 </ul>
             </div>
         </div>
@@ -505,7 +504,7 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
             <!-- Groomsmen -->
             <div class="col-lg-5 col-md-6 mb-4 portfolio-item first">
                 <div class="position-relative mb-3">
-                    <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="">
+                    <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="Groomsmen">
                     <div class="bg-secondary text-center p-4 rounded-bottom">
                         <h4 class="mb-0">Groomsmen</h4>
                     </div>
@@ -515,7 +514,7 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
             <!-- Bridesmaids -->
             <div class="col-lg-5 col-md-6 mb-4 portfolio-item second">
                 <div class="position-relative mb-3">
-                    <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="">
+                    <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaids">
                     <div class="bg-secondary text-center p-4 rounded-bottom">
                         <h4 class="mb-0">Bridesmaids</h4>
                     </div>
@@ -525,21 +524,25 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
     </div>
 </div>
 
-<!-- JavaScript Filter Logic -->
+<!-- jQuery filter script -->
 <script>
     $(document).ready(function () {
-        // Show only Groomsmen by default
-        $(".portfolio-item").hide();
-        $(".first").show();
+        // Show both on page load
+        $(".portfolio-item").show();
 
-        // Filter on button click
         $("#portfolio-filters li").click(function () {
             $("#portfolio-filters li").removeClass("active");
             $(this).addClass("active");
 
-            var selectedClass = $(this).attr("data-filter");
-            $(".portfolio-item").hide();
-            $(selectedClass).fadeIn(400);
+            var filter = $(this).attr("data-filter");
+
+            if (filter === "all") {
+                $(".first").fadeIn(400);
+                $(".second").hide();
+            } else if (filter === "brides") {
+                $(".second").fadeIn(400);
+                $(".first").hide();
+            }
         });
     });
 </script>
