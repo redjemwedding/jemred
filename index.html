@@ -558,6 +558,96 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 <!-- Friends & Family End -->	
     <!-- Friends & Family End -->
 
+
+
+
+<!-- Friends & Family Start -->
+<div class="container-fluid py-5" id="squad">
+    <div class="container pt-5 pb-3">
+        <div class="section-title position-relative text-center">
+            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;"></h6>
+            <h1 class="font-secondary display-4">Squad</h1>
+            <i class="far fa-heart text-dark"></i>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <ul class="list-inline" id="portfolio-filters">
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 active" data-filter=".first">Groomsmen</li>
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4" data-filter=".second">Bridesmaids</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Groomsmen & Bridesmaids Grid -->
+        <div class="row portfolio-container justify-content-center">
+            <!-- Groomsmen -->
+            <div class="col-lg-4 col-md-6 mb-5 portfolio-item first">
+                <div class="position-relative">
+                    <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="Groomsman">
+                    <div class="bg-secondary text-center p-4 mt-2 rounded shadow-sm">
+                        <h4 class="mb-0">Groomsman Name</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bridesmaids -->
+            <div class="col-lg-4 col-md-6 mb-5 portfolio-item second">
+                <div class="position-relative">
+                    <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaid">
+                    <div class="bg-secondary text-center p-4 mt-2 rounded shadow-sm">
+                        <h4 class="mb-0">Bridesmaid Name</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Script -->
+<script>
+    $(document).ready(function () {
+        // Initial state
+        $(".portfolio-item").hide();
+        $(".first").fadeIn(400);
+
+        // Button click
+        $("#portfolio-filters li").click(function () {
+            $("#portfolio-filters li").removeClass("active");
+            $(this).addClass("active");
+
+            var selectedClass = $(this).data("filter");
+            $(".portfolio-item").fadeOut(200, function () {
+                $(selectedClass).fadeIn(400);
+            });
+        });
+    });
+</script>
+
+<!-- Style Enhancements -->
+<style>
+    #portfolio-filters .active {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .portfolio-item {
+        display: none; /* Hidden by default */
+    }
+</style>
+<!-- Friends & Family End -->
+
+
+
+
+
+
+
+
+
+
+		
+
 <!-- RSVP Section: Full-Width, Seamless, and No Scroll -->
 <div class="w-100 bg-white py-5" id="rsvp">
     <div class="text-center mb-4">
