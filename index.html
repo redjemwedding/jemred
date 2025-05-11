@@ -57,54 +57,55 @@
 
 
     <!-- Carousel Start -->
-  <div class="container-fluid p-0 mb-5 pb-5" id="home">
-    <div class="carousel-inner">
-        <div class="carousel-item active position-relative vh-100">
-            <!-- Background Image -->
-            <img src="img/carousel-1.JPG" class="w-95 h-100 position-absolute" style="object-fit: cover;" alt="Background">
+   <div class="container-fluid p-0 mb-5 pb-5" id="home">
+        
+            <div class="carousel-inner">
+                <div class="carousel-item position-relative active" style="height: 100vh; min-height: 400px;">
+                    <img class="position-absolute w-100 h-100" src="img/carousel-1.JPG" style="object-fit: cover;">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+					<br> </br> <br> </br> <br> </br>
+                        <div class="p-3" style="max-width: 900px;">
 
-            <!-- Logo -->
-            <div class="position-absolute" style="top: 40px; left: 40px; z-index: 2;">
-                <img src="img/logo.png" alt="Logo" class="animated-logo">
-            </div>
+						<div style="position: absolute; top: 40px; left: 40px; z-index: 2;">
+						  <img src="img/logo.png" alt="Logo"
+							   style="
+								 width: 100px;
+								 opacity: 0;
+								 animation: fadeIn 2s ease-out forwards, floatUpDown 4s ease-in-out infinite;
+								 filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+								 transition: transform 0.3s ease;
+							   "
+							   onmouseover="this.style.transform='scale(1.05)'"
+							   onmouseout="this.style.transform='scale(1)'">
+						</div>
 
-            <!-- Caption -->
-            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center text-center h-100">
-                <div class="p-3" style="max-width: 900px;">
-                    <h1 class="display-1 font-secondary text-white mb-4">Red & Jemie</h1>
-                    <div class="d-inline-block border-top border-bottom border-light py-3 px-4">
-                        <h3 class="text-uppercase font-weight-normal text-white m-0" style="letter-spacing: 2px;">We're getting married</h3>
+						<style>
+						@keyframes fadeIn {
+						  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+						  to   { opacity: 1; transform: translateY(0) scale(1); }
+						}
+
+						@keyframes floatUpDown {
+						  0%, 100% { transform: translateY(0); }
+						  50%      { transform: translateY(-5px); }
+						}
+						</style>
+
+
+		 
+                            <h1 class="display-1 font-secondary text-white mt-n3 mb-md-4">Red & Jemie</h1>
+                            <div class="d-inline-block border-top border-bottom border-light py-3 px-4">
+                                <h3 class="text-uppercase font-weight-normal text-white m-0" style="letter-spacing: 2px;">We're getting married</h3>
+                            </div>
+                            
+                        </div>
                     </div>
                 </div>
+                
             </div>
-        </div>
+           
+        
     </div>
-</div>
-
-<style>
-/* Smooth fade-in and floating animation for logo */
-.animated-logo {
-    width: 100px;
-    opacity: 0;
-    animation: fadeIn 2s ease-out forwards, floatUpDown 4s ease-in-out infinite;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s ease;
-}
-.animated-logo:hover {
-    transform: scale(1.05);
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes floatUpDown {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-</style>
-
     <!-- Carousel End -->
 
 
