@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+    <script>
+if (!sessionStorage.getItem('refreshed')) {
+sessionStorage.setItem('refreshed', 'true');
+location.reload();
+}
+</script>
+	
     <meta charset="utf-8">
     <title>Red & Jemie - Wedding Website</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
