@@ -493,8 +493,6 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 
 
 
-
-
 <!-- Friends & Family Section Start -->
 <div class="container-fluid py-5" id="squad">
     <div class="container pt-5 pb-3">
@@ -531,7 +529,7 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
                     </div>
 
                     <!-- Bridesmaids -->
-                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item second">
+                    <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item second" style="display:none;">
                         <div class="position-relative mb-2">
                             <img class="img-fluid rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaid 1">
                             <div class="bg-secondary text-center p-4">
@@ -572,15 +570,11 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 <style>
     .portfolio-container {
         position: relative;
-        min-height: 600px; /* adjust if you add more content */
     }
 
     .portfolio-item {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        display: none;
+        display: none; /* Default is hidden */
+        position: relative; /* Remove absolute positioning */
     }
 
     .portfolio-item img {
@@ -599,16 +593,9 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
         #portfolio-filters li {
             width: 100%;
         }
-
-        .portfolio-item {
-            position: relative;
-        }
-
-        .portfolio-container {
-            min-height: auto;
-        }
     }
 </style>
+
 
 
 
