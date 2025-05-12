@@ -577,10 +577,22 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
     }
 
     .portfolio-item img {
-        object-fit: cover;
-        height: 500px;
+        object-fit: contain;
+        width: 100%;
+        max-height: 500px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Optional: keep image container spacing tidy */
+    .portfolio-item .position-relative {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
     }
 </style>
+
 
 
 
