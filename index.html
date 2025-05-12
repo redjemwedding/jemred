@@ -495,10 +495,10 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 
 
 
-
-<!-- Friends & Family Start -->
+<!-- Friends & Family Section Start -->
 <div class="container-fluid py-5" id="squad">
     <div class="container pt-5 pb-3">
+        <!-- Section Title -->
         <div class="section-title position-relative text-center">
             <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;"></h6>
             <h1 class="font-secondary display-4">Squad</h1>
@@ -515,17 +515,17 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
             </div>
         </div>
 
-        <!-- Centered Invisible Box -->
+        <!-- Portfolio Grid Container -->
         <div class="d-flex justify-content-center">
             <div class="portfolio-box w-100" style="max-width: 1000px;">
-
-                <div class="row portfolio-container">
+                <div class="position-relative portfolio-container">
+                    
                     <!-- Groomsmen -->
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item first">
                         <div class="position-relative mb-2">
-                            <img class="img-fluid w-100 rounded" src="img/groomsmen-1.jpg" alt="">
+                            <img class="img-fluid rounded" src="img/groomsmen-1.jpg" alt="Groomsman 1">
                             <div class="bg-secondary text-center p-4">
-                                <h4 class="mb-3">Groomsman 1</h4>
+                                <h4 class="mb-0">Groomsman 1</h4>
                             </div>
                         </div>
                     </div>
@@ -533,53 +533,61 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
                     <!-- Bridesmaids -->
                     <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item second">
                         <div class="position-relative mb-2">
-                            <img class="img-fluid w-100 rounded" src="img/bridesmaid-1.jpg" alt="">
+                            <img class="img-fluid rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaid 1">
                             <div class="bg-secondary text-center p-4">
-                                <h4 class="mb-3">Bridesmaid 1</h4>
+                                <h4 class="mb-0">Bridesmaid 1</h4>
                             </div>
                         </div>
                     </div>
-                </div> <!-- End of portfolio-container -->
 
-            </div> <!-- End of portfolio-box -->
-        </div> <!-- End of d-flex wrapper -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- Friends & Family End -->
+<!-- Friends & Family Section End -->
 
 <!-- jQuery (Required for script below) -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- JavaScript Filter Logic -->
 <script>
     $(document).ready(function () {
-        // Show only Groomsmen by default
         $(".portfolio-item").hide();
-        $(".first").show();
+        $(".first").fadeIn(400);
 
-        // Filter on button click
         $("#portfolio-filters li").click(function () {
             $("#portfolio-filters li").removeClass("active");
             $(this).addClass("active");
 
             var selectedClass = $(this).attr("data-filter");
-            $(".portfolio-item").hide();
-            $(selectedClass).fadeIn(400);
+            $(".portfolio-item").fadeOut(200, function () {
+                $(selectedClass).fadeIn(400);
+            });
         });
     });
 </script>
 
-<!-- Mobile Optimized Styling -->
+<!-- Custom Styles -->
 <style>
-    .portfolio-box {
-        margin: 0 auto;
+    .portfolio-container {
+        position: relative;
+        min-height: 600px; /* adjust if you add more content */
+    }
+
+    .portfolio-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: none;
     }
 
     .portfolio-item img {
-        height: auto;
-        max-height: 400px;
-        object-fit: cover;
         width: 100%;
+        height: auto;
+        object-fit: contain;
+        max-height: 600px;
     }
 
     #portfolio-filters li.active {
@@ -590,21 +598,17 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
     @media (max-width: 768px) {
         #portfolio-filters li {
             width: 100%;
-            display: block;
         }
 
         .portfolio-item {
-            text-align: center;
+            position: relative;
+        }
+
+        .portfolio-container {
+            min-height: auto;
         }
     }
 </style>
-
-
-
-
-
-
-
 
 
 
