@@ -492,34 +492,102 @@ Four years later, just before Valentine’s Day 2023, we knew it was time. I fle
 
 
 
-<!-- Portfolio Grid Container -->
-<div class="d-flex justify-content-center">
-    <div class="portfolio-box w-100" style="max-width: 1000px;">
-        <div class="position-relative portfolio-container">
-            <div class="row">
-                <!-- Groomsmen -->
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item first">
-                    <div class="position-relative mb-2">
-                        <img class="img-fluid rounded" src="img/groomsmen-1.jpg" alt="Groomsman 1">
-                        <div class="bg-secondary text-center p-4">
-                            <h4 class="mb-0">Groomsman 1</h4>
-                        </div>
-                    </div>
-                </div>
+<!-- Friends & Family Section Start -->
+<div class="container-fluid py-5" id="squad">
+    <div class="container pt-5 pb-3">
+        <!-- Section Title -->
+        <div class="section-title position-relative text-center">
+            <h6 class="text-uppercase text-primary mb-3" style="letter-spacing: 3px;"></h6>
+            <h1 class="font-secondary display-4">Squad</h1>
+            <i class="far fa-heart text-dark"></i>
+        </div>
 
-                <!-- Bridesmaids -->
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item second" style="display:none;">
-                    <div class="position-relative mb-2">
-                        <img class="img-fluid rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaid 1">
-                        <div class="bg-secondary text-center p-4">
-                            <h4 class="mb-0">Bridesmaid 1</h4>
-                        </div>
+        <!-- Filter Buttons -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12 text-center mb-4">
+                <ul class="list-inline d-flex flex-wrap justify-content-center gap-2" id="portfolio-filters">
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 active w-100 w-md-auto" data-filter=".first">Groomsmen</li>
+                    <li class="btn btn-outline-primary font-weight-bold m-1 py-2 px-4 w-100 w-md-auto" data-filter=".second">Bridesmaids</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Portfolio Grid Container -->
+        <div class="row portfolio-container justify-content-center">
+            <!-- Groomsmen -->
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item first">
+                <div class="position-relative mb-2">
+                    <img class="img-fluid rounded" src="img/groomsmen-1.jpg" alt="Groomsman 1">
+                    <div class="bg-secondary text-center p-4">
+                        <h4 class="mb-0">Groomsman 1</h4>
                     </div>
                 </div>
-            </div> <!-- End .row -->
+            </div>
+
+            <!-- Bridesmaids -->
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 portfolio-item second">
+                <div class="position-relative mb-2">
+                    <img class="img-fluid rounded" src="img/bridesmaid-1.jpg" alt="Bridesmaid 1">
+                    <div class="bg-secondary text-center p-4">
+                        <h4 class="mb-0">Bridesmaid 1</h4>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<!-- Friends & Family Section End -->
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Filter Script -->
+<script>
+    $(document).ready(function () {
+        $(".portfolio-item").hide();
+        $(".first").fadeIn(400);
+
+        $("#portfolio-filters li").click(function () {
+            $("#portfolio-filters li").removeClass("active");
+            $(this).addClass("active");
+
+            var selectedClass = $(this).attr("data-filter");
+            $(".portfolio-item").fadeOut(200, function () {
+                $(selectedClass).fadeIn(400);
+            });
+        });
+    });
+</script>
+
+<!-- Custom Styles -->
+<style>
+    .portfolio-container {
+        position: relative;
+    }
+
+    .portfolio-item {
+        display: none; /* Controlled by JS */
+    }
+
+    .portfolio-item img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        max-height: 600px;
+    }
+
+    #portfolio-filters li.active {
+        background-color: #007bff;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        #portfolio-filters li {
+            width: 100%;
+        }
+    }
+</style>
+
 
 
 
