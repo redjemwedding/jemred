@@ -590,6 +590,7 @@ Because after all the laughter, the prayers, the miles, and the moments...
 
 		
 <!-- RSVP Section: Full-Width, Seamless, and No Scroll -->
+<!-- RSVP Section: Full-Width, Seamless, and No Scroll -->
 <div class="w-100 bg-white py-5" id="rsvp">
     <div class="text-center mb-4">
         <h6 class="text-uppercase text-primary mb-2" style="letter-spacing: 2px;">RSVP</h6>
@@ -600,28 +601,35 @@ Because after all the laughter, the prayers, the miles, and the moments...
         </div>
     </div>
 
-    <!-- Tally Embed -->
+    <!-- Responsive Tally Form Embed -->
     <div class="w-100" style="max-width: 100%; margin-bottom: 20px;">
-        <iframe 
+        <iframe
             data-tally-src="https://tally.so/r/mRallj"
-            width="100%" 
-            style="min-height: 1200px; border: none; display: block;" 
-            frameborder="0" 
+            title="RSVP Form"
+            loading="lazy"
+            width="100%"
+            frameborder="0"
             scrolling="no"
-            allowfullscreen>
+            style="display: block; min-height: 1400px; border: none;">
         </iframe>
     </div>
 </div>
 
-<!-- Tally Auto-Resize Script (Ensures Full Height Display) -->
+<!-- Tally Auto-Resize Script -->
 <script>
-  (function(){
-    var d=document, s=d.createElement("script");
-    s.src="https://tally.so/widgets/embed.js";
-    s.onload=function(){ Tally.loadEmbeds(); };
+  (function() {
+    const d = document;
+    const s = d.createElement("script");
+    s.src = "https://tally.so/widgets/embed.js";
+    s.onload = function () {
+      if (typeof Tally !== 'undefined') {
+        Tally.loadEmbeds();
+      }
+    };
     d.body.appendChild(s);
   })();
 </script>
+
 <!-- END RSVP Section: Full-Width, Seamless, and No Scroll -->
 
 
