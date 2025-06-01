@@ -491,37 +491,51 @@ Because after all the laughter, the prayers, the miles, and the moments...
 <div class="container-fluid py-5" id="squad" style="background-color: #fff;">
   <div class="container pt-5 pb-3">
     <!-- Section Header -->
-    <div class="section-title position-relative text-center" style="margin-bottom: 40px;">
-      <h1 class="font-secondary display-4" style="font-weight: bold;">Squad</h1>
-      <div style="font-size: 24px; color: #333;"><i class="far fa-heart"></i></div>
+    <div class="section-title position-relative text-center" style="margin-bottom: 30px;">
+      <h1 class="font-secondary display-4">Squad</h1>
+      <i class="far fa-heart text-dark"></i>
     </div>
 
-    <!-- Squad Cards Row -->
-    <div class="row">
-      <!-- Groomsman -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-          <img src="img/groomsmen-1.jpg" style="width: 100%; height: 360px; object-fit: cover;" alt="Groomsman">
-          <div style="background-color: #007bff; color: white; text-align: center; padding: 15px;">
-            <h5 style="margin: 0;">Paul</h5>
-            <small>Groomsman</small>
-          </div>
-        </div>
-      </div>
+    <!-- Buttons -->
+    <div class="text-center mb-4">
+      <button onclick="showGroup('first')" style="margin: 5px; padding: 10px 20px; border: 1px solid #ccc;">Groomsmen</button>
+      <button onclick="showGroup('second')" style="margin: 5px; padding: 10px 20px; border: 1px solid #ccc;">Bridesmaid</button>
+    </div>
 
-      <!-- Bridesmaid -->
-      <div class="col-lg-4 col-md-6 mb-4">
-        <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-          <img src="img/bridesmaid-1.jpg" style="width: 100%; height: 360px; object-fit: cover;" alt="Bridesmaid">
-          <div style="background-color: #e83e8c; color: white; text-align: center; padding: 15px;">
-            <h5 style="margin: 0;">Jane</h5>
-            <small>Bridesmaid</small>
-          </div>
-        </div>
+    <!-- Groomsmen -->
+    <div class="row group first">
+      <div class="col-md-4 mb-4">
+        <img src="img/groomsmen-1.jpg" style="width: 100%; height: auto;" alt="Groomsman 1">
       </div>
+      <div class="col-md-4 mb-4">
+        <img src="img/groomsmen-2.jpg" style="width: 100%; height: auto;" alt="Groomsman 2">
+      </div>
+      <!-- Add more groomsmen photos if needed -->
+    </div>
+
+    <!-- Bridesmaids -->
+    <div class="row group second" style="display: none;">
+      <div class="col-md-4 mb-4">
+        <img src="img/bridesmaid-1.jpg" style="width: 100%; height: auto;" alt="Bridesmaid 1">
+      </div>
+      <div class="col-md-4 mb-4">
+        <img src="img/bridesmaid-2.jpg" style="width: 100%; height: auto;" alt="Bridesmaid 2">
+      </div>
+      <!-- Add more bridesmaid photos if needed -->
     </div>
   </div>
 </div>
+<!-- Squad End -->
+
+<!-- Squad Script -->
+<script>
+  function showGroup(group) {
+    var groups = document.getElementsByClassName('group');
+    for (var i = 0; i < groups.length; i++) {
+      groups[i].style.display = groups[i].classList.contains(group) ? 'flex' : 'none';
+    }
+  }
+</script>
 <!-- Squad End -->
 
 
