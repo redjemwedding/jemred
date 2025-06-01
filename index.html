@@ -490,16 +490,41 @@ Because after all the laughter, the prayers, the miles, and the moments...
 <!-- Squad Start -->
 <div class="container-fluid py-5" id="squad" style="background-color: #fff;">
   <div class="container pt-5 pb-3">
+
     <!-- Section Header -->
     <div class="section-title position-relative text-center" style="margin-bottom: 30px;">
       <h1 class="font-secondary display-4">Squad</h1>
       <i class="far fa-heart text-dark"></i>
     </div>
 
-    <!-- Buttons -->
+    <!-- Button Styles (Embedded) -->
+    <style>
+      .squad-btn {
+        margin: 5px;
+        padding: 10px 20px;
+        border: 1px solid #ccc;
+        background-color: white;
+        color: black;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .squad-btn:active {
+        transform: scale(0.96);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .active-btn {
+        background-color: #eee;
+        border: 2px solid #444;
+        font-weight: bold;
+      }
+    </style>
+
+    <!-- Filter Buttons -->
     <div class="text-center mb-4">
-      <button onclick="showGroup('first')" style="margin: 5px; padding: 10px 20px; border: 1px solid #ccc;">Groomsmen</button>
-      <button onclick="showGroup('second')" style="margin: 5px; padding: 10px 20px; border: 1px solid #ccc;">Bridesmaid</button>
+      <button onclick="showGroup('first', this)" class="squad-btn active-btn">Groomsmen</button>
+      <button onclick="showGroup('second', this)" class="squad-btn">Bridesmaid</button>
     </div>
 
     <!-- Groomsmen -->
@@ -507,7 +532,10 @@ Because after all the laughter, the prayers, the miles, and the moments...
       <div class="col-md-4 mb-4">
         <img src="img/groomsmen-1.jpg" style="width: 100%; height: auto;" alt="Groomsman 1">
       </div>
-      <!-- Add more groomsmen photos if needed -->
+      <div class="col-md-4 mb-4">
+        <img src="img/groomsmen-2.jpg" style="width: 100%; height: auto;" alt="Groomsman 2">
+      </div>
+      <!-- Add more groomsmen photos here -->
     </div>
 
     <!-- Bridesmaids -->
@@ -515,23 +543,34 @@ Because after all the laughter, the prayers, the miles, and the moments...
       <div class="col-md-4 mb-4">
         <img src="img/bridesmaid-1.jpg" style="width: 100%; height: auto;" alt="Bridesmaid 1">
       </div>
-      <!-- Add more bridesmaid photos if needed -->
+      <div class="col-md-4 mb-4">
+        <img src="img/bridesmaid-2.jpg" style="width: 100%; height: auto;" alt="Bridesmaid 2">
+      </div>
+      <!-- Add more bridesmaid photos here -->
     </div>
+
   </div>
 </div>
 <!-- Squad End -->
 
 <!-- Squad Script -->
 <script>
-  function showGroup(group) {
+  function showGroup(group, clickedButton) {
     var groups = document.getElementsByClassName('group');
     for (var i = 0; i < groups.length; i++) {
       groups[i].style.display = groups[i].classList.contains(group) ? 'flex' : 'none';
     }
+
+    var buttons = document.getElementsByClassName('squad-btn');
+    for (var j = 0; j < buttons.length; j++) {
+      buttons[j].classList.remove('active-btn');
+    }
+
+    clickedButton.classList.add('active-btn');
   }
 </script>
-<!-- Squad End -->
 
+<!-- END Squad Start -->
 
 
   
