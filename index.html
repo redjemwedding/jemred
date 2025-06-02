@@ -622,15 +622,16 @@ Because after all the laughter, the prayers, the miles, and the moments...
     right: 20px;
     background: #fff;
     border-radius: 50%;
-    padding: 14px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     cursor: pointer;
     z-index: 9999;
-    font-size: 20px;
-  }
-
-  #chat-icon:hover {
-    transform: scale(1.1);
+    width: 60px;
+    height: 60px;
+    background-image: url('ring-icon.png'); /* use your uploaded gold ring icon */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   #chat-box {
@@ -640,11 +641,11 @@ Because after all the laughter, the prayers, the miles, and the moments...
     right: 20px;
     width: 90%;
     max-width: 340px;
-    height: 460px;
+    height: 500px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    padding: 12px;
+    padding: 14px;
     font-family: 'Segoe UI', sans-serif;
     z-index: 9999;
     display: flex;
@@ -655,7 +656,7 @@ Because after all the laughter, the prayers, the miles, and the moments...
     flex: 1;
     overflow-y: auto;
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     padding-right: 6px;
   }
 
@@ -670,52 +671,58 @@ Because after all the laughter, the prayers, the miles, and the moments...
 </style>
 
 <!-- Chat Icon -->
-<div id="chat-icon" onclick="toggleChat()" title="Chat with ReMie 🤍">🤍</div>
+<div id="chat-icon" onclick="toggleChat()" title="Chat with ReMie – Wedding Concierge"></div>
 
 <!-- Chat Box -->
 <div id="chat-box">
   <div style="font-weight: bold; margin-bottom: 10px;">ReMie – AI Concierge for Red & Jemie</div>
-  <div id="chat-content"><em>Hello! I'm ReMie 🤍, your AI Concierge for Red & Jemie's wedding. Ask me anything about the big day!</em><br><br></div>
+  <div id="chat-content">
+    <em>Hello! I'm ReMie 🤍, your AI Concierge for Red & Jemie's wedding. Ask me anything about the big day!</em><br><br>
+  </div>
   <input id="chat-input" type="text" placeholder="Type your message here..." onkeypress="if(event.key==='Enter')handleChat()">
 </div>
 
 <script>
   const smartReplies = [
     {
-      keywords: ["ceremony", "time", "when"],
-      answer: "The ceremony begins at 3:00 PM on August 8, 2025, at the beautiful Manila Cathedral. We can't wait to see you there!"
+      keywords: ["ceremony", "when", "date", "time"],
+      answer: "Red & Jemie are exchanging vows on August 8, 2025 at 3:00 PM, at the beautiful Manila Cathedral, Cabildo, Intramuros, Manila."
     },
     {
       keywords: ["reception", "venue", "party"],
-      answer: "The celebration continues at Le Parc Events Hall B, Pasay City — it's going to be unforgettable!"
+      answer: "The celebration continues at Le Parc Events Hall B, Epifanio de los Santos Ave, Pasay City, Metro Manila."
     },
     {
-      keywords: ["dress", "attire", "code", "what to wear"],
-      answer: "Style tip from ReMie: Ladies, please wear a midi or long gown in pastel brown. Gents, go for classic elegance!"
+      keywords: ["dress", "attire", "wear"],
+      answer: "Strictly formal: Gentlemen in black coat & tie with white long sleeve; Ladies in midi dress or long gown in pastel brown colors."
     },
     {
-      keywords: ["gift", "cash", "present", "contribution"],
-      answer: "Your presence is our greatest gift. But if you'd love to bless us, a monetary contribution is deeply appreciated: GCash - Redjell Kim D. (09271469378) or BPI - Jemalyn Porlas (3279130315)."
+      keywords: ["gift", "cash", "contribution", "present"],
+      answer: "Your presence means the world to us. But if you wish to bless us, you may send a monetary contribution via GCash (Redjell Kim: 09271469378) or BPI (Jemalyn Porlas: 3279130315)."
     },
     {
-      keywords: ["kids", "children", "bring child"],
-      answer: "While we love your little ones, this celebration is for adults only — children of the immediate family are the exception."
+      keywords: ["children", "kids", "baby"],
+      answer: "We kindly ask for an adults-only celebration, with love. Only children of the immediate family are invited."
     },
     {
-      keywords: ["parking", "car", "where to park"],
-      answer: "Parking is available at both the ceremony and reception venues. Please come early to secure a spot."
+      keywords: ["plus one", "guest"],
+      answer: "We’ve reserved specific seats. Kindly note that only named guests on the invite are included. No plus ones."
     },
     {
-      keywords: ["upload", "photo", "pictures", "memories"],
-      answer: "We’d love to see your moments! Share them with #REDtooktheRightJEM or scan the QR code on our website to upload directly."
+      keywords: ["photos", "snap", "upload", "share"],
+      answer: "Help us capture memories by uploading your photos or sharing them with our hashtag: #REDtooktheRightJEM 📸"
     },
     {
-      keywords: ["plus one", "guest", "extra"],
-      answer: "If your name was addressed with a guest, you're welcome to bring a plus one. Otherwise, seating is by confirmed RSVP only."
+      keywords: ["ninong", "ninang", "sponsors"],
+      answer: "Our beloved Principal Sponsors include Mr. Ruben Diola, Mrs. Edna Quiday Ramos, Dr. Cynthia Arcadio, and many more. Please see the 'Entourage' section of our site or invitation."
     },
     {
-      keywords: ["ninong", "ninang", "principal sponsors"],
-      answer: "Our dearest Ninongs and Ninangs are special pillars in our journey — you can find the full list in our wedding entourage section on the site or printed invite."
+      keywords: ["bridesmaid", "groomsmen", "entourage"],
+      answer: "Our wonderful entourage includes Best Men, Maid of Honor, Groomsmen, Bridesmaids, and Secondary Sponsors. You’ll find them all beautifully listed on our wedding page."
+    },
+    {
+      keywords: ["contact", "rsvp", "email", "question"],
+      answer: "You may contact Red at +63 9271469378 or Jemie at +63 9064648619, or email us at redjemiewedding@gmail.com."
     }
   ];
 
@@ -742,7 +749,7 @@ Because after all the laughter, the prayers, the miles, and the moments...
     }
 
     if (!replied) {
-      content.innerHTML += `<div><strong>ReMie:</strong> I’m here to help with Red & Jemie's wedding 💍 Try asking about the venue, date, dress code, gifts, or how to share your photos!</div>`;
+      content.innerHTML += `<div><strong>ReMie:</strong> I’m here to help with Red & Jemie's big day 💍 Try asking about the ceremony, dress code, RSVP, or where to send gifts.</div>`;
     }
 
     input.value = "";
