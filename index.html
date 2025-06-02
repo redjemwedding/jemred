@@ -611,7 +611,10 @@ Because after all the laughter, the prayers, the miles, and the moments...
 
 
 
-		<!-- Floating Wedding Chatbot -->
+		
+
+
+<!-- ReMie: Wedding AI Concierge for Red & Jemie -->
 <style>
   #chat-icon {
     position: fixed;
@@ -623,7 +626,7 @@ Because after all the laughter, the prayers, the miles, and the moments...
     box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     cursor: pointer;
     z-index: 9999;
-    transition: all 0.3s ease;
+    font-size: 20px;
   }
 
   #chat-icon:hover {
@@ -636,19 +639,20 @@ Because after all the laughter, the prayers, the miles, and the moments...
     bottom: 90px;
     right: 20px;
     width: 90%;
-    max-width: 320px;
-    height: 420px;
-    background: #ffffff;
+    max-width: 340px;
+    height: 460px;
+    background: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     padding: 12px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     z-index: 9999;
+    display: flex;
     flex-direction: column;
   }
 
   #chat-content {
-    height: 320px;
+    flex: 1;
     overflow-y: auto;
     font-size: 14px;
     margin-bottom: 8px;
@@ -665,25 +669,55 @@ Because after all the laughter, the prayers, the miles, and the moments...
   }
 </style>
 
-<div id="chat-icon" onclick="toggleChat()" title="Ask about our wedding 💍">
-  💬
-</div>
+<!-- Chat Icon -->
+<div id="chat-icon" onclick="toggleChat()" title="Chat with ReMie 🤍">🤍</div>
 
+<!-- Chat Box -->
 <div id="chat-box">
-  <div style="font-weight: bold; margin-bottom: 10px;">Wedding Assistant</div>
-  <div id="chat-content"></div>
-  <input id="chat-input" type="text" placeholder="Ask something..." onkeypress="if(event.key==='Enter')handleChat()">
+  <div style="font-weight: bold; margin-bottom: 10px;">ReMie – AI Concierge for Red & Jemie</div>
+  <div id="chat-content"><em>Hello! I'm ReMie 🤍, your AI Concierge for Red & Jemie's wedding. Ask me anything about the big day!</em><br><br></div>
+  <input id="chat-input" type="text" placeholder="Type your message here..." onkeypress="if(event.key==='Enter')handleChat()">
 </div>
 
 <script>
-  const faqAnswers = {
-    "what time is the ceremony": "The ceremony starts at 3:00 PM on June 30, 2025, at Manila Cathedral.",
-    "where is the reception": "The reception will be held at Le Parc Events Hall B, Pasay City.",
-    "what is the dress code": "Ladies: Midi Dress or Long Gown. Please come in Pastel Brown Colors.",
-    "are kids allowed": "Although we love your little ones, we can only accommodate the children of the immediate family.",
-    "can we give cash gifts": "Your love and presence on our wedding day mean the world to us. If you wish to bless us with a gift, a monetary contribution toward our future would be truly appreciated.",
-    "is there parking": "Yes, parking is available at both the ceremony and reception venues."
-  };
+  const smartReplies = [
+    {
+      keywords: ["ceremony", "time", "when"],
+      answer: "The ceremony begins at 3:00 PM on August 8, 2025, at the beautiful Manila Cathedral. We can't wait to see you there!"
+    },
+    {
+      keywords: ["reception", "venue", "party"],
+      answer: "The celebration continues at Le Parc Events Hall B, Pasay City — it's going to be unforgettable!"
+    },
+    {
+      keywords: ["dress", "attire", "code", "what to wear"],
+      answer: "Style tip from ReMie: Ladies, please wear a midi or long gown in pastel brown. Gents, go for classic elegance!"
+    },
+    {
+      keywords: ["gift", "cash", "present", "contribution"],
+      answer: "Your presence is our greatest gift. But if you'd love to bless us, a monetary contribution is deeply appreciated: GCash - Redjell Kim D. (09271469378) or BPI - Jemalyn Porlas (3279130315)."
+    },
+    {
+      keywords: ["kids", "children", "bring child"],
+      answer: "While we love your little ones, this celebration is for adults only — children of the immediate family are the exception."
+    },
+    {
+      keywords: ["parking", "car", "where to park"],
+      answer: "Parking is available at both the ceremony and reception venues. Please come early to secure a spot."
+    },
+    {
+      keywords: ["upload", "photo", "pictures", "memories"],
+      answer: "We’d love to see your moments! Share them with #REDtooktheRightJEM or scan the QR code on our website to upload directly."
+    },
+    {
+      keywords: ["plus one", "guest", "extra"],
+      answer: "If your name was addressed with a guest, you're welcome to bring a plus one. Otherwise, seating is by confirmed RSVP only."
+    },
+    {
+      keywords: ["ninong", "ninang", "principal sponsors"],
+      answer: "Our dearest Ninongs and Ninangs are special pillars in our journey — you can find the full list in our wedding entourage section on the site or printed invite."
+    }
+  ];
 
   function toggleChat() {
     const box = document.getElementById('chat-box');
@@ -696,17 +730,28 @@ Because after all the laughter, the prayers, the miles, and the moments...
     const question = input.value.trim().toLowerCase();
     if (!question) return;
 
-    const userMsg = `<div><strong>You:</strong> ${input.value}</div>`;
-    content.innerHTML += userMsg;
+    content.innerHTML += `<div><strong>You:</strong> ${input.value}</div>`;
 
-    const response = faqAnswers[question] || "I'm here to help with Red & Jemie's wedding! Try asking about time, venue, dress code, or gifts.";
-    content.innerHTML += `<div><strong>Bot:</strong> ${response}</div>`;
+    let replied = false;
+    for (let item of smartReplies) {
+      if (item.keywords.some(k => question.includes(k))) {
+        content.innerHTML += `<div><strong>ReMie:</strong> ${item.answer}</div>`;
+        replied = true;
+        break;
+      }
+    }
+
+    if (!replied) {
+      content.innerHTML += `<div><strong>ReMie:</strong> I’m here to help with Red & Jemie's wedding 💍 Try asking about the venue, date, dress code, gifts, or how to share your photos!</div>`;
+    }
+
     input.value = "";
     content.scrollTop = content.scrollHeight;
   }
 </script>
 
 
+		
 
 
 		
