@@ -628,14 +628,14 @@ Because after all the laughter, the prayers, the miles, and the moments...
     z-index: 9999;
     width: 60px;
     height: 60px;
-    background-image: url('ring-icon.png'); /* use your uploaded gold ring icon */
+    background-image: url('ring-icon.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
   }
 
   #chat-box {
-    display: none;
+    display: none; /* IMPORTANT: Starts hidden */
     position: fixed;
     bottom: 90px;
     right: 20px;
@@ -648,7 +648,6 @@ Because after all the laughter, the prayers, the miles, and the moments...
     padding: 14px;
     font-family: 'Segoe UI', sans-serif;
     z-index: 9999;
-    display: flex;
     flex-direction: column;
   }
 
@@ -670,10 +669,10 @@ Because after all the laughter, the prayers, the miles, and the moments...
   }
 </style>
 
-<!-- Chat Icon -->
+<!-- Gold Ring Chat Icon -->
 <div id="chat-icon" onclick="toggleChat()" title="Chat with ReMie – Wedding Concierge"></div>
 
-<!-- Chat Box -->
+<!-- Hidden Chat Box (until clicked) -->
 <div id="chat-box">
   <div style="font-weight: bold; margin-bottom: 10px;">ReMie – AI Concierge for Red & Jemie</div>
   <div id="chat-content">
@@ -749,7 +748,7 @@ Because after all the laughter, the prayers, the miles, and the moments...
     }
 
     if (!replied) {
-      content.innerHTML += `<div><strong>ReMie:</strong> I’m here to help with Red & Jemie's big day 💍 Try asking about the ceremony, dress code, RSVP, or where to send gifts.</div>`;
+      content.innerHTML += `<div><strong>ReMie:</strong> I’m here to help with Red & Jemie's big day 💍 Try asking about the ceremony, dress code, RSVP, or gifts.</div>`;
     }
 
     input.value = "";
