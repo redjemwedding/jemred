@@ -611,6 +611,103 @@ Because after all the laughter, the prayers, the miles, and the moments...
 
 
 
+		<!-- Floating Wedding Chatbot -->
+<style>
+  #chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    cursor: pointer;
+    z-index: 9999;
+    transition: all 0.3s ease;
+  }
+
+  #chat-icon:hover {
+    transform: scale(1.1);
+  }
+
+  #chat-box {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 90%;
+    max-width: 320px;
+    height: 420px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    padding: 12px;
+    font-family: 'Arial', sans-serif;
+    z-index: 9999;
+    flex-direction: column;
+  }
+
+  #chat-content {
+    height: 320px;
+    overflow-y: auto;
+    font-size: 14px;
+    margin-bottom: 8px;
+    padding-right: 6px;
+  }
+
+  #chat-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+</style>
+
+<div id="chat-icon" onclick="toggleChat()" title="Ask about our wedding 💍">
+  💬
+</div>
+
+<div id="chat-box">
+  <div style="font-weight: bold; margin-bottom: 10px;">Wedding Assistant</div>
+  <div id="chat-content"></div>
+  <input id="chat-input" type="text" placeholder="Ask something..." onkeypress="if(event.key==='Enter')handleChat()">
+</div>
+
+<script>
+  const faqAnswers = {
+    "what time is the ceremony": "The ceremony starts at 3:00 PM on June 30, 2025, at Manila Cathedral.",
+    "where is the reception": "The reception will be held at Le Parc Events Hall B, Pasay City.",
+    "what is the dress code": "Ladies: Midi Dress or Long Gown. Please come in Pastel Brown Colors.",
+    "are kids allowed": "Although we love your little ones, we can only accommodate the children of the immediate family.",
+    "can we give cash gifts": "Your love and presence on our wedding day mean the world to us. If you wish to bless us with a gift, a monetary contribution toward our future would be truly appreciated.",
+    "is there parking": "Yes, parking is available at both the ceremony and reception venues."
+  };
+
+  function toggleChat() {
+    const box = document.getElementById('chat-box');
+    box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+  }
+
+  function handleChat() {
+    const input = document.getElementById('chat-input');
+    const content = document.getElementById('chat-content');
+    const question = input.value.trim().toLowerCase();
+    if (!question) return;
+
+    const userMsg = `<div><strong>You:</strong> ${input.value}</div>`;
+    content.innerHTML += userMsg;
+
+    const response = faqAnswers[question] || "I'm here to help with Red & Jemie's wedding! Try asking about time, venue, dress code, or gifts.";
+    content.innerHTML += `<div><strong>Bot:</strong> ${response}</div>`;
+    input.value = "";
+    content.scrollTop = content.scrollHeight;
+  }
+</script>
+
+
+
 
 		
     <!-- Footer Start -->
