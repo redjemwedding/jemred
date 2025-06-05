@@ -9762,3 +9762,8 @@ a.text-dark:hover, a.text-dark:focus {
     border-right: none !important;
   }
 }
+
+.custom-navbar {
+  background-color: #3E2723 !important;
+}
+
