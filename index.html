@@ -652,35 +652,75 @@ Because after all the laughter, the prayers, the miles, and the moments...
   </p>
 </div>
 
-<!-- Privacy Notice Footer -->
-<div id="privacyNoticeFooter" style="background-color: #f8f8f8; padding: 20px; text-align: center; font-size: 12px; color: #333;">
-  <p><strong>Privacy Notice:</strong> This website only collects your RSVP name to help us coordinate our wedding plans. All information is stored securely and deleted after the event. No personal or sensitive data is shared or used for other purposes. By using this site, you agree to our privacy practices in accordance with RA 10173 (Philippine Data Privacy Act).</p>
-  <p><em>© 2025 Redjell & Jemaly Wedding | All rights reserved</em></p>
+
+
+	
+
+<!-- Privacy Policy Trigger Link -->
+<div style="text-align: center; margin-top: 30px;">
+  <a href="#" onclick="openPrivacyModal()" style="font-size: 14px; color: #007bff; text-decoration: underline;">
+    View Our Privacy Policy
+  </a>
 </div>
 
-<!-- Privacy Consent Pop-up (Shows once per visitor) -->
-<div id="privacyPopup" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff; border: 1px solid #ccc; padding: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 10px; max-width: 700px; margin: auto; z-index: 9999; display: none; font-family: Arial, sans-serif;">
-  <p style="margin: 0 0 10px;">
-    This website collects your RSVP name only for wedding coordination purposes. By clicking “I Agree”, you consent to our use of this data in line with our <a href="#privacyNoticeFooter">Privacy Notice</a>.
-  </p>
-  <div style="text-align: right;">
-    <button onclick="acceptPrivacy()" style="padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer;">I Agree</button>
+<!-- Modal Viewer -->
+<div id="privacyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 9999;">
+  <div style="background: #fff; max-width: 800px; margin: 50px auto; padding: 30px; border-radius: 10px; position: relative;">
+    <h3 style="margin-top: 0;">Privacy Policy</h3>
+    <iframe 
+      src="https://sites.google.com/view/redjemie-comrsvpsubmitted/privacy-policy" 
+      width="100%" 
+      height="400" 
+      frameborder="0" 
+      style="border: 1px solid #ccc; border-radius: 8px;">
+    </iframe>
+
+    <div style="text-align: right; margin-top: 20px;">
+      <button onclick="closePrivacyModal()" style="padding: 10px 20px; background-color: #6c757d; color: #fff; border: none; border-radius: 5px;">
+        Close
+      </button>
+      <button onclick="acceptPrivacy()" id="agreeBtn" style="padding: 10px 25px; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        I Agree & Proceed
+      </button>
+    </div>
   </div>
 </div>
 
+<!-- RSVP Form (Hidden Until Consent) -->
+<div id="rsvpForm" style="display: none; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto;">
+  <iframe 
+    src="https://tally.so/r/mRallj" 
+    width="100%" 
+    height="600" 
+    frameborder="0" 
+    title="Wedding RSVP Form">
+  </iframe>
+</div>
+
+<!-- Compliance Script -->
 <script>
-  // Show popup if not yet accepted
-  window.onload = function() {
-    if (!localStorage.getItem('privacyAccepted')) {
-      document.getElementById('privacyPopup').style.display = 'block';
-    }
-  };
+  function openPrivacyModal() {
+    document.getElementById('privacyModal').style.display = 'block';
+  }
+
+  function closePrivacyModal() {
+    document.getElementById('privacyModal').style.display = 'none';
+  }
 
   function acceptPrivacy() {
-    localStorage.setItem('privacyAccepted', 'true');
-    document.getElementById('privacyPopup').style.display = 'none';
+    localStorage.setItem('weddingConsent', 'true');
+    document.getElementById('privacyModal').style.display = 'none';
+    document.getElementById('rsvpForm').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('rsvpForm').offsetTop, behavior: 'smooth' });
   }
+
+  window.onload = function () {
+    if (localStorage.getItem('weddingConsent') === 'true') {
+      document.getElementById('rsvpForm').style.display = 'block';
+    }
+  };
 </script>
+
 
 
 
