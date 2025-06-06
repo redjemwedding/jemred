@@ -640,13 +640,55 @@ Because after all the laughter, the prayers, the miles, and the moments...
 </div>
 <!-- Footer End -->
 
+
+
+
+
 <!-- Template Credit (respectful placement) -->
 <div style="background-color: #fff; text-align: center; padding: 10px 0;">
   <p class="m-0" style="font-size: 8px; opacity: 0.6; text-align: center;">
-  Template by <a href="https://htmlcodex.com" target="_blank" style="color: orange;">HTML Codex</a> 
-  &nbsp; | &nbsp; Form by <a href="https://tally.so" target="_blank" style="color: orange;">Tally</a>
-</p>
+    Template by <a href="https://htmlcodex.com" target="_blank" style="color: orange;">HTML Codex</a> 
+    &nbsp; | &nbsp; Form by <a href="https://tally.so" target="_blank" style="color: orange;">Tally</a>
+  </p>
 </div>
+
+<!-- Privacy Notice Footer -->
+<div id="privacyNoticeFooter" style="background-color: #f8f8f8; padding: 20px; text-align: center; font-size: 12px; color: #333;">
+  <p><strong>Privacy Notice:</strong> This website only collects your RSVP name to help us coordinate our wedding plans. All information is stored securely and deleted after the event. No personal or sensitive data is shared or used for other purposes. By using this site, you agree to our privacy practices in accordance with RA 10173 (Philippine Data Privacy Act).</p>
+  <p><em>© 2025 Redjell & Jemaly Wedding | All rights reserved</em></p>
+</div>
+
+<!-- Privacy Consent Pop-up (Shows once per visitor) -->
+<div id="privacyPopup" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #fff; border: 1px solid #ccc; padding: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.1); border-radius: 10px; max-width: 700px; margin: auto; z-index: 9999; display: none; font-family: Arial, sans-serif;">
+  <p style="margin: 0 0 10px;">
+    This website collects your RSVP name only for wedding coordination purposes. By clicking “I Agree”, you consent to our use of this data in line with our <a href="#privacyNoticeFooter">Privacy Notice</a>.
+  </p>
+  <div style="text-align: right;">
+    <button onclick="acceptPrivacy()" style="padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 6px; cursor: pointer;">I Agree</button>
+  </div>
+</div>
+
+<script>
+  // Show popup if not yet accepted
+  window.onload = function() {
+    if (!localStorage.getItem('privacyAccepted')) {
+      document.getElementById('privacyPopup').style.display = 'block';
+    }
+  };
+
+  function acceptPrivacy() {
+    localStorage.setItem('privacyAccepted', 'true');
+    document.getElementById('privacyPopup').style.display = 'none';
+  }
+</script>
+
+
+
+
+
+
+
+	
 
 <!-- Scroll to Bottom -->
 <i class="fa fa-2x fa-angle-down text-white scroll-to-bottom"></i>
@@ -657,6 +699,9 @@ Because after all the laughter, the prayers, the miles, and the moments...
 </a>
 		
 
+
+
+	
 
 
 	
