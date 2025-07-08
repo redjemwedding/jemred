@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redjell & Jemie's Wedding Guest Seat Finder</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
@@ -30,7 +30,7 @@
       font-family: 'Great Vibes', cursive;
       font-size: 2.5rem;
       color: #b49a77;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.3rem;
     }
 
     .tagline {
@@ -45,7 +45,7 @@
       font-size: 1.4rem;
       font-weight: 600;
       color: #6c584c;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .search-box {
@@ -54,7 +54,7 @@
       padding: 0.75rem 1rem;
       font-size: 1rem;
       border: 1px solid #ddd;
-      border-radius: 12px;
+      border-radius: 14px;
       margin: 0 auto 2rem;
       display: block;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -62,87 +62,72 @@
 
     .guest-list {
       text-align: left;
-      max-height: 400px;
+      max-height: 500px;
       overflow-y: auto;
-      border-radius: 12px;
+      border-radius: 16px;
       background-color: #fff;
-      padding: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+      padding: 1.5rem;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
     }
 
     .letter-section {
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .letter-title {
-      font-weight: bold;
-      font-size: 1.2rem;
+      font-weight: 600;
+      font-size: 1.3rem;
       color: #b49a77;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 0.3rem;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
+      border-bottom: 1px dashed #e8e1d4;
+      padding-bottom: 0.4rem;
     }
 
     .guest-btn {
-      background: #b49a77;
+      background: #c2a97a;
       color: white;
       border: none;
-      border-radius: 10px;
-      padding: 0.5rem 1rem;
-      margin: 4px;
-      font-size: 0.95rem;
+      border-radius: 30px;
+      padding: 0.55rem 1.4rem;
+      margin: 5px 7px;
+      font-size: 0.92rem;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.25s ease-in-out;
       display: inline-block;
     }
 
     .guest-btn:hover {
       background: #a78a66;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     .result-box {
       margin-top: 2rem;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: #5a4637;
       background-color: #fff;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+      border-radius: 14px;
+      padding: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
-    @media (max-width: 500px) {
-      .elegant-names {
-        font-size: 2rem;
-      }
-
-      .search-box {
-        font-size: 0.95rem;
-      }
-
+    @media (max-width: 600px) {
       .guest-btn {
+        padding: 0.5rem 1rem;
         font-size: 0.9rem;
-        padding: 0.45rem 0.9rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Logo -->
-    <img src="redjemlogo.png" alt="Red & Jemie Logo" class="logo"/>
-
-    <!-- Elegant Names and Tagline -->
+    <img src="redjemlogo.png" alt="Red & Jemie Logo" class="logo" />
     <div class="elegant-names">Redjell & Jemie</div>
     <div class="tagline">#REDtooktherightJEM</div>
-
-    <!-- Page Heading -->
     <div class="heading">Find Your Seat</div>
-
-    <!-- Search -->
-    <input type="text" id="searchBox" class="search-box" placeholder="Type or scroll to find your name..."/>
-
-    <!-- Guest List -->
+    <input type="text" id="searchBox" class="search-box" placeholder="Type or scroll to find your name..." />
     <div id="guestList" class="guest-list">Loading guest list...</div>
     <div id="result" class="result-box"></div>
   </div>
@@ -157,11 +142,7 @@
         const rows = data.trim().split('\n').slice(1);
         rows.forEach(row => {
           const [name, table, seat] = row.split(',');
-          allGuests.push({
-            name: name.trim(),
-            table: table?.trim(),
-            seat: seat?.trim()
-          });
+          allGuests.push({ name: name.trim(), table: table?.trim(), seat: seat?.trim() });
         });
         renderList(allGuests);
       })
@@ -195,7 +176,7 @@
           btn.textContent = guest.name;
           btn.onclick = () => {
             document.getElementById('result').innerHTML =
-              `${guest.name}, you are seated at <strong>Table ${guest.table}</strong>, Seat <strong>${guest.seat}</strong>.`;
+              `${guest.name}, you are seated at Table <strong>${guest.table}</strong>, Seat <strong>${guest.seat}</strong>.`;
           };
           section.appendChild(btn);
         });
