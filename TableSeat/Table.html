@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redjell & Jemie's Wedding Guest Seat Finder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #fffaf3;
+      font-family: 'Montserrat', sans-serif;
+      color: #4a3f35;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      margin: 0 auto 1rem;
+    }
+
+    .elegant-names {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      color: #b49a77;
+      margin-bottom: 0.2rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: #a48866;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .heading {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #6c584c;
+      margin-bottom: 1rem;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 500px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      margin: 0 auto 2rem;
+      display: block;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .guest-list {
+      text-align: left;
+      max-height: 400px;
+      overflow-y: auto;
+      border-radius: 12px;
+      background-color: #fff;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .letter-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .letter-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #b49a77;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .guest-btn {
+      background: #b49a77;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      margin: 4px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+
+    .guest-btn:hover {
+      background: #a78a66;
+    }
+
+    .result-box {
+      margin-top: 2rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #5a4637;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    @media (max-width: 500px) {
+      .elegant-names {
+        font-size: 2rem;
+      }
+
+      .search-box {
+        font-size: 0.95rem;
+      }
+
+      .guest-btn {
+        font-size: 0.9rem;
+        padding: 0.45rem 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Logo -->
+    <img src="redjemlogo.png" alt="Red & Jemie Logo" class="logo"/>
+
+    <!-- Elegant Names and Tagline -->
+    <div class="elegant-names">Redjell & Jemie</div>
+    <div class="tagline">#REDtooktherightJEM</div>
+
+    <!-- Page Heading -->
+    <div class="heading">Find Your Seat</div>
+
+    <!-- Search -->
+    <input type="text" id="searchBox" class="search-box" placeholder="Type or scroll to find your name..."/>
+
+    <!-- Guest List -->
+    <div id="guestList" class="guest-list">Loading guest list...</div>
+    <div id="result" class="result-box"></div>
+  </div>
+
+  <script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT0tjhO1xKNGn3dH7Cv1xaWRXeL2Y85LjAepZ6vuu1pojGibTFbZjbDi0wp9Y9gJQ7K2K3SwfEInrsL/pub?output=csv';
+    let allGuests = [];
+
+    fetch(SHEET_URL)
+      .then(response => response.text())
+      .then(data => {
+        const rows = data.trim().split('\n').slice(1);
+        rows.forEach(row => {
+          const [name, table, seat] = row.split(',');
+          allGuests.push({
+            name: name.trim(),
+            table: table?.trim(),
+            seat: seat?.trim()
+          });
+        });
+        renderList(allGuests);
+      })
+      .catch(error => {
+        document.getElementById('guestList').innerHTML = 'Unable to load guest list.';
+        console.error('Error loading sheet:', error);
+      });
+
+    function renderList(guests) {
+      const grouped = {};
+      guests.forEach(g => {
+        const firstLetter = g.name[0].toUpperCase();
+        if (!grouped[firstLetter]) grouped[firstLetter] = [];
+        grouped[firstLetter].push(g);
+      });
+
+      const guestList = document.getElementById('guestList');
+      guestList.innerHTML = '';
+      Object.keys(grouped).sort().forEach(letter => {
+        const section = document.createElement('div');
+        section.className = 'letter-section';
+
+        const title = document.createElement('div');
+        title.className = 'letter-title';
+        title.textContent = letter;
+        section.appendChild(title);
+
+        grouped[letter].forEach(guest => {
+          const btn = document.createElement('button');
+          btn.className = 'guest-btn';
+          btn.textContent = guest.name;
+          btn.onclick = () => {
+            document.getElementById('result').innerHTML =
+              `${guest.name}, you are seated at <strong>Table ${guest.table}</strong>, Seat <strong>${guest.seat}</strong>.`;
+          };
+          section.appendChild(btn);
+        });
+
+        guestList.appendChild(section);
+      });
+    }
+
+    document.getElementById('searchBox').addEventListener('input', function () {
+      const keyword = this.value.toLowerCase();
+      const filtered = allGuests.filter(g => g.name.toLowerCase().includes(keyword));
+      renderList(filtered);
+      document.getElementById('result').innerHTML = '';
+    });
+  </script>
+</body>
+</html>
