@@ -24,9 +24,10 @@
       justify-content: flex-start;
       padding: 2rem 1rem 4rem;
       width: 100%;
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
       box-sizing: border-box;
+      position: relative;
     }
 
     .logo {
@@ -42,34 +43,18 @@
       text-align: center;
     }
 
-    .heading {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #6c584c;
+    .result-box {
       margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #5a4637;
+      background-color: #fff;
+      border-radius: 14px;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       text-align: center;
-    }
-
-    .alphabet-nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 1rem;
-      gap: 6px;
-    }
-
-    .alphabet-link {
-      background-color: #e2d2b4;
-      color: #4a3f35;
-      padding: 6px 10px;
-      font-size: 0.85rem;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: background-color 0.2s ease-in-out;
-    }
-
-    .alphabet-link:hover {
-      background-color: #d6c0a4;
+      animation: fadeIn 0.6s ease-in-out;
+      min-height: 3rem;
     }
 
     .search-box {
@@ -83,15 +68,42 @@
       box-sizing: border-box;
     }
 
-    .guest-list {
+    .layout {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
       width: 100%;
-      max-height: 60vh;
+    }
+
+    .alphabet-nav {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       overflow-y: auto;
-      border-radius: 16px;
+      max-height: 60vh;
+      position: sticky;
+      top: 120px;
+    }
+
+    .alphabet-link {
+      background-color: #e2d2b4;
+      color: #4a3f35;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      border-radius: 6px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .guest-list {
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 60vh;
       background-color: #fff;
+      border-radius: 16px;
       padding: 1.2rem;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
-      box-sizing: border-box;
     }
 
     .letter-section {
@@ -126,19 +138,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
-    .result-box {
-      margin-top: 1.5rem;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #5a4637;
-      background-color: #fff;
-      border-radius: 14px;
-      padding: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      text-align: center;
-      animation: fadeIn 0.6s ease-in-out;
-    }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -163,16 +162,33 @@
     .back-to-top.show {
       display: block;
     }
+
+    @media (max-width: 768px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .alphabet-nav {
+        flex-direction: row;
+        position: static;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-height: none;
+        margin-bottom: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <img src="redjemlogo.png" alt="Wedding Logo" class="logo" />
     <div class="hashtag">#REDtooktherightJEM</div>
-    <input type="text" id="searchBox" class="search-box" placeholder="Type or scroll to find your name..." />
-    <div class="alphabet-nav" id="alphabetNav"></div>
-    <div id="guestList" class="guest-list">Loading guest list...</div>
     <div id="result" class="result-box"></div>
+    <input type="text" id="searchBox" class="search-box" placeholder="Type or scroll to find your name..." />
+    <div class="layout">
+      <div class="alphabet-nav" id="alphabetNav"></div>
+      <div id="guestList" class="guest-list">Loading guest list...</div>
+    </div>
   </div>
   <button id="backToTop" class="back-to-top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">↑ Back to Top</button>
 
@@ -236,7 +252,6 @@
           btn.onclick = () => {
             document.getElementById('result').innerHTML =
               `${guest.name}, you are seated at Table <strong>${guest.table}</strong>, Seat <strong>${guest.seat}</strong>.`;
-            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
           };
           section.appendChild(btn);
         });
