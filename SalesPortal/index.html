@@ -15,8 +15,6 @@
   h1 {
     font-weight:800; font-size:32px; color:#ffcc00; margin-bottom:16px; text-align:center;
   }
-
-  /* Fullscreen button */
   #fullscreen-btn {
     padding:10px 20px;
     font-size:16px;
@@ -54,14 +52,12 @@
   .barwrap { border-radius:6px; background: rgba(255,255,255,0.03); margin-top:6px; overflow:hidden; transition: height 0.3s ease; }
   .bar { border-radius:6px; background: linear-gradient(90deg, #00e5ff, #ffcc00); width:0%; transition: width 1s cubic-bezier(.2,.9,.3,1), height 0.3s ease; }
 
-  /* Rolling section styles */
   #rolling-wrapper {
     max-height: 250px; overflow: hidden; position: relative; margin-top: 20px;
   }
   #rolling { display: flex; flex-direction: column; animation: scroll 15s linear infinite; }
   @keyframes scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
 
-  /* Fullscreen adjustments */
   :fullscreen h1 { font-size:48px; }
   :fullscreen .entry { width:95%; padding:24px; }
   :fullscreen .currency { font-size:28px; }
@@ -82,6 +78,7 @@
 
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbw5ZXWkh7MJR0J0CHC55WWZ57d83MCFrTjFqRjfwaCkNzSSfMHofUJ73rXWAjDBcyks/exec';
+const IMG_BASE = 'https://raw.githubusercontent.com/redjemwedding/jemred/main/SalesPortal/images/';
 
 function formatCurrency(n){ 
   return new Intl.NumberFormat('en-AE',{style:'currency',currency:'AED',maximumFractionDigits:2}).format(n); 
@@ -104,8 +101,9 @@ async function loadData(){
     const div = document.createElement('div'); div.className='entry';
 
     const img = document.createElement('img'); img.className='profile-pic';
-    img.src = `images/${d.name}.png`;
-    img.onerror = () => { img.src = 'images/placeholder.png'; }
+    // Use GitHub raw URL
+    img.src = `${IMG_BASE}${encodeURIComponent(d.name)}.png`;
+    img.onerror = () => { img.src = `${IMG_BASE}placeholder.png`; }
 
     if(i===0) img.style.width=img.style.height='70px';
     else if(i===1) img.style.width=img.style.height='60px';
@@ -133,39 +131,4 @@ async function loadData(){
     const barwrap = document.createElement('div'); barwrap.className='barwrap';
     const bar = document.createElement('div'); bar.className='bar';
     bar.style.width = Math.round((d.earn/max)*100)+'%';
-    bar.style.height = (i<3 ? ['16px','14px','12px'][i] : '12px');
-    barwrap.appendChild(bar);
-
-    details.appendChild(row); details.appendChild(barwrap);
-    div.appendChild(img); div.appendChild(details);
-
-    if(i<3) top3Container.appendChild(div);
-    else rollingContainer.appendChild(div);
-  });
-}
-
-loadData();
-setInterval(loadData,10000);
-
-// Fullscreen button functionality
-const fullscreenBtn = document.getElementById('fullscreen-btn');
-fullscreenBtn.addEventListener('click', () => {
-  const elem = document.documentElement;
-  if (!document.fullscreenElement) {
-    elem.requestFullscreen().catch(err => alert(`Error attempting to enable fullscreen: ${err.message}`));
-  } else {
-    document.exitFullscreen();
-  }
-});
-
-// Hide button in fullscreen and show again when exit
-document.addEventListener('fullscreenchange', () => {
-  if (document.fullscreenElement) {
-    fullscreenBtn.style.display = 'none';
-  } else {
-    fullscreenBtn.style.display = 'inline-block';
-  }
-});
-</script>
-</body>
-</html>
+    bar.style.height = (i<3 ? ['16px','14px','1]()
