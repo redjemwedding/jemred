@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Estate Leaderboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin:0; font-family:'Inter', sans-serif;
+    background: linear-gradient(180deg,#0b1020,#111827);
+    color:#e6eef8; padding:20px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  h1 {
+    font-weight:800; font-size:32px; color:#ffcc00; margin-bottom:16px; text-align:center;
+  }
+  .leaderboard {
+    width:100%; max-width:800px;
+  }
+  .entry {
+    display:flex; align-items:center; justify-content:flex-start;
+    padding:12px; margin:8px 0; border-radius:12px;
+    background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow:0 6px 18px rgba(0,0,0,0.6); overflow:hidden;
+  }
+  .profile-pic {
+    border-radius:50%; margin-right:12px; object-fit:cover; flex-shrink:0;
+    transition: all 0.3s ease;
+  }
+  .details {
+    flex:1;
+    display:flex; flex-direction:column;
+  }
+  .row {
+    display:flex; justify-content:space-between; align-items:center;
+    width:100%;
+  }
+  .name {
+    font-weight:700; margin:0;
+    display:flex; align-items:center; gap:8px;
+  }
+  .name span.badge {
+    background: linear-gradient(90deg,#ffd166,#ff7b00);
+    color:#0b1020; font-weight:800; font-size:12px;
+    padding:2px 8px; border-radius:999px;
+  }
+  .currency {
+    font-weight:700; color:#ffcc00;
+  }
+  .barwrap { border-radius:6px; background: rgba(255,255,255,0.03); margin-top:6px; overflow:hidden; transition: height 0.3s ease; }
+  .bar { border-radius:6px; background: linear-gradient(90deg, #00e5ff, #ffcc00); width:0%; transition: width 1s cubic-bezier(.2,.9,.3,1), height 0.3s ease; }
+
+  /* Rolling section styles */
+  #rolling-wrapper {
+    max-height: 250px; /* adjust visible rolling entries */
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+  }
+  #rolling {
+    display: flex;
+    flex-direction: column;
+    animation: scroll 15s linear infinite;
+  }
+  @keyframes scroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); } /* adjust depending on number of items */
+  }
+</style>
+</head>
+<body>
+
+<h1>🏆 Top Sales Earners</h1>
+<div class="leaderboard">
+  <div id="top3"></div>
+  <div id="rolling-wrapper">
+    <div id="rolling"></div>
+  </div>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbw5ZXWkh7MJR0J0CHC55WWZ57d83MCFrTjFqRjfwaCkNzSSfMHofUJ73rXWAjDBcyks/exec'; // replace with your Apps Script URL
+
+function formatCurrency(n){ 
+  return new Intl.NumberFormat('en-AE',{style:'currency',currency:'AED',maximumFractionDigits:2}).format(n); 
+}
+
+async function loadData(){
+  const res = await fetch(API_URL);
+  let data = await res.json();
+  data.sort((a,b)=>b.earn - a.earn);
+
+  const max = Math.max(...data.map(d=>d.earn),1);
+
+  const top3Container = document.getElementById('top3');
+  const rollingContainer = document.getElementById('rolling');
+
+  top3Container.innerHTML = '';
+  rollingContainer.innerHTML = '';
+
+  data.forEach((d,i)=>{
+    const div = document.createElement('div'); div.className='entry';
+
+    const img = document.createElement('img'); img.className='profile-pic';
+    img.src = `images/${d.name}.png`;
+    img.onerror = () => { img.src = 'images/placeholder.png'; }
+
+    // Profile pic size
+    if(i===0) img.style.width=img.style.height='70px';
+    else if(i===1) img.style.width=img.style.height='60px';
+    else if(i===2) img.style.width=img.style.height='55px';
+    else img.style.width=img.style.height='50px';
+
+    const details = document.createElement('div'); details.className='details';
+    const row = document.createElement('div'); row.className='row';
+
+    const nameEl = document.createElement('h4'); nameEl.className='name';
+    nameEl.textContent = `#${i+1} ${d.name}`;
+    if(i<3){
+      const badge = document.createElement('span'); badge.className='badge';
+      badge.textContent = `Top ${i+1}`; nameEl.appendChild(badge);
+      if(i===0) nameEl.style.fontSize='26px';
+      else if(i===1) nameEl.style.fontSize='22px';
+      else if(i===2) nameEl.style.fontSize='20px';
+    } else {
+      nameEl.style.fontSize='16px';
+    }
+
+    const earnEl = document.createElement('span'); earnEl.className='currency';
+    earnEl.textContent = formatCurrency(d.earn);
+
+    row.appendChild(nameEl); row.appendChild(earnEl);
+
+    const barwrap = document.createElement('div'); barwrap.className='barwrap';
+    const bar = document.createElement('div'); bar.className='bar';
+    bar.style.width = Math.round((d.earn/max)*100)+'%';
+    bar.style.height = (i<3 ? ['16px','14px','12px'][i] : '12px');
+    barwrap.appendChild(bar);
+
+    details.appendChild(row); details.appendChild(barwrap);
+    div.appendChild(img); div.appendChild(details);
+
+    if(i<3) top3Container.appendChild(div);
+    else rollingContainer.appendChild(div);
+  });
+}
+
+loadData();
+setInterval(loadData,10000); // refresh every 10s
+</script>
+</body>
+</html>
