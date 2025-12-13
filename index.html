@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>redjemie Visions | A Collective of Signature Brands</title>
+
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --gold: #d4af37;
+  --bg: #050505;
+  --text: #f4f4f4;
+  --muted: #bdbdbd;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ================= HEADER ================= */
+header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  padding: clamp(16px, 4vw, 28px) clamp(20px, 6vw, 72px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent);
+}
+
+/* LOGO IMAGE ONLY */
+.logo img {
+  height: clamp(34px, 5vw, 44px);
+  width: auto;
+  display: block;
+}
+
+/* NAV */
+nav {
+  display: none;
+}
+
+nav a {
+  margin-left: 32px;
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: var(--gold);
+}
+
+/* ================= SECTIONS ================= */
+.section {
+  min-height: 100svh;
+  padding:
+    clamp(110px, 18vw, 190px)
+    clamp(24px, 10vw, 160px)
+    clamp(90px, 14vw, 160px);
+  display: grid;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: .95;
+}
+
+.content {
+  position: relative;
+  max-width: 560px;
+}
+
+.content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 6vw, 56px);
+  line-height: 1.15;
+  margin-bottom: 22px;
+}
+
+.content p {
+  font-size: clamp(16px, 3.8vw, 18px);
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 38px;
+}
+
+.content a {
+  display: inline-block;
+  padding: 14px 38px;
+  border-radius: 40px;
+  background: var(--gold);
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* ================= VISUAL IDENTITY ================= */
+.hero .layer {
+  background:
+    radial-gradient(circle at top left, #2a2a2a, transparent 55%),
+    linear-gradient(135deg, #0e0e0e, #000);
+}
+
+.wedding .layer {
+  background:
+    radial-gradient(circle at top right, rgba(212,175,55,.28), transparent 55%),
+    linear-gradient(135deg, #1b1a16, #070706);
+}
+
+.jewelry .layer {
+  background:
+    radial-gradient(circle at center, rgba(212,175,55,.22), transparent 60%),
+    linear-gradient(135deg, #0f0b07, #000);
+}
+
+.resort .layer {
+  background:
+    radial-gradient(circle at bottom left, rgba(93,188,210,.28), transparent 60%),
+    linear-gradient(135deg, #08161b, #000);
+}
+
+.nail .layer {
+  background:
+    radial-gradient(circle at center, rgba(228,140,184,.32), transparent 60%),
+    linear-gradient(135deg, #1a0f15, #000);
+}
+
+.it .layer {
+  background:
+    radial-gradient(circle at top left, rgba(111,140,255,.3), transparent 60%),
+    linear-gradient(135deg, #0c1020, #000);
+}
+
+/* ================= DESKTOP ================= */
+@media (min-width: 900px) {
+  nav { display: block; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <img src="img/logo.png" alt="redjemie Visions">
+  </div>
+
+  <nav>
+    <a href="wedding.html">Wedding</a>
+    <a href="jewelry.html">BGD Jewelry</a>
+    <a href="resort.html">Resort</a>
+    <a href="nail-art.html">Nail Art Studio</a>
+    <a href="it-training.html">IT Training & Services</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="section hero">
+  <div class="layer"></div>
+  <div class="content">
+    <h1>Signature Brands.<br>One Vision.</h1>
+    <p>
+      A curated group of businesses spanning weddings,
+      luxury jewelry, hospitality, beauty, and technology.
+    </p>
+  </div>
+</section>
+
+<section class="section wedding">
+  <div class="layer"></div>
+  <div class="content">
+    <h1>Wedding</h1>
+    <p>Elegant celebrations crafted with precision and emotion.</p>
+    <a href="wedding.html">Enter Weddings</a>
+  </div>
+</section>
+
+<section class="section jewelry">
+  <div class="layer"></div>
+  <div class="content">
+    <h1>BGD Jewelry</h1>
+    <p>Fine jewelry defined by timeless craftsmanship.</p>
+    <a href="jewelry.html">View Collection</a>
+  </div>
+</section>
+
+<section class="section resort">
+  <div class="layer"></div>
+  <div class="content">
+    <h1>Resort</h1>
+    <p>Serene destinations designed for rest and indulgence.</p>
+    <a href="resort.html">Discover Resort</a>
+  </div>
+</section>
+
+<section class="section nail">
+  <div class="layer"></div>
+  <div class="content">
+    <h1>Nail Art Studio</h1>
+    <p>Creative beauty delivered with precision and care.</p>
+    <a href="nail-art.html">Book a Session</a>
+  </div>
+</section>
+
+<section class="section it">
+  <div class="layer"></div>
+  <div class="content">
+    <h1>IT Training & Services</h1>
+    <p>Advanced digital training and professional IT solutions.</p>
+    <a href="it-training.html">Get Started</a>
+  </div>
+</section>
+
+</body>
+</html>
