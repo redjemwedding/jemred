@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christmas Spin & Win 🎄</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<main class="app">
+  <section class="card">
+
+    <img src="logo.png" class="logo" alt="Red & Jemie">
+
+    <h1>Christmas Spin & Win 🎄</h1>
+    <p class="subtitle">One Entry • One Spin Only</p>
+
+    <!-- FORM -->
+    <div id="formBox">
+      <input id="name" placeholder="Full Name">
+      <input id="gcash" placeholder="GCash Number">
+
+      <h3>Security Question</h3>
+      <p class="hint">Answer ONE correctly to proceed</p>
+
+      <select id="question">
+        <option value="">Choose a question</option>
+        <option value="q1">Church Wedding of Red & Jemie</option>
+        <option value="q2">Where is Red & Jemie currently living</option>
+        <option value="q3">Wedding is done in</option>
+      </select>
+
+      <select id="answer">
+        <option value="">Choose an answer</option>
+      </select>
+
+      <button id="submitBtn" class="primary-btn">Submit & Spin</button>
+    </div>
+
+    <!-- WHEEL -->
+    <div id="wheelBox" class="hidden">
+      <div class="wheel-container">
+        <div class="pointer">▼</div>
+        <div id="wheel" class="wheel"></div>
+      </div>
+      <button id="spinBtn" class="primary-btn big">SPIN 🎡</button>
+    </div>
+
+    <p id="result" class="result"></p>
+
+  </section>
+</main>
+
+<audio id="spinSound" src="https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1930.mp3"></audio>
+<audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
