@@ -1,3 +1,4 @@
+
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyn8Hcn2GFrS1x4WVC3hnwFpwMIIryBlbODlP4R1S6rbM1gjE4i0GAqV6qc_CzQwSqH/exec";
 
 /* ONE PLAY ONLY */
@@ -36,7 +37,7 @@ const prizes=[
 
 ];
 const prizeLimits={ "100":10, "200":2 };
-let used={ "100":0, "200":0, "500":0 };
+let used={ "100":0, "200":0 };
 
 /* ELEMENTS */
 const nameInput=document.getElementById("name");
@@ -149,4 +150,5 @@ function save(prize){
         body:JSON.stringify({...window.player, prize})
     });
 }
+
 
