@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Classic Slot Machine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #222, #000);
+  font-family: Arial, sans-serif;
+}
+
+.slot-machine {
+  background: linear-gradient(#b00, #700);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px gold;
+  text-align: center;
+  width: 320px;
+}
+
+.title {
+  color: gold;
+  font-size: 26px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 5px #000;
+}
+
+.reels {
+  display: flex;
+  justify-content: space-between;
+  background: #111;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.reel {
+  width: 70px;
+  height: 70px;
+  background: #000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  color: white;
+  box-shadow: inset 0 0 10px #000;
+}
+
+.spin-btn {
+  background: gold;
+  border: none;
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px #a88;
+}
+
+.spin-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px #a88;
+}
+
+.result {
+  margin-top: 12px;
+  color: white;
+  font-size: 18px;
+  min-height: 22px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="slot-machine">
+  <div class="title">🎰 SLOT MACHINE</div>
+
+  <div class="reels">
+    <div class="reel" id="reel1">🍒</div>
+    <div class="reel" id="reel2">🍋</div>
+    <div class="reel" id="reel3">🔔</div>
+  </div>
+
+  <button class="spin-btn" onclick="spin()">SPIN</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+const symbols = ["🍒", "🍋", "🔔", "⭐", "7️⃣"];
+let spinning = false;
+
+function spin() {
+  if (spinning) return;
+  spinning = true;
+
+  document.getElementById("result").textContent = "";
+
+  const reels = [
+    document.getElementById("reel1"),
+    document.getElementById("reel2"),
+    document.getElementById("reel3")
+  ];
+
+  let intervals = [];
+
+  reels.forEach((reel, index) => {
+    intervals[index] = setInterval(() => {
+      reel.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    }, 80);
+  });
+
+  setTimeout(() => stopReel(0), 600);
+  setTimeout(() => stopReel(1), 900);
+  setTimeout(() => stopReel(2), 1200);
+
+  function stopReel(i) {
+    clearInterval(intervals[i]);
+
+    reels[i].textContent =
+      symbols[Math.floor(Math.random() * symbols.length)];
+
+    if (i === 2) {
+      spinning = false;
+      checkWin();
+    }
+  }
+}
+
+function checkWin() {
+  const r1 = reel1.textContent;
+  const r2 = reel2.textContent;
+  const r3 = reel3.textContent;
+
+  const result = document.getElementById("result");
+
+  if (r1 === r2 && r2 === r3) {
+    result.textContent = "🎉 JACKPOT! YOU WIN!";
+    result.style.color = "gold";
+  } else {
+    result.textContent = "Try Again!";
+    result.style.color = "white";
+  }
+}
+</script>
+
+</body>
+</html>

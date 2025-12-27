@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redjemie Visions | Admin Panel</title>
+<style>
+body, html {margin:0;padding:0;font-family:'Arial', sans-serif;background:#f2f2f2;}
+.container {max-width:600px;margin:20px auto;background:white;padding:20px;border-radius:20px;box-shadow:0 0 15px rgba(0,0,0,.2);}
+h2{text-align:center;color:#ff4500;}
+input, button {width:100%;padding:10px;margin:5px 0;border-radius:10px;box-sizing:border-box;}
+button{background:#ff6347;color:white;font-weight:bold;border:none;cursor:pointer;}
+button:hover{background:#ff4500;}
+table{width:100%;border-collapse:collapse;margin-top:10px;}
+th, td{border:1px solid #ff7f50;padding:6px;text-align:center;}
+th{background:#ffd699;}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Admin Panel</h2>
+
+<div id="loginDiv">
+  <input id="adminUser" placeholder="Username">
+  <input id="adminPass" type="password" placeholder="Password">
+  <button onclick="adminLogin()">Login</button>
+</div>
+
+<div id="dashboard" style="display:none">
+  <h3>Pending Top-ups</h3>
+  <table id="topupTable"><tr><th>User</th><th>Amount</th><th>Action</th></tr></table>
+
+  <h3>Users</h3>
+  <table id="userTable"><tr><th>Phone</th><th>Name</th><th>Credits</th><th>Action</th></tr></table>
+
+  <h3>Spin History</h3>
+  <table id="spinTable"><tr><th>User</th><th>Result</th><th>Symbols</th><th>Bet</th><th>Time</th></tr></table>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+const API="https://script.google.com/macros/s/AKfycbz2s1jBwRLdoenkYC_X_UPo4XEiTl0d-w_hOps-6cJWe29Kd91xGgQR6Xv25pU_jLvy/exec";
+let data=null;
+
+function adminLogin(){
+  const u=document.getElementById("adminUser").value.trim();
+  const p=document.getElementById("adminPass").value.trim();
+  fetch(API,{method:"POST",body:JSON.stringify({type:"adminLogin",username:u,password:p})})
+  .then(res=>res.json())
+  .then(d=>{
+    if(d.status==="success"){ loginDiv.style.display="none"; dashboard.style.display="block"; loadData(); }
+    else alert(d.message);
+  });
+}
+
+function loadData(){
+  fetch(API).then(r=>r.json()).then(d=>{
+    data=d;
+    loadTopups(); loadUsers(); loadSpins();
+  });
+}
+
+function loadTopups(){
+  topupTable.innerHTML='<tr><th>User</th><th>Amount</th><th>Action</th></tr>';
+  data.topups.filter(t=>t.status==="Pending").forEach(t=>{
+    const tr=topupTable.insertRow();
+    tr.innerHTML=`<td>${t.userID}</td><td>${t.amount}</td>
+      <td><button onclick="approveTopup('${t.userID}','${t.amount}')">Approve</button></td>`;
+  });
+}
+
+function approveTopup(userID,amount){
+  fetch(API,{method:"POST",body:JSON.stringify({type:"topupApprove",userID:userID,amount:amount})})
+  .then(()=>loadData());
+}
+
+function loadUsers(){
+  userTable.innerHTML='<tr><th>Phone</th><th>Name</th><th>Credits</th><th>Action</th></tr>';
+  data.users.forEach(u=>{
+    const tr=userTable.insertRow();
+    tr.innerHTML=`<td>${u.phone}</td><td>${u.fullName}</td><td>${u.credits}</td>
+      <td><button onclick="editCredits('${u.phone}')">Edit Credits</button></td>`;
+  });
+}
+
+function editCredits(phone){
+  const amt=prompt("Enter new credits");
+  if(!amt) return;
+  fetch(API,{method:"POST",body:JSON.stringify({type:"editCredits",userID:phone,credits:amt})})
+  .then(()=>loadData());
+}
+
+function loadSpins(){
+  spinTable.innerHTML='<tr><th>User</th><th>Result</th><th>Symbols</th><th>Bet</th><th>Time</th></tr>';
+  data.spins.forEach(s=>{
+    const tr=spinTable.insertRow();
+    tr.innerHTML=`<td>${s.userID}</td><td>${s.result}</td><td>${s.symbols}</td><td>${s.bet}</td><td>${new Date(s.timestamp).toLocaleString()}</td>`;
+  });
+}
+
+function logout(){ location.reload(); }
+</script>
+</body>
+</html>

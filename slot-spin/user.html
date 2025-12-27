@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redjemie Visions | Slot Game</title>
+<style>
+body, html {margin:0;padding:0;font-family:'Comic Sans MS', cursive;background:#ffe5b4;}
+.container {max-width:480px;margin:20px auto;background:#fff6e6;border-radius:25px;padding:25px 20px;box-shadow:0 0 25px rgba(0,0,0,.2);}
+.brand {text-align:center;font-size:2.5rem;color:#ff4500;margin-bottom:20px;}
+.card {background:#ffd699;border-radius:20px;padding:20px;margin-bottom:20px;box-sizing:border-box;}
+.card h3 {text-align:center;margin-bottom:15px;color:#ff4500;}
+input {width:100%;padding:12px 15px;margin:10px 0;border-radius:12px;border:1px solid #ff7f50;font-size:1rem;box-sizing:border-box;}
+input::placeholder {color:#aa5a2c;}
+button {width:100%;padding:12px 15px;margin:10px 0;border-radius:12px;border:none;font-size:1rem;font-weight:bold;background-color:#ff6347;color:white;cursor:pointer;}
+button:hover {background-color:#ff4500;}
+p.switch-form {text-align:center;color:#ff4500;cursor:pointer;margin-top:10px;font-size:0.9rem;}
+.slot {background:#ffe4c4;border-radius:20px;padding:15px;text-align:center;margin-top:10px;}
+.reels {display:flex;justify-content:space-around;margin:15px 0;}
+.reel {width:70px;height:70px;background:white;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:36px;}
+.result {text-align:center;font-size:18px;margin-top:10px;min-height:22px;}
+.history {width:100%;font-size:.85rem;border-collapse:collapse;margin-top:10px;}
+.history th, .history td {border:1px solid #ff7f50;padding:6px;text-align:center;}
+.history th {background:#ffd699;}
+@media(max-width:500px){.reel{width:60px;height:60px;font-size:28px;} input, button{padding:10px;}}
+.spin-btn {background:gold;border:none;padding:12px 30px;font-size:18px;border-radius:30px;cursor:pointer;font-weight:bold;box-shadow:0 4px #a88;}
+.spin-btn:active {transform:translateY(2px);box-shadow:0 2px #a88;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="brand">Redjemie Visions</div>
+
+  <!-- AUTH CARD -->
+  <div id="authCard" class="card">
+    <h3 id="authTitle">Login</h3>
+    <input id="fullName" placeholder="Full Name (register only)" style="display:none;">
+    <input id="phone" placeholder="Phone Number">
+    <input id="password" type="password" placeholder="Password">
+    <button id="authBtn">Login</button>
+    <p class="switch-form" id="switchAuth">Don't have an account? Register</p>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+    <p id="welcomeMsg"></p>
+    <p><b>Credits:</b> <span id="credits">0</span></p>
+
+    <div class="slot">
+      <div class="reels">
+        <div class="reel" id="r1">🍒</div>
+        <div class="reel" id="r2">🍋</div>
+        <div class="reel" id="r3">🔔</div>
+      </div>
+      <input id="betAmount" type="number" min="1" placeholder="Enter bet amount">
+      <button class="spin-btn" onclick="spin()">SPIN</button>
+      <p class="result" id="result"></p>
+    </div>
+
+    <h4>Spin History</h4>
+    <table class="history" id="spinHistory">
+      <tr><th>Time</th><th>Result</th><th>Symbols</th><th>Bet</th></tr>
+    </table>
+
+    <button onclick="topup()">Request Top‑Up</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<script>
+const API="https://script.google.com/macros/s/AKfycbzz2c4n5guyTcs_4D6YVlYclxxM1mJ4dXJK7QhfohUIySNaQtkuC2VRG4LuU0pNvrCN/exec";
+const symbols=["🍒","🍋","🔔","⭐","7️⃣"];
+let user=null,spinning=false;
+
+// --- AUTH SWITCH ---
+let registerMode=false;
+const authCard=document.getElementById("authCard");
+const authTitle=document.getElementById("authTitle");
+const authBtn=document.getElementById("authBtn");
+const switchAuth=document.getElementById("switchAuth");
+const fullNameInput=document.getElementById("fullName");
+
+switchAuth.onclick=function(){
+  registerMode=!registerMode;
+  if(registerMode){
+    fullNameInput.style.display="block";
+    authTitle.textContent="Register";
+    authBtn.textContent="Register";
+    switchAuth.textContent="Already registered? Login";
+  } else {
+    fullNameInput.style.display="none";
+    authTitle.textContent="Login";
+    authBtn.textContent="Login";
+    switchAuth.textContent="Don't have an account? Register";
+  }
+};
+
+// --- AUTH BUTTON ---
+authBtn.onclick=function(){
+  if(registerMode) register();
+  else login();
+};
+
+// --- REGISTER ---
+function register(){
+  const fullName = fullNameInput.value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  if(!fullName || !phone || !pass){ alert("All fields required"); return; }
+
+  fetch(API,{
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({type:"user", phone: phone, password: pass, fullName: fullName})
+  })
+  .then(res=>res.json())
+  .then(d=>{
+    if(d.status==="success") loginWith(phone, pass);
+    else alert(d.message);
+  }).catch(err=>alert("Registration error: "+err));
+}
+
+// --- LOGIN ---
+function login(){
+  const phone=document.getElementById("phone").value.trim();
+  const pass=document.getElementById("password").value.trim();
+  if(!phone||!pass){ alert("Fill all fields"); return; }
+  loginWith(phone, pass);
+}
+
+function loginWith(phone, pass){
+  fetch(API,{
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({type:"login", phone: phone, password: pass, device: navigator.userAgent})
+  })
+  .then(res=>res.json())
+  .then(d=>{
+    if(d.status==="error"){ alert(d.message); return; }
+    user=d.user;
+    localStorage.setItem("user", JSON.stringify(user));
+    loadDashboard();
+  }).catch(err=>alert("Login error: "+err));
+}
+
+function loadDashboard(){
+  authCard.style.display="none";
+  document.getElementById("dashboard").style.display="block";
+  document.getElementById("credits").textContent=user.credits||0;
+  document.getElementById("welcomeMsg").innerHTML = `<b>Player ${user.fullName}! Welcome Back!</b>`;
+}
+
+// --- SLOT MACHINE ---
+function spin() {
+  if (spinning) return;
+  spinning = true;
+
+  let bet = parseInt(document.getElementById("betAmount").value);
+  if(!bet || bet <= 0){ alert("Enter valid bet"); spinning=false; return; }
+  if(bet > user.credits){ alert("Not enough credits"); spinning=false; return; }
+
+  const reels = [document.getElementById("r1"), document.getElementById("r2"), document.getElementById("r3")];
+  document.getElementById("result").textContent = "";
+  let intervals = [];
+
+  reels.forEach((reel,i)=>{
+    intervals[i] = setInterval(()=>reel.textContent = symbols[Math.floor(Math.random()*symbols.length)], 80);
+  });
+
+  setTimeout(()=>stopReel(0), 600);
+  setTimeout(()=>stopReel(1), 900);
+  setTimeout(()=>stopReel(2), 1200);
+
+  function stopReel(i){
+    clearInterval(intervals[i]);
+    reels[i].textContent = symbols[Math.floor(Math.random()*symbols.length)];
+    if(i===2){
+      spinning=false;
+      calculateSpinResult(bet);
+    }
+  }
+}
+
+function calculateSpinResult(bet){
+  const r1=document.getElementById("r1").textContent;
+  const r2=document.getElementById("r2").textContent;
+  const r3=document.getElementById("r3").textContent;
+  const resultEl=document.getElementById("result");
+  let win=0;
+
+  if(r1===r2 && r2===r3){ win=bet*5; resultEl.textContent=`🎉 JACKPOT! You won ${win} credits!`; resultEl.style.color="gold";}
+  else{ win=0; resultEl.textContent="Try Again!"; resultEl.style.color="white";}
+
+  user.credits = user.credits - bet + win;
+  document.getElementById("credits").textContent=user.credits;
+
+  // Send update to backend
+  fetch(API,{
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({type:"updateCredits", phone:user.phone, credits:user.credits,
+      spin:{symbols:[r1,r2,r3], bet:bet, win:win, time:new Date().toISOString()}})
+  }).then(res=>res.json()).then(d=>console.log(d)).catch(err=>console.error(err));
+
+  // Append spin history
+  const table=document.getElementById("spinHistory");
+  const row=table.insertRow(1);
+  row.insertCell(0).textContent = new Date().toLocaleTimeString();
+  row.insertCell(1).textContent = win;
+  row.insertCell(2).textContent = `${r1} ${r2} ${r3}`;
+  row.insertCell(3).textContent = bet;
+}
+
+// --- TOPUP & LOGOUT ---
+function topup(){ alert("Request Top-Up function here"); }
+function logout(){
+  localStorage.removeItem("user");
+  user=null;
+  document.getElementById("dashboard").style.display="none";
+  authCard.style.display="block";
+}
+</script>
+
+</body>
+</html>
