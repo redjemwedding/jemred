@@ -69,7 +69,7 @@ p.switch-form {text-align:center;color:#ff4500;cursor:pointer;margin-top:10px;fo
 </div>
 
 <script>
-const API="https://script.google.com/macros/s/AKfycbyu0otBHX382PVfIncAnCOfpabzpS-e1xNgS_vtF9utDXh2Rv_sWtcegtN6K_kgyuO5/exec";
+const API="https://script.google.com/macros/s/AKfycbzz2c4n5guyTcs_4D6YVlYclxxM1mJ4dXJK7QhfohUIySNaQtkuC2VRG4LuU0pNvrCN/exec";
 const symbols=["🍒","🍋","🔔","⭐","7️⃣"];
 let user=null,spinning=false;
 
@@ -195,7 +195,7 @@ function calculateSpinResult(bet){
   user.credits = user.credits - bet + win;
   document.getElementById("credits").textContent=user.credits;
 
-  // Send update to backend
+  // Update backend
   fetch(API,{
     method:"POST",
     headers: {"Content-Type":"application/json"},
@@ -224,4 +224,3 @@ function logout(){
 
 </body>
 </html>
-
