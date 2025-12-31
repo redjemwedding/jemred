@@ -17,11 +17,11 @@ const answersMap={
 /* PRIZES */
 const prizes=[
 	  {label:"🎄 Bonus",color:"#c62828"},
-    {label:"100",color:"#c62828"},
+    {label:"50",color:"#c62828"},
 	    {label:"🎄 Bonus",color:"#c62828"},
     {label:"100",color:"#2e7d32"},
 	    {label:"🎄 Bonus",color:"#c62828"},
-    {label:"100",color:"#fbc02d"},
+    {label:"50",color:"#fbc02d"},
 	    {label:"🎄 Bonus",color:"#c62828"},
     {label:"100",color:"#c62828"},
 	    {label:"🎄 Bonus",color:"#c62828"},
@@ -36,8 +36,8 @@ const prizes=[
 
 
 ];
-const prizeLimits={ "100":10, "200":2 };
-let used={ "100":0, "200":0 };
+const prizeLimits={"50":5, "100":10, "200":2 };
+let used={ "100":0, "200":0, "200":0 };
 
 /* ELEMENTS */
 const nameInput=document.getElementById("name");
@@ -150,5 +150,6 @@ function save(prize){
         body:JSON.stringify({...window.player, prize})
     });
 }
+
 
 
