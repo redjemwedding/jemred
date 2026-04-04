@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Rosary - Guided Family</title>
+<title>Global Rosary - Guided Family Version</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
 <style>
 body{
@@ -64,11 +64,7 @@ input{
 }
 .cross{
   font-size:40px;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  color:white;
+  margin:10px auto;
 }
 #mysteryImg{
   max-width:100%;
@@ -84,7 +80,6 @@ input{
   border-top:1px solid gold;
   margin-top:10px;
   padding-top:10px;
-  text-align:left;
 }
 #lightModeToggle{
   position:fixed;
@@ -118,9 +113,7 @@ input{
 <div id="leader"></div>
 
 <!-- Rosary beads -->
-<div id="rosary">
-  <div class="cross">✝️</div>
-</div>
+<div id="rosary"></div>
 
 <!-- Next / End buttons -->
 <div id="controls">
@@ -209,7 +202,8 @@ function getTodaysMysteryImages(){
 let flow=[];
 function buildFlow(){
   const images=getTodaysMysteryImages();
-  flow=[{text:prayers.sign},{text:prayers.creed},{text:prayers.ourFather},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.glory}];
+  flow=[{text:prayers.sign},{text:prayers.creed},{text:prayers.ourFather},
+    {text:prayers.introHail},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.glory}];
   for(let m=0;m<5;m++){
     flow.push({text:"Mystery "+(m+1),img:images[m],reading:"Reflection for mystery "+(m+1)});
     flow.push({text:prayers.ourFather});
@@ -248,7 +242,9 @@ window.joinRoom=function(){
   login.style.display="none";
   waiting.style.display="block";
   onValue(ref(db,`rooms/${roomId}/participants/${userId}`),(snap)=>{
-    if(snap.val()?.status==="approved"){
+    const p=snap.val();
+    if(!p) return;
+    if(p.status==="approved"){
       waiting.style.display="none";
       start();
     }
@@ -272,12 +268,13 @@ window.endSession=function(){
   }
 };
 
-/* NEXT STEP */
+/* NEXT STEP - only host */
 window.nextStep=function(){
   get(ref(db,"rooms/"+roomId)).then(snap=>{
     const data=snap.val();
     if(!data) return;
-    update(ref(db,"rooms/"+roomId),{step:data.step+1,controller:userId});
+    if(userId!==data.host) return;
+    update(ref(db,"rooms/"+roomId),{step:(data.step||0)+1,controller:data.host});
   });
 };
 
@@ -286,30 +283,30 @@ function start(){
   main.style.display="block";
   onValue(ref(db,"rooms/"+roomId),(snap)=>{
     const data=snap.val();
-    if(!data) return;
-    const step=flow[data.step]||{text:"Finished"};
-    roomCode.innerText = roomId;
-    leader.innerText = "Leader: "+data.participants[data.controller]?.name;
-    prayer.innerText = step.text;
-    if(step.img && step.img.length>0){ mysteryImg.src = step.img; mysteryImg.style.display="block"; }
-    else { mysteryImg.src=""; mysteryImg.style.display="none"; }
+    if(!data){ alert("Session ended by host"); localStorage.clear(); location.reload(); return; }
+    const step=flow[data.step]||{text:"Waiting for host to start..."};
+    roomCode.innerText=roomId;
+    leader.innerText="Leader: "+data.participants[data.host]?.name;
+    prayer.innerText=step.text;
+    if(step.img){ mysteryImg.src=step.img; mysteryImg.style.display="block"; } else { mysteryImg.src=""; mysteryImg.style.display="none"; }
     renderRosary(data.step);
     renderParticipants(data);
     renderRequests(data);
     renderLitany();
-    endBtn.style.display = (data.host==userId) ? "inline-block" : "none";
+    endBtn.style.display=(data.host===userId)?"inline-block":"none";
   });
 }
 
 /* RENDER PARTICIPANTS */
 function renderParticipants(data){
   participants.innerHTML="";
+  if(!data.participants) return;
   for(let uid in data.participants){
     const p=data.participants[uid];
     if(p.status==="approved"){
       const div=document.createElement("div");
       div.innerText=p.name;
-      if(uid==data.controller) div.style.color="gold";
+      if(uid===data.controller) div.style.color="gold";
       participants.appendChild(div);
     }
   }
@@ -318,7 +315,7 @@ function renderParticipants(data){
 /* RENDER REQUESTS */
 function renderRequests(data){
   joinRequests.innerHTML="";
-  if(data.host!==userId) return;
+  if(userId!==data.host || !data.participants) return;
   for(let uid in data.participants){
     const p=data.participants[uid];
     if(p.status==="waiting"){
@@ -342,7 +339,7 @@ function renderLitany(){
 /* RENDER ROSARY */
 function renderRosary(active){
   const container=document.getElementById("rosary");
-  container.innerHTML='<div class="cross">✝️</div>';
+  container.innerHTML="";
   const total=30;
   const radius=120;
   for(let i=0;i<total;i++){
