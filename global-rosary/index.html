@@ -9,15 +9,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-/* 🔥 YOUR FIREBASE CONFIG (ALREADY INTEGRATED) */
 const firebaseConfig = {
   apiKey: "AIzaSyAzMIXq4bJA3LxFAet4R9mV0PRNNuoHL6w",
   authDomain: "global-rosary.firebaseapp.com",
   databaseURL: "https://global-rosary-default-rtdb.firebaseio.com",
-  projectId: "global-rosary",
-  storageBucket: "global-rosary.appspot.com",
-  messagingSenderId: "986935009454",
-  appId: "1:986935009454:web:046de6368b3ed48e934d3f"
+  projectId: "global-rosary"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -25,20 +21,22 @@ const db = getDatabase(app);
 
 let userId = Date.now();
 let roomId = "";
-let approvedPlayed = false;
 
-/* 🔔 SOUND */
-function playSound(){
-  const audio = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
-  audio.play();
-}
+/* FLOW */
+const flow = [
+  { type: "opening", label: "Opening Prayer" },
+  { type: "mystery", index: 1 },
+  { type: "mystery", index: 2 },
+  { type: "mystery", index: 3 },
+  { type: "mystery", index: 4 },
+  { type: "mystery", index: 5 },
+  { type: "closing", label: "Closing Prayer" }
+];
 
 /* CREATE ROOM */
 window.createRoom = function(){
   const name = nameInput.value;
   roomId = roomInput.value;
-
-  if(!name || !roomId) return alert("Enter name and room");
 
   set(ref(db,"rooms/"+roomId),{
     host:userId,
@@ -46,19 +44,18 @@ window.createRoom = function(){
     controller:userId,
     participants:{
       [userId]:{name,status:"approved"}
-    }
+    },
+    assignments:{}
   });
 
   login.style.display="none";
   start();
-}
+};
 
-/* JOIN ROOM */
+/* JOIN */
 window.joinRoom = function(){
   const name = nameInput.value;
   roomId = roomInput.value;
-
-  if(!name || !roomId) return alert("Enter name and room");
 
   set(ref(db,`rooms/${roomId}/participants/${userId}`),{
     name,
@@ -70,17 +67,13 @@ window.joinRoom = function(){
 
   onValue(ref(db,`rooms/${roomId}/participants/${userId}`),(snap)=>{
     if(snap.val()?.status==="approved"){
-      if(!approvedPlayed){
-        playSound();
-        approvedPlayed = true;
-      }
       waiting.style.display="none";
       start();
     }
   });
-}
+};
 
-/* APPROVE / REJECT */
+/* APPROVE */
 window.approveUser = uid => update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"});
 window.rejectUser = uid => remove(ref(db,`rooms/${roomId}/participants/${uid}`));
 
@@ -93,11 +86,20 @@ function start(){
     if(!data) return;
 
     roomCode.innerText = roomId;
-    leader.innerText = "Leader: " + data.participants[data.controller]?.name;
-    prayer.innerText = "Continue the Rosary Prayer";
+
+    const step = flow[data.step];
+
+    prayer.innerText =
+      step.type === "mystery"
+        ? "Mystery " + step.index + " (Assigned leader will pray)"
+        : step.label;
+
+    leader.innerText =
+      "Leader: " + data.participants[data.controller]?.name;
 
     renderParticipants(data);
     renderRequests(data);
+    renderAssignments(data);
   });
 }
 
@@ -110,20 +112,16 @@ function renderParticipants(data){
 
     if(p.status==="approved"){
       const div = document.createElement("div");
-      div.className="participant";
-
-      if(uid==data.controller) div.style.color="gold";
-
       div.innerText = p.name;
+      if(uid == data.controller) div.style.color="gold";
       participants.appendChild(div);
     }
   }
 }
 
-/* REQUESTS */
+/* HOST REQUESTS */
 function renderRequests(data){
   joinRequests.innerHTML="";
-
   if(data.host !== userId) return;
 
   for(let uid in data.participants){
@@ -131,100 +129,126 @@ function renderRequests(data){
 
     if(p.status==="waiting"){
       const div = document.createElement("div");
-
       div.innerHTML = `
         ${p.name}
         <button onclick="approveUser('${uid}')">✔</button>
         <button onclick="rejectUser('${uid}')">✖</button>
       `;
-
       joinRequests.appendChild(div);
     }
   }
 }
 
-/* NEXT */
+/* ASSIGNMENT PANEL (HOST ONLY) */
+function renderAssignments(data){
+  if(data.host !== userId) return;
+
+  assignmentPanel.innerHTML = "";
+
+  const roles = ["opening","closing","m1","m2","m3","m4","m5"];
+
+  roles.forEach(role=>{
+    const select = document.createElement("select");
+
+    for(let uid in data.participants){
+      if(data.participants[uid].status==="approved"){
+        const opt = document.createElement("option");
+        opt.value = uid;
+        opt.text = data.participants[uid].name;
+        select.appendChild(opt);
+      }
+    }
+
+    select.onchange = ()=>{
+      let updates = {};
+      updates[`assignments/${role}`] = select.value;
+      update(ref(db,"rooms/"+roomId),updates);
+    };
+
+    const label = document.createElement("div");
+    label.innerText = role.toUpperCase();
+
+    assignmentPanel.appendChild(label);
+    assignmentPanel.appendChild(select);
+  });
+}
+
+/* NEXT STEP */
 window.nextStep = function(){
   get(ref(db,"rooms/"+roomId)).then(snap=>{
     const data = snap.val();
+    const step = flow[data.step];
+
+    let allowed = false;
+
+    if(data.host === userId) allowed = true;
+
+    if(step.type==="opening" && data.assignments.opening==userId) allowed = true;
+    if(step.type==="closing" && data.assignments.closing==userId) allowed = true;
+    if(step.type==="mystery"){
+      const key = "m"+step.index;
+      if(data.assignments[key]==userId) allowed = true;
+    }
+
+    if(!allowed){
+      alert("You are not assigned for this part");
+      return;
+    }
 
     update(ref(db,"rooms/"+roomId),{
       step:data.step+1,
       controller:userId
     });
   });
-}
-
+};
 </script>
 
 <style>
-body{
-  margin:0;
-  font-family:serif;
-  background:linear-gradient(#0a1f44,#000814);
-  color:white;
-  text-align:center;
-}
-header{
-  font-size:28px;
-  color:gold;
-  padding:20px;
-}
-button{
-  background:gold;
-  border:none;
-  padding:10px;
-  margin:5px;
-  border-radius:6px;
-}
-input{
-  padding:10px;
-  margin:5px;
-}
-.panel{
-  margin-top:20px;
-  padding:10px;
-  border:1px solid gold;
-  border-radius:10px;
-}
-.participant{
-  padding:5px;
-  border-bottom:1px solid rgba(255,255,255,0.1);
-}
+body{font-family:serif;background:#0a1f44;color:white;text-align:center;}
+header{color:gold;font-size:28px;padding:20px;}
+button{background:gold;border:none;padding:10px;margin:5px;}
+.panel{margin:10px;padding:10px;border:1px solid gold;}
 </style>
 
 </head>
 
 <body>
 
-<header>✝️ Global Rosary</header>
+<header>✝️ Global Rosary Room</header>
 
 <div id="login">
-  <input id="nameInput" placeholder="Your Name">
+  <input id="nameInput" placeholder="Name">
   <input id="roomInput" placeholder="Room Code"><br>
   <button onclick="createRoom()">Create</button>
   <button onclick="joinRoom()">Join</button>
 </div>
 
 <div id="waiting" style="display:none;">
-  <h3>Waiting for approval...</h3>
+  Waiting for approval...
 </div>
 
 <div id="main" style="display:none;">
   <h3>Room Code: <span id="roomCode"></span></h3>
-  <div id="leader"></div>
-  <div id="prayer"></div>
-
-  <button onclick="nextStep()">Next</button>
 
   <div class="panel">
-    <h3>👥 Participants</h3>
+    <h3 id="leader"></h3>
+    <h2 id="prayer"></h2>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <div class="panel">
+    <h3>Participants</h3>
     <div id="participants"></div>
   </div>
 
   <div class="panel">
-    <h3>Incoming Requests</h3>
+    <h3>Incoming Requests (Host Only)</h3>
     <div id="joinRequests"></div>
+  </div>
+
+  <div class="panel">
+    <h3>Assignment Panel (Host Only)</h3>
+    <div id="assignmentPanel"></div>
   </div>
 </div>
 
