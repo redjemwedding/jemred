@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Rosary - Final Guided</title>
+<title>Global Rosary - Guided Family</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
 <style>
 body{
@@ -64,7 +64,11 @@ input{
 }
 .cross{
   font-size:40px;
-  margin:10px auto;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:white;
 }
 #mysteryImg{
   max-width:100%;
@@ -80,6 +84,7 @@ input{
   border-top:1px solid gold;
   margin-top:10px;
   padding-top:10px;
+  text-align:left;
 }
 #lightModeToggle{
   position:fixed;
@@ -113,7 +118,9 @@ input{
 <div id="leader"></div>
 
 <!-- Rosary beads -->
-<div id="rosary"></div>
+<div id="rosary">
+  <div class="cross">✝️</div>
+</div>
 
 <!-- Next / End buttons -->
 <div id="controls">
@@ -202,10 +209,7 @@ function getTodaysMysteryImages(){
 let flow=[];
 function buildFlow(){
   const images=getTodaysMysteryImages();
-  flow=[
-    {text:prayers.sign},{text:prayers.creed},{text:prayers.ourFather},
-    {text:prayers.introHail},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.glory}
-  ];
+  flow=[{text:prayers.sign},{text:prayers.creed},{text:prayers.ourFather},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.glory}];
   for(let m=0;m<5;m++){
     flow.push({text:"Mystery "+(m+1),img:images[m],reading:"Reflection for mystery "+(m+1)});
     flow.push({text:prayers.ourFather});
@@ -273,10 +277,7 @@ window.nextStep=function(){
   get(ref(db,"rooms/"+roomId)).then(snap=>{
     const data=snap.val();
     if(!data) return;
-    update(ref(db,"rooms/"+roomId),{
-      step:data.step+1,
-      controller:userId
-    });
+    update(ref(db,"rooms/"+roomId),{step:data.step+1,controller:userId});
   });
 };
 
@@ -285,17 +286,18 @@ function start(){
   main.style.display="block";
   onValue(ref(db,"rooms/"+roomId),(snap)=>{
     const data=snap.val();
-    if(!data){ alert("Session ended by host"); localStorage.clear(); location.reload(); return; }
+    if(!data) return;
     const step=flow[data.step]||{text:"Finished"};
-    roomCode.innerText=roomId;
-    leader.innerText="Leader: "+data.participants[data.controller]?.name;
-    prayer.innerText=step.text;
-    if(step.img) mysteryImg.src=step.img; else mysteryImg.src="";
+    roomCode.innerText = roomId;
+    leader.innerText = "Leader: "+data.participants[data.controller]?.name;
+    prayer.innerText = step.text;
+    if(step.img && step.img.length>0){ mysteryImg.src = step.img; mysteryImg.style.display="block"; }
+    else { mysteryImg.src=""; mysteryImg.style.display="none"; }
     renderRosary(data.step);
     renderParticipants(data);
     renderRequests(data);
     renderLitany();
-    endBtn.style.display=(data.host==userId)?"inline-block":"none";
+    endBtn.style.display = (data.host==userId) ? "inline-block" : "none";
   });
 }
 
@@ -340,7 +342,7 @@ function renderLitany(){
 /* RENDER ROSARY */
 function renderRosary(active){
   const container=document.getElementById("rosary");
-  container.innerHTML="";
+  container.innerHTML='<div class="cross">✝️</div>';
   const total=30;
   const radius=120;
   for(let i=0;i<total;i++){
@@ -351,11 +353,10 @@ function renderRosary(active){
     bead.className="bead";
     bead.style.left=x+"px";
     bead.style.top=y+"px";
-    if(i===active) { bead.classList.add("active"); beadAudio.play(); }
+    if(i===active){ bead.classList.add("active"); beadAudio.play(); }
     container.appendChild(bead);
   }
 }
-
 </script>
 </body>
 </html>
