@@ -9,7 +9,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-/* FIREBASE CONFIG */
+/* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyAzMIXq4bJA3LxFAet4R9mV0PRNNuoHL6w",
   authDomain: "global-rosary.firebaseapp.com",
@@ -20,42 +20,57 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* PERSISTENT USER */
+/* USER */
 let userId = localStorage.getItem("uid") || Date.now();
 localStorage.setItem("uid", userId);
 
 let userName = localStorage.getItem("name") || "";
 let roomId = localStorage.getItem("room") || "";
 
-/* FULL PRAYERS */
-const prayers = {
-  sign: "In the name of the Father, and of the Son, and of the Holy Spirit. Amen.",
-  creed: "I believe in God, the Father almighty, Creator of heaven and earth...",
-  ourFather: "Our Father, who art in heaven, hallowed be thy name...",
-  hailMary: "Hail Mary, full of grace, the Lord is with thee...",
-  glory: "Glory be to the Father, and to the Son...",
-  queen: "Hail, Holy Queen, Mother of mercy..."
+/* SOUND */
+function playBell(){
+  new Audio("https://actions.google.com/sounds/v1/alarms/bell_ring.ogg").play();
+}
+
+/* THEME */
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  localStorage.setItem("theme", document.body.classList.contains("light"));
+}
+if(localStorage.getItem("theme")==="true"){
+  document.body.classList.add("light");
+}
+
+/* PRAYERS + SCRIPTURE */
+const mysteries = {
+  1:"The Agony in the Garden (Luke 22:39-46)",
+  2:"The Scourging at the Pillar (John 19:1)",
+  3:"The Crowning with Thorns (Matthew 27:29)",
+  4:"The Carrying of the Cross (John 19:17)",
+  5:"The Crucifixion (Luke 23:33)"
 };
 
-/* BUILD FLOW */
+const prayers = {
+  our:"Our Father, who art in heaven...",
+  hail:"Hail Mary, full of grace...",
+  glory:"Glory be to the Father...",
+  sign:"In the name of the Father...",
+  creed:"I believe in God...",
+  queen:"Hail Holy Queen..."
+};
+
+/* FLOW */
 let flow=[];
 function buildFlow(){
   flow=[
     {text:prayers.sign},
-    {text:prayers.creed},
-    {text:prayers.ourFather},
-    {text:prayers.hailMary},
-    {text:prayers.hailMary},
-    {text:prayers.hailMary},
-    {text:prayers.glory}
+    {text:prayers.creed}
   ];
 
   for(let m=1;m<=5;m++){
-    flow.push({text:"Mystery "+m});
-    flow.push({text:prayers.ourFather});
-    for(let i=0;i<10;i++){
-      flow.push({text:prayers.hailMary});
-    }
+    flow.push({text:mysteries[m]});
+    flow.push({text:prayers.our});
+    for(let i=0;i<10;i++) flow.push({text:prayers.hail});
     flow.push({text:prayers.glory});
   }
 
@@ -64,7 +79,7 @@ function buildFlow(){
 buildFlow();
 
 /* CREATE */
-window.createRoom=function(){
+window.createRoom=()=>{
   userName=nameInput.value;
   roomId=roomInput.value;
 
@@ -75,9 +90,7 @@ window.createRoom=function(){
     host:userId,
     step:0,
     controller:userId,
-    participants:{
-      [userId]:{name:userName,status:"approved"}
-    }
+    participants:{[userId]:{name:userName,status:"approved"}}
   });
 
   login.style.display="none";
@@ -85,7 +98,7 @@ window.createRoom=function(){
 };
 
 /* JOIN */
-window.joinRoom=function(){
+window.joinRoom=()=>{
   userName=nameInput.value;
   roomId=roomInput.value;
 
@@ -108,20 +121,17 @@ window.joinRoom=function(){
   });
 };
 
-/* AUTO REJOIN */
-if(userName && roomId){
-  start();
-}
+if(userName && roomId) start();
 
 /* APPROVE */
 window.approveUser=uid=>update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"});
 window.rejectUser=uid=>remove(ref(db,`rooms/${roomId}/participants/${uid}`));
 
-/* END SESSION */
-window.endSession=function(){
-  if(confirm("End Rosary Session?")){
+/* END */
+window.endSession=()=>{
+  if(confirm("End session?")){
     remove(ref(db,"rooms/"+roomId));
-    alert("Session ended");
+    localStorage.clear();
     location.reload();
   }
 };
@@ -132,36 +142,54 @@ function start(){
 
   onValue(ref(db,"rooms/"+roomId),(snap)=>{
     const data=snap.val();
-
     if(!data){
-      alert("Session ended by host");
-      localStorage.clear();
+      alert("Session ended");
       location.reload();
       return;
     }
 
     const step=flow[data.step]||{text:"Finished"};
 
-    roomCode.innerText=roomId;
-    leader.innerText="Leader: "+data.participants[data.controller]?.name;
-
     prayer.innerText=step.text;
 
     if(data.controller==userId){
-      prayer.style.color="gold";
-      prayer.style.fontSize="28px";
+      prayer.className="leader";
     }else{
-      prayer.style.color="white";
-      prayer.style.fontSize="20px";
+      prayer.className="";
     }
 
     renderParticipants(data);
     renderRequests(data);
+    renderRosary(data.step);
+
+    playBell();
 
     if(data.host==userId){
       endBtn.style.display="inline-block";
     }
   });
+}
+
+/* ROSARY */
+function renderRosary(active){
+  rosary.innerHTML="";
+  const total=60;
+  const radius=100;
+
+  for(let i=0;i<total;i++){
+    const angle=(i/total)*2*Math.PI;
+    const x=120+radius*Math.cos(angle);
+    const y=120+radius*Math.sin(angle);
+
+    const bead=document.createElement("div");
+    bead.className="bead";
+    bead.style.left=x+"px";
+    bead.style.top=y+"px";
+
+    if(i===active) bead.classList.add("active");
+
+    rosary.appendChild(bead);
+  }
 }
 
 /* PARTICIPANTS */
@@ -171,8 +199,8 @@ function renderParticipants(data){
     const p=data.participants[uid];
     if(p.status==="approved"){
       const div=document.createElement("div");
+      div.className="participant";
       div.innerText=p.name;
-      if(uid==data.controller) div.style.color="gold";
       participants.appendChild(div);
     }
   }
@@ -196,7 +224,7 @@ function renderRequests(data){
 }
 
 /* NEXT */
-window.nextStep=function(){
+window.nextStep=()=>{
   get(ref(db,"rooms/"+roomId)).then(snap=>{
     const data=snap.val();
     update(ref(db,"rooms/"+roomId),{
@@ -211,35 +239,43 @@ window.nextStep=function(){
 body{
   margin:0;
   font-family:serif;
-  background:linear-gradient(#0a1f44,#000814);
+  background:#0a1f44;
   color:white;
   text-align:center;
 }
+body.light{
+  background:#f5f5f5;
+  color:black;
+}
 header{
-  color:gold;
-  font-size:26px;
   padding:15px;
+  color:gold;
 }
 button{
-  background:gold;
-  border:none;
-  padding:12px;
-  margin:5px;
-  border-radius:8px;
-  width:90%;
-  max-width:300px;
-}
-input{
-  padding:12px;
-  margin:5px;
-  width:90%;
-  max-width:300px;
-}
-.panel{
-  margin:10px;
   padding:10px;
-  border:1px solid gold;
-  border-radius:10px;
+  margin:5px;
+  border-radius:6px;
+}
+#rosary{
+  position:relative;
+  width:240px;
+  height:240px;
+  margin:20px auto;
+}
+.bead{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#666;
+  position:absolute;
+}
+.active{
+  background:gold;
+  box-shadow:0 0 10px gold;
+}
+.leader{
+  font-size:26px;
+  color:gold;
 }
 </style>
 
@@ -247,37 +283,36 @@ input{
 
 <body>
 
-<header>✝️ Global Rosary</header>
+<header>
+✝️ Global Rosary
+<button onclick="toggleTheme()">🌙 Toggle</button>
+</header>
 
 <div id="login">
-<input id="nameInput" placeholder="Your Name"><br>
-<input id="roomInput" placeholder="Room Code"><br>
-<button onclick="createRoom()">Create Room</button>
-<button onclick="joinRoom()">Join Room</button>
+<input id="nameInput" placeholder="Name"><br>
+<input id="roomInput" placeholder="Room"><br>
+<button onclick="createRoom()">Create</button>
+<button onclick="joinRoom()">Join</button>
 </div>
 
-<div id="waiting" style="display:none;">
-<h3>Waiting for approval...</h3>
-</div>
+<div id="waiting" style="display:none;">Waiting...</div>
 
 <div id="main" style="display:none;">
 
-<h3>Room: <span id="roomCode"></span></h3>
-<div id="leader"></div>
-
-<div class="panel">
 <div id="prayer"></div>
-<button onclick="nextStep()">Next</button>
-<button id="endBtn" onclick="endSession()" style="display:none;background:red;">End Session</button>
-</div>
 
-<div class="panel">
+<div id="rosary"></div>
+
+<button onclick="nextStep()">Next</button>
+<button id="endBtn" onclick="endSession()" style="display:none;">End</button>
+
+<div>
 <h3>Participants</h3>
 <div id="participants"></div>
 </div>
 
-<div class="panel">
-<h3>Join Requests</h3>
+<div>
+<h3>Requests</h3>
 <div id="joinRequests"></div>
 </div>
 
