@@ -3,36 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Rosary - Full Guided</title>
+<title>Global Rosary - Guided Family</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Crimson Text', serif; background:linear-gradient(to bottom,#0a1f44,#000814); color:white;}
-header{padding:15px;font-size:28px;color:gold;text-align:center;}
-button{background:gold;border:none;padding:10px 15px;margin:5px;border-radius:8px;font-weight:bold;cursor:pointer;}
-input{padding:10px;margin:5px;width:90%;max-width:300px;border-radius:5px;border:none;}
-#container{display:flex;flex-direction:row;width:100%;height:calc(100vh - 70px);padding:10px;box-sizing:border-box;}
-#participantsPanel{width:25%;background:rgba(255,255,255,0.05);border:1px solid gold;border-radius:10px;padding:10px;overflow-y:auto;}
-#mainPanel{flex:1;margin-left:10px;display:flex;flex-direction:column;align-items:center;}
-#rosary{margin:10px 0;position:relative;width:300px;height:300px;}
-.bead{width:14px;height:14px;border-radius:50%;background:#666;position:absolute;transition: all 0.3s;}
-.bead.active{background:gold;box-shadow:0 0 15px gold;}
+body { margin:0; font-family:'Crimson Text', serif; background:#0a1f44; color:white;}
+header{padding:15px;font-size:28px;color:gold;text-align:center;background:#00112b;}
+#topBar{padding:10px;text-align:center;font-weight:bold;font-size:18px;background:#001833;border-bottom:1px solid gold;}
+#container{display:flex;width:100%;height:calc(100vh - 120px);}
+#participantsPanel{width:25%;background:rgba(255,255,255,0.05);border-right:1px solid gold;padding:10px;overflow-y:auto;}
+#mainPanel{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px;overflow-y:auto;}
+#rosary{margin:10px 0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;}
+.bead{width:14px;height:14px;border-radius:50%;background:#666;transition: all 0.3s;}
+.bead.active{background:gold;box-shadow:0 0 10px gold;}
 #controls{margin:10px;}
+button{background:gold;border:none;padding:10px 15px;margin:5px;border-radius:8px;font-weight:bold;cursor:pointer;}
+#prayerPanel{width:100%;max-width:700px;margin:10px 0;padding:10px;border:1px solid gold;border-radius:10px;background: rgba(255,255,255,0.05);}
 #mysteryImg{max-width:100%;border-radius:10px;margin:10px 0;}
-.panel{width:100%;max-width:700px;margin:10px 0;padding:10px;border:1px solid gold;border-radius:10px;background: rgba(255,255,255,0.05);text-align:center;}
 #litanyPanel{max-height:150px;overflow-y:auto;border-top:1px solid gold;padding-top:10px;margin-top:10px;}
 #login{display:flex;flex-direction:column;align-items:center;margin-top:20px;}
-#waiting{display:none;text-align:center;}
+#waiting{display:none;text-align:center;margin-top:20px;}
+.joinRequestBtn{margin:0 3px;}
 #lightModeToggle{position:fixed;top:10px;right:10px;padding:8px;border-radius:8px;background:white;color:black;cursor:pointer;font-weight:bold;}
+.currentStep{font-weight:bold;color:gold;}
 </style>
 </head>
 <body>
-<header>✝️ Global Rosary - Full Guided Version</header>
+
+<header>✝️ Global Rosary - Guided Family</header>
+<div id="topBar">
+Room: <span id="roomCode">---</span> | Host: <span id="hostName">---</span>
+</div>
 
 <div id="login">
-  <input id="nameInput" placeholder="Your Name"><br>
-  <input id="roomInput" placeholder="Room Code"><br>
-  <button onclick="createRoom()">Create Room</button>
-  <button onclick="joinRoom()">Join Room</button>
+<input id="nameInput" placeholder="Your Name"><br>
+<input id="roomInput" placeholder="Room Code"><br>
+<button onclick="createRoom()">Create Room</button>
+<button onclick="joinRoom()">Join Room</button>
 </div>
 
 <div id="waiting"><h3>Waiting for host approval...</h3></div>
@@ -47,11 +53,11 @@ input{padding:10px;margin:5px;width:90%;max-width:300px;border-radius:5px;border
   <div id="mainPanel">
     <div id="rosary"></div>
     <img id="mysteryImg" src="">
-    <div class="panel" id="prayerPanel"></div>
+    <div id="prayerPanel"></div>
     <div id="controls">
       <button onclick="prevStep()">Prev</button>
       <button onclick="nextStep()">Next</button>
-      <button id="endBtn" style="background:red; display:none;" onclick="endSession()">End Session</button>
+      <button id="endBtn" style="background:red;display:none;" onclick="endSession()">End Session</button>
     </div>
     <div class="panel" id="litanyPanel"><h3>Litany Reading</h3></div>
   </div>
@@ -103,7 +109,6 @@ function getTodaysMysteryImages(){
   return mysteryImagesByType[mapping[today]];
 }
 
-/* Build full 50 Hail Mary flow */
 let flow=[];
 function buildFlow(){
   const images=getTodaysMysteryImages();
@@ -120,7 +125,7 @@ function buildFlow(){
 }
 buildFlow();
 
-/* Room functions */
+/* ROOM FUNCTIONS */
 window.createRoom=()=>{
   userName=nameInput.value; roomId=roomInput.value;
   localStorage.setItem("name",userName);
@@ -133,8 +138,10 @@ window.createRoom=()=>{
   });
   login.style.display="none";
   document.getElementById("container").style.display="flex";
+  hostName.innerText=userName;
   start();
 };
+
 window.joinRoom=()=>{
   userName=nameInput.value; roomId=roomInput.value;
   localStorage.setItem("name",userName);
@@ -164,10 +171,12 @@ window.endSession=()=>{
 
 window.nextStep=()=>changeStep(1);
 window.prevStep=()=>changeStep(-1);
+
 function changeStep(delta){
   get(ref(db,"rooms/"+roomId)).then(snap=>{
     const data=snap.val();
     if(!data) return;
+    if(data.controller!==userId && userId!==data.host) return; // Only host can change
     let next=data.step+delta;
     if(next<0) next=0;
     if(next>=flow.length) next=flow.length-1;
@@ -175,11 +184,12 @@ function changeStep(delta){
   });
 }
 
-/* Start and update UI */
 function start(){
   onValue(ref(db,"rooms/"+roomId),(snap)=>{
     const data=snap.val();
     if(!data){ alert("Session ended"); localStorage.clear(); location.reload(); return;}
+    roomCode.innerText=roomId;
+    hostName.innerText=data.participants[data.host]?.name || "Host";
     const step=flow[data.step]||{text:"Finished"};
     prayerPanel.innerText=step.text+(step.reading?"\n"+step.reading:"");
     if(step.img) mysteryImg.src=step.img; else mysteryImg.src="";
@@ -202,6 +212,7 @@ function renderParticipants(data){
     }
   }
 }
+
 function renderRequests(data){
   joinRequests.innerHTML="";
   if(data.host!==userId) return;
@@ -209,11 +220,12 @@ function renderRequests(data){
     const p=data.participants[uid];
     if(p.status==="waiting"){
       const div=document.createElement("div");
-      div.innerHTML=`${p.name} <button onclick="approveUser('${uid}')">✔</button> <button onclick="rejectUser('${uid}')">✖</button>`;
+      div.innerHTML=`${p.name} <button class="joinRequestBtn" onclick="approveUser('${uid}')">✔</button> <button class="joinRequestBtn" onclick="rejectUser('${uid}')">✖</button>`;
       joinRequests.appendChild(div);
     }
   }
 }
+
 function renderLitany(){
   litanyPanel.innerHTML="<h3>Litany Reading</h3>";
   prayers.litany.forEach(l=>{
@@ -222,18 +234,14 @@ function renderLitany(){
     litanyPanel.appendChild(div);
   });
 }
+
 function renderRosary(active){
   const container=document.getElementById("rosary");
   container.innerHTML="";
   const total=50;
-  const radius=120;
   for(let i=0;i<total;i++){
-    const angle=(i/total)*(2*Math.PI);
-    const x=150+radius*Math.cos(angle);
-    const y=150+radius*Math.sin(angle);
     const bead=document.createElement("div");
     bead.className="bead";
-    bead.style.left=x+"px"; bead.style.top=y+"px";
     if(i===active){ bead.classList.add("active"); beadAudio.play();}
     container.appendChild(bead);
   }
@@ -242,7 +250,7 @@ function renderRosary(active){
 function toggleLightMode(){
   if(document.body.style.background.includes("0a1f44")){
     document.body.style.background="#fff"; document.body.style.color="#000"; lightModeToggle.innerText="Dark Mode";
-  } else { document.body.style.background="linear-gradient(to bottom,#0a1f44,#000814)"; document.body.style.color="white"; lightModeToggle.innerText="Light Mode";}
+  } else { document.body.style.background="#0a1f44"; document.body.style.color="white"; lightModeToggle.innerText="Light Mode";}
 }
 </script>
 </body>
