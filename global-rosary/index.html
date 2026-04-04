@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Rosary</title>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+/* 🔥 YOUR FIREBASE CONFIG (ALREADY INTEGRATED) */
+const firebaseConfig = {
+  apiKey: "AIzaSyAzMIXq4bJA3LxFAet4R9mV0PRNNuoHL6w",
+  authDomain: "global-rosary.firebaseapp.com",
+  databaseURL: "https://global-rosary-default-rtdb.firebaseio.com",
+  projectId: "global-rosary",
+  storageBucket: "global-rosary.appspot.com",
+  messagingSenderId: "986935009454",
+  appId: "1:986935009454:web:046de6368b3ed48e934d3f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let userId = Date.now();
+let roomId = "";
+let approvedPlayed = false;
+
+/* 🔔 SOUND */
+function playSound(){
+  const audio = new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
+  audio.play();
+}
+
+/* CREATE ROOM */
+window.createRoom = function(){
+  const name = nameInput.value;
+  roomId = roomInput.value;
+
+  if(!name || !roomId) return alert("Enter name and room");
+
+  set(ref(db,"rooms/"+roomId),{
+    host:userId,
+    step:0,
+    controller:userId,
+    participants:{
+      [userId]:{name,status:"approved"}
+    }
+  });
+
+  login.style.display="none";
+  start();
+}
+
+/* JOIN ROOM */
+window.joinRoom = function(){
+  const name = nameInput.value;
+  roomId = roomInput.value;
+
+  if(!name || !roomId) return alert("Enter name and room");
+
+  set(ref(db,`rooms/${roomId}/participants/${userId}`),{
+    name,
+    status:"waiting"
+  });
+
+  login.style.display="none";
+  waiting.style.display="block";
+
+  onValue(ref(db,`rooms/${roomId}/participants/${userId}`),(snap)=>{
+    if(snap.val()?.status==="approved"){
+      if(!approvedPlayed){
+        playSound();
+        approvedPlayed = true;
+      }
+      waiting.style.display="none";
+      start();
+    }
+  });
+}
+
+/* APPROVE / REJECT */
+window.approveUser = uid => update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"});
+window.rejectUser = uid => remove(ref(db,`rooms/${roomId}/participants/${uid}`));
+
+/* START */
+function start(){
+  main.style.display="block";
+
+  onValue(ref(db,"rooms/"+roomId),(snap)=>{
+    const data = snap.val();
+    if(!data) return;
+
+    roomCode.innerText = roomId;
+    leader.innerText = "Leader: " + data.participants[data.controller]?.name;
+    prayer.innerText = "Continue the Rosary Prayer";
+
+    renderParticipants(data);
+    renderRequests(data);
+  });
+}
+
+/* PARTICIPANTS */
+function renderParticipants(data){
+  participants.innerHTML="";
+
+  for(let uid in data.participants){
+    const p = data.participants[uid];
+
+    if(p.status==="approved"){
+      const div = document.createElement("div");
+      div.className="participant";
+
+      if(uid==data.controller) div.style.color="gold";
+
+      div.innerText = p.name;
+      participants.appendChild(div);
+    }
+  }
+}
+
+/* REQUESTS */
+function renderRequests(data){
+  joinRequests.innerHTML="";
+
+  if(data.host !== userId) return;
+
+  for(let uid in data.participants){
+    const p = data.participants[uid];
+
+    if(p.status==="waiting"){
+      const div = document.createElement("div");
+
+      div.innerHTML = `
+        ${p.name}
+        <button onclick="approveUser('${uid}')">✔</button>
+        <button onclick="rejectUser('${uid}')">✖</button>
+      `;
+
+      joinRequests.appendChild(div);
+    }
+  }
+}
+
+/* NEXT */
+window.nextStep = function(){
+  get(ref(db,"rooms/"+roomId)).then(snap=>{
+    const data = snap.val();
+
+    update(ref(db,"rooms/"+roomId),{
+      step:data.step+1,
+      controller:userId
+    });
+  });
+}
+
+</script>
+
+<style>
+body{
+  margin:0;
+  font-family:serif;
+  background:linear-gradient(#0a1f44,#000814);
+  color:white;
+  text-align:center;
+}
+header{
+  font-size:28px;
+  color:gold;
+  padding:20px;
+}
+button{
+  background:gold;
+  border:none;
+  padding:10px;
+  margin:5px;
+  border-radius:6px;
+}
+input{
+  padding:10px;
+  margin:5px;
+}
+.panel{
+  margin-top:20px;
+  padding:10px;
+  border:1px solid gold;
+  border-radius:10px;
+}
+.participant{
+  padding:5px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+</style>
+
+</head>
+
+<body>
+
+<header>✝️ Global Rosary</header>
+
+<div id="login">
+  <input id="nameInput" placeholder="Your Name">
+  <input id="roomInput" placeholder="Room Code"><br>
+  <button onclick="createRoom()">Create</button>
+  <button onclick="joinRoom()">Join</button>
+</div>
+
+<div id="waiting" style="display:none;">
+  <h3>Waiting for approval...</h3>
+</div>
+
+<div id="main" style="display:none;">
+  <h3>Room Code: <span id="roomCode"></span></h3>
+  <div id="leader"></div>
+  <div id="prayer"></div>
+
+  <button onclick="nextStep()">Next</button>
+
+  <div class="panel">
+    <h3>👥 Participants</h3>
+    <div id="participants"></div>
+  </div>
+
+  <div class="panel">
+    <h3>Incoming Requests</h3>
+    <div id="joinRequests"></div>
+  </div>
+</div>
+
+</body>
+</html>
