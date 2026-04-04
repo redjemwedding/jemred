@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Rosary - Guided Version</title>
+<title>Global Rosary - Final Guided</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
 <style>
 body{
   margin:0;
-  font-family: 'Crimson Text', serif;
-  background: linear-gradient(to bottom, #0a1f44, #000814);
+  font-family:'Crimson Text', serif;
+  background: linear-gradient(to bottom,#0a1f44,#000814);
   color:white;
   text-align:center;
 }
@@ -51,8 +51,8 @@ input{
   height:300px;
 }
 .bead{
-  width:12px;
-  height:12px;
+  width:14px;
+  height:14px;
   border-radius:50%;
   background:#666;
   position:absolute;
@@ -71,6 +71,16 @@ input{
   border-radius:10px;
   margin:10px 0;
 }
+#controls{
+  margin:10px 0;
+}
+#litanyPanel{
+  max-height:200px;
+  overflow-y:auto;
+  border-top:1px solid gold;
+  margin-top:10px;
+  padding-top:10px;
+}
 #lightModeToggle{
   position:fixed;
   top:10px;
@@ -82,21 +92,11 @@ input{
   cursor:pointer;
   font-weight:bold;
 }
-#litanyPanel{
-  max-height:200px;
-  overflow-y:auto;
-  border-top:1px solid gold;
-  margin-top:10px;
-  padding-top:10px;
-}
-#controls{
-  margin:10px 0;
-}
 </style>
 </head>
 <body>
 
-<header>✝️ Global Rosary - Guided Version</header>
+<header>✝️ Global Rosary - Guided Family Version</header>
 
 <div id="login">
   <input id="nameInput" placeholder="Your Name"><br>
@@ -105,35 +105,35 @@ input{
   <button onclick="joinRoom()">Join Room</button>
 </div>
 
-<div id="waiting" style="display:none;"><h3>Waiting for approval...</h3></div>
+<div id="waiting" style="display:none;"><h3>Waiting for host approval...</h3></div>
 
 <div id="main" style="display:none;">
 
 <h3>Room: <span id="roomCode"></span></h3>
 <div id="leader"></div>
 
-<!-- Rosary beads at the top -->
+<!-- Rosary beads -->
 <div id="rosary"></div>
 
-<!-- Next / End buttons below beads -->
+<!-- Next / End buttons -->
 <div id="controls">
   <button onclick="nextStep()">Next</button>
   <button id="endBtn" onclick="endSession()" style="background:red;display:none;">End Session</button>
 </div>
 
-<!-- Mystery image below buttons -->
+<!-- Mystery image -->
 <img id="mysteryImg" src="">
 
-<!-- Prayer / reflection below image -->
+<!-- Prayer / reflection -->
 <div class="panel">
   <div id="prayer"></div>
 </div>
 
-<!-- Participants & join requests -->
+<!-- Participants & requests -->
 <div class="panel"><h3>Participants</h3><div id="participants"></div></div>
 <div class="panel"><h3>Join Requests</h3><div id="joinRequests"></div></div>
 
-<!-- Litany reading panel -->
+<!-- Litany panel -->
 <div class="panel" id="litanyPanel"><h3>Litany Reading</h3></div>
 
 </div>
@@ -144,7 +144,7 @@ input{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-// Firebase
+/* Firebase Config */
 const firebaseConfig = {
   apiKey: "AIzaSyAzMIXq4bJA3LxFAet4R9mV0PRNNuoHL6w",
   authDomain: "global-rosary.firebaseapp.com",
@@ -154,16 +154,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Persistent user/session
+/* Persistent user */
 let userId = localStorage.getItem("uid") || Date.now();
-localStorage.setItem("uid", userId);
+localStorage.setItem("uid",userId);
 let userName = localStorage.getItem("name") || "";
 let roomId = localStorage.getItem("room") || "";
 
-// Audio for bead
+/* Audio for bead */
 const beadAudio = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
 
-// Complete prayers & litany
+/* Complete prayers & litany */
 const prayers = {
   sign:"In the name of the Father, and of the Son, and of the Holy Spirit. Amen.",
   creed:"I believe in God, the Father almighty, Creator of heaven and earth...",
@@ -183,7 +183,7 @@ const prayers = {
   ]
 };
 
-// TODO: Add mystery images mapping here
+/* Mystery images by type */
 const mysteryImagesByType = {
   Joyful:["https://www.theholyrosary.org/img/joyful1.jpg","https://www.theholyrosary.org/img/joyful2.jpg","https://www.theholyrosary.org/img/joyful3.jpg","https://www.theholyrosary.org/img/joyful4.jpg","https://www.theholyrosary.org/img/joyful5.jpg"],
   Sorrowful:["https://www.theholyrosary.org/img/sorrowful1.jpg","https://www.theholyrosary.org/img/sorrowful2.jpg","https://www.theholyrosary.org/img/sorrowful3.jpg","https://www.theholyrosary.org/img/sorrowful4.jpg","https://www.theholyrosary.org/img/sorrowful5.jpg"],
@@ -191,22 +191,23 @@ const mysteryImagesByType = {
   Luminous:["https://www.theholyrosary.org/img/luminous1.jpg","https://www.theholyrosary.org/img/luminous2.jpg","https://www.theholyrosary.org/img/luminous3.jpg","https://www.theholyrosary.org/img/luminous4.jpg","https://www.theholyrosary.org/img/luminous5.jpg"]
 };
 
+/* Determine today's mystery type */
 function getTodaysMysteryImages(){
-  const today = new Date().getDay(); // 0-6
+  const today = new Date().getDay();
   const mapping=["Glorious","Joyful","Sorrowful","Luminous","Glorious","Joyful","Sorrowful"];
   return mysteryImagesByType[mapping[today]];
 }
 
-// Build flow
+/* Build the full flow */
 let flow=[];
 function buildFlow(){
-  const images = getTodaysMysteryImages();
+  const images=getTodaysMysteryImages();
   flow=[
     {text:prayers.sign},{text:prayers.creed},{text:prayers.ourFather},
     {text:prayers.introHail},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.glory}
   ];
   for(let m=0;m<5;m++){
-    flow.push({text:"Mystery "+(m+1),img:images[m],reading:"Reflection for this mystery..."});
+    flow.push({text:"Mystery "+(m+1),img:images[m],reading:"Reflection for mystery "+(m+1)});
     flow.push({text:prayers.ourFather});
     for(let i=0;i<10;i++) flow.push({text:prayers.hailMary});
     flow.push({text:prayers.fatima});
@@ -217,8 +218,144 @@ function buildFlow(){
 }
 buildFlow();
 
-// TODO: Firebase room management, participants, approve/reject, nextStep, renderRosary, renderLitany
-// Use previous version code for the Firebase logic
+/* CREATE ROOM */
+window.createRoom=function(){
+  userName=nameInput.value;
+  roomId=roomInput.value;
+  localStorage.setItem("name",userName);
+  localStorage.setItem("room",roomId);
+  set(ref(db,"rooms/"+roomId),{
+    host:userId,
+    step:0,
+    controller:userId,
+    participants:{ [userId]:{name:userName,status:"approved"} }
+  });
+  login.style.display="none";
+  start();
+};
+
+/* JOIN ROOM */
+window.joinRoom=function(){
+  userName=nameInput.value;
+  roomId=roomInput.value;
+  localStorage.setItem("name",userName);
+  localStorage.setItem("room",roomId);
+  set(ref(db,`rooms/${roomId}/participants/${userId}`),{name:userName,status:"waiting"});
+  login.style.display="none";
+  waiting.style.display="block";
+  onValue(ref(db,`rooms/${roomId}/participants/${userId}`),(snap)=>{
+    if(snap.val()?.status==="approved"){
+      waiting.style.display="none";
+      start();
+    }
+  });
+};
+
+/* AUTO REJOIN */
+if(userName && roomId) start();
+
+/* APPROVE/REJECT */
+window.approveUser=uid=>update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"});
+window.rejectUser=uid=>remove(ref(db,`rooms/${roomId}/participants/${uid}`));
+
+/* END SESSION */
+window.endSession=function(){
+  if(confirm("End Rosary Session?")){
+    remove(ref(db,"rooms/"+roomId));
+    localStorage.clear();
+    alert("Session ended");
+    location.reload();
+  }
+};
+
+/* NEXT STEP */
+window.nextStep=function(){
+  get(ref(db,"rooms/"+roomId)).then(snap=>{
+    const data=snap.val();
+    if(!data) return;
+    update(ref(db,"rooms/"+roomId),{
+      step:data.step+1,
+      controller:userId
+    });
+  });
+};
+
+/* START FUNCTION */
+function start(){
+  main.style.display="block";
+  onValue(ref(db,"rooms/"+roomId),(snap)=>{
+    const data=snap.val();
+    if(!data){ alert("Session ended by host"); localStorage.clear(); location.reload(); return; }
+    const step=flow[data.step]||{text:"Finished"};
+    roomCode.innerText=roomId;
+    leader.innerText="Leader: "+data.participants[data.controller]?.name;
+    prayer.innerText=step.text;
+    if(step.img) mysteryImg.src=step.img; else mysteryImg.src="";
+    renderRosary(data.step);
+    renderParticipants(data);
+    renderRequests(data);
+    renderLitany();
+    endBtn.style.display=(data.host==userId)?"inline-block":"none";
+  });
+}
+
+/* RENDER PARTICIPANTS */
+function renderParticipants(data){
+  participants.innerHTML="";
+  for(let uid in data.participants){
+    const p=data.participants[uid];
+    if(p.status==="approved"){
+      const div=document.createElement("div");
+      div.innerText=p.name;
+      if(uid==data.controller) div.style.color="gold";
+      participants.appendChild(div);
+    }
+  }
+}
+
+/* RENDER REQUESTS */
+function renderRequests(data){
+  joinRequests.innerHTML="";
+  if(data.host!==userId) return;
+  for(let uid in data.participants){
+    const p=data.participants[uid];
+    if(p.status==="waiting"){
+      const div=document.createElement("div");
+      div.innerHTML=`${p.name} <button onclick="approveUser('${uid}')">✔</button> <button onclick="rejectUser('${uid}')">✖</button>`;
+      joinRequests.appendChild(div);
+    }
+  }
+}
+
+/* RENDER LITANY */
+function renderLitany(){
+  litanyPanel.innerHTML="<h3>Litany Reading</h3>";
+  prayers.litany.forEach(l=>{
+    const d=document.createElement("div");
+    d.innerText=l;
+    litanyPanel.appendChild(d);
+  });
+}
+
+/* RENDER ROSARY */
+function renderRosary(active){
+  const container=document.getElementById("rosary");
+  container.innerHTML="";
+  const total=30;
+  const radius=120;
+  for(let i=0;i<total;i++){
+    const angle=(i/total)*(2*Math.PI);
+    const x=150+radius*Math.cos(angle);
+    const y=150+radius*Math.sin(angle);
+    const bead=document.createElement("div");
+    bead.className="bead";
+    bead.style.left=x+"px";
+    bead.style.top=y+"px";
+    if(i===active) { bead.classList.add("active"); beadAudio.play(); }
+    container.appendChild(bead);
+  }
+}
+
 </script>
 </body>
 </html>
