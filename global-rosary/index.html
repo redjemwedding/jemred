@@ -3,45 +3,121 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Rosary - Guided Family</title>
+<title>Global Rosary - Zoom Style Guided</title>
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Crimson Text', serif; background:#0a1f44; color:white;}
-header{padding:15px;font-size:28px;color:gold;text-align:center;background:#00112b;}
-#topBar{padding:10px;text-align:center;font-weight:bold;font-size:18px;background:#001833;border-bottom:1px solid gold;}
-#container{display:flex;width:100%;height:calc(100vh - 120px);}
-#participantsPanel{width:25%;background:rgba(255,255,255,0.05);border-right:1px solid gold;padding:10px;overflow-y:auto;}
-#mainPanel{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px;overflow-y:auto;}
-#rosary{margin:10px 0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;}
-.bead{width:14px;height:14px;border-radius:50%;background:#666;transition: all 0.3s;}
-.bead.active{background:gold;box-shadow:0 0 10px gold;}
-#controls{margin:10px;}
-button{background:gold;border:none;padding:10px 15px;margin:5px;border-radius:8px;font-weight:bold;cursor:pointer;}
-#prayerPanel{width:100%;max-width:700px;margin:10px 0;padding:10px;border:1px solid gold;border-radius:10px;background: rgba(255,255,255,0.05);}
-#mysteryImg{max-width:100%;border-radius:10px;margin:10px 0;}
-#litanyPanel{max-height:150px;overflow-y:auto;border-top:1px solid gold;padding-top:10px;margin-top:10px;}
-#login{display:flex;flex-direction:column;align-items:center;margin-top:20px;}
-#waiting{display:none;text-align:center;margin-top:20px;}
-.joinRequestBtn{margin:0 3px;}
-#lightModeToggle{position:fixed;top:10px;right:10px;padding:8px;border-radius:8px;background:white;color:black;cursor:pointer;font-weight:bold;}
-.currentStep{font-weight:bold;color:gold;}
+body{
+  margin:0;
+  font-family:'Crimson Text', serif;
+  background: linear-gradient(to bottom,#0a1f44,#000814);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+}
+header{
+  padding:15px;
+  font-size:28px;
+  color:gold;
+  text-align:center;
+  border-bottom:1px solid gold;
+}
+#container{
+  display:flex;
+  flex:1;
+  overflow:hidden;
+}
+#participantsPanel{
+  width:200px;
+  border-right:1px solid gold;
+  padding:10px;
+  overflow-y:auto;
+}
+#mainPanel{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:10px;
+  overflow-y:auto;
+}
+#rosary{
+  position:relative;
+  width:300px;
+  height:300px;
+  margin:10px 0;
+}
+.bead{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#666;
+  position:absolute;
+  transition: all 0.3s;
+}
+.bead.active{
+  background:gold;
+  box-shadow:0 0 15px gold;
+}
+#mysteryImg{
+  max-width:100%;
+  border-radius:10px;
+  margin:10px 0;
+}
+#prayerPanel{
+  background: rgba(255,255,255,0.05);
+  padding:15px;
+  border-radius:10px;
+  max-width:600px;
+  text-align:center;
+}
+#controls{
+  margin:10px 0;
+  display:flex;
+  gap:10px;
+}
+button{
+  background:gold;
+  border:none;
+  padding:12px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+  flex:1;
+}
+#litanyPanel{
+  width:200px;
+  border-left:1px solid gold;
+  padding:10px;
+  overflow-y:auto;
+}
+#loginPanel{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  flex:1;
+}
+input{
+  padding:12px;
+  margin:5px;
+  width:90%;
+  max-width:300px;
+}
 </style>
 </head>
 <body>
 
-<header>✝️ Global Rosary - Guided Family</header>
-<div id="topBar">
-Room: <span id="roomCode">---</span> | Host: <span id="hostName">---</span>
-</div>
+<header>✝️ Global Rosary - Guided Family Version</header>
 
-<div id="login">
-<input id="nameInput" placeholder="Your Name"><br>
-<input id="roomInput" placeholder="Room Code"><br>
-<button onclick="createRoom()">Create Room</button>
-<button onclick="joinRoom()">Join Room</button>
+<div id="loginPanel">
+  <input id="nameInput" placeholder="Your Name">
+  <input id="roomInput" placeholder="Room Code">
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <button onclick="createRoom()">Create Room</button>
+    <button onclick="joinRoom()">Join Room</button>
+  </div>
 </div>
-
-<div id="waiting"><h3>Waiting for host approval...</h3></div>
 
 <div id="container" style="display:none;">
   <div id="participantsPanel">
@@ -49,7 +125,9 @@ Room: <span id="roomCode">---</span> | Host: <span id="hostName">---</span>
     <div id="participants"></div>
     <h3>Join Requests</h3>
     <div id="joinRequests"></div>
+    <button onclick="logout()">Leave Room</button>
   </div>
+
   <div id="mainPanel">
     <div id="rosary"></div>
     <img id="mysteryImg" src="">
@@ -57,18 +135,20 @@ Room: <span id="roomCode">---</span> | Host: <span id="hostName">---</span>
     <div id="controls">
       <button onclick="prevStep()">Prev</button>
       <button onclick="nextStep()">Next</button>
-      <button id="endBtn" style="background:red;display:none;" onclick="endSession()">End Session</button>
+      <button id="endBtn" style="background:red;" onclick="endSession()">End Session</button>
     </div>
-    <div class="panel" id="litanyPanel"><h3>Litany Reading</h3></div>
+  </div>
+
+  <div id="litanyPanel">
+    <h3>Litany</h3>
   </div>
 </div>
-
-<div id="lightModeToggle" onclick="toggleLightMode()">Light Mode</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getDatabase, ref, set, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
+/* Firebase Config */
 const firebaseConfig = {
   apiKey: "AIzaSyAzMIXq4bJA3LxFAet4R9mV0PRNNuoHL6w",
   authDomain: "global-rosary.firebaseapp.com",
@@ -78,56 +158,67 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+/* Persistent user */
 let userId = localStorage.getItem("uid") || Date.now();
-localStorage.setItem("uid", userId);
+localStorage.setItem("uid",userId);
 let userName = localStorage.getItem("name") || "";
 let roomId = localStorage.getItem("room") || "";
 
+/* Audio for bead */
 const beadAudio = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
 
+/* Full prayers & litany */
 const prayers = {
-  sign: "In the name of the Father, and of the Son, and of the Holy Spirit. Amen.",
-  creed: "I believe in God, the Father almighty, Creator of heaven and earth...",
-  ourFather: "Our Father, who art in heaven, hallowed be thy name...",
-  hailMary: "Hail Mary, full of grace, the Lord is with thee...",
-  glory: "Glory be to the Father, and to the Son...",
-  fatima: "O my Jesus, forgive us our sins...",
-  queen: "Hail, Holy Queen, Mother of mercy...",
+  sign:"In the name of the Father, and of the Son, and of the Holy Spirit. Amen.",
+  creed:"I believe in God, the Father almighty, Creator of heaven and earth...",
+  introHail:"Hail Mary, full of grace, the Lord is with thee...",
+  ourFather:"Our Father, who art in heaven, hallowed be thy name...",
+  hailMary:"Hail Mary, full of grace, the Lord is with thee...",
+  glory:"Glory be to the Father, and to the Son...",
+  fatima:"O my Jesus, forgive us our sins, save us from the fires of hell, lead all souls to Heaven...",
+  queen:"Hail, Holy Queen, Mother of mercy...",
   litany:["Lord, have mercy","Christ, have mercy","Lord, have mercy","Holy Mary, pray for us","Saint Joseph, pray for us","All saints, pray for us"]
 };
 
-const mysteryImagesByType = {
-  Joyful:["https://www.theholyrosary.org/img/joyful1.jpg","https://www.theholyrosary.org/img/joyful2.jpg","https://www.theholyrosary.org/img/joyful3.jpg","https://www.theholyrosary.org/img/joyful4.jpg","https://www.theholyrosary.org/img/joyful5.jpg"],
-  Sorrowful:["https://www.theholyrosary.org/img/sorrowful1.jpg","https://www.theholyrosary.org/img/sorrowful2.jpg","https://www.theholyrosary.org/img/sorrowful3.jpg","https://www.theholyrosary.org/img/sorrowful4.jpg","https://www.theholyrosary.org/img/sorrowful5.jpg"],
-  Glorious:["https://www.theholyrosary.org/img/glorious1.jpg","https://www.theholyrosary.org/img/glorious2.jpg","https://www.theholyrosary.org/img/glorious3.jpg","https://www.theholyrosary.org/img/glorious4.jpg","https://www.theholyrosary.org/img/glorious5.jpg"],
-  Luminous:["https://www.theholyrosary.org/img/luminous1.jpg","https://www.theholyrosary.org/img/luminous2.jpg","https://www.theholyrosary.org/img/luminous3.jpg","https://www.theholyrosary.org/img/luminous4.jpg","https://www.theholyrosary.org/img/luminous5.jpg"]
-};
+/* Mystery images */
+const mysteryImages = [
+"https://www.theholyrosary.org/img/joyful1.jpg",
+"https://www.theholyrosary.org/img/joyful2.jpg",
+"https://www.theholyrosary.org/img/joyful3.jpg",
+"https://www.theholyrosary.org/img/joyful4.jpg",
+"https://www.theholyrosary.org/img/joyful5.jpg"
+];
 
-function getTodaysMysteryImages(){
-  const mapping=["Glorious","Joyful","Sorrowful","Luminous","Glorious","Joyful","Sorrowful"];
-  const today=new Date().getDay();
-  return mysteryImagesByType[mapping[today]];
-}
-
+/* Build flow */
 let flow=[];
 function buildFlow(){
-  const images=getTodaysMysteryImages();
-  flow=[{text:prayers.sign},{text:prayers.creed}];
-  const mysteries=["Mystery 1","Mystery 2","Mystery 3","Mystery 4","Mystery 5"];
-  mysteries.forEach((m,i)=>{
-    flow.push({text:m,img:images[i],reading:`Reflection for ${m}`});
+  flow=[{text:prayers.sign},{text:prayers.creed},{text:prayers.ourFather},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.introHail},{text:prayers.glory}];
+  for(let m=0;m<5;m++){
+    flow.push({text:"Mystery "+(m+1),img:mysteryImages[m],reading:"Reflection for Mystery "+(m+1)});
     flow.push({text:prayers.ourFather});
-    for(let j=0;j<10;j++) flow.push({text:prayers.hailMary});
+    for(let i=0;i<10;i++) flow.push({text:prayers.hailMary});
     flow.push({text:prayers.fatima});
     flow.push({text:prayers.glory});
-  });
-  flow.push({text:prayers.queen},{text:prayers.sign});
+  }
+  flow.push({text:prayers.queen});
+  flow.push({text:prayers.sign});
 }
 buildFlow();
 
-/* ROOM FUNCTIONS */
-window.createRoom=()=>{
-  userName=nameInput.value; roomId=roomInput.value;
+/* UI Refs */
+const loginPanel=document.getElementById("loginPanel");
+const container=document.getElementById("container");
+const participantsDiv=document.getElementById("participants");
+const joinRequestsDiv=document.getElementById("joinRequests");
+const prayerPanel=document.getElementById("prayerPanel");
+const mysteryImgEl=document.getElementById("mysteryImg");
+const litanyPanel=document.getElementById("litanyPanel");
+const endBtn=document.getElementById("endBtn");
+
+/* CREATE ROOM */
+window.createRoom=function(){
+  userName=document.getElementById("nameInput").value;
+  roomId=document.getElementById("roomInput").value;
   localStorage.setItem("name",userName);
   localStorage.setItem("room",roomId);
   set(ref(db,"rooms/"+roomId),{
@@ -136,98 +227,110 @@ window.createRoom=()=>{
     controller:userId,
     participants:{ [userId]:{name:userName,status:"approved"} }
   });
-  login.style.display="none";
-  document.getElementById("container").style.display="flex";
-  hostName.innerText=userName;
+  loginPanel.style.display="none";
+  container.style.display="flex";
   start();
 };
 
-window.joinRoom=()=>{
-  userName=nameInput.value; roomId=roomInput.value;
+/* JOIN ROOM */
+window.joinRoom=function(){
+  userName=document.getElementById("nameInput").value;
+  roomId=document.getElementById("roomInput").value;
   localStorage.setItem("name",userName);
   localStorage.setItem("room",roomId);
   set(ref(db,`rooms/${roomId}/participants/${userId}`),{name:userName,status:"waiting"});
-  login.style.display="none"; waiting.style.display="block";
-  onValue(ref(db,`rooms/${roomId}/participants/${userId}`),(snap)=>{
-    if(snap.val()?.status==="approved"){
-      waiting.style.display="none";
-      document.getElementById("container").style.display="flex";
-      start();
-    }
-  });
+  loginPanel.style.display="none";
+  container.style.display="flex";
+  start();
 };
-if(userName && roomId){ document.getElementById("container").style.display="flex"; start(); }
 
-window.approveUser=uid=>update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"});
-window.rejectUser=uid=>remove(ref(db,`rooms/${roomId}/participants/${uid}`));
-window.endSession=()=>{
+/* LOGOUT */
+function logout(){
+  remove(ref(db,`rooms/${roomId}/participants/${userId}`));
+  localStorage.clear();
+  location.reload();
+}
+
+/* END SESSION */
+window.endSession=function(){
   if(confirm("End Rosary Session?")){
     remove(ref(db,"rooms/"+roomId));
     localStorage.clear();
-    alert("Session ended");
     location.reload();
   }
 };
 
-window.nextStep=()=>changeStep(1);
-window.prevStep=()=>changeStep(-1);
-
-function changeStep(delta){
+/* NEXT / PREV */
+window.nextStep=function(){
   get(ref(db,"rooms/"+roomId)).then(snap=>{
     const data=snap.val();
     if(!data) return;
-    if(data.controller!==userId && userId!==data.host) return; // Only host can change
-    let next=data.step+delta;
-    if(next<0) next=0;
-    if(next>=flow.length) next=flow.length-1;
-    update(ref(db,"rooms/"+roomId),{step:next, controller:userId});
+    if(data.controller==userId || data.host==userId){
+      update(ref(db,"rooms/"+roomId),{step:data.step+1,controller:userId});
+    }
   });
-}
+};
 
+window.prevStep=function(){
+  get(ref(db,"rooms/"+roomId)).then(snap=>{
+    const data=snap.val();
+    if(!data) return;
+    if(data.controller==userId || data.host==userId){
+      update(ref(db,"rooms/"+roomId),{step:Math.max(0,data.step-1),controller:userId});
+    }
+  });
+};
+
+/* START FUNCTION */
 function start(){
   onValue(ref(db,"rooms/"+roomId),(snap)=>{
     const data=snap.val();
-    if(!data){ alert("Session ended"); localStorage.clear(); location.reload(); return;}
-    roomCode.innerText=roomId;
-    hostName.innerText=data.participants[data.host]?.name || "Host";
-    const step=flow[data.step]||{text:"Finished"};
-    prayerPanel.innerText=step.text+(step.reading?"\n"+step.reading:"");
-    if(step.img) mysteryImg.src=step.img; else mysteryImg.src="";
+    if(!data){ logout(); return; }
     renderParticipants(data);
     renderRequests(data);
-    renderLitany();
     renderRosary(data.step);
+    const step=flow[data.step]||{text:"Finished"};
+    prayerPanel.innerText=step.text;
+    if(step.img) mysteryImgEl.src=step.img; else mysteryImgEl.src="";
+    renderLitany();
     endBtn.style.display=(data.host==userId)?"inline-block":"none";
   });
 }
 
+/* PARTICIPANTS */
 function renderParticipants(data){
-  participants.innerHTML="";
+  participantsDiv.innerHTML="";
   for(let uid in data.participants){
     const p=data.participants[uid];
     if(p.status==="approved"){
       const div=document.createElement("div");
-      div.innerText=p.name + ((uid==data.controller)?" (Leader)":"");
-      participants.appendChild(div);
+      div.innerText=p.name;
+      if(uid==data.controller) div.style.color="gold";
+      participantsDiv.appendChild(div);
     }
   }
 }
 
+/* JOIN REQUESTS */
 function renderRequests(data){
-  joinRequests.innerHTML="";
+  joinRequestsDiv.innerHTML="";
   if(data.host!==userId) return;
   for(let uid in data.participants){
     const p=data.participants[uid];
     if(p.status==="waiting"){
       const div=document.createElement("div");
-      div.innerHTML=`${p.name} <button class="joinRequestBtn" onclick="approveUser('${uid}')">✔</button> <button class="joinRequestBtn" onclick="rejectUser('${uid}')">✖</button>`;
-      joinRequests.appendChild(div);
+      div.innerHTML=`${p.name} <button onclick="approve('${uid}')">✔</button> <button onclick="reject('${uid}')">✖</button>`;
+      joinRequestsDiv.appendChild(div);
     }
   }
 }
 
+function approve(uid){ update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"}); }
+function reject(uid){ remove(ref(db,`rooms/${roomId}/participants/${uid}`)); }
+
+/* LITANY */
 function renderLitany(){
-  litanyPanel.innerHTML="<h3>Litany Reading</h3>";
+  litanyPanel.innerHTML="<h3>Litany</h3>";
   prayers.litany.forEach(l=>{
     const div=document.createElement("div");
     div.innerText=l;
@@ -235,22 +338,23 @@ function renderLitany(){
   });
 }
 
+/* ROSARY BEADS */
 function renderRosary(active){
   const container=document.getElementById("rosary");
   container.innerHTML="";
-  const total=50;
+  const total=30;
+  const radius=120;
   for(let i=0;i<total;i++){
+    const angle=(i/total)*(2*Math.PI);
+    const x=150+radius*Math.cos(angle);
+    const y=150+radius*Math.sin(angle);
     const bead=document.createElement("div");
     bead.className="bead";
-    if(i===active){ bead.classList.add("active"); beadAudio.play();}
+    bead.style.left=x+"px";
+    bead.style.top=y+"px";
+    if(i===active){ bead.classList.add("active"); beadAudio.play(); }
     container.appendChild(bead);
   }
-}
-
-function toggleLightMode(){
-  if(document.body.style.background.includes("0a1f44")){
-    document.body.style.background="#fff"; document.body.style.color="#000"; lightModeToggle.innerText="Dark Mode";
-  } else { document.body.style.background="#0a1f44"; document.body.style.color="white"; lightModeToggle.innerText="Light Mode";}
 }
 </script>
 </body>
