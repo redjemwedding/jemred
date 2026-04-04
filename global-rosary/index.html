@@ -32,49 +32,43 @@ function playBell(){
   new Audio("https://actions.google.com/sounds/v1/alarms/bell_ring.ogg").play();
 }
 
-/* THEME */
-function toggleTheme(){
-  document.body.classList.toggle("light");
-  localStorage.setItem("theme", document.body.classList.contains("light"));
-}
-if(localStorage.getItem("theme")==="true"){
-  document.body.classList.add("light");
-}
-
-/* PRAYERS + SCRIPTURE */
-const mysteries = {
-  1:"The Agony in the Garden (Luke 22:39-46)",
-  2:"The Scourging at the Pillar (John 19:1)",
-  3:"The Crowning with Thorns (Matthew 27:29)",
-  4:"The Carrying of the Cross (John 19:17)",
-  5:"The Crucifixion (Luke 23:33)"
-};
-
+/* FULL PRAYERS */
 const prayers = {
-  our:"Our Father, who art in heaven...",
-  hail:"Hail Mary, full of grace...",
-  glory:"Glory be to the Father...",
-  sign:"In the name of the Father...",
-  creed:"I believe in God...",
-  queen:"Hail Holy Queen..."
+creed:`I believe in God, the Father Almighty, Creator of heaven and earth...`,
+our:`Our Father, who art in heaven, hallowed be Thy name; Thy kingdom come; Thy will be done on earth as it is in heaven. Give us this day our daily bread...`,
+hail:`Hail Mary, full of grace, the Lord is with thee...`,
+glory:`Glory be to the Father, and to the Son, and to the Holy Spirit...`,
+queen:`Hail Holy Queen, Mother of mercy, our life, our sweetness and our hope...`,
+memorare:`Remember, O most gracious Virgin Mary, that never was it known...`,
+litany:`Lord have mercy. Christ have mercy. Lord have mercy... Holy Mary, pray for us...`
 };
+
+/* IMAGES */
+const images=[
+"https://upload.wikimedia.org/wikipedia/commons/1/1d/Annunciation.jpg",
+"https://upload.wikimedia.org/wikipedia/commons/2/2e/Visitation.jpg",
+"https://upload.wikimedia.org/wikipedia/commons/3/3f/Nativity.jpg",
+"https://upload.wikimedia.org/wikipedia/commons/4/4c/Presentation.jpg",
+"https://upload.wikimedia.org/wikipedia/commons/5/5b/Crucifixion.jpg"
+];
 
 /* FLOW */
 let flow=[];
 function buildFlow(){
   flow=[
-    {text:prayers.sign},
-    {text:prayers.creed}
+    {text:prayers.creed},
+    {text:prayers.our}
   ];
 
-  for(let m=1;m<=5;m++){
-    flow.push({text:mysteries[m]});
-    flow.push({text:prayers.our});
+  for(let m=0;m<5;m++){
+    flow.push({text:"Mystery "+(m+1),img:images[m]});
     for(let i=0;i<10;i++) flow.push({text:prayers.hail});
     flow.push({text:prayers.glory});
   }
 
   flow.push({text:prayers.queen});
+  flow.push({text:prayers.memorare});
+  flow.push({text:prayers.litany});
 }
 buildFlow();
 
@@ -123,54 +117,31 @@ window.joinRoom=()=>{
 
 if(userName && roomId) start();
 
-/* APPROVE */
-window.approveUser=uid=>update(ref(db,`rooms/${roomId}/participants/${uid}`),{status:"approved"});
-window.rejectUser=uid=>remove(ref(db,`rooms/${roomId}/participants/${uid}`));
-
-/* END */
-window.endSession=()=>{
-  if(confirm("End session?")){
-    remove(ref(db,"rooms/"+roomId));
-    localStorage.clear();
-    location.reload();
-  }
-};
-
 /* START */
 function start(){
   main.style.display="block";
 
   onValue(ref(db,"rooms/"+roomId),(snap)=>{
     const data=snap.val();
-    if(!data){
-      alert("Session ended");
-      location.reload();
-      return;
-    }
+    if(!data){location.reload();return;}
 
     const step=flow[data.step]||{text:"Finished"};
 
     prayer.innerText=step.text;
 
-    if(data.controller==userId){
-      prayer.className="leader";
-    }else{
-      prayer.className="";
+    if(step.img){
+      img.src=step.img;
+      img.style.display="block";
+    } else {
+      img.style.display="none";
     }
 
-    renderParticipants(data);
-    renderRequests(data);
     renderRosary(data.step);
-
     playBell();
-
-    if(data.host==userId){
-      endBtn.style.display="inline-block";
-    }
   });
 }
 
-/* ROSARY */
+/* ROSARY ANIMATION */
 function renderRosary(active){
   rosary.innerHTML="";
   const total=60;
@@ -189,37 +160,6 @@ function renderRosary(active){
     if(i===active) bead.classList.add("active");
 
     rosary.appendChild(bead);
-  }
-}
-
-/* PARTICIPANTS */
-function renderParticipants(data){
-  participants.innerHTML="";
-  for(let uid in data.participants){
-    const p=data.participants[uid];
-    if(p.status==="approved"){
-      const div=document.createElement("div");
-      div.className="participant";
-      div.innerText=p.name;
-      participants.appendChild(div);
-    }
-  }
-}
-
-/* REQUESTS */
-function renderRequests(data){
-  joinRequests.innerHTML="";
-  if(data.host!==userId) return;
-
-  for(let uid in data.participants){
-    const p=data.participants[uid];
-    if(p.status==="waiting"){
-      const div=document.createElement("div");
-      div.innerHTML=`${p.name}
-      <button onclick="approveUser('${uid}')">✔</button>
-      <button onclick="rejectUser('${uid}')">✖</button>`;
-      joinRequests.appendChild(div);
-    }
   }
 }
 
@@ -243,24 +183,12 @@ body{
   color:white;
   text-align:center;
 }
-body.light{
-  background:#f5f5f5;
-  color:black;
-}
-header{
-  padding:15px;
-  color:gold;
-}
-button{
-  padding:10px;
-  margin:5px;
-  border-radius:6px;
-}
+header{color:gold;padding:15px;}
 #rosary{
   position:relative;
   width:240px;
   height:240px;
-  margin:20px auto;
+  margin:auto;
 }
 .bead{
   width:10px;
@@ -273,9 +201,16 @@ button{
   background:gold;
   box-shadow:0 0 10px gold;
 }
-.leader{
-  font-size:26px;
-  color:gold;
+img{
+  max-width:250px;
+  margin:10px auto;
+  display:none;
+}
+button{
+  padding:10px;
+  margin:10px;
+  background:gold;
+  border:none;
 }
 </style>
 
@@ -283,10 +218,7 @@ button{
 
 <body>
 
-<header>
-✝️ Global Rosary
-<button onclick="toggleTheme()">🌙 Toggle</button>
-</header>
+<header>✝️ Global Rosary</header>
 
 <div id="login">
 <input id="nameInput" placeholder="Name"><br>
@@ -298,24 +230,10 @@ button{
 <div id="waiting" style="display:none;">Waiting...</div>
 
 <div id="main" style="display:none;">
-
+<img id="img">
 <div id="prayer"></div>
-
 <div id="rosary"></div>
-
 <button onclick="nextStep()">Next</button>
-<button id="endBtn" onclick="endSession()" style="display:none;">End</button>
-
-<div>
-<h3>Participants</h3>
-<div id="participants"></div>
-</div>
-
-<div>
-<h3>Requests</h3>
-<div id="joinRequests"></div>
-</div>
-
 </div>
 
 </body>
