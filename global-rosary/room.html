@@ -1,218 +1,291 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Rosary Room</title>
+
 <style>
-body{margin:0;font-family:serif;background:#0a1f44;color:white;text-align:center}
+body{
+  margin:0;
+  font-family:serif;
+  background:#1f5d78;
+  color:white;
+}
 
 /* HEADER */
 .header{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 15px;
+  font-size:14px;
+}
+
+.header span{
+  display:block;
+}
+
+/* LAYOUT */
+.container{
+  display:flex;
+  height:100vh;
+}
+
+/* LEFT MAIN */
+.main{
+  flex:3;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   padding:10px;
-  color:gold;
-  font-size:18px;
 }
 
-/* PRAYER */
-.prayer{
-  font-size:24px;
-  padding:15px;
-  max-width:700px;
-  margin:auto;
-  line-height:1.6;
+/* BEADS LINE */
+.bead-line{
+  font-size:22px;
+  letter-spacing:2px;
+  margin:10px 0;
 }
 
-/* IMAGE */
-img{
+/* PRAYER BOX */
+.prayer-box{
+  background:#ccc;
+  color:black;
   width:90%;
-  max-width:350px;
-  border-radius:12px;
-  margin:10px auto;
+  max-width:500px;
+  height:250px;
+  border-radius:30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:15px;
 }
 
-/* ROSARY (CURVED) */
-#rosary{
-  position:relative;
-  width:280px;
-  height:280px;
-  margin:20px auto;
-}
-.bead{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background:#666;
-  position:absolute;
-}
-.active{
-  background:gold;
-  box-shadow:0 0 10px gold;
+.prayer-box img{
+  max-width:100%;
+  border-radius:10px;
 }
 
-/* BUTTONS */
+/* CONTROLS */
+.controls{
+  margin:15px 0;
+  font-size:20px;
+}
+
 button{
-  padding:12px;
+  padding:10px 15px;
   margin:5px;
   border:none;
   border-radius:8px;
-  background:gold;
-  font-weight:bold;
+  background:white;
+  cursor:pointer;
+}
+
+/* SIDE PANEL */
+.side{
+  flex:1;
+  padding:10px;
+  border-left:2px solid rgba(255,255,255,0.2);
+}
+
+/* MOBILE */
+@media(max-width:800px){
+  .container{
+    flex-direction:column;
+  }
+  .side{
+    border-left:none;
+    border-top:2px solid rgba(255,255,255,0.2);
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div class="header">
-Room: <span id="room"></span> | Host: <span id="host"></span>
+  <div>
+    <span>Prayer Room: <b id="roomCode"></b></span>
+    <span>Created by: <b id="creator"></b></span>
+  </div>
+  <div>
+    <button onclick="leave()">Leave (X)</button>
+  </div>
 </div>
 
-<div class="prayer" id="prayer"></div>
-<img id="img">
+<div class="container">
 
-<div id="rosary"></div>
+  <!-- MAIN -->
+  <div class="main">
 
-<button id="prev">Prev</button>
-<button id="next">Next</button>
-<button id="end">End</button>
+    <!-- BEADS -->
+    <div id="beads" class="bead-line"></div>
 
-<div id="participants"></div>
-<div id="requests"></div>
+    <!-- PRAYER -->
+    <div class="prayer-box">
+      <img id="img" src="">
+      <div id="prayerText"></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <button id="prevBtn">Prev</button>
+      <button id="nextBtn">Next</button>
+    </div>
+
+  </div>
+
+  <!-- SIDE -->
+  <div class="side">
+
+    <h4>Mystery Leaders</h4>
+    <div id="leaders"></div>
+
+    <h4>Attendees</h4>
+    <div id="participants"></div>
+
+    <h4>Requests</h4>
+    <div id="requests"></div>
+
+  </div>
+
+</div>
 
 <script type="module">
-import { db } from "./firebase.js";
-import { ref,onValue,update,remove,get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-/* BELL SOUND */
-const bell=new Audio("assets/bell.mp3");
+/* FIREBASE */
+const app = initializeApp({
+  apiKey:"AIzaSy...",
+  authDomain:"global-rosary.firebaseapp.com",
+  databaseURL:"https://global-rosary-default-rtdb.firebaseio.com",
+  projectId:"global-rosary"
+});
+const db = getDatabase(app);
 
 /* USER */
-const roomId=localStorage.room;
-const uid=localStorage.uid;
-room.innerText=roomId;
-
-/* MYSTERY BY DAY */
-const mysteries={
-  Joyful:[
-    {title:"Annunciation",img:"https://www.theholyrosary.org/img/joyful1.jpg",scripture:"Luke 1:28"},
-    {title:"Visitation",img:"https://www.theholyrosary.org/img/joyful2.jpg",scripture:"Luke 1:39"}
-  ]
-};
-
-const today="Joyful";
+const uid = localStorage.uid;
+const room = localStorage.room;
 
 /* FLOW */
-const flow=[
-  {text:"In the name of the Father..."},
+const flow = [
+  {text:"Sign of the Cross"},
+  {text:"Apostles Creed"},
   {text:"Our Father"},
   {text:"Hail Mary"},
   {text:"Glory Be"}
 ];
 
-/* AUTO CLEAN */
-setInterval(()=>{
-  update(ref(db,"rooms/"+roomId),{lastActive:Date.now()});
-},10000);
+/* LOAD ROOM */
+onValue(ref(db,"rooms/"+room),(snap)=>{
+  const data = snap.val();
+  if(!data){
+    alert("Session ended");
+    location.href="index.html";
+    return;
+  }
 
-/* LIVE */
-onValue(ref(db,"rooms/"+roomId),(snap)=>{
-  const d=snap.val();
-  if(!d){ alert("Session ended"); location.href="index.html"; return;}
+  roomCode.innerText = room;
+  creator.innerText = data.participants[data.host]?.name || "";
 
-  host.innerText=d.participants[d.host]?.name;
+  const step = data.step ?? 0;
+  const current = flow[step] || {text:"Finished"};
 
-  const step=flow[d.step]||{text:"Finished"};
-  prayer.innerText=step.text;
+  prayerText.innerText = current.text;
 
-  bell.play();
+  renderBeads(step);
+  renderParticipants(data);
+  renderRequests(data);
+  renderLeaders(data);
 
-  renderBeads(d.step);
-  renderParticipants(d);
-  renderRequests(d);
+  const me = data.participants[uid];
+  const isHost = data.host === uid;
+  const isSpeaker = me?.role === "speaker";
 
-  const me=d.participants[uid];
-  const isHost=d.host==uid;
-
-  next.style.display=isHost?"inline":"none";
-  prev.style.display=isHost?"inline":"none";
-  end.style.display=isHost?"inline":"none";
+  nextBtn.style.display = (isHost || isSpeaker) ? "inline-block" : "none";
+  prevBtn.style.display = (isHost || isSpeaker) ? "inline-block" : "none";
 });
 
-/* NAV */
-next.onclick=()=>change(1);
-prev.onclick=()=>change(-1);
+/* NAVIGATION */
+nextBtn.onclick = ()=>changeStep(1);
+prevBtn.onclick = ()=>changeStep(-1);
 
-function change(v){
-  get(ref(db,"rooms/"+roomId)).then(s=>{
-    const d=s.val();
-    if(d.host!=uid) return;
-    update(ref(db,"rooms/"+roomId),{step:Math.max(0,d.step+v)});
+function changeStep(v){
+  get(ref(db,"rooms/"+room)).then(snap=>{
+    const d = snap.val();
+    if(d.host !== uid && d.participants[uid]?.role !== "speaker") return;
+
+    update(ref(db,"rooms/"+room),{
+      step: Math.max(0,(d.step||0)+v)
+    });
   });
 }
 
-/* END */
-end.onclick=()=>remove(ref(db,"rooms/"+roomId));
+/* BEADS */
+function renderBeads(active){
+  let str="+";
+  for(let i=0;i<20;i++){
+    str += (i===active) ? "●-" : "o-";
+  }
+  beads.innerText = str;
+}
 
 /* PARTICIPANTS */
-function renderParticipants(d){
-  participants.innerHTML="<h3>Participants</h3>";
-  for(let id in d.participants){
-    let p=d.participants[id];
+function renderParticipants(data){
+  participants.innerHTML="";
+  for(let id in data.participants){
+    let p = data.participants[id];
     if(p.status==="approved"){
-      participants.innerHTML+=`<div>${p.name}</div>`;
+      let div=document.createElement("div");
+      div.innerText=p.name;
+      participants.appendChild(div);
     }
   }
 }
 
 /* REQUESTS */
-function renderRequests(d){
+function renderRequests(data){
   requests.innerHTML="";
-  if(d.host!=uid) return;
+  if(data.host!==uid) return;
 
-  for(let id in d.participants){
-    let p=d.participants[id];
+  for(let id in data.participants){
+    let p=data.participants[id];
     if(p.status==="waiting"){
-      requests.innerHTML+=`
+      let div=document.createElement("div");
+      div.innerHTML=`
         ${p.name}
         <button onclick="approve('${id}')">✔</button>
         <button onclick="reject('${id}')">✖</button>
       `;
+      requests.appendChild(div);
     }
   }
 }
 
-window.approve=id=>{
-  update(ref(db,`rooms/${roomId}/participants/${id}`),{status:"approved"});
-};
-window.reject=id=>{
-  remove(ref(db,`rooms/${roomId}/participants/${id}`));
-};
-
-/* CURVED ROSARY */
-function renderBeads(active){
-  rosary.innerHTML="";
-  const total=30;
-  const r=120;
-
-  for(let i=0;i<total;i++){
-    const angle=(i/total)*2*Math.PI;
-    const x=140+r*Math.cos(angle);
-    const y=140+r*Math.sin(angle);
-
-    const b=document.createElement("div");
-    b.className="bead";
-    b.style.left=x+"px";
-    b.style.top=y+"px";
-
-    if(i===active) b.classList.add("active");
-
-    rosary.appendChild(b);
+/* LEADERS */
+function renderLeaders(data){
+  leaders.innerHTML="";
+  for(let i=1;i<=5;i++){
+    let div=document.createElement("div");
+    div.innerText="M"+i+": (assignable)";
+    leaders.appendChild(div);
   }
 }
 
-/* REGISTER PWA */
-if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("service-worker.js");
-}
+/* ACTIONS */
+window.approve = id=>{
+  update(ref(db,`rooms/${room}/participants/${id}`),{status:"approved"});
+};
+window.reject = id=>{
+  remove(ref(db,`rooms/${room}/participants/${id}`));
+};
+
+window.leave = ()=>{
+  localStorage.clear();
+  location.href="index.html";
+};
 </script>
 
 </body>
