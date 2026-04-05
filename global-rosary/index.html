@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Global Rosary Login</title>
+<title>Global Rosary</title>
 <style>
-body{font-family:serif;text-align:center;background:#0a1f44;color:white}
+body{font-family:serif;background:#1f5d78;color:white;text-align:center}
 input,button{padding:12px;margin:10px;border-radius:6px}
-button{background:gold;font-weight:bold}
+button{background:white;font-weight:bold}
 </style>
 </head>
 <body>
@@ -15,17 +15,22 @@ button{background:gold;font-weight:bold}
 <input id="name" placeholder="Your Name"><br>
 <input id="room" placeholder="Room Code"><br>
 
-<button onclick="enter()">Enter</button>
+<button onclick="enter('create')">Create Room</button>
+<button onclick="enter('join')">Join Room</button>
 
 <script>
-function enter(){
+function enter(type){
   const name=document.getElementById("name").value.trim();
   const room=document.getElementById("room").value.trim();
 
-  if(!name || !room){ alert("Fill all fields"); return; }
+  if(!name || !room){
+    alert("Please fill all fields");
+    return;
+  }
 
   localStorage.name=name;
   localStorage.room=room;
+  localStorage.type=type;
 
   location.href="portal.html";
 }
