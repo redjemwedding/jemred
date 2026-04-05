@@ -1,62 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Portal</title>
+<title>Global Rosary</title>
+<style>
+body{font-family:serif;background:#1f5d78;color:white;text-align:center}
+input,button{padding:12px;margin:10px;border-radius:6px}
+button{background:white;font-weight:bold}
+</style>
 </head>
 <body>
 
-<h2>Room Code: <span id="roomCode"></span></h2>
-<h3>Created by: <span id="creator"></span></h3>
+<h1>✝️ Global Rosary</h1>
 
-<button onclick="create()">Create Room</button>
-<button onclick="join()">Join Room</button>
+<input id="name" placeholder="Your Name"><br>
+<input id="room" placeholder="Room Code"><br>
 
-<script type="module">
-import { db } from "./firebase.js";
-import { ref, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+<button onclick="enter('create')">Create Room</button>
+<button onclick="enter('join')">Join Room</button>
 
-const name=localStorage.name;
-const room=localStorage.room;
-const uid=Date.now();
+<script>
+function enter(type){
+  const name=document.getElementById("name").value.trim();
+  const room=document.getElementById("room").value.trim();
 
-roomCode.innerText=room;
+  if(!name || !room){
+    alert("Please fill all fields");
+    return;
+  }
 
-window.create=()=>{
-  set(ref(db,"rooms/"+room),{
-    host:uid,
-    step:0,
-    lastActive:Date.now(),
-    participants:{
-      [uid]:{name,status:"approved",role:"host"}
-    }
-  });
-  localStorage.uid=uid;
-  location.href="room.html";
-};
+  localStorage.name=name;
+  localStorage.room=room;
+  localStorage.type=type;
 
-window.join=()=>{
-  get(ref(db,"rooms/"+room)).then(s=>{
-    const data=s.val();
-    if(!data){ alert("Room not found"); return;}
-
-    // prevent duplicate name
-    for(let id in data.participants){
-      if(data.participants[id].name===name){
-        alert("Name already taken");
-        return;
-      }
-    }
-
-    set(ref(db,`rooms/${room}/participants/${uid}`),{
-      name,
-      status:"waiting",
-      role:"viewer"
-    });
-
-    localStorage.uid=uid;
-    location.href="room.html";
-  });
-};
+  location.href="portal.html";
+}
 </script>
 
 </body>
