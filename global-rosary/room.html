@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<style>
+body{margin:0;font-family:serif;background:#0a1f44;color:white}
+.header{padding:10px;color:gold;text-align:center}
+.layout{display:flex;flex-direction:column}
+.main{flex:1;text-align:center;padding:10px}
+.side{border-top:1px solid gold;padding:10px}
+button{padding:10px;margin:5px;background:gold;border:none;border-radius:6px}
+</style>
+</head>
+<body>
+
+<div class="header">
+Room: <span id="room"></span> | Host: <span id="host"></span>
+</div>
+
+<div class="layout">
+
+<div class="main">
+<div id="prayer"></div>
+<img id="img" width="80%">
+<div id="beads"></div>
+
+<button id="prevBtn">Prev</button>
+<button id="nextBtn">Next</button>
+<button id="endBtn">End</button>
+</div>
+
+<div class="side">
+<h3>Participants</h3>
+<div id="list"></div>
+
+<h3>Requests</h3>
+<div id="req"></div>
+</div>
+
+</div>
+
+<script type="module">
+import { db } from "./firebase.js";
+import { ref,onValue,update,remove,get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+const roomId=localStorage.room;
+const uid=localStorage.uid;
+
+room.innerText=roomId;
+
+/* AUTO CLEANUP */
+setInterval(()=>{
+  update(ref(db,"rooms/"+roomId),{lastActive:Date.now()});
+},10000);
+
+/* FLOW */
+const flow=["Sign of the Cross","Our Father","Hail Mary","Glory Be"];
+
+/* LIVE */
+onValue(ref(db,"rooms/"+roomId),(snap)=>{
+  const d=snap.val();
+  if(!d){ alert("Session ended"); location.href="index.html"; return;}
+
+  host.innerText=d.participants[d.host]?.name;
+  prayer.innerText=flow[d.step] || "Finished";
+
+  renderParticipants(d);
+  renderRequests(d);
+
+  const me=d.participants[uid];
+  const isHost=d.host==uid;
+  const isController=me?.role==="speaker";
+
+  nextBtn.style.display=(isHost||isController)?"inline-block":"none";
+  prevBtn.style.display=(isHost||isController)?"inline-block":"none";
+  endBtn.style.display=isHost?"inline-block":"none";
+});
+
+/* CONTROL */
+nextBtn.onclick=()=>{
+  get(ref(db,"rooms/"+roomId)).then(s=>{
+    const d=s.val();
+    if(d.host==uid){
+      update(ref(db,"rooms/"+roomId),{step:d.step+1});
+    }
+  });
+};
+
+prevBtn.onclick=()=>{
+  get(ref(db,"rooms/"+roomId)).then(s=>{
+    const d=s.val();
+    if(d.host==uid){
+      update(ref(db,"rooms/"+roomId),{step:Math.max(0,d.step-1)});
+    }
+  });
+};
+
+endBtn.onclick=()=>{
+  remove(ref(db,"rooms/"+roomId));
+};
+
+/* PARTICIPANTS */
+function renderParticipants(d){
+  list.innerHTML="";
+  for(let id in d.participants){
+    let p=d.participants[id];
+    if(p.status==="approved"){
+      let div=document.createElement("div");
+      div.innerHTML=`
+        ${p.name}
+        ${d.host==uid ? `<button onclick="assign('${id}')">Make Speaker</button>`:''}
+      `;
+      list.appendChild(div);
+    }
+  }
+}
+
+/* REQUESTS */
+function renderRequests(d){
+  req.innerHTML="";
+  if(d.host!=uid) return;
+
+  for(let id in d.participants){
+    let p=d.participants[id];
+    if(p.status==="waiting"){
+      let div=document.createElement("div");
+      div.innerHTML=`
+        ${p.name}
+        <button onclick="approve('${id}')">✔</button>
+        <button onclick="reject('${id}')">✖</button>
+      `;
+      req.appendChild(div);
+    }
+  }
+}
+
+/* ACTIONS */
+window.approve=id=>{
+  update(ref(db,`rooms/${roomId}/participants/${id}`),{status:"approved"});
+};
+window.reject=id=>{
+  remove(ref(db,`rooms/${roomId}/participants/${id}`));
+};
+window.assign=id=>{
+  update(ref(db,`rooms/${roomId}/participants/${id}`),{role:"speaker"});
+};
+</script>
+
+</body>
+</html>
