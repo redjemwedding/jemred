@@ -1,291 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global Rosary Room</title>
-
-<style>
-body{
-  margin:0;
-  font-family:serif;
-  background:#1f5d78;
-  color:white;
-}
-
-/* HEADER */
-.header{
-  display:flex;
-  justify-content:space-between;
-  padding:10px 15px;
-  font-size:14px;
-}
-
-.header span{
-  display:block;
-}
-
-/* LAYOUT */
-.container{
-  display:flex;
-  height:100vh;
-}
-
-/* LEFT MAIN */
-.main{
-  flex:3;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:10px;
-}
-
-/* BEADS LINE */
-.bead-line{
-  font-size:22px;
-  letter-spacing:2px;
-  margin:10px 0;
-}
-
-/* PRAYER BOX */
-.prayer-box{
-  background:#ccc;
-  color:black;
-  width:90%;
-  max-width:500px;
-  height:250px;
-  border-radius:30px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:15px;
-}
-
-.prayer-box img{
-  max-width:100%;
-  border-radius:10px;
-}
-
-/* CONTROLS */
-.controls{
-  margin:15px 0;
-  font-size:20px;
-}
-
-button{
-  padding:10px 15px;
-  margin:5px;
-  border:none;
-  border-radius:8px;
-  background:white;
-  cursor:pointer;
-}
-
-/* SIDE PANEL */
-.side{
-  flex:1;
-  padding:10px;
-  border-left:2px solid rgba(255,255,255,0.2);
-}
-
-/* MOBILE */
-@media(max-width:800px){
-  .container{
-    flex-direction:column;
-  }
-  .side{
-    border-left:none;
-    border-top:2px solid rgba(255,255,255,0.2);
-  }
-}
-</style>
+<title>Portal</title>
 </head>
-
 <body>
 
-<div class="header">
-  <div>
-    <span>Prayer Room: <b id="roomCode"></b></span>
-    <span>Created by: <b id="creator"></b></span>
-  </div>
-  <div>
-    <button onclick="leave()">Leave (X)</button>
-  </div>
-</div>
-
-<div class="container">
-
-  <!-- MAIN -->
-  <div class="main">
-
-    <!-- BEADS -->
-    <div id="beads" class="bead-line"></div>
-
-    <!-- PRAYER -->
-    <div class="prayer-box">
-      <img id="img" src="">
-      <div id="prayerText"></div>
-    </div>
-
-    <!-- CONTROLS -->
-    <div class="controls">
-      <button id="prevBtn">Prev</button>
-      <button id="nextBtn">Next</button>
-    </div>
-
-  </div>
-
-  <!-- SIDE -->
-  <div class="side">
-
-    <h4>Mystery Leaders</h4>
-    <div id="leaders"></div>
-
-    <h4>Attendees</h4>
-    <div id="participants"></div>
-
-    <h4>Requests</h4>
-    <div id="requests"></div>
-
-  </div>
-
-</div>
+<h2>Preparing Room...</h2>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getDatabase, ref, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { db } from "./firebase.js";
+import { ref, set, get, update } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-/* FIREBASE */
-const app = initializeApp({
-  apiKey:"AIzaSy...",
-  authDomain:"global-rosary.firebaseapp.com",
-  databaseURL:"https://global-rosary-default-rtdb.firebaseio.com",
-  projectId:"global-rosary"
-});
-const db = getDatabase(app);
-
-/* USER */
-const uid = localStorage.uid;
+const name = localStorage.name;
 const room = localStorage.room;
+const type = localStorage.type;
 
-/* FLOW */
-const flow = [
-  {text:"Sign of the Cross"},
-  {text:"Apostles Creed"},
-  {text:"Our Father"},
-  {text:"Hail Mary"},
-  {text:"Glory Be"}
-];
+const uid = localStorage.uid || Date.now().toString();
+localStorage.uid = uid;
 
-/* LOAD ROOM */
-onValue(ref(db,"rooms/"+room),(snap)=>{
+if(!name || !room){
+  location.href="index.html";
+}
+
+/* CREATE ROOM */
+async function createRoom(){
+  const data = {
+    host: uid,
+    step: 0,
+    createdAt: Date.now(),
+    lastActive: Date.now(),
+    participants:{
+      [uid]:{
+        name:name,
+        status:"approved",
+        role:"host"
+      }
+    }
+  };
+
+  await set(ref(db,"rooms/"+room), data);
+
+  setTimeout(()=>{
+    location.href="room.html";
+  },300);
+}
+
+/* JOIN ROOM */
+async function joinRoom(){
+  const snap = await get(ref(db,"rooms/"+room));
   const data = snap.val();
+
   if(!data){
-    alert("Session ended");
+    alert("Room not found");
     location.href="index.html";
     return;
   }
 
-  roomCode.innerText = room;
-  creator.innerText = data.participants[data.host]?.name || "";
+  for(let id in data.participants){
+    if(data.participants[id].name === name){
+      alert("Name already taken");
+      location.href="index.html";
+      return;
+    }
+  }
 
-  const step = data.step ?? 0;
-  const current = flow[step] || {text:"Finished"};
-
-  prayerText.innerText = current.text;
-
-  renderBeads(step);
-  renderParticipants(data);
-  renderRequests(data);
-  renderLeaders(data);
-
-  const me = data.participants[uid];
-  const isHost = data.host === uid;
-  const isSpeaker = me?.role === "speaker";
-
-  nextBtn.style.display = (isHost || isSpeaker) ? "inline-block" : "none";
-  prevBtn.style.display = (isHost || isSpeaker) ? "inline-block" : "none";
-});
-
-/* NAVIGATION */
-nextBtn.onclick = ()=>changeStep(1);
-prevBtn.onclick = ()=>changeStep(-1);
-
-function changeStep(v){
-  get(ref(db,"rooms/"+room)).then(snap=>{
-    const d = snap.val();
-    if(d.host !== uid && d.participants[uid]?.role !== "speaker") return;
-
-    update(ref(db,"rooms/"+room),{
-      step: Math.max(0,(d.step||0)+v)
-    });
+  await update(ref(db,"rooms/"+room+"/participants/"+uid),{
+    name:name,
+    status:"waiting",
+    role:"viewer"
   });
+
+  location.href="room.html";
 }
 
-/* BEADS */
-function renderBeads(active){
-  let str="+";
-  for(let i=0;i<20;i++){
-    str += (i===active) ? "●-" : "o-";
-  }
-  beads.innerText = str;
+/* EXECUTE */
+if(type==="create"){
+  createRoom();
+}else{
+  joinRoom();
 }
-
-/* PARTICIPANTS */
-function renderParticipants(data){
-  participants.innerHTML="";
-  for(let id in data.participants){
-    let p = data.participants[id];
-    if(p.status==="approved"){
-      let div=document.createElement("div");
-      div.innerText=p.name;
-      participants.appendChild(div);
-    }
-  }
-}
-
-/* REQUESTS */
-function renderRequests(data){
-  requests.innerHTML="";
-  if(data.host!==uid) return;
-
-  for(let id in data.participants){
-    let p=data.participants[id];
-    if(p.status==="waiting"){
-      let div=document.createElement("div");
-      div.innerHTML=`
-        ${p.name}
-        <button onclick="approve('${id}')">✔</button>
-        <button onclick="reject('${id}')">✖</button>
-      `;
-      requests.appendChild(div);
-    }
-  }
-}
-
-/* LEADERS */
-function renderLeaders(data){
-  leaders.innerHTML="";
-  for(let i=1;i<=5;i++){
-    let div=document.createElement("div");
-    div.innerText="M"+i+": (assignable)";
-    leaders.appendChild(div);
-  }
-}
-
-/* ACTIONS */
-window.approve = id=>{
-  update(ref(db,`rooms/${room}/participants/${id}`),{status:"approved"});
-};
-window.reject = id=>{
-  remove(ref(db,`rooms/${room}/participants/${id}`));
-};
-
-window.leave = ()=>{
-  localStorage.clear();
-  location.href="index.html";
-};
 </script>
 
 </body>
