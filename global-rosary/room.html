@@ -2,13 +2,62 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width">
+<link rel="manifest" href="manifest.json">
 <style>
-body{margin:0;font-family:serif;background:#0a1f44;color:white}
-.header{padding:10px;color:gold;text-align:center}
-.layout{display:flex;flex-direction:column}
-.main{flex:1;text-align:center;padding:10px}
-.side{border-top:1px solid gold;padding:10px}
-button{padding:10px;margin:5px;background:gold;border:none;border-radius:6px}
+body{margin:0;font-family:serif;background:#0a1f44;color:white;text-align:center}
+
+/* HEADER */
+.header{
+  padding:10px;
+  color:gold;
+  font-size:18px;
+}
+
+/* PRAYER */
+.prayer{
+  font-size:24px;
+  padding:15px;
+  max-width:700px;
+  margin:auto;
+  line-height:1.6;
+}
+
+/* IMAGE */
+img{
+  width:90%;
+  max-width:350px;
+  border-radius:12px;
+  margin:10px auto;
+}
+
+/* ROSARY (CURVED) */
+#rosary{
+  position:relative;
+  width:280px;
+  height:280px;
+  margin:20px auto;
+}
+.bead{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#666;
+  position:absolute;
+}
+.active{
+  background:gold;
+  box-shadow:0 0 10px gold;
+}
+
+/* BUTTONS */
+button{
+  padding:12px;
+  margin:5px;
+  border:none;
+  border-radius:8px;
+  background:gold;
+  font-weight:bold;
+}
 </style>
 </head>
 <body>
@@ -17,44 +66,52 @@ button{padding:10px;margin:5px;background:gold;border:none;border-radius:6px}
 Room: <span id="room"></span> | Host: <span id="host"></span>
 </div>
 
-<div class="layout">
+<div class="prayer" id="prayer"></div>
+<img id="img">
 
-<div class="main">
-<div id="prayer"></div>
-<img id="img" width="80%">
-<div id="beads"></div>
+<div id="rosary"></div>
 
-<button id="prevBtn">Prev</button>
-<button id="nextBtn">Next</button>
-<button id="endBtn">End</button>
-</div>
+<button id="prev">Prev</button>
+<button id="next">Next</button>
+<button id="end">End</button>
 
-<div class="side">
-<h3>Participants</h3>
-<div id="list"></div>
-
-<h3>Requests</h3>
-<div id="req"></div>
-</div>
-
-</div>
+<div id="participants"></div>
+<div id="requests"></div>
 
 <script type="module">
 import { db } from "./firebase.js";
 import { ref,onValue,update,remove,get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
+/* BELL SOUND */
+const bell=new Audio("assets/bell.mp3");
+
+/* USER */
 const roomId=localStorage.room;
 const uid=localStorage.uid;
-
 room.innerText=roomId;
 
-/* AUTO CLEANUP */
+/* MYSTERY BY DAY */
+const mysteries={
+  Joyful:[
+    {title:"Annunciation",img:"https://www.theholyrosary.org/img/joyful1.jpg",scripture:"Luke 1:28"},
+    {title:"Visitation",img:"https://www.theholyrosary.org/img/joyful2.jpg",scripture:"Luke 1:39"}
+  ]
+};
+
+const today="Joyful";
+
+/* FLOW */
+const flow=[
+  {text:"In the name of the Father..."},
+  {text:"Our Father"},
+  {text:"Hail Mary"},
+  {text:"Glory Be"}
+];
+
+/* AUTO CLEAN */
 setInterval(()=>{
   update(ref(db,"rooms/"+roomId),{lastActive:Date.now()});
 },10000);
-
-/* FLOW */
-const flow=["Sign of the Cross","Our Father","Hail Mary","Glory Be"];
 
 /* LIVE */
 onValue(ref(db,"rooms/"+roomId),(snap)=>{
@@ -62,88 +119,100 @@ onValue(ref(db,"rooms/"+roomId),(snap)=>{
   if(!d){ alert("Session ended"); location.href="index.html"; return;}
 
   host.innerText=d.participants[d.host]?.name;
-  prayer.innerText=flow[d.step] || "Finished";
 
+  const step=flow[d.step]||{text:"Finished"};
+  prayer.innerText=step.text;
+
+  bell.play();
+
+  renderBeads(d.step);
   renderParticipants(d);
   renderRequests(d);
 
   const me=d.participants[uid];
   const isHost=d.host==uid;
-  const isController=me?.role==="speaker";
 
-  nextBtn.style.display=(isHost||isController)?"inline-block":"none";
-  prevBtn.style.display=(isHost||isController)?"inline-block":"none";
-  endBtn.style.display=isHost?"inline-block":"none";
+  next.style.display=isHost?"inline":"none";
+  prev.style.display=isHost?"inline":"none";
+  end.style.display=isHost?"inline":"none";
 });
 
-/* CONTROL */
-nextBtn.onclick=()=>{
+/* NAV */
+next.onclick=()=>change(1);
+prev.onclick=()=>change(-1);
+
+function change(v){
   get(ref(db,"rooms/"+roomId)).then(s=>{
     const d=s.val();
-    if(d.host==uid){
-      update(ref(db,"rooms/"+roomId),{step:d.step+1});
-    }
+    if(d.host!=uid) return;
+    update(ref(db,"rooms/"+roomId),{step:Math.max(0,d.step+v)});
   });
-};
+}
 
-prevBtn.onclick=()=>{
-  get(ref(db,"rooms/"+roomId)).then(s=>{
-    const d=s.val();
-    if(d.host==uid){
-      update(ref(db,"rooms/"+roomId),{step:Math.max(0,d.step-1)});
-    }
-  });
-};
-
-endBtn.onclick=()=>{
-  remove(ref(db,"rooms/"+roomId));
-};
+/* END */
+end.onclick=()=>remove(ref(db,"rooms/"+roomId));
 
 /* PARTICIPANTS */
 function renderParticipants(d){
-  list.innerHTML="";
+  participants.innerHTML="<h3>Participants</h3>";
   for(let id in d.participants){
     let p=d.participants[id];
     if(p.status==="approved"){
-      let div=document.createElement("div");
-      div.innerHTML=`
-        ${p.name}
-        ${d.host==uid ? `<button onclick="assign('${id}')">Make Speaker</button>`:''}
-      `;
-      list.appendChild(div);
+      participants.innerHTML+=`<div>${p.name}</div>`;
     }
   }
 }
 
 /* REQUESTS */
 function renderRequests(d){
-  req.innerHTML="";
+  requests.innerHTML="";
   if(d.host!=uid) return;
 
   for(let id in d.participants){
     let p=d.participants[id];
     if(p.status==="waiting"){
-      let div=document.createElement("div");
-      div.innerHTML=`
+      requests.innerHTML+=`
         ${p.name}
         <button onclick="approve('${id}')">✔</button>
         <button onclick="reject('${id}')">✖</button>
       `;
-      req.appendChild(div);
     }
   }
 }
 
-/* ACTIONS */
 window.approve=id=>{
   update(ref(db,`rooms/${roomId}/participants/${id}`),{status:"approved"});
 };
 window.reject=id=>{
   remove(ref(db,`rooms/${roomId}/participants/${id}`));
 };
-window.assign=id=>{
-  update(ref(db,`rooms/${roomId}/participants/${id}`),{role:"speaker"});
-};
+
+/* CURVED ROSARY */
+function renderBeads(active){
+  rosary.innerHTML="";
+  const total=30;
+  const r=120;
+
+  for(let i=0;i<total;i++){
+    const angle=(i/total)*2*Math.PI;
+    const x=140+r*Math.cos(angle);
+    const y=140+r*Math.sin(angle);
+
+    const b=document.createElement("div");
+    b.className="bead";
+    b.style.left=x+"px";
+    b.style.top=y+"px";
+
+    if(i===active) b.classList.add("active");
+
+    rosary.appendChild(b);
+  }
+}
+
+/* REGISTER PWA */
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("service-worker.js");
+}
 </script>
 
 </body>
