@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Portal</title>
+</head>
+<body>
+
+<h2>Room Code: <span id="roomCode"></span></h2>
+<h3>Created by: <span id="creator"></span></h3>
+
+<button onclick="create()">Create Room</button>
+<button onclick="join()">Join Room</button>
+
+<script type="module">
+import { db } from "./firebase.js";
+import { ref, set, get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+const name=localStorage.name;
+const room=localStorage.room;
+const uid=Date.now();
+
+roomCode.innerText=room;
+
+window.create=()=>{
+  set(ref(db,"rooms/"+room),{
+    host:uid,
+    step:0,
+    lastActive:Date.now(),
+    participants:{
+      [uid]:{name,status:"approved",role:"host"}
+    }
+  });
+  localStorage.uid=uid;
+  location.href="room.html";
+};
+
+window.join=()=>{
+  get(ref(db,"rooms/"+room)).then(s=>{
+    const data=s.val();
+    if(!data){ alert("Room not found"); return;}
+
+    // prevent duplicate name
+    for(let id in data.participants){
+      if(data.participants[id].name===name){
+        alert("Name already taken");
+        return;
+      }
+    }
+
+    set(ref(db,`rooms/${room}/participants/${uid}`),{
+      name,
+      status:"waiting",
+      role:"viewer"
+    });
+
+    localStorage.uid=uid;
+    location.href="room.html";
+  });
+};
+</script>
+
+</body>
+</html>
