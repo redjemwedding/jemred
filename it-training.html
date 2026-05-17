@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coming Soon | redjemie Visions</title>
+<title>Redirecting | IT Services</title>
 
-<!-- FAVICON -->
 <link rel="icon" type="image/png" href="img/logo.png">
 <link rel="apple-touch-icon" href="img/logo.png">
 
-<!-- GOOGLE FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -21,7 +19,11 @@
   --muted: #bdbdbd;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   font-family: 'Inter', sans-serif;
@@ -30,105 +32,131 @@ body {
   min-height: 100svh;
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
 
-/* ================= CONTAINER ================= */
+/* BACKGROUND GLOW */
+.glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212,175,55,0.15), transparent 60%);
+  filter: blur(40px);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* CONTAINER */
 .wrapper {
   text-align: center;
   padding: 60px 28px;
   max-width: 520px;
+  position: relative;
+  z-index: 2;
 }
 
 /* LOGO */
-.logo {
-  margin-bottom: 40px;
-}
-
 .logo img {
   height: 46px;
-  opacity: .9;
+  opacity: .95;
+  margin-bottom: 40px;
 }
 
 /* TITLE */
 h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(34px, 6vw, 46px);
-  margin-bottom: 18px;
+  font-size: clamp(30px, 5vw, 44px);
+  margin-bottom: 14px;
 }
 
-/* SUBTEXT */
+/* TEXT */
 p {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--muted);
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
-/* BUTTONS */
-.actions {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
+/* LOADER */
+.loader {
+  width: 54px;
+  height: 54px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-top: 2px solid var(--gold);
+  border-radius: 50%;
+  margin: 0 auto 30px auto;
+  animation: spin 1s linear infinite;
 }
 
-.actions a {
-  padding: 14px 34px;
-  border-radius: 40px;
-  font-size: 14px;
-  text-decoration: none;
-  font-weight: 500;
-  letter-spacing: .4px;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
-.primary {
-  background: var(--gold);
-  color: #000;
-}
-
-.secondary {
-  border: 1px solid rgba(255,255,255,.25);
-  color: var(--text);
-}
-
-/* FOOTER NOTE */
-.note {
-  margin-top: 50px;
+/* STATUS TEXT */
+.status {
   font-size: 13px;
-  color: #777;
+  color: #888;
+  letter-spacing: 0.5px;
+}
+
+/* FADE ANIMATION */
+.fade {
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="glow"></div>
 
-  <!-- LOGO -->
+<div class="wrapper fade">
+
   <div class="logo">
     <img src="img/logo.png" alt="redjemie Visions">
   </div>
 
-  <!-- TITLE -->
-  <h1>Coming Soon</h1>
+  <h1>Redirecting You</h1>
 
-  <!-- DESCRIPTION -->
   <p>
-    This business unit under <strong>redjemie Visions</strong>  
-    is currently in development and will be launching soon.
+    You are being seamlessly transferred to<br>
+    <strong>RJ Global Technologies</strong>
   </p>
 
-  <!-- ACTIONS -->
-  <div class="actions">
-    <a href="index.html" class="primary">Back to Main Site</a>
-  </div>
+  <div class="loader"></div>
 
-  <!-- FOOTER -->
-  <div class="note">
-    © redjemie Visions. All Rights Reserved.
+  <div class="status">
+    Initializing secure transition...
   </div>
 
 </div>
+
+<script>
+  // Smooth staged messaging (adds premium feel)
+  const status = document.querySelector(".status");
+
+  setTimeout(() => {
+    status.textContent = "Loading IT Services Platform...";
+  }, 1200);
+
+  setTimeout(() => {
+    status.textContent = "Almost there...";
+  }, 2600);
+
+  // Final redirect
+  setTimeout(() => {
+    window.location.href = "https://www.redjemie.com/rjglobaltech/";
+  }, 3800);
+</script>
 
 </body>
 </html>
