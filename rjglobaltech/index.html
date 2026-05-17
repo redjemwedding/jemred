@@ -527,7 +527,7 @@ const obs=new IntersectionObserver((entries)=>{
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 // FORM SUBMIT — connects to Google Apps Script
-const SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // <-- Replace this after setup
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrhOfUTpv9CJQh7BAXYGuCnrVcZSbK3Dwm28G50NMdWYY43Xd4jYR2PeDiSz3J1JnX/exec'; // <-- Replace this after setup
 
 async function submitForm(){
   const name    = document.getElementById('fname').value.trim();
