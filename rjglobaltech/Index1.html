@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RJ Global Technologies — Managed IT Services UAE</title>
+<meta name="description" content="Enterprise-grade IT support, Microsoft 365 management, and managed IT services for businesses in the UAE."/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  /* Core palette — deep navy, anchored */
+  --navy-900: #080f1c;
+  --navy-800: #0d1829;
+  --navy-700: #122036;
+  --navy-600: #1a2f4a;
+  --navy-500: #233d5e;
+  --navy-400: #2e4f78;
+
+  /* Accent — single cool blue, used sparingly */
+  --blue:     #2563eb;
+  --blue-dim: #1d4ed8;
+  --blue-muted: rgba(37,99,235,0.12);
+
+  /* Neutrals */
+  --white:    #ffffff;
+  --off-white:#f4f6f9;
+  --border:   rgba(255,255,255,0.07);
+  --border-l: rgba(255,255,255,0.04);
+  --muted:    #7a93b0;
+  --subtle:   #4a6580;
+
+  /* Type */
+  --display: 'Syne', sans-serif;
+  --body:    'Figtree', sans-serif;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--navy-800);
+  color: var(--white);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+img, svg { display: block; }
+button { font-family: var(--body); }
+
+/* ═══════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════ */
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 48px; }
+@media(max-width:640px){ .wrap { padding: 0 24px; } }
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 68px;
+  display: flex; align-items: center;
+  background: rgba(8,15,28,0.82);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.nav.scrolled { border-bottom-color: var(--border); }
+.nav-wrap {
+  width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 48px;
+  display: flex; align-items: center; gap: 3rem;
+}
+.nav-logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
+.nav-logo-mark { width: 30px; height: 30px; }
+.nav-logo-text {
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--white);
+}
+.nav-logo-text em { font-style: normal; color: #5b9cf6; }
+.nav-links {
+  display: flex; gap: 2rem; margin-left: auto;
+}
+.nav-links a {
+  font-size: 0.8125rem; font-weight: 400; color: var(--muted);
+  letter-spacing: 0.01em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  flex-shrink: 0;
+  font-family: var(--body); font-size: 0.8125rem; font-weight: 600;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 0.5rem 1.25rem; border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.nav-cta:hover { background: var(--blue); border-color: var(--blue); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 6px; margin-left: auto;
+}
+.hamburger span { width: 22px; height: 1.5px; background: var(--muted); border-radius: 2px; display: block; }
+.mob-menu {
+  display: none;
+  position: fixed; top: 68px; left: 0; right: 0; z-index: 99;
+  background: var(--navy-900);
+  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+}
+.mob-menu.open { display: flex; }
+.mob-menu a {
+  font-size: 0.9375rem; font-weight: 400; color: var(--muted);
+  padding: 1rem 24px;
+  border-bottom: 1px solid var(--border-l);
+  transition: color 0.2s;
+}
+.mob-menu a:hover, .mob-menu a:last-child { color: var(--white); }
+
+/* ═══════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  padding: 130px 0 90px;
+  position: relative;
+  overflow: hidden;
+  display: flex; align-items: center;
+}
+
+/* Architectural background — subtle geometric lines */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    linear-gradient(to bottom, var(--navy-900) 0%, var(--navy-800) 100%);
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  top: -20%; right: -5%;
+  width: 700px; height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 65%);
+}
+.hero-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+/* Vertical accent line */
+.hero-line {
+  position: absolute;
+  left: 48px; top: 130px; bottom: 90px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(37,99,235,0.4) 30%, rgba(37,99,235,0.15) 70%, transparent);
+}
+
+.hero-inner {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 420px;
+  gap: 5rem; align-items: center;
+  width: 100%;
+}
+
+/* Eyebrow */
+.eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 1.75rem;
+}
+.eyebrow-line { width: 32px; height: 1px; background: var(--blue); flex-shrink: 0; }
+.eyebrow-text {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #5b9cf6;
+}
+
+/* Headline */
+.hero-h1 {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 4.5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+}
+.hero-h1 .accent { color: #5b9cf6; }
+
+.hero-desc {
+  font-size: 1rem; font-weight: 300; line-height: 1.8;
+  color: var(--muted); max-width: 460px; margin-bottom: 2.75rem;
+}
+
+.hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 3.5rem; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue); color: var(--white);
+  font-size: 0.875rem; font-weight: 600; letter-spacing: 0.01em;
+  padding: 0.8rem 1.75rem; border-radius: 4px;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--blue-dim); transform: translateY(-1px); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--muted);
+  font-size: 0.875rem; font-weight: 500;
+  padding: 0.8rem 1.5rem; border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
+}
+.btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+.btn-arrow { font-size: 0.75rem; transition: transform 0.2s; }
+.btn-primary:hover .btn-arrow,
+.btn-ghost:hover .btn-arrow { transform: translateX(3px); }
+
+/* Trust signals */
+.hero-trust { display: flex; gap: 2.25rem; flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 8px; }
+.trust-indicator {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #22c55e; flex-shrink: 0;
+}
+.trust-text { font-size: 0.8rem; font-weight: 400; color: var(--subtle); letter-spacing: 0.01em; }
+
+/* ═══════════════════════════════════════════════════
+   HERO — PANEL (right side)
+═══════════════════════════════════════════════════ */
+.hero-panel {
+  background: var(--navy-700);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.04) inset;
+}
+.panel-header {
+  background: var(--navy-600);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title { font-family: var(--display); font-size: 0.8125rem; font-weight: 600; color: var(--white); }
+.panel-subtitle { font-size: 0.6875rem; color: var(--muted); margin-top: 1px; }
+.status-pill {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2);
+  padding: 0.25rem 0.7rem; border-radius: 3px;
+  font-size: 0.6875rem; font-weight: 600; color: #4ade80;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.status-dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; animation: blink 2.5s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+.panel-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.pstat {
+  padding: 1.25rem 1.5rem;
+  border-right: 1px solid var(--border);
+}
+.pstat:nth-child(2), .pstat:nth-child(4) { border-right: none; }
+.pstat:nth-child(3), .pstat:nth-child(4) { border-top: 1px solid var(--border); }
+.pstat-val {
+  font-family: var(--display); font-size: 1.375rem; font-weight: 700;
+  color: var(--white); letter-spacing: -0.02em; margin-bottom: 3px;
+}
+.pstat-val.blue { color: #5b9cf6; }
+.pstat-val.green { color: #4ade80; }
+.pstat-label { font-size: 0.6875rem; font-weight: 400; color: var(--subtle); text-transform: uppercase; letter-spacing: 0.08em; }
+
+.panel-services { padding: 1rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.psvc {
+  display: flex; align-items: center; gap: 0.875rem;
+  padding: 0.7rem 0.875rem;
+  background: var(--navy-600);
+  border: 1px solid var(--border-l);
+  border-radius: 4px;
+  font-size: 0.8125rem; color: var(--muted);
+  transition: border-color 0.2s;
+}
+.psvc:hover { border-color: var(--border); }
+.psvc-icon {
+  width: 26px; height: 26px; border-radius: 3px;
+  background: var(--blue-muted); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.psvc-icon svg { width: 12px; height: 12px; stroke: #5b9cf6; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.psvc-check { margin-left: auto; color: #4ade80; font-size: 0.6875rem; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════
+   METRICS BAND
+═══════════════════════════════════════════════════ */
+.metrics {
+  background: var(--navy-900);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 0;
+}
+.metrics-inner {
+  max-width: 1160px; margin: 0 auto; padding: 0 48px;
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+}
+.mitem {
+  text-align: center;
+  padding: 0 1.5rem;
+  position: relative;
+}
+.mitem::after {
+  content: '';
+  position: absolute; right: 0; top: 15%; bottom: 15%;
+  width: 1px; background: var(--border);
+}
+.mitem:last-child::after { display: none; }
+.mitem-val {
+  font-family: var(--display); font-size: 1.5rem; font-weight: 700;
+  color: var(--white); letter-spacing: -0.02em; margin-bottom: 4px;
+}
+.mitem-label {
+  font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--subtle);
+}
+
+/* ═══════════════════════════════════════════════════
+   SECTION BASE
+═══════════════════════════════════════════════════ */
+.section { padding: 7rem 0; }
+.section + .section { border-top: 1px solid var(--border); }
+.section-bg-alt { background: var(--navy-900); }
+
+.section-head { margin-bottom: 4rem; }
+.section-tag {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.section-tag-line { width: 20px; height: 1px; background: var(--blue); }
+.section-tag-text {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #5b9cf6;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -0.02em; color: var(--white);
+  margin-bottom: 1rem;
+}
+.section-desc {
+  font-size: 0.9375rem; font-weight: 300; line-height: 1.75;
+  color: var(--muted); max-width: 480px;
+}
+
+/* ═══════════════════════════════════════════════════
+   SERVICES
+═══════════════════════════════════════════════════ */
+.services-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.svc-card {
+  padding: 2.25rem 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  transition: background 0.25s;
+}
+.svc-card:hover { background: var(--navy-700); }
+.svc-card:nth-child(2n) { border-right: none; }
+.svc-card:nth-child(5), .svc-card:nth-child(6) { border-bottom: none; }
+.svc-num {
+  font-family: var(--display); font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.12em; color: var(--blue);
+  margin-bottom: 1.25rem;
+}
+.svc-card h3 {
+  font-family: var(--display); font-size: 0.9375rem; font-weight: 600;
+  color: var(--white); margin-bottom: 0.625rem;
+  letter-spacing: -0.01em;
+}
+.svc-card p { font-size: 0.84375rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+.svc-tag {
+  display: inline-block; margin-top: 1.25rem;
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--blue); background: var(--blue-muted);
+  padding: 0.2rem 0.6rem; border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   PACKAGES
+═══════════════════════════════════════════════════ */
+.pkg-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+}
+.pkg {
+  background: var(--navy-800);
+  padding: 2.5rem 2rem;
+  position: relative;
+  display: flex; flex-direction: column;
+  transition: background 0.25s;
+}
+.pkg:hover { background: var(--navy-700); }
+.pkg.featured {
+  background: var(--navy-600);
+}
+.pkg.featured:hover { background: var(--navy-500); }
+.pkg-label {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 0.875rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.pkg-label::after {
+  content: '';
+  flex: 1; height: 1px; background: var(--border);
+}
+.pkg.featured .pkg-label { color: #5b9cf6; }
+.featured-badge {
+  background: var(--blue); color: var(--white);
+  font-size: 0.5625rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 0.2rem 0.6rem; border-radius: 2px;
+}
+.pkg-name {
+  font-family: var(--display); font-size: 1.25rem; font-weight: 700;
+  color: var(--white); margin-bottom: 0.5rem; letter-spacing: -0.01em;
+}
+.pkg-desc { font-size: 0.84375rem; font-weight: 300; color: var(--muted); line-height: 1.6; margin-bottom: 1.75rem; }
+.pkg-price {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.pkg-amount {
+  font-family: var(--display); font-size: 2.75rem; font-weight: 700;
+  color: var(--white); letter-spacing: -0.03em; line-height: 1;
+}
+.pkg-currency { font-size: 1rem; font-weight: 500; color: var(--muted); vertical-align: super; margin-right: 1px; }
+.pkg-period { font-size: 0.75rem; font-weight: 400; color: var(--subtle); margin-top: 5px; }
+.pkg-features { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+.pkg-feature {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  font-size: 0.84375rem; font-weight: 300; color: var(--muted); line-height: 1.5;
+}
+.pkg-check {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--blue-muted); flex-shrink: 0; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pkg-check::after {
+  content: '✓'; font-size: 0.5625rem; font-weight: 700; color: #5b9cf6;
+  line-height: 1;
+}
+.pkg-btn {
+  display: block; text-align: center; width: 100%;
+  padding: 0.8rem 1rem; border-radius: 4px;
+  font-size: 0.875rem; font-weight: 600; letter-spacing: 0.01em;
+  background: var(--navy-500); color: var(--muted);
+  border: 1px solid var(--border);
+  transition: all 0.2s; cursor: pointer;
+}
+.pkg-btn:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+.pkg.featured .pkg-btn { background: var(--blue); color: var(--white); border-color: var(--blue); }
+.pkg.featured .pkg-btn:hover { background: var(--blue-dim); }
+
+/* ═══════════════════════════════════════════════════
+   WHY US
+═══════════════════════════════════════════════════ */
+.why-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+.why-card {
+  background: var(--navy-800);
+  padding: 2rem 1.75rem;
+  transition: background 0.25s;
+}
+.why-card:hover { background: var(--navy-700); }
+.why-icon-box {
+  width: 38px; height: 38px; border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--navy-700);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.why-icon-box svg { width: 15px; height: 15px; stroke: var(--muted); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.why-card:hover .why-icon-box svg { stroke: #5b9cf6; }
+.why-card h4 {
+  font-family: var(--display); font-size: 0.9375rem; font-weight: 600;
+  color: var(--white); margin-bottom: 0.625rem; letter-spacing: -0.01em;
+}
+.why-card p { font-size: 0.84375rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+
+/* ═══════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════ */
+.contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+.contact-left h3 {
+  font-family: var(--display); font-size: 1.5rem; font-weight: 700;
+  letter-spacing: -0.02em; color: var(--white);
+  margin-bottom: 0.875rem; line-height: 1.25;
+}
+.contact-left p { font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.8; margin-bottom: 2.5rem; }
+.contact-details { display: flex; flex-direction: column; gap: 1.25rem; }
+.cdetail { display: flex; align-items: flex-start; gap: 1rem; }
+.cdetail-icon {
+  width: 34px; height: 34px; border-radius: 4px; flex-shrink: 0;
+  border: 1px solid var(--border); background: var(--navy-700);
+  display: flex; align-items: center; justify-content: center;
+}
+.cdetail-icon svg { width: 13px; height: 13px; stroke: var(--muted); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.cdetail-label {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--subtle); margin-bottom: 2px;
+}
+.cdetail-value { font-size: 0.875rem; font-weight: 400; color: var(--muted); }
+
+/* Form */
+.form-panel {
+  background: var(--navy-700);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.form-panel-header {
+  background: var(--navy-600);
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.form-panel-title { font-family: var(--display); font-size: 0.9375rem; font-weight: 600; color: var(--white); }
+.form-panel-sub { font-size: 0.8rem; font-weight: 300; color: var(--muted); margin-top: 2px; }
+.form-body { padding: 1.75rem; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fg { margin-bottom: 1rem; }
+.fg label {
+  display: block; font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--subtle); margin-bottom: 0.5rem;
+}
+.fg input, .fg select, .fg textarea {
+  width: 100%;
+  background: var(--navy-800);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.75rem 0.875rem;
+  color: var(--white);
+  font-family: var(--body); font-size: 0.875rem; font-weight: 300;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+}
+.fg input::placeholder, .fg textarea::placeholder { color: var(--subtle); }
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  border-color: rgba(37,99,235,0.6);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+.fg select { cursor: pointer; }
+.fg select option { background: var(--navy-900); }
+.fg textarea { resize: vertical; min-height: 96px; }
+.btn-submit {
+  width: 100%; margin-top: 0.25rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--blue); color: var(--white);
+  font-family: var(--body); font-size: 0.875rem; font-weight: 600; letter-spacing: 0.01em;
+  border: none; border-radius: 4px; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-submit:hover { background: var(--blue-dim); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.form-success { display: none; text-align: center; padding: 4rem 2rem; }
+.form-success-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 1.25rem;
+}
+.form-success h4 {
+  font-family: var(--display); font-size: 1.25rem; font-weight: 700;
+  color: var(--white); margin-bottom: 0.625rem;
+}
+.form-success p { font-size: 0.875rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+.footer {
+  background: var(--navy-900);
+  border-top: 1px solid var(--border);
+  padding: 3rem 0 2.5rem;
+}
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 2rem;
+}
+.footer-brand .nav-logo-text { font-size: 0.875rem; }
+.footer-tagline { font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--subtle); margin-top: 4px; }
+.footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.8125rem; font-weight: 400; color: var(--subtle); transition: color 0.2s; }
+.footer-links a:hover { color: var(--muted); }
+.footer-copy { font-size: 0.75rem; font-weight: 300; color: var(--subtle); line-height: 1.7; text-align: right; }
+.footer-copy a { color: var(--muted); transition: color 0.2s; }
+.footer-copy a:hover { color: var(--white); }
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════════════ */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1{transition-delay:0.06s;} .d2{transition-delay:0.12s;} .d3{transition-delay:0.18s;} .d4{transition-delay:0.24s;}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media(max-width:960px){
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-panel { display: none; }
+  .hero-line { display: none; }
+  .services-grid { grid-template-columns: 1fr; }
+  .svc-card:nth-child(2n) { border-right: none; }
+  .svc-card:nth-child(n) { border-bottom: 1px solid var(--border); border-right: none; }
+  .svc-card:last-child { border-bottom: none; }
+  .pkg-grid { grid-template-columns: 1fr; gap: 1px; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .metrics-inner { grid-template-columns: repeat(3, 1fr); }
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .nav-wrap { gap: 0; }
+}
+@media(max-width:600px){
+  .wrap { padding: 0 20px; }
+  .nav-wrap { padding: 0 20px; }
+  .section { padding: 4.5rem 0; }
+  .frow { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .metrics-inner { grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); }
+  .mitem { padding: 1.25rem; }
+  .mitem::after { display: none; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-copy { text-align: center; }
+  .footer-links { justify-content: center; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-wrap">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-mark">
+        <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="12" r="8" fill="#2563eb" opacity=".9"/>
+          <circle cx="50" cy="12" r="4.5" fill="#080f1c"/>
+          <circle cx="50" cy="12" r="1.75" fill="#2563eb"/>
+          <path d="M17 30 L17 76 L28 76 L28 57 L40 57 L52 76 L65 76 L51 55 C59 52 63 45 63 37 C63 31 56 27 47 27 Z M28 37 L28 49 L45 49 C49 49 52 46 52 43 C52 40 49 37 45 37 Z" fill="white"/>
+          <path d="M69 27 L79 27 L79 62 C79 70 72 77 63 78 L59 70 C65 69 69 66 69 62 Z" fill="rgba(255,255,255,0.45)"/>
+          <path d="M9 62 Q50 44 91 62" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".6"/>
+          <polygon points="44,83 50,71 56,83" fill="#2563eb" opacity=".75"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">RJ <em>Global</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Get in Touch</a>
+    <div class="hamburger" id="hbg" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#packages" onclick="toggleMenu()">Packages</a>
+  <a href="#why" onclick="toggleMenu()">Why Us</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#contact" onclick="toggleMenu()">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-text">Managed IT Services — United Arab Emirates</span>
+        </div>
+        <h1 class="hero-h1">
+          Enterprise IT support<br>for <span class="accent">growing</span><br>UAE businesses.
+        </h1>
+        <p class="hero-desc">
+          We deliver end-to-end technology management — infrastructure, Microsoft 365, security, and ongoing support — so your operations never slow down.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#contact">Request a Consultation <span class="btn-arrow">→</span></a>
+          <a class="btn-ghost" href="#packages">View Packages <span class="btn-arrow">→</span></a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item"><span class="trust-indicator"></span><span class="trust-text">No lock-in contracts</span></div>
+          <div class="trust-item"><span class="trust-indicator"></span><span class="trust-text">UAE-based team</span></div>
+          <div class="trust-item"><span class="trust-indicator"></span><span class="trust-text">24-hour response SLA</span></div>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">RJ Global Technologies</div>
+            <div class="panel-subtitle">Service Status Dashboard</div>
+          </div>
+          <div class="status-pill"><span class="status-dot"></span>All Systems</div>
+        </div>
+        <div class="panel-stats">
+          <div class="pstat"><div class="pstat-val blue">&lt;24h</div><div class="pstat-label">Response SLA</div></div>
+          <div class="pstat"><div class="pstat-val">UAE</div><div class="pstat-label">Local Team</div></div>
+          <div class="pstat"><div class="pstat-val blue">M365</div><div class="pstat-label">Certified</div></div>
+          <div class="pstat"><div class="pstat-val green">Live</div><div class="pstat-label">Support Active</div></div>
+        </div>
+        <div class="panel-services">
+          <div class="psvc">
+            <div class="psvc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+            Microsoft 365 Management
+            <span class="psvc-check">✓</span>
+          </div>
+          <div class="psvc">
+            <div class="psvc-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            Security &amp; Data Backup
+            <span class="psvc-check">✓</span>
+          </div>
+          <div class="psvc">
+            <div class="psvc-icon"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+            IT Support &amp; Troubleshooting
+            <span class="psvc-check">✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="metrics-inner">
+    <div class="mitem reveal"><div class="mitem-val">100%</div><div class="mitem-label">UAE-Based Team</div></div>
+    <div class="mitem reveal d1"><div class="mitem-val">&lt;24h</div><div class="mitem-label">Avg. Response</div></div>
+    <div class="mitem reveal d2"><div class="mitem-val">SME</div><div class="mitem-label">Focused Services</div></div>
+    <div class="mitem reveal d3"><div class="mitem-val">M365</div><div class="mitem-label">Certified Setup</div></div>
+    <div class="mitem reveal d4"><div class="mitem-val">AED</div><div class="mitem-label">Local Pricing</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="section section-bg-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-text">Capabilities</span></div>
+      <h2 class="section-title">Complete IT services<br>for UAE businesses</h2>
+      <p class="section-desc">Everything your business needs to stay connected, secure, and operational — without the overhead of a full in-house IT department.</p>
+    </div>
+    <div class="services-grid reveal">
+      <div class="svc-card">
+        <div class="svc-num">01</div>
+        <h3>IT Support &amp; Troubleshooting</h3>
+        <p>Remote and on-site resolution for hardware, software, and network issues. Rapid response so your team maintains productivity without interruption.</p>
+        <span class="svc-tag">Support</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-num">02</div>
+        <h3>Microsoft 365 Setup &amp; Management</h3>
+        <p>Full M365 deployment — business email, Teams, SharePoint, OneDrive — configured with security controls and access policies from day one.</p>
+        <span class="svc-tag">Microsoft 365</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-num">03</div>
+        <h3>Website &amp; Domain Management</h3>
+        <p>Domain configuration, DNS management, hosting, and continuous maintenance to keep your digital presence performant and available.</p>
+        <span class="svc-tag">Web</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-num">04</div>
+        <h3>Security &amp; Data Backup</h3>
+        <p>Automated backups, security hardening, and cybersecurity best practices that protect your business data against loss and breach.</p>
+        <span class="svc-tag">Security</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-num">05</div>
+        <h3>Cloud Setup &amp; Migration</h3>
+        <p>Structured migration to Google Workspace or Microsoft 365. Clean, zero-data-loss transitions executed with minimal business disruption.</p>
+        <span class="svc-tag">Cloud</span>
+      </div>
+      <div class="svc-card">
+        <div class="svc-num">06</div>
+        <h3>Device &amp; Network Infrastructure</h3>
+        <p>New office configuration, device provisioning, Wi-Fi and network build-out — fully operational from day one for your entire team.</p>
+        <span class="svc-tag">Infrastructure</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-text">Pricing</span></div>
+      <h2 class="section-title">Transparent service packages</h2>
+      <p class="section-desc">Fixed monthly fees. No hidden costs. No lock-in commitments. Start with what you need and scale as your business grows.</p>
+    </div>
+    <div class="pkg-grid reveal">
+      <div class="pkg">
+        <div class="pkg-label">Starter</div>
+        <div class="pkg-name">Foundation Setup</div>
+        <div class="pkg-desc">For new businesses establishing a professional IT foundation.</div>
+        <div class="pkg-price">
+          <div class="pkg-amount"><span class="pkg-currency">AED</span>300</div>
+          <div class="pkg-period">One-time setup fee</div>
+        </div>
+        <ul class="pkg-features">
+          <li class="pkg-feature"><span class="pkg-check"></span>Business email setup (M365 or Gmail)</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Domain &amp; DNS configuration</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>WhatsApp Business setup</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Basic device configuration</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>30 days follow-up support included</li>
+        </ul>
+        <a class="pkg-btn" href="#contact">Get Started</a>
+      </div>
+      <div class="pkg featured">
+        <div class="pkg-label">Business Care <span class="featured-badge">Most Popular</span></div>
+        <div class="pkg-name">Managed Support</div>
+        <div class="pkg-desc">For growing SMEs requiring reliable, ongoing IT management.</div>
+        <div class="pkg-price">
+          <div class="pkg-amount"><span class="pkg-currency">AED</span>500</div>
+          <div class="pkg-period">Per month · No lock-in</div>
+        </div>
+        <ul class="pkg-features">
+          <li class="pkg-feature"><span class="pkg-check"></span>Everything in Foundation Setup</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Monthly IT support &amp; troubleshooting</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Email &amp; account management</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Password &amp; access management</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Monthly security review</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Priority 4-hour response SLA</li>
+        </ul>
+        <a class="pkg-btn" href="#contact">Get Started</a>
+      </div>
+      <div class="pkg">
+        <div class="pkg-label">Pro Care</div>
+        <div class="pkg-name">Full IT Coverage</div>
+        <div class="pkg-desc">Complete IT management for businesses requiring end-to-end coverage.</div>
+        <div class="pkg-price">
+          <div class="pkg-amount"><span class="pkg-currency">AED</span>1,200</div>
+          <div class="pkg-period">Per month · No lock-in</div>
+        </div>
+        <ul class="pkg-features">
+          <li class="pkg-feature"><span class="pkg-check"></span>Everything in Managed Support</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Full Microsoft 365 administration</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Cloud backup &amp; proactive monitoring</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Network &amp; device management</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Cybersecurity monitoring</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>On-site visits (Dubai)</li>
+          <li class="pkg-feature"><span class="pkg-check"></span>Dedicated account manager</li>
+        </ul>
+        <a class="pkg-btn" href="#contact">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why" class="section section-bg-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-text">Why RJ Global</span></div>
+      <h2 class="section-title">IT support that<br>delivers results</h2>
+      <p class="section-desc">We operate as an extension of your team — with local knowledge, direct access, and accountability that an offshore provider cannot match.</p>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <div class="why-icon-box">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h4>Rapid Response</h4>
+        <p>Direct access to our engineering team. Most issues are resolved within hours — not queued, not routed, not delayed.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+        </div>
+        <h4>UAE-Based Team</h4>
+        <p>We understand local business regulations, compliance requirements, and the specific technology challenges UAE SMEs face daily.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h4>Clear Communication</h4>
+        <p>We eliminate technical jargon. Every issue is explained plainly, every decision is yours to make — with full transparency throughout.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon-box">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <h4>Scales With You</h4>
+        <p>Our service tiers grow with your headcount and complexity. No penalties for scaling up or down — just the right level of support when you need it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag"><div class="section-tag-line"></div><span class="section-tag-text">Contact</span></div>
+      <h2 class="section-title">Start a conversation</h2>
+      <p class="section-desc">Submit your details and we will respond within 24 hours with a tailored recommendation. No obligation required.</p>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-left reveal d1">
+        <h3>How can we help your business?</h3>
+        <p>Whether you require a one-time setup engagement or a fully managed IT partnership, our team will assess your requirements and recommend the appropriate solution.</p>
+        <div class="contact-details">
+          <div class="cdetail">
+            <div class="cdetail-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><div class="cdetail-label">Email</div><div class="cdetail-value">info@redjemie.com</div></div>
+          </div>
+          <div class="cdetail">
+            <div class="cdetail-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <div><div class="cdetail-label">Website</div><div class="cdetail-value">redjemie.com</div></div>
+          </div>
+          <div class="cdetail">
+            <div class="cdetail-icon"><svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+            <div><div class="cdetail-label">Location</div><div class="cdetail-value">Dubai, United Arab Emirates</div></div>
+          </div>
+          <div class="cdetail">
+            <div class="cdetail-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><div class="cdetail-label">Response Time</div><div class="cdetail-value">Within 24 hours</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-panel reveal d2">
+        <div class="form-panel-header">
+          <div class="form-panel-title">Submit an Inquiry</div>
+          <div class="form-panel-sub">All fields marked * are required. We respond within 24 hours.</div>
+        </div>
+        <div id="formContent">
+          <div class="form-body">
+            <div class="frow">
+              <div class="fg">
+                <label>Full Name *</label>
+                <input type="text" id="fname" placeholder="Your full name" required/>
+              </div>
+              <div class="fg">
+                <label>Phone Number *</label>
+                <input type="tel" id="fphone" placeholder="+971 XX XXX XXXX" required/>
+              </div>
+            </div>
+            <div class="fg">
+              <label>Email Address *</label>
+              <input type="email" id="femail" placeholder="your@email.com" required/>
+            </div>
+            <div class="fg">
+              <label>Service Required</label>
+              <select id="fservice">
+                <option value="">Select a service...</option>
+                <option>IT Support &amp; Troubleshooting</option>
+                <option>Microsoft 365 Setup</option>
+                <option>Website &amp; Domain Management</option>
+                <option>Security &amp; Data Backup</option>
+                <option>Cloud Setup &amp; Migration</option>
+                <option>Device &amp; Network Infrastructure</option>
+                <option>Business Care Package — AED 500/mo</option>
+                <option>Pro Care Package — AED 1,200/mo</option>
+                <option>Not sure — require consultation</option>
+              </select>
+            </div>
+            <div class="fg">
+              <label>Message</label>
+              <textarea id="fmessage" placeholder="Describe your business and what you need help with..."></textarea>
+            </div>
+            <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+              Submit Inquiry <span style="font-size:0.8rem">→</span>
+            </button>
+          </div>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="form-success-icon">✓</div>
+          <h4>Inquiry Received</h4>
+          <p>Thank you. We have received your inquiry and sent a confirmation to your email address.<br><br>A member of our team will respond within <strong>24 hours</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#">
+          <div class="nav-logo-mark">
+            <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+              <circle cx="50" cy="12" r="8" fill="#2563eb" opacity=".8"/>
+              <circle cx="50" cy="12" r="4.5" fill="#080f1c"/>
+              <circle cx="50" cy="12" r="1.75" fill="#2563eb"/>
+              <path d="M17 30 L17 76 L28 76 L28 57 L40 57 L52 76 L65 76 L51 55 C59 52 63 45 63 37 C63 31 56 27 47 27 Z M28 37 L28 49 L45 49 C49 49 52 46 52 43 C52 40 49 37 45 37 Z" fill="rgba(255,255,255,0.75)"/>
+              <path d="M69 27 L79 27 L79 62 C79 70 72 77 63 78 L59 70 C65 69 69 66 69 62 Z" fill="rgba(255,255,255,0.3)"/>
+              <path d="M9 62 Q50 44 91 62" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".5"/>
+              <polygon points="44,83 50,71 56,83" fill="#2563eb" opacity=".6"/>
+            </svg>
+          </div>
+          <span class="nav-logo-text">RJ <em>Global</em></span>
+        </a>
+        <div class="footer-tagline">Connect · Secure · Support</div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#packages">Packages</a></li>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="footer-copy">
+        © 2025 RJ Global Technologies · Dubai, UAE<br>
+        <a href="mailto:info@redjemie.com">info@redjemie.com</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+function toggleMenu() {
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjHDZ_LV1clOsRD1tI7uFAyHYf0R9HU84rt9v4qHCCL0HvUlsgawFKNP_HrS7n_yJW/exec';
+
+async function submitForm() {
+  const name    = document.getElementById('fname').value.trim();
+  const phone   = document.getElementById('fphone').value.trim();
+  const email   = document.getElementById('femail').value.trim();
+  const service = document.getElementById('fservice').value;
+  const message = document.getElementById('fmessage').value.trim();
+
+  if (!name || !phone || !email) {
+    alert('Please complete all required fields.');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, service, message, timestamp: new Date().toISOString() })
+    });
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Submit Inquiry →';
+    alert('Submission failed. Please contact us directly at info@redjemie.com');
+  }
+}
+</script>
+</body>
+</html>
