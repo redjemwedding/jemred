@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RJ Global Technologies — IT Support UAE</title>
+<meta name="description" content="Reliable IT support, Microsoft 365 setup, and managed IT services for small and medium businesses in the UAE."/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0D1B2A;--navy2:#112236;--blue:#1E5BFF;--cyan:#00AEEF;--orange:#FF7A00;--white:#FFFFFF;--card:#0f2035;--border:rgba(255,255,255,0.08);--muted:#8fa3b8;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Poppins',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;}
+
+/* LOGO */
+.logo-svg{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:46px;height:46px;flex-shrink:0;}
+.logo-mark svg{width:100%;height:100%;}
+.logo-text-wrap{display:flex;flex-direction:column;line-height:1;}
+.logo-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.1rem;color:var(--white);letter-spacing:0.04em;}
+.logo-name .c{color:var(--cyan);}
+.logo-sub{font-family:'Montserrat',sans-serif;font-size:0.42rem;font-weight:700;letter-spacing:0.2em;color:var(--orange);text-transform:uppercase;margin-top:3px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;background:rgba(13,27,42,0.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);transition:box-shadow .3s;}
+nav.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.5);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{background:var(--orange);color:#fff;text-decoration:none;padding:.55rem 1.4rem;border-radius:6px;font-size:.85rem;font-weight:700;font-family:'Montserrat',sans-serif;transition:background .2s,transform .2s;}
+.nav-cta:hover{background:#e06800;transform:translateY(-1px);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--navy2);border-bottom:1px solid var(--border);padding:1.5rem 5%;flex-direction:column;gap:1rem;z-index:199;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--muted);text-decoration:none;font-size:1rem;font-weight:500;padding:.5rem 0;border-bottom:1px solid var(--border);}
+.mobile-menu a:last-child{border:none;color:#25d366;font-weight:700;}
+
+/* HERO */
+.hero{min-height:100vh;padding:7rem 5% 5rem;display:flex;align-items:center;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 65% at 75% 45%,rgba(30,91,255,.15) 0%,transparent 65%),radial-gradient(ellipse 45% 50% at 15% 75%,rgba(0,174,239,.09) 0%,transparent 55%);}
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:50px 50px;}
+.hero-glow{position:absolute;right:-10%;top:20%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(30,91,255,.12) 0%,transparent 65%);z-index:0;}
+.hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;width:100%;max-width:1200px;margin:0 auto;}
+.hero-left{animation:fadeUp .7s ease both;}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,174,239,.1);border:1px solid rgba(0,174,239,.25);color:var(--cyan);font-size:.76rem;font-weight:700;padding:.4rem 1rem;border-radius:100px;margin-bottom:1.5rem;letter-spacing:.06em;text-transform:uppercase;}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:900;line-height:1.1;margin-bottom:1.25rem;}
+.acc{color:var(--cyan);}.acc2{color:var(--orange);}
+.hero-desc{font-size:clamp(.875rem,1.5vw,1rem);color:var(--muted);line-height:1.8;margin-bottom:2rem;font-weight:300;max-width:480px;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:var(--blue);color:#fff;text-decoration:none;padding:.8rem 1.8rem;border-radius:7px;font-weight:700;font-family:'Montserrat',sans-serif;font-size:.875rem;transition:all .2s;box-shadow:0 4px 20px rgba(30,91,255,.3);}
+.btn-primary:hover{background:#1a50e0;transform:translateY(-2px);}
+.btn-outline{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:var(--white);text-decoration:none;padding:.8rem 1.8rem;border-radius:7px;font-weight:600;font-family:'Montserrat',sans-serif;font-size:.875rem;border:1.5px solid rgba(255,255,255,.18);transition:all .2s;}
+.btn-outline:hover{border-color:var(--cyan);color:var(--cyan);}
+.hero-trust{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.ti{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--muted);font-weight:500;}
+.ck-icon{width:17px;height:17px;border-radius:50%;background:rgba(0,174,239,.15);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--cyan);flex-shrink:0;}
+
+/* HERO CARD */
+.hero-right{display:flex;justify-content:center;align-items:center;animation:fadeUp .7s .15s ease both;}
+.hcard{background:var(--card);border:1px solid rgba(30,91,255,.22);border-radius:20px;padding:2rem;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.45);position:relative;}
+.hcard::before{content:'';position:absolute;top:-1px;left:30px;right:30px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;}
+.ch{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}
+.ca{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ct{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.875rem;}
+.cs-sub{font-size:.72rem;color:var(--muted);margin-top:1px;}
+.cst{margin-left:auto;display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:#25d366;font-weight:700;}
+.cst .dot{width:6px;height:6px;border-radius:50%;background:#25d366;animation:blink 2s infinite;}
+.cstats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.2rem;}
+.sb{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.8rem;}
+.sb .n{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:900;color:var(--cyan);}
+.sb .l{font-size:.67rem;color:var(--muted);margin-top:2px;}
+.csvc{display:flex;flex-direction:column;gap:.55rem;}
+.csi{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);border-radius:8px;padding:.6rem .8rem;font-size:.78rem;color:var(--muted);}
+.ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0;}
+.ico.b{background:rgba(30,91,255,.15);}
+.ico.c{background:rgba(0,174,239,.12);}
+.ico.o{background:rgba(255,122,0,.12);}
+.chk{margin-left:auto;color:#25d366;font-size:.8rem;}
+
+/* STATS */
+.sbar{background:var(--navy2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:2rem 5%;}
+.sbar-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-around;flex-wrap:wrap;gap:1.5rem;}
+.si-stat{text-align:center;}
+.si-stat .n{font-family:'Montserrat',sans-serif;font-size:1.9rem;font-weight:900;color:var(--cyan);}
+.si-stat .l{font-size:.78rem;color:var(--muted);margin-top:3px;font-weight:500;}
+
+/* SECTIONS */
+section{padding:5rem 5%;}
+.sec-in{max-width:1100px;margin:0 auto;}
+.slbl{font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:.6rem;font-family:'Montserrat',sans-serif;}
+h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-weight:800;margin-bottom:.75rem;line-height:1.2;}
+.sdesc{font-size:.925rem;color:var(--muted);max-width:520px;line-height:1.75;}
+
+/* SERVICES */
+#services{background:var(--navy2);}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-top:3rem;}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.75rem;transition:all .3s;position:relative;overflow:hidden;}
+.sc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));opacity:0;transition:opacity .3s;}
+.sc:hover{border-color:rgba(0,174,239,.3);transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.3);}
+.sc:hover::after{opacity:1;}
+.si2{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem;}
+.si2.b{background:rgba(30,91,255,.12);}
+.si2.c{background:rgba(0,174,239,.1);}
+.si2.o{background:rgba(255,122,0,.1);}
+.sc h3{font-family:'Montserrat',sans-serif;font-size:.975rem;font-weight:700;margin-bottom:.6rem;}
+.sc p{font-size:.85rem;color:var(--muted);line-height:1.7;}
+
+/* PACKAGES */
+#packages{background:var(--navy);}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1.5rem;margin-top:3rem;}
+.pkg{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all .3s;position:relative;}
+.pkg.feat{border-color:rgba(0,174,239,.4);background:linear-gradient(160deg,#0f2035 0%,#0a1a2e 100%);box-shadow:0 0 0 1px rgba(0,174,239,.15),0 20px 50px rgba(0,0,0,.35);}
+.pkg.feat::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;}
+.pbadge{display:inline-block;background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.28rem .8rem;border-radius:100px;margin-bottom:1rem;font-family:'Montserrat',sans-serif;}
+.pname{font-family:'Montserrat',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.4rem;}
+.ptag{font-size:.82rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.5;}
+.pprice{margin-bottom:1.5rem;}
+.pprice .amt{font-family:'Montserrat',sans-serif;font-size:2.1rem;font-weight:900;}
+.pprice .cur{font-size:.95rem;font-weight:700;color:var(--cyan);margin-right:2px;}
+.pprice .per{font-size:.78rem;color:var(--muted);display:block;margin-top:2px;}
+.pf{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.75rem;}
+.pf li{display:flex;align-items:flex-start;gap:.55rem;font-size:.845rem;color:var(--muted);line-height:1.5;}
+.pf li .v{color:var(--cyan);flex-shrink:0;margin-top:1px;}
+.btnp{display:block;text-align:center;padding:.8rem;border-radius:8px;font-weight:700;font-size:.875rem;text-decoration:none;transition:all .2s;font-family:'Montserrat',sans-serif;}
+.btnp.gh{border:1.5px solid rgba(255,255,255,.15);color:var(--white);}
+.btnp.gh:hover{border-color:var(--cyan);color:var(--cyan);}
+.btnp.fl{background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;}
+.btnp.fl:hover{opacity:.9;transform:translateY(-2px);}
+
+/* WHY */
+#why{background:var(--navy2);}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:3rem;}
+.wc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color .3s;}
+.wc:hover{border-color:rgba(0,174,239,.25);}
+.wi{font-size:1.6rem;margin-bottom:.9rem;}
+.wc h4{font-family:'Montserrat',sans-serif;font-size:.93rem;font-weight:700;margin-bottom:.5rem;}
+.wc p{font-size:.84rem;color:var(--muted);line-height:1.65;}
+
+/* CONTACT FORM */
+#contact{background:var(--navy);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;margin-top:3rem;}
+.contact-info h3{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:1rem;}
+.contact-info p{font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;}
+.cinfo-items{display:flex;flex-direction:column;gap:1rem;}
+.cinfo-item{display:flex;align-items:center;gap:.75rem;font-size:.875rem;color:var(--muted);}
+.cinfo-icon{width:38px;height:38px;border-radius:9px;background:rgba(0,174,239,.1);border:1px solid rgba(0,174,239,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.cinfo-item strong{display:block;color:var(--white);font-weight:600;font-size:.82rem;margin-bottom:1px;}
+
+/* FORM */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;}
+.form-card::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;}
+.form-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:.4rem;}
+.form-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem;}
+.fgroup{margin-bottom:1.1rem;}
+.fgroup label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase;font-family:'Montserrat',sans-serif;}
+.fgroup input,.fgroup select,.fgroup textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;color:var(--white);font-family:'Poppins',sans-serif;font-size:.875rem;outline:none;transition:border-color .2s;}
+.fgroup input:focus,.fgroup select:focus,.fgroup textarea:focus{border-color:var(--cyan);}
+.fgroup input::placeholder,.fgroup textarea::placeholder{color:rgba(255,255,255,.25);}
+.fgroup select{appearance:none;cursor:pointer;}
+.fgroup select option{background:var(--navy2);color:var(--white);}
+.fgroup textarea{resize:vertical;min-height:100px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.btn-submit{width:100%;padding:.9rem;background:linear-gradient(90deg,var(--blue),var(--cyan));color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.925rem;font-family:'Montserrat',sans-serif;cursor:pointer;transition:all .2s;margin-top:.5rem;}
+.btn-submit:hover:not(:disabled){opacity:.9;transform:translateY(-2px);}
+.btn-submit:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+.form-success{display:none;text-align:center;padding:2rem 1rem;}
+.form-success .tick{font-size:3rem;margin-bottom:1rem;}
+.form-success h4{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:.5rem;color:var(--cyan);}
+.form-success p{font-size:.875rem;color:var(--muted);line-height:1.7;}
+
+/* CAPTCHA */
+.captcha-wrap{margin-bottom:1.1rem;}
+.captcha-wrap label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.5rem;letter-spacing:.04em;text-transform:uppercase;font-family:'Montserrat',sans-serif;}
+.captcha-area{position:relative;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;height:80px;overflow:hidden;user-select:none;transition:border-color .3s;}
+.captcha-area.verified{border-color:#25d366;}
+.cap-track{position:absolute;top:50%;left:14px;right:14px;height:2px;background:rgba(255,255,255,.08);transform:translateY(-50%);border-radius:2px;}
+.cap-slot{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:52px;height:52px;border:2px dashed rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;transition:border-color .3s;}
+.captcha-area.verified .cap-slot{border-color:#25d366;border-style:solid;}
+.cap-slot-icon{font-size:1.1rem;opacity:.3;}
+.cap-piece{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:52px;height:52px;background:linear-gradient(135deg,var(--blue),var(--cyan));border-radius:10px;cursor:grab;display:flex;align-items:center;justify-content:center;font-size:1.2rem;touch-action:none;box-shadow:0 4px 16px rgba(30,91,255,.35);transition:background .25s,box-shadow .2s;}
+.cap-piece:active{cursor:grabbing;box-shadow:0 6px 24px rgba(30,91,255,.5);}
+.cap-piece.solved{background:linear-gradient(135deg,#1a9e4e,#25d366);cursor:default;box-shadow:0 4px 16px rgba(37,211,102,.3);}
+.cap-piece.wrong{background:linear-gradient(135deg,#c0392b,#e74c3c);}
+.captcha-hint{font-size:.74rem;color:var(--muted);margin-top:.5rem;}
+.captcha-ok{font-size:.74rem;color:#25d366;margin-top:.5rem;display:none;}
+
+/* FOOTER */
+footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
+.fin{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;}
+.ftag{font-size:.72rem;color:var(--muted);margin-top:.35rem;letter-spacing:.08em;font-family:'Montserrat',sans-serif;}
+.ftag span{color:var(--orange);}
+.flinks{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap;}
+.flinks a{color:var(--muted);text-decoration:none;font-size:.85rem;transition:color .2s;}
+.flinks a:hover{color:var(--white);}
+.fcopy{font-size:.76rem;color:var(--muted);line-height:1.7;}
+.fcopy a{color:var(--cyan);text-decoration:none;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .nav-links,.nav-cta{display:none;}
+  .hamburger{display:flex;}
+  .contact-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  h1{font-size:1.85rem;}
+  section{padding:3.5rem 5%;}
+  .frow{grid-template-columns:1fr;}
+  .fin{flex-direction:column;text-align:center;}
+  .flinks{justify-content:center;}
+  .hero-actions{flex-direction:column;}
+  .btn-primary,.btn-outline{width:100%;justify-content:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a class="logo-svg" href="#">
+    <div class="logo-mark">
+      <img src="https://www.redjemie.com/rjglobaltech/IMG_7153.jpeg" alt="RJ Global Technologies" style="width:46px;height:46px;border-radius:50%;object-fit:cover;display:block;"/>
+    </div>
+    <div class="logo-text-wrap">
+      <span class="logo-name">RJ <span class="c">GLOBAL</span></span>
+      <span class="logo-sub">Connect · Secure · Support</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Get in Touch</a>
+  <div class="hamburger" id="hbg" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobMenu">
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#packages" onclick="toggleMenu()">Packages</a>
+  <a href="#why" onclick="toggleMenu()">Why Us</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+  <a href="#contact" onclick="toggleMenu()">📩 Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="pulse"></span> 🇦🇪 Serving UAE Businesses</div>
+      <h1>Smart IT Support<br>for <span class="acc">Growing</span><br><span class="acc2">UAE Businesses</span></h1>
+      <p class="hero-desc">We handle your technology so you can focus on what matters — running your business. From Microsoft 365 to full IT support, we've got you covered.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#contact">📩 Send an Inquiry</a>
+        <a class="btn-outline" href="#packages">View Packages</a>
+      </div>
+      <div class="hero-trust">
+        <div class="ti"><span class="ck-icon">✓</span>No lock-in contracts</div>
+        <div class="ti"><span class="ck-icon">✓</span>UAE-based team</div>
+        <div class="ti"><span class="ck-icon">✓</span>Fast response</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hcard">
+        <div class="ch">
+          <div class="ca">🖥️</div>
+          <div><div class="ct">RJ Global Support</div><div class="cs-sub">IT Services Dashboard</div></div>
+          <div class="cst"><span class="dot"></span>Online</div>
+        </div>
+        <div class="cstats">
+          <div class="sb"><div class="n">24h</div><div class="l">Response Time</div></div>
+          <div class="sb"><div class="n" style="color:var(--orange)">UAE</div><div class="l">Local Team</div></div>
+          <div class="sb"><div class="n">M365</div><div class="l">Certified Setup</div></div>
+          <div class="sb"><div class="n" style="color:#25d366">Live</div><div class="l">Support Active</div></div>
+        </div>
+        <div class="csvc">
+          <div class="csi"><div class="ico b">📧</div>Microsoft 365 Management<span class="chk">✓</span></div>
+          <div class="csi"><div class="ico c">🔐</div>Security &amp; Backup<span class="chk">✓</span></div>
+          <div class="csi"><div class="ico o">🛠️</div>IT Support &amp; Troubleshooting<span class="chk">✓</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="sbar reveal">
+  <div class="sbar-in">
+    <div class="si-stat"><div class="n">100%</div><div class="l">UAE-Based Team</div></div>
+    <div class="si-stat"><div class="n">&lt;24h</div><div class="l">Average Response</div></div>
+    <div class="si-stat"><div class="n">SME</div><div class="l">Focused Services</div></div>
+    <div class="si-stat"><div class="n">M365</div><div class="l">Certified Setup</div></div>
+    <div class="si-stat"><div class="n">AED</div><div class="l">Local Pricing</div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-in">
+    <div class="reveal">
+      <div class="slbl">What We Do</div>
+      <h2>Complete IT Services for UAE SMEs</h2>
+      <p class="sdesc">Everything your business needs to stay connected, secure, and running — without the cost of a full-time IT department.</p>
+    </div>
+    <div class="sgrid">
+      <div class="sc reveal d1"><div class="si2 b">🖥️</div><h3>IT Support &amp; Troubleshooting</h3><p>Remote and on-site support for hardware, software, and network issues. Fast resolution so your team never loses productivity.</p></div>
+      <div class="sc reveal d2"><div class="si2 c">📧</div><h3>Microsoft 365 Setup &amp; Management</h3><p>Full M365 setup — business email, Teams, SharePoint, OneDrive — configured properly with security and access controls from day one.</p></div>
+      <div class="sc reveal d3"><div class="si2 o">🌐</div><h3>Website &amp; Domain Management</h3><p>Website setup, domain configuration, DNS management, hosting, and ongoing maintenance so your online presence stays fast.</p></div>
+      <div class="sc reveal d1"><div class="si2 b">🔐</div><h3>Security &amp; Data Backup</h3><p>Protect your business data with proper security setup, regular automated backups, and cybersecurity best practices.</p></div>
+      <div class="sc reveal d2"><div class="si2 c">☁️</div><h3>Cloud Setup &amp; Migration</h3><p>Move your business to the cloud safely. Google Workspace or Microsoft 365 — we handle migration cleanly with zero data loss.</p></div>
+      <div class="sc reveal d3"><div class="si2 o">🛠️</div><h3>Device &amp; Network Setup</h3><p>New office setup, device configuration, Wi-Fi and network infrastructure — everything ready for your team on day one.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="sec-in">
+    <div class="reveal">
+      <div class="slbl">Pricing Plans</div>
+      <h2>Simple, Transparent Packages</h2>
+      <p class="sdesc">No hidden fees. No confusing contracts. Just reliable IT support at a price that works for your business.</p>
+    </div>
+    <div class="pgrid">
+      <div class="pkg reveal d1">
+        <div class="pname">Starter</div>
+        <div class="ptag">Perfect for new businesses that need a solid IT foundation.</div>
+        <div class="pprice"><span class="cur">AED</span><span class="amt">300</span><span class="per">One-time setup fee</span></div>
+        <ul class="pf">
+          <li><span class="v">✓</span>Business email setup (M365 or Gmail)</li>
+          <li><span class="v">✓</span>Domain &amp; DNS configuration</li>
+          <li><span class="v">✓</span>WhatsApp Business setup</li>
+          <li><span class="v">✓</span>Basic device configuration</li>
+          <li><span class="v">✓</span>30 days free follow-up support</li>
+        </ul>
+        <a class="btnp gh" href="#contact">Get Started →</a>
+      </div>
+      <div class="pkg feat reveal d2">
+        <div class="pbadge">Most Popular</div>
+        <div class="pname">Business Care</div>
+        <div class="ptag">For growing SMEs that need reliable ongoing IT support.</div>
+        <div class="pprice"><span class="cur">AED</span><span class="amt">500</span><span class="per">Per month · No lock-in</span></div>
+        <ul class="pf">
+          <li><span class="v">✓</span>Everything in Starter</li>
+          <li><span class="v">✓</span>Monthly IT support &amp; troubleshooting</li>
+          <li><span class="v">✓</span>Email &amp; account management</li>
+          <li><span class="v">✓</span>Password &amp; access management</li>
+          <li><span class="v">✓</span>Monthly security check</li>
+          <li><span class="v">✓</span>Priority response within 4 hours</li>
+        </ul>
+        <a class="btnp fl" href="#contact">Get Started →</a>
+      </div>
+      <div class="pkg reveal d3">
+        <div class="pname">Pro Care</div>
+        <div class="ptag">Full IT coverage for businesses that need complete peace of mind.</div>
+        <div class="pprice"><span class="cur">AED</span><span class="amt">1,200</span><span class="per">Per month · No lock-in</span></div>
+        <ul class="pf">
+          <li><span class="v">✓</span>Everything in Business Care</li>
+          <li><span class="v">✓</span>Full Microsoft 365 management</li>
+          <li><span class="v">✓</span>Cloud backup &amp; monitoring</li>
+          <li><span class="v">✓</span>Network &amp; device management</li>
+          <li><span class="v">✓</span>Cybersecurity monitoring</li>
+          <li><span class="v">✓</span>On-site visits (Dubai)</li>
+          <li><span class="v">✓</span>Dedicated account manager</li>
+        </ul>
+        <a class="btnp gh" href="#contact">Get Started →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="sec-in">
+    <div class="reveal">
+      <div class="slbl">Why RJ Global</div>
+      <h2>IT Support That Actually Shows Up</h2>
+      <p class="sdesc">We're not a faceless IT company. We're a dedicated local team that treats your business like our own.</p>
+    </div>
+    <div class="wgrid">
+      <div class="wc reveal d1"><div class="wi">⚡</div><h4>Fast Response</h4><p>Direct access to our team. Most issues resolved within hours — no ticketing queues, no waiting around.</p></div>
+      <div class="wc reveal d2"><div class="wi">🇦🇪</div><h4>UAE-Based Team</h4><p>We understand the UAE business environment, local regulations, and what SMEs here actually need from their IT.</p></div>
+      <div class="wc reveal d3"><div class="wi">💬</div><h4>Plain Language</h4><p>No confusing tech jargon. We explain what's happening clearly so you always know the status of your systems.</p></div>
+      <div class="wc reveal d1"><div class="wi">📈</div><h4>Scales With You</h4><p>Start with what you need. Add more support as your business grows. No lock-ins, no penalties, no surprises.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-in">
+    <div class="reveal">
+      <div class="slbl">Get In Touch</div>
+      <h2>Let's Sort Your IT Today</h2>
+      <p class="sdesc">Fill in the form and we'll get back to you within 24 hours. No commitment required.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal d1">
+        <h3>We'd love to hear from you</h3>
+        <p>Whether you need a one-time setup or ongoing IT support, send us your details and we'll come back to you with the best solution for your business.</p>
+        <div class="cinfo-items">
+          <div class="cinfo-item">
+            <div class="cinfo-icon">📧</div>
+            <div><strong>Email Us</strong>info@redjemie.com</div>
+          </div>
+          <div class="cinfo-item">
+            <div class="cinfo-icon">🌐</div>
+            <div><strong>Website</strong>redjemie.com</div>
+          </div>
+          <div class="cinfo-item">
+            <div class="cinfo-icon">📍</div>
+            <div><strong>Location</strong>Dubai, United Arab Emirates</div>
+          </div>
+          <div class="cinfo-item">
+            <div class="cinfo-icon">⏱️</div>
+            <div><strong>Response Time</strong>Within 24 hours</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card reveal d2">
+        <div id="formContent">
+          <div class="form-title">Send Us an Inquiry</div>
+          <div class="form-sub">We'll reply to your email within 24 hours.</div>
+          <div class="frow">
+            <div class="fgroup">
+              <label>Full Name *</label>
+              <input type="text" id="fname" placeholder="Your full name" required/>
+            </div>
+            <div class="fgroup">
+              <label>Phone Number *</label>
+              <input type="tel" id="fphone" placeholder="+971 XX XXX XXXX" required/>
+            </div>
+          </div>
+          <div class="fgroup">
+            <label>Email Address *</label>
+            <input type="email" id="femail" placeholder="your@email.com" required/>
+          </div>
+          <div class="fgroup">
+            <label>Service Interested In</label>
+            <select id="fservice">
+              <option value="">Select a service...</option>
+              <option>IT Support &amp; Troubleshooting</option>
+              <option>Microsoft 365 Setup</option>
+              <option>Website &amp; Domain Management</option>
+              <option>Security &amp; Data Backup</option>
+              <option>Cloud Setup &amp; Migration</option>
+              <option>Device &amp; Network Setup</option>
+              <option>Monthly Package (Business Care)</option>
+              <option>Monthly Package (Pro Care)</option>
+              <option>Not sure — need advice</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label>Message</label>
+            <textarea id="fmessage" placeholder="Tell us about your business and what you need help with..."></textarea>
+          </div>
+
+          <!-- HONEYPOT — hidden from humans, bots fill this -->
+          <div style="display:none!important;position:absolute;left:-9999px;" aria-hidden="true">
+            <input type="text" id="f_hp" name="_hp" tabindex="-1" autocomplete="off"/>
+          </div>
+
+          <!-- JIGSAW CAPTCHA -->
+          <div class="captcha-wrap">
+            <label>Security Check *</label>
+            <div class="captcha-area" id="capArea">
+              <div class="cap-track"></div>
+              <div class="cap-slot" id="capSlot"><span class="cap-slot-icon">🔒</span></div>
+              <div class="cap-piece" id="capPiece">🧩</div>
+            </div>
+            <div class="captcha-hint" id="capHint">Drag the puzzle piece into the slot to verify you're human</div>
+            <div class="captcha-ok" id="capOk">✅ Verified — you're human!</div>
+          </div>
+
+          <button class="btn-submit" id="submitBtn" disabled onclick="submitForm()">Send Inquiry →</button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="tick">✅</div>
+          <h4>Inquiry Received!</h4>
+          <p>Thank you! We've received your inquiry and sent a confirmation to your email.<br><br>Our team will get back to you within <strong>24 hours</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fin">
+    <div>
+      <a class="logo-svg" href="#">
+        <div class="logo-mark" style="width:38px;height:38px;">
+          <img src="https://www.redjemie.com/rjglobaltech/IMG_7153.jpeg" alt="RJ Global Technologies" style="width:38px;height:38px;border-radius:50%;object-fit:cover;display:block;"/>
+        </div>
+        <div class="logo-text-wrap">
+          <span class="logo-name" style="font-size:.95rem;">RJ <span class="c">GLOBAL</span></span>
+        </div>
+      </a>
+      <div class="ftag">Connect · Secure · <span>Support</span></div>
+    </div>
+    <ul class="flinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p class="fcopy">© 2025 RJ Global Technologies · Dubai, UAE<br>
+      <a href="mailto:info@redjemie.com">info@redjemie.com</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+// ── NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>20);
+});
+
+// ── MOBILE MENU
+function toggleMenu(){
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+
+// ── SCROLL REVEAL
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── JIGSAW CAPTCHA
+(function(){
+  let solved = false;
+  let dragging = false;
+  let startMouseX = 0;
+  let pieceStartX = 0;
+
+  const area   = document.getElementById('capArea');
+  const piece  = document.getElementById('capPiece');
+  const slot   = document.getElementById('capSlot');
+  const hint   = document.getElementById('capHint');
+  const ok     = document.getElementById('capOk');
+  const btn    = document.getElementById('submitBtn');
+
+  // reset piece to left on load
+  piece.style.left = '14px';
+
+  function getClientX(e){ return e.touches ? e.touches[0].clientX : e.clientX; }
+
+  piece.addEventListener('mousedown', startDrag);
+  piece.addEventListener('touchstart', startDrag, {passive:true});
+
+  function startDrag(e){
+    if(solved) return;
+    dragging = true;
+    startMouseX = getClientX(e);
+    pieceStartX = parseInt(piece.style.left) || 14;
+    piece.style.transition = 'none';
+  }
+
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('touchmove', onDrag, {passive:false});
+
+  function onDrag(e){
+    if(!dragging) return;
+    if(e.cancelable) e.preventDefault();
+    const areaRect = area.getBoundingClientRect();
+    const slotRect = slot.getBoundingClientRect();
+    const maxX = slotRect.left - areaRect.left;
+    const dx = getClientX(e) - startMouseX;
+    let newX = Math.max(14, Math.min(pieceStartX + dx, maxX));
+    piece.style.left = newX + 'px';
+  }
+
+  document.addEventListener('mouseup', endDrag);
+  document.addEventListener('touchend', endDrag);
+
+  function endDrag(){
+    if(!dragging) return;
+    dragging = false;
+
+    const areaRect  = area.getBoundingClientRect();
+    const slotRect  = slot.getBoundingClientRect();
+    const pieceRect = piece.getBoundingClientRect();
+    const slotLeft  = slotRect.left - areaRect.left;
+    const pieceLeft = parseInt(piece.style.left) || 14;
+    const distance  = Math.abs(pieceLeft - slotLeft);
+
+    if(distance <= 20){
+      // SNAP INTO SLOT
+      piece.style.transition = 'left .15s ease';
+      piece.style.left = slotLeft + 'px';
+      piece.classList.add('solved');
+      area.classList.add('verified');
+      solved = true;
+      hint.style.display = 'none';
+      ok.style.display = 'block';
+      checkFormReady();
+    } else {
+      // WRONG — shake & reset
+      piece.style.transition = 'left .25s ease';
+      piece.style.left = '14px';
+      piece.classList.add('wrong');
+      setTimeout(()=> piece.classList.remove('wrong'), 400);
+    }
+  }
+
+  // Watch form fields to enable submit only when all filled + captcha solved
+  function checkFormReady(){
+    const name  = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const hp    = document.getElementById('f_hp').value;
+    if(hp) return; // honeypot triggered — silently block
+    btn.disabled = !(solved && name && phone && email);
+  }
+
+  ['fname','fphone','femail','fmessage'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', checkFormReady);
+  });
+
+  // expose solved state for submitForm
+  window._captchaSolved = () => solved;
+})();
+
+// ── FORM SUBMIT — rate limited, honeypot checked, connects to Google Apps Script
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjHDZ_LV1clOsRD1tI7uFAyHYf0R9HU84rt9v4qHCCL0HvUlsgawFKNP_HrS7n_yJW/exec';
+
+let _lastSubmit = 0;
+let _submitCount = 0;
+
+async function submitForm(){
+  // Honeypot check
+  if(document.getElementById('f_hp').value) return;
+
+  // Captcha check
+  if(!window._captchaSolved()){ alert('Please complete the security check first.'); return; }
+
+  // Client-side rate limiting
+  const now = Date.now();
+  if(now - _lastSubmit < 30000){ alert('Please wait a moment before submitting again.'); return; }
+  if(_submitCount >= 3){ alert('Too many submissions. Please email us directly at info@redjemie.com'); return; }
+
+  const name    = document.getElementById('fname').value.trim();
+  const phone   = document.getElementById('fphone').value.trim();
+  const email   = document.getElementById('femail').value.trim();
+  const service = document.getElementById('fservice').value;
+  const message = document.getElementById('fmessage').value.trim();
+
+  if(!name||!phone||!email){
+    alert('Please fill in your name, phone, and email.');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(()=> ctrl.abort(), 8000);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({name, phone, email, service, message, _hp:'', timestamp: new Date().toISOString()})
+    });
+    clearTimeout(t);
+    _lastSubmit = now;
+    _submitCount++;
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Send Inquiry →';
+    alert('Something went wrong. Please email us directly at info@redjemie.com');
+  }
+}
+</script>
+</body>
+</html>
