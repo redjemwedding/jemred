@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>RDConnect — Smart Biometric Attendance Platform | RJ Global Technologies</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0B1628;--navy2:#0D1E38;--navy3:#102240;
+  --blue:#1A3A6B;--blue2:#2563EB;--blue3:#3B82F6;--blue4:#DBEAFE;
+  --green:#10B981;--green2:#059669;--green3:#D1FAE5;
+  --teal:#0EA5E9;--teal2:#BAE6FD;
+  --gold:#F59E0B;--gold2:#FEF3C7;
+  --red:#EF4444;--red2:#FEE2E2;
+  --purple:#7C3AED;--purple2:#EDE9FE;--purple3:#C4B5FD;
+  --dark:#0F172A;--mid:#334155;--light:#64748B;--xlight:#94A3B8;
+  --border:#E2E8F0;--bg:#F8FAFC;--white:#fff;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--r-xl:24px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ══ NAV ══ */
+.nav{
+  background:var(--navy);height:64px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-icon{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue2),var(--green));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Sora',sans-serif;font-weight:800;font-size:14px;color:#fff;
+}
+.nav-logo-text .t1{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;color:#fff}
+.nav-logo-text .t2{font-size:17px;font-weight:300;color:rgba(255,255,255,.55)}
+.nav-logo-text .sub{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);display:block;margin-top:1px}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-badge{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.28);color:var(--green);padding:5px 13px;border-radius:100px;font-size:10px;font-weight:600;letter-spacing:.5px;white-space:nowrap}
+.nav-btn{background:linear-gradient(135deg,var(--blue2),#1D4ED8);color:#fff;padding:7px 16px;border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;border:none;cursor:pointer;white-space:nowrap;transition:transform .15s}
+.nav-btn:hover{transform:translateY(-1px)}
+@media(max-width:520px){.nav-badge{display:none}.nav-btn{display:none}}
+
+/* ══ HERO ══ */
+.hero{
+  background:linear-gradient(140deg,var(--navy) 0%,var(--navy2) 45%,#0C2545 100%);
+  position:relative;overflow:hidden;padding:56px 24px 0;
+}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.hero-glow1{position:absolute;top:-180px;right:-120px;width:550px;height:550px;background:radial-gradient(circle,rgba(37,99,235,.16) 0%,transparent 70%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-80px;left:-60px;width:380px;height:380px;background:radial-gradient(circle,rgba(16,185,129,.1) 0%,transparent 70%);pointer-events:none}
+
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:start;position:relative;z-index:2}
+
+/* hero left */
+.hero-left{padding-top:20px;padding-bottom:56px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.28);
+  color:var(--green);padding:6px 14px;border-radius:100px;
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;
+}
+.hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+.hero-h1{font-family:'Sora',sans-serif;font-size:clamp(36px,4.8vw,56px);font-weight:800;line-height:1.05;letter-spacing:-2px;color:#fff;margin-bottom:10px}
+.hero-h1 .g{color:var(--green)}
+.hero-h1 .b{color:var(--blue3)}
+.hero-sub{font-family:'Sora',sans-serif;font-size:clamp(14px,2vw,18px);font-weight:300;color:rgba(255,255,255,.52);margin-bottom:20px;letter-spacing:.5px}
+.hero-desc{font-size:14px;line-height:1.8;color:rgba(255,255,255,.46);margin-bottom:30px;max-width:460px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+.pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.72);padding:6px 13px;border-radius:100px;font-size:11px;font-weight:500}
+.pill-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.pd-g{background:var(--green)}.pd-b{background:var(--blue3)}.pd-o{background:var(--gold)}.pd-t{background:var(--teal)}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:12px 22px;border-radius:var(--r-md);font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;border:none;transition:all .18s;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--blue2),#1D4ED8);color:#fff;box-shadow:0 6px 20px rgba(37,99,235,.38)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,99,235,.5)}
+.btn-green{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;box-shadow:0 6px 20px rgba(16,185,129,.3)}
+.btn-green:hover{transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.75)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+/* ── HERO RIGHT — device mockup + dashboard ── */
+.hero-right{display:flex;flex-direction:column;align-items:center;gap:16px;padding-bottom:32px}
+
+/* DEVICE CARD */
+.device-card{
+  width:100%;max-width:320px;
+  background:linear-gradient(150deg,#1C2E4A 0%,#0F1F38 100%);
+  border-radius:var(--r-xl);padding:24px 20px;
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 36px 72px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.04);
+}
+.device-card-top{display:flex;justify-content:center;margin-bottom:16px}
+.device-logo-wrap{display:flex;flex-direction:column;align-items:center;gap:5px}
+.device-logo-icon{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--blue2),var(--green));display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:800;font-size:13px;color:#fff}
+.device-logo-sub{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.38)}
+
+/* biometric device illustration */
+.biometric-device{
+  width:110px;height:145px;margin:0 auto 18px;
+  background:linear-gradient(160deg,#1a2a3a 0%,#0d1a28 100%);
+  border-radius:14px;border:2px solid rgba(255,255,255,.12);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:12px 10px 10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08);
+  position:relative;overflow:hidden;
+}
+.biometric-device::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue2),var(--green))}
+.bd-screen{
+  width:90%;height:52px;background:#0a1520;border-radius:7px;
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;
+}
+.bd-screen-logo{font-family:'Sora',sans-serif;font-size:9px;font-weight:700;color:var(--blue3);letter-spacing:.5px}
+.bd-screen-time{font-size:11px;font-weight:700;color:#fff;letter-spacing:1px}
+.bd-screen-date{font-size:7px;color:rgba(255,255,255,.4);letter-spacing:.5px}
+.bd-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:90%}
+.bd-key{height:12px;background:rgba(255,255,255,.07);border-radius:3px;border:1px solid rgba(255,255,255,.08)}
+.bd-key.wide{grid-column:span 3}
+.bd-fingerprint{
+  width:38px;height:38px;background:linear-gradient(135deg,rgba(16,185,129,.15),rgba(37,99,235,.15));
+  border-radius:8px;border:1px solid rgba(16,185,129,.3);
+  display:flex;align-items:center;justify-content:center;
+}
+.bd-fp-svg{width:22px;height:22px;opacity:.85}
+
+.device-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.device-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 8px;text-align:center}
+.device-stat-num{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff}
+.device-stat-lbl{font-size:8px;color:rgba(255,255,255,.42);margin-top:2px;line-height:1.3}
+.device-stat-sub{font-size:7px;margin-top:1px}
+
+.device-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:8px 10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:9px}
+.device-status-label{font-size:9px;color:rgba(255,255,255,.5)}
+.device-status-badge{font-size:9px;font-weight:600;padding:3px 9px;border-radius:100px}
+.device-status-badge.online{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.25)}
+
+.device-links{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.device-link{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.55);font-size:9px;cursor:pointer;transition:background .15s}
+.device-link:hover{background:rgba(255,255,255,.1);color:#fff}
+.device-link span{color:rgba(255,255,255,.2);font-size:8px}
+
+/* MINI DASHBOARD PREVIEW */
+.mini-dash{
+  width:100%;max-width:320px;
+  background:#F0F4FF;border-radius:var(--r-lg);overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.mini-dash-bar{background:var(--navy);padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.mini-dash-title{font-family:'Sora',sans-serif;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+.mini-live{width:6px;height:6px;background:var(--green);border-radius:50%;animation:blink 2s infinite}
+.mini-dash-icons{color:rgba(255,255,255,.4);font-size:10px;display:flex;gap:6px}
+.mini-dash-body{padding:12px}
+.mini-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.mini-stat{background:#fff;border-radius:8px;padding:7px 6px;border:1px solid var(--border)}
+.mini-stat-n{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:var(--dark)}
+.mini-stat-l{font-size:7px;color:var(--light);margin-top:1px}
+.mini-chart{background:#fff;border-radius:8px;padding:9px;border:1px solid var(--border);margin-bottom:8px}
+.mini-chart-t{font-size:8px;font-weight:600;color:var(--mid);margin-bottom:7px}
+.mini-bars{display:flex;align-items:flex-end;gap:3px;height:36px}
+.mini-bar{flex:1;border-radius:2px 2px 0 0}
+.mini-activity{background:#fff;border-radius:8px;padding:9px;border:1px solid var(--border)}
+.mini-act-t{font-size:8px;font-weight:600;color:var(--mid);margin-bottom:7px;display:flex;justify-content:space-between}
+.mini-act-t span{color:var(--blue2);cursor:pointer}
+.mini-act-row{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid #F1F5F9}
+.mini-act-row:last-child{border-bottom:none}
+.mini-act-av{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;color:#fff;flex-shrink:0}
+.mini-act-name{font-size:8px;font-weight:500;color:var(--dark);flex:1}
+.mini-act-time{font-size:7px;color:var(--light)}
+
+/* BADGE BAR */
+.badge-bar{background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.07);padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;position:relative;z-index:2}
+.bb-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.56);font-size:11px;font-weight:500}
+.bb-div{height:24px;width:1px;background:rgba(255,255,255,.08);margin-left:auto}
+.bb-tag{font-size:11px;font-weight:600;color:#fff;display:flex;align-items:center;gap:7px;white-space:nowrap}
+@media(max-width:768px){.bb-div{display:none}.bb-tag{width:100%}}
+
+/* ══ SECTIONS ══ */
+.section{padding:72px 24px}
+.s-white{background:var(--white)}
+.s-gray{background:var(--bg)}
+.s-dark{background:var(--navy)}
+.s-blue{background:#F0F4FF}
+.inner{max-width:1100px;margin:0 auto}
+.sec-head{text-align:center;margin-bottom:52px}
+.sec-eye{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue2);margin-bottom:10px}
+.sec-title{font-family:'Sora',sans-serif;font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;color:var(--dark);margin-bottom:14px}
+.sec-title.w{color:#fff}
+.sec-sub{font-size:15px;color:var(--light);max-width:560px;margin:0 auto;line-height:1.75}
+.sec-sub.w{color:rgba(255,255,255,.5)}
+
+/* ══ HOW IT WORKS ══ */
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.how-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-xl);padding:32px 26px;position:relative;overflow:hidden}
+.how-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.hc-blue::before{background:linear-gradient(90deg,var(--blue2),var(--blue3))}
+.hc-green::before{background:linear-gradient(90deg,var(--green),#34D399)}
+.hc-teal::before{background:linear-gradient(90deg,var(--teal),#38BDF8)}
+.how-num{font-family:'Sora',sans-serif;font-size:56px;font-weight:800;color:#EEF2FF;line-height:1;margin-bottom:-6px}
+.how-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.hi-b{background:#EFF6FF}.hi-g{background:#ECFDF5}.hi-t{background:#F0F9FF}
+.how-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:10px}
+.how-desc{font-size:13px;line-height:1.75;color:var(--light)}
+@media(max-width:768px){.how-grid{grid-template-columns:1fr}}
+
+/* ══ FULL DASHBOARD ══ */
+.dash-wrap{border-radius:var(--r-xl);overflow:hidden;box-shadow:0 20px 70px rgba(0,0,0,.1);border:1px solid var(--border)}
+.dash-topbar{background:var(--navy);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.dash-logo{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.dash-live-tag{font-size:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);background:rgba(16,185,129,.13);padding:3px 8px;border-radius:4px;border:1px solid rgba(16,185,129,.2)}
+.dash-topbar-r{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.5);font-size:11px}
+.dash-av{width:26px;height:26px;background:var(--blue2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.dash-layout{display:flex;min-height:460px}
+.dash-sidebar{width:175px;background:#0D1830;padding:16px 0;flex-shrink:0}
+.dash-nav-grp{margin-bottom:16px}
+.dash-nav-lbl{font-size:8px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.17);padding:0 14px;margin-bottom:4px}
+.dash-nav-item{display:flex;align-items:center;gap:9px;padding:8px 14px;font-size:10px;color:rgba(255,255,255,.37)}
+.dash-nav-item.active{color:#fff;background:rgba(37,99,235,.18);border-left:2px solid var(--blue3)}
+.dash-nav-item svg{width:12px;height:12px;flex-shrink:0}
+.dash-main{flex:1;padding:20px;background:#F0F4FF}
+.dash-main-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:16px}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.dash-stat{background:#fff;border-radius:12px;padding:13px 15px;border:1px solid var(--border)}
+.dash-stat-lbl{font-size:9px;color:var(--light);margin-bottom:5px}
+.dash-stat-num{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--dark)}
+.dash-stat-sub{font-size:8px;color:var(--green);margin-top:2px}
+.dash-row2{display:grid;grid-template-columns:1.6fr 1fr;gap:10px;margin-bottom:10px}
+.dash-box{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--border)}
+.dash-box-t{font-size:10px;font-weight:600;color:var(--mid);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.dash-box-t span{font-size:9px;color:var(--blue2);cursor:pointer}
+.chart-area{display:flex;align-items:flex-end;gap:5px;height:70px}
+.chart-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.chart-bar{width:100%;border-radius:3px 3px 0 0}
+.chart-lbl{font-size:7px;color:var(--xlight)}
+
+/* device status donut */
+.donut-wrap{display:flex;flex-direction:column;gap:6px}
+.donut-item{display:flex;align-items:center;gap:7px;font-size:9px;color:var(--mid)}
+.donut-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.donut-lbl{flex:1}
+.donut-num{font-weight:700;color:var(--dark)}
+.donut-circle{display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+
+.activity-list{display:flex;flex-direction:column;gap:0}
+.act-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #F1F5F9}
+.act-row:last-child{border-bottom:none}
+.act-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:700;color:#fff;flex-shrink:0}
+.act-name{font-size:10px;font-weight:600;color:var(--dark);flex:1}
+.act-action{font-size:9px;color:var(--light)}
+.act-time{font-size:9px;color:var(--light);white-space:nowrap}
+
+.device-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dev-badge{display:flex;align-items:center;gap:7px;padding:9px 10px;border-radius:9px;border:1px solid var(--border);background:#fff}
+.dev-badge-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0;color:#fff}
+.dev-badge-name{font-size:9px;font-weight:500;color:var(--mid)}
+.dev-badge-sub{font-size:8px}
+
+@media(max-width:900px){
+  .dash-sidebar{display:none}
+  .dash-stats{grid-template-columns:repeat(2,1fr)}
+  .dash-row2{grid-template-columns:1fr}
+  .device-row{grid-template-columns:1fr 1fr}
+}
+
+/* ══ FEATURES ══ */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:var(--r-lg);padding:26px 22px}
+.feat-icon-w{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:13px}
+.fi-b{background:rgba(37,99,235,.2)}.fi-g{background:rgba(16,185,129,.2)}
+.fi-t{background:rgba(14,165,233,.2)}.fi-o{background:rgba(245,158,11,.2)}.fi-p{background:rgba(124,58,237,.2)}
+.feat-title{font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px}
+.feat-desc{font-size:12px;line-height:1.75;color:rgba(255,255,255,.45)}
+@media(max-width:768px){.feat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.feat-grid{grid-template-columns:1fr}}
+
+/* ══ INQUIRY ══ */
+.inq-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.inq-eye{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--blue2);margin-bottom:10px}
+.inq-title{font-family:'Sora',sans-serif;font-size:clamp(24px,3.5vw,34px);font-weight:800;letter-spacing:-1.3px;line-height:1.1;color:var(--dark);margin-bottom:14px}
+.inq-desc{font-size:13px;line-height:1.8;color:var(--light);margin-bottom:26px;max-width:420px}
+.inq-btns{display:flex;flex-direction:column;gap:10px}
+.inq-btn{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:15px 18px;cursor:pointer;font-family:inherit;text-align:left;transition:all .2s}
+.inq-btn:hover{border-color:var(--blue2);box-shadow:0 4px 18px rgba(37,99,235,.1);transform:translateX(4px)}
+.inq-btn.bl{border-color:var(--blue2);background:linear-gradient(135deg,#F0F7FF,#DBEAFE)}
+.inq-btn.gr{border-color:var(--green);background:linear-gradient(135deg,#F0FDF9,#D1FAE5)}
+.inq-btn.pu{border-color:var(--purple);background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
+.inq-btn-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ib-b{background:#DBEAFE}.ib-g{background:#D1FAE5}.ib-p{background:#EDE9FE}.ib-s{background:var(--bg)}
+.inq-btn-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:2px}
+.inq-btn-sub{font-size:10px;color:var(--light)}
+.inq-arr{margin-left:auto;color:var(--xlight);font-size:14px;flex-shrink:0}
+
+/* FORM */
+.form-box{background:#fff;border-radius:var(--r-xl);padding:32px;border:1px solid var(--border);box-shadow:0 14px 44px rgba(0,0,0,.07)}
+.form-title{font-family:'Sora',sans-serif;font-size:19px;font-weight:700;color:var(--dark);margin-bottom:5px}
+.form-sub{font-size:12px;color:var(--light);margin-bottom:18px;line-height:1.65}
+.form-notice{background:var(--purple2);border:1.5px solid var(--purple3);border-radius:12px;padding:13px 15px;margin-bottom:18px;display:flex;gap:10px;align-items:flex-start}
+.fn-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.fn-text{font-size:11px;line-height:1.7;color:#4C1D95}
+.fn-text strong{color:var(--purple);font-weight:700}
+.fn-text a{color:var(--purple);font-weight:600;cursor:pointer;text-decoration:underline}
+.form-fields{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.form-input,.form-select,.form-textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;color:var(--dark);background:#FAFBFF;outline:none;transition:border-color .15s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--blue2)}
+.form-textarea{resize:none;min-height:72px}
+.form-select{cursor:pointer;appearance:none}
+.form-submit{width:100%;background:linear-gradient(135deg,var(--blue2),#1D4ED8);color:#fff;border:none;border-radius:11px;padding:13px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 5px 18px rgba(37,99,235,.32);transition:all .18s}
+.form-submit:hover{transform:translateY(-2px);box-shadow:0 9px 26px rgba(37,99,235,.42)}
+.form-cmp{font-size:9px;color:var(--xlight);text-align:center;margin-top:10px;line-height:1.7}
+.form-cmp a{color:var(--purple);font-weight:600;cursor:pointer}
+@media(max-width:768px){.inq-grid{grid-template-columns:1fr}}
+
+/* ══ INTEGRATIONS ══ */
+.int-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;max-width:900px;margin:0 auto 40px}
+.int-badge{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:13px;padding:12px 18px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.int-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;color:#fff}
+.int-name{font-size:12px;font-weight:600;color:var(--dark)}
+.int-type{font-size:9px;color:var(--light)}
+
+/* ══ FOOTER ══ */
+.footer{background:var(--navy);padding:18px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.footer-logo{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#fff}
+.footer-logo span{color:var(--green)}
+.footer-badges{display:flex;flex-wrap:wrap;align-items:center;gap:20px;color:rgba(255,255,255,.4);font-size:10px}
+.footer-badges span{display:flex;align-items:center;gap:5px}
+
+/* ══ HERO MOBILE ══ */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:28px}
+  .hero-left{padding-bottom:0}
+  .hero-right{flex-direction:row;flex-wrap:wrap;justify-content:center;width:100%;padding-bottom:32px}
+  .device-card,.mini-dash{max-width:300px;width:100%}
+}
+@media(max-width:620px){
+  .hero-right{flex-direction:column;align-items:center}
+  .device-card,.mini-dash{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">RD</div>
+    <div class="nav-logo-text">
+      <span class="t1">RDConnect</span>
+      <span class="sub">RJ Global Technologies</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="nav-badge">● Smart Biometric Attendance</div>
+    <button class="nav-btn" onclick="sendPrompt('I want to get a demo of RDConnect Smart Biometric Attendance Platform by RJ Global Technologies.')">Get a Demo ↗</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-inner">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="hero-eyebrow">Smart Biometric Attendance Platform</div>
+      <h1 class="hero-h1">
+        Capture.<br>
+        <span class="g">Connect.</span><br>
+        <span class="b">Manage.</span>
+      </h1>
+      <p class="hero-sub">— Smart Attendance. Connected Workforce. —</p>
+      <p class="hero-desc">RDConnect helps businesses capture, connect, and manage workforce attendance in real-time with complete accuracy and security. From biometric device to cloud dashboard — fully automated.</p>
+      <div class="hero-pills">
+        <div class="pill"><span class="pill-dot pd-g"></span>Fast Biometric Capture</div>
+        <div class="pill"><span class="pill-dot pd-b"></span>Seamless Cloud Sync</div>
+        <div class="pill"><span class="pill-dot pd-o"></span>Powerful Insights</div>
+        <div class="pill"><span class="pill-dot pd-t"></span>Multi-Device Ready</div>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="sendPrompt('I want to request a demo of RDConnect Biometric Attendance Platform by RJ Global Technologies. Please share availability and details.')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Get a Demo ↗
+        </button>
+        <button class="btn btn-green" onclick="sendPrompt('Tell me about RDConnect features — biometric capture, cloud sync, and attendance management.')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          See Features
+        </button>
+        <button class="btn btn-ghost" onclick="sendPrompt('I want to contact RJ Global Technologies about RDConnect via WhatsApp.')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.116.554 4.1 1.524 5.82L.023 23.977l6.305-1.649A11.942 11.942 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          WhatsApp ↗
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Device + Mini Dashboard -->
+    <div class="hero-right">
+
+      <!-- BIOMETRIC DEVICE CARD -->
+      <div class="device-card">
+        <div class="device-card-top">
+          <div class="device-logo-wrap">
+            <div class="device-logo-icon">RD</div>
+            <div class="device-logo-sub">RDConnect Platform</div>
+          </div>
+        </div>
+
+        <!-- Device illustration -->
+        <div class="biometric-device">
+          <div class="bd-screen">
+            <div class="bd-screen-logo">RDConnect</div>
+            <div class="bd-screen-time">09:30</div>
+            <div class="bd-screen-date">MAY 30, 2026 · WELCOME</div>
+          </div>
+          <div class="bd-keypad">
+            <div class="bd-key"></div><div class="bd-key"></div><div class="bd-key"></div>
+            <div class="bd-key"></div><div class="bd-key"></div><div class="bd-key"></div>
+            <div class="bd-key"></div><div class="bd-key"></div><div class="bd-key"></div>
+            <div class="bd-key wide"></div>
+          </div>
+          <div class="bd-fingerprint">
+            <!-- fingerprint SVG -->
+            <svg class="bd-fp-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6C12.268 6 6 12.268 6 20" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 10C14.477 10 10 14.477 10 20" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 14C16.686 14 14 16.686 14 20c0 2 .5 3.8 1.4 5.3" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 18c-1.105 0-2 .895-2 2 0 4 1.5 7.5 4 10" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 10c5.523 0 10 4.477 10 10 0 3-0.7 5.8-2 8.2" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M20 14c3.314 0 6 2.686 6 6 0 2.5-0.8 4.8-2.2 6.6" stroke="#3B82F6" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="20" cy="20" r="2" fill="#10B981" opacity=".6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="device-stats-row">
+          <div class="device-stat">
+            <div class="device-stat-num">1,256</div>
+            <div class="device-stat-lbl">Total Employees</div>
+            <div class="device-stat-sub" style="color:var(--green)">↑ +12</div>
+          </div>
+          <div class="device-stat">
+            <div class="device-stat-num" style="color:var(--green)">1,034</div>
+            <div class="device-stat-lbl">Present Today</div>
+            <div class="device-stat-sub" style="color:var(--green)">82.3%</div>
+          </div>
+          <div class="device-stat">
+            <div class="device-stat-num" style="color:var(--gold)">100</div>
+            <div class="device-stat-lbl">On Leave / Absent</div>
+            <div class="device-stat-sub" style="color:var(--xlight)">8.0%</div>
+          </div>
+        </div>
+
+        <div class="device-status-row">
+          <span class="device-status-label">Device Connection</span>
+          <span class="device-status-badge online">● Online · Syncing</span>
+        </div>
+
+        <div class="device-links">
+          <div class="device-link">Live Dashboard <span>▾</span></div>
+          <div class="device-link">Reports <span>▾</span></div>
+          <div class="device-link">Leave Mgmt <span>▾</span></div>
+          <div class="device-link">Alerts <span>▾</span></div>
+        </div>
+      </div>
+
+      <!-- MINI DASHBOARD PREVIEW -->
+      <div class="mini-dash">
+        <div class="mini-dash-bar">
+          <div class="mini-dash-title">
+            <div class="mini-live"></div>
+            RDConnect Dashboard
+          </div>
+          <div class="mini-dash-icons">⊡ ⊞ ✕</div>
+        </div>
+        <div class="mini-dash-body">
+          <div class="mini-stats">
+            <div class="mini-stat"><div class="mini-stat-n">1,256</div><div class="mini-stat-l">Employees</div></div>
+            <div class="mini-stat"><div class="mini-stat-n" style="color:var(--green)">1,034</div><div class="mini-stat-l">Present</div></div>
+            <div class="mini-stat"><div class="mini-stat-n" style="color:var(--gold)">122</div><div class="mini-stat-l">On Leave</div></div>
+            <div class="mini-stat"><div class="mini-stat-n" style="color:var(--red)">100</div><div class="mini-stat-l">Absent</div></div>
+          </div>
+          <div class="mini-chart">
+            <div class="mini-chart-t">Attendance Overview — This Week</div>
+            <div class="mini-bars">
+              <div class="mini-bar" style="height:72%;background:#BFDBFE"></div>
+              <div class="mini-bar" style="height:88%;background:#2563EB"></div>
+              <div class="mini-bar" style="height:65%;background:#BFDBFE"></div>
+              <div class="mini-bar" style="height:95%;background:#1D4ED8"></div>
+              <div class="mini-bar" style="height:78%;background:#3B82F6"></div>
+              <div class="mini-bar" style="height:82%;background:#2563EB"></div>
+              <div class="mini-bar" style="height:60%;background:#BFDBFE"></div>
+            </div>
+          </div>
+          <div class="mini-activity">
+            <div class="mini-act-t">Recent Check-ins <span>View All</span></div>
+            <div class="mini-act-row"><div class="mini-act-av" style="background:#2563EB">JD</div><div class="mini-act-name">John Doe</div><div class="mini-act-time">09:02 AM</div></div>
+            <div class="mini-act-row"><div class="mini-act-av" style="background:#10B981">JS</div><div class="mini-act-name">Jane Smith</div><div class="mini-act-time">09:05 AM</div></div>
+            <div class="mini-act-row"><div class="mini-act-av" style="background:#7C3AED">RB</div><div class="mini-act-name">Robert Brown</div><div class="mini-act-time">09:07 AM</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BADGE BAR -->
+  <div class="badge-bar">
+    <div class="bb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Secure End-to-End Data Protection</div>
+    <div class="bb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Real-time Sync</div>
+    <div class="bb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Advanced Analytics</div>
+    <div class="bb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Role-based Access</div>
+    <div class="bb-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 12,17 16,21"/></svg>Multi-device Support</div>
+    <div class="bb-div"></div>
+    <div class="bb-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Trusted by Businesses. Built for the Future.</div>
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="section s-gray">
+  <div class="inner">
+    <div class="sec-head">
+      <div class="sec-eye">How It Works</div>
+      <h2 class="sec-title">From Clock-In to <span style="color:var(--blue2)">Cloud Insight</span></h2>
+      <p class="sec-sub">Three steps from biometric scan to real-time management dashboard — fully automated, zero manual entry.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card hc-blue">
+        <div class="how-num">01</div>
+        <div class="how-icon hi-b"><svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" width="22" height="22"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3 class="how-title">CAPTURE — Biometric Scan</h3>
+        <p class="how-desc">Employees check in using fingerprint, face recognition, or card tap on the RDConnect biometric device. Fast, accurate, and tamper-proof — no buddy punching, no manual registers.</p>
+      </div>
+      <div class="how-card hc-green">
+        <div class="how-num">02</div>
+        <div class="how-icon hi-g"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" width="22" height="22"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+        <h3 class="how-title">CONNECT — Instant Cloud Sync</h3>
+        <p class="how-desc">Every check-in syncs to the cloud in real-time. Your HR team, managers, and admins see attendance data live — from any device, anywhere. No waiting for end-of-day reports.</p>
+      </div>
+      <div class="how-card hc-teal">
+        <div class="how-num">03</div>
+        <div class="how-icon hi-t"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" width="22" height="22"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div>
+        <h3 class="how-title">MANAGE — Powerful Insights</h3>
+        <p class="how-desc">Generate attendance reports, manage leaves, set alerts, and track device health — all from one clean dashboard. Role-based access keeps every stakeholder informed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FULL DASHBOARD -->
+<section class="section s-white">
+  <div class="inner">
+    <div class="sec-head">
+      <div class="sec-eye">Live Dashboard</div>
+      <h2 class="sec-title">Complete Workforce <span style="color:var(--blue2)">Visibility</span></h2>
+      <p class="sec-sub">Monitor attendance, device status, leave requests, and alerts — all from one real-time command center.</p>
+    </div>
+    <div class="dash-wrap">
+      <div class="dash-topbar">
+        <div class="dash-logo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          RDConnect Dashboard <span class="dash-live-tag">LIVE</span>
+        </div>
+        <div class="dash-topbar-r">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <div class="dash-av">RJ</div>
+          Admin ▾
+        </div>
+      </div>
+      <div class="dash-layout">
+        <div class="dash-sidebar">
+          <div class="dash-nav-grp">
+            <div class="dash-nav-lbl">Overview</div>
+            <div class="dash-nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</div>
+            <div class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Employees</div>
+          </div>
+          <div class="dash-nav-grp">
+            <div class="dash-nav-lbl">Attendance</div>
+            <div class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Attendance</div>
+            <div class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Leaves</div>
+            <div class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Reports</div>
+          </div>
+          <div class="dash-nav-grp">
+            <div class="dash-nav-lbl">System</div>
+            <div class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 12,17 16,21"/></svg>Devices</div>
+            <div class="dash-nav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Alerts</div>
+          </div>
+        </div>
+        <div class="dash-main">
+          <div class="dash-main-title">Dashboard — May 2026</div>
+          <div class="dash-stats">
+            <div class="dash-stat"><div class="dash-stat-lbl">Total Employees</div><div class="dash-stat-num">1,256</div><div class="dash-stat-sub">↑ +12 this month</div></div>
+            <div class="dash-stat"><div class="dash-stat-lbl">Present Today</div><div class="dash-stat-num" style="color:var(--green)">1,034</div><div class="dash-stat-sub">82.3% of total</div></div>
+            <div class="dash-stat"><div class="dash-stat-lbl">On Leave</div><div class="dash-stat-num" style="color:var(--gold)">122</div><div class="dash-stat-sub">9.7% of total</div></div>
+            <div class="dash-stat"><div class="dash-stat-lbl">Absent</div><div class="dash-stat-num" style="color:var(--red)">100</div><div class="dash-stat-sub">8.0% of total</div></div>
+          </div>
+          <div class="dash-row2">
+            <div class="dash-box">
+              <div class="dash-box-t">Attendance Overview — This Week <span>This Week ▾</span></div>
+              <div class="chart-area">
+                <div class="chart-col"><div class="chart-bar" style="height:72%;background:#BFDBFE"></div><div class="chart-lbl">Mon</div></div>
+                <div class="chart-col"><div class="chart-bar" style="height:88%;background:#2563EB"></div><div class="chart-lbl">Tue</div></div>
+                <div class="chart-col"><div class="chart-bar" style="height:65%;background:#BFDBFE"></div><div class="chart-lbl">Wed</div></div>
+                <div class="chart-col"><div class="chart-bar" style="height:95%;background:#1D4ED8"></div><div class="chart-lbl">Thu</div></div>
+                <div class="chart-col"><div class="chart-bar" style="height:78%;background:#3B82F6"></div><div class="chart-lbl">Fri</div></div>
+                <div class="chart-col"><div class="chart-bar" style="height:40%;background:#DBEAFE"></div><div class="chart-lbl">Sat</div></div>
+                <div class="chart-col"><div class="chart-bar" style="height:22%;background:#DBEAFE"></div><div class="chart-lbl">Sun</div></div>
+              </div>
+            </div>
+            <div class="dash-box">
+              <div class="dash-box-t">Device Status</div>
+              <div style="display:flex;justify-content:center;margin-bottom:10px">
+                <svg viewBox="0 0 80 80" width="70" height="70">
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="#E2E8F0" stroke-width="10"/>
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="#10B981" stroke-width="10" stroke-dasharray="100 76" stroke-dashoffset="25" stroke-linecap="round"/>
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="#3B82F6" stroke-width="10" stroke-dasharray="30 146" stroke-dashoffset="-75" stroke-linecap="round"/>
+                  <circle cx="40" cy="40" r="28" fill="none" stroke="#EF4444" stroke-width="10" stroke-dasharray="12 164" stroke-dashoffset="-105" stroke-linecap="round"/>
+                  <text x="40" y="38" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" font-weight="800" fill="#0F172A">24</text>
+                  <text x="40" y="49" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="#64748B">Devices</text>
+                </svg>
+              </div>
+              <div class="donut-wrap">
+                <div class="donut-item"><div class="donut-dot" style="background:var(--green)"></div><span class="donut-lbl">Online</span><span class="donut-num">18</span></div>
+                <div class="donut-item"><div class="donut-dot" style="background:var(--blue3)"></div><span class="donut-lbl">Offline</span><span class="donut-num">4</span></div>
+                <div class="donut-item"><div class="donut-dot" style="background:var(--red)"></div><span class="donut-lbl">Maintenance</span><span class="donut-num">2</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-box">
+            <div class="dash-box-t">Recent Activity <span>View All</span></div>
+            <div class="activity-list">
+              <div class="act-row"><div class="act-av" style="background:#2563EB">JD</div><div class="act-name">John Doe</div><div class="act-action" style="color:var(--green)">Check-in</div><div class="act-time">09:02 AM</div></div>
+              <div class="act-row"><div class="act-av" style="background:#10B981">JS</div><div class="act-name">Jane Smith</div><div class="act-action" style="color:var(--green)">Check-in</div><div class="act-time">09:05 AM</div></div>
+              <div class="act-row"><div class="act-av" style="background:#7C3AED">RB</div><div class="act-name">Robert Brown</div><div class="act-action" style="color:var(--red)">Check-out</div><div class="act-time">09:01 PM</div></div>
+              <div class="act-row"><div class="act-av" style="background:#F59E0B">ED</div><div class="act-name">Emily Davis</div><div class="act-action" style="color:var(--green)">Check-in</div><div class="act-time">09:10 AM</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FEATURES -->
+<section class="section s-dark">
+  <div class="inner">
+    <div class="sec-head">
+      <div class="sec-eye" style="color:var(--blue3)">Core Capabilities</div>
+      <h2 class="sec-title w">Everything HR & Operations <span style="color:var(--green)">Actually Needs</span></h2>
+      <p class="sec-sub w">Built for businesses in the UAE and beyond — accurate, secure, and scalable from 10 to 10,000 employees.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon-w fi-b"><svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3 class="feat-title">Fast & Accurate Biometric Capture</h3><p class="feat-desc">Fingerprint and face recognition with sub-second response. No buddy punching, no proxy attendance — just accurate, tamper-proof data every time.</p></div>
+      <div class="feat-card"><div class="feat-icon-w fi-g"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" width="20" height="20"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div><h3 class="feat-title">Seamless Cloud Sync</h3><p class="feat-desc">Every check-in syncs to the cloud instantly. Access live attendance data from anywhere — web, mobile, or desktop — with zero configuration required.</p></div>
+      <div class="feat-card"><div class="feat-icon-w fi-t"><svg viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2" width="20" height="20"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div><h3 class="feat-title">Powerful Insights & Reports</h3><p class="feat-desc">Generate daily, weekly, and monthly attendance reports in one click. Export to Excel, PDF, or integrate directly with your payroll system.</p></div>
+      <div class="feat-card"><div class="feat-icon-w fi-o"><svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" width="20" height="20"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 12,17 16,21"/></svg></div><h3 class="feat-title">Multi-Device Support</h3><p class="feat-desc">Manage up to hundreds of biometric devices across multiple locations from a single dashboard. Monitor device health, connectivity, and firmware updates centrally.</p></div>
+      <div class="feat-card"><div class="feat-icon-w fi-p"><svg viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div><h3 class="feat-title">Role-Based Access Control</h3><p class="feat-desc">HR managers, department heads, and admins each see only what they need. Granular permissions ensure the right people have the right level of access.</p></div>
+      <div class="feat-card"><div class="feat-icon-w fi-g"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" width="20" height="20"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><h3 class="feat-title">Smart Alerts & Notifications</h3><p class="feat-desc">Set automated alerts for late arrivals, early departures, and device outages. Keep managers informed in real-time without manual monitoring.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- INQUIRY -->
+<section class="section s-blue">
+  <div class="inner">
+    <div class="inq-grid">
+      <div>
+        <div class="inq-eye">Get In Touch</div>
+        <h2 class="inq-title">Ready to Modernize Your<br><span style="color:var(--blue2)">Attendance System?</span></h2>
+        <p class="inq-desc">Choose how you'd like to reach us. Every button is connected — clicking it sends your inquiry directly to our RJ Global team with the right context for a fast, accurate response.</p>
+        <div class="inq-btns">
+          <button class="inq-btn bl" onclick="sendPrompt('I am interested in a demo of RDConnect Biometric Attendance Platform by RJ Global Technologies. Please share availability and setup details.')">
+            <div class="inq-btn-ico ib-b"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 12,17 16,21"/></svg></div>
+            <div><div class="inq-btn-title">Request a Product Demo</div><div class="inq-btn-sub">See RDConnect live — biometric device + dashboard ↗</div></div>
+            <div class="inq-arr">→</div>
+          </button>
+          <button class="inq-btn gr" onclick="sendPrompt('I want to know the pricing and packages for RDConnect Biometric Attendance Platform by RJ Global Technologies for my organization.')">
+            <div class="inq-btn-ico ib-g"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div><div class="inq-btn-title">Get Pricing & Packages</div><div class="inq-btn-sub">Plans for SMEs, enterprises, and multi-site ↗</div></div>
+            <div class="inq-arr">→</div>
+          </button>
+          <button class="inq-btn pu" onclick="sendPrompt('I want to learn about payroll and HRMS integration options for RDConnect Biometric Attendance Platform by RJ Global Technologies.')">
+            <div class="inq-btn-ico ib-p"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+            <div><div class="inq-btn-title">Payroll & HRMS Integration</div><div class="inq-btn-sub">Connect with your existing HR software ↗</div></div>
+            <div class="inq-arr">→</div>
+          </button>
+          <button class="inq-btn" onclick="sendPrompt('I have a general question for RJ Global Technologies about RDConnect Biometric Attendance Platform. I would like to speak to someone from your team.')">
+            <div class="inq-btn-ico ib-s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <div><div class="inq-btn-title">General Inquiry</div><div class="inq-btn-sub">Speak directly with the RJ Global team ↗</div></div>
+            <div class="inq-arr">→</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-box">
+        <div class="form-title">Send a Message</div>
+        <p class="form-sub">Fill out the form and our team responds within 1 business day. All submissions handled per our privacy policy.</p>
+        <div class="form-notice">
+          <div class="fn-icon">🔒</div>
+          <div class="fn-text">
+            <strong>Privacy Notice:</strong> By submitting, you consent to <strong>RJ Global Technologies</strong> collecting and using your information solely to respond to your inquiry. Your data is encrypted, stored securely, and <strong>will never be sold or shared</strong> with third parties. You may request deletion at any time. <a>View Privacy Policy →</a>
+          </div>
+        </div>
+        <div class="form-fields">
+          <input class="form-input" type="text" placeholder="Full Name *" />
+          <input class="form-input" type="email" placeholder="Email Address *" />
+          <input class="form-input" type="tel" placeholder="Phone / WhatsApp Number" />
+          <input class="form-input" type="text" placeholder="Company Name" />
+          <select class="form-select">
+            <option>I'm interested in... *</option>
+            <option>Product Demo</option>
+            <option>Pricing & Packages</option>
+            <option>Payroll / HRMS Integration</option>
+            <option>Multi-site Deployment</option>
+            <option>General Inquiry</option>
+          </select>
+          <textarea class="form-textarea" placeholder="Your message (optional)" rows="3"></textarea>
+        </div>
+        <button class="form-submit" onclick="sendPrompt('I just submitted an inquiry form on the RDConnect page by RJ Global Technologies and would like to hear back from your team about the biometric attendance platform.')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Submit to RJ Global Technologies ↗
+        </button>
+        <p class="form-cmp">✓ SSL Encrypted &nbsp;·&nbsp; ✓ GDPR Compliant &nbsp;·&nbsp; ✓ UAE PDPL Compliant<br>By submitting you agree to our <a>Privacy Policy</a> and <a>Terms of Use</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- INTEGRATIONS -->
+<section class="section s-gray">
+  <div class="inner">
+    <div class="sec-head">
+      <div class="sec-eye">Integrations</div>
+      <h2 class="sec-title">Works With Your <span style="color:var(--blue2)">Existing Systems</span></h2>
+      <p class="sec-sub">RDConnect connects with your payroll, HRMS, and communication tools — no disruption to existing workflows.</p>
+    </div>
+    <div class="int-row">
+      <div class="int-badge"><div class="int-icon" style="background:#00A1E0">SF</div><div><div class="int-name">Salesforce</div><div class="int-type">CRM</div></div></div>
+      <div class="int-badge"><div class="int-icon" style="background:#F59E0B">WH</div><div><div class="int-name">Workday / HRMS</div><div class="int-type">HR Software</div></div></div>
+      <div class="int-badge"><div class="int-icon" style="background:#10B981">PA</div><div><div class="int-name">Payroll API</div><div class="int-type">Payroll</div></div></div>
+      <div class="int-badge"><div class="int-icon" style="background:#25D366">WA</div><div><div class="int-name">WhatsApp API</div><div class="int-type">Alerts</div></div></div>
+      <div class="int-badge"><div class="int-icon" style="background:#0072C6">O</div><div><div class="int-name">Outlook / Gmail</div><div class="int-type">Email Alerts</div></div></div>
+      <div class="int-badge"><div class="int-icon" style="background:#6366F1">Z</div><div><div class="int-name">Zapier</div><div class="int-type">Automation</div></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">RDConnect <span>Smart Biometric Attendance</span> · RJ Global Technologies</div>
+  <div class="footer-badges">
+    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Secure & Encrypted</span>
+    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Real-time Sync</span>
+    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Advanced Analytics</span>
+    <span><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>Multi-device Support</span>
+  </div>
+</footer>
+
+</body>
+</html>
