@@ -29,7 +29,7 @@ nav.scrolled{box-shadow:0 4px 32px rgba(0,0,0,.5);}
 .mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--navy2);border-bottom:1px solid var(--border);padding:1.5rem 5%;flex-direction:column;gap:1rem;z-index:199;}
 .mobile-menu.open{display:flex;}
 .mobile-menu a{color:var(--muted);text-decoration:none;font-size:1rem;font-weight:500;padding:.5rem 0;border-bottom:1px solid var(--border);}
-.mobile-menu a:last-child{border:none;color:#25d366;font-weight:700;}
+.mobile-menu a:last-child{border:none;color:var(--cyan);font-weight:700;}
 .hero{min-height:100vh;padding:7rem 5% 5rem;display:flex;align-items:center;position:relative;overflow:hidden;}
 .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 65% at 75% 45%,rgba(30,91,255,.15) 0%,transparent 65%),radial-gradient(ellipse 45% 50% at 15% 75%,rgba(0,174,239,.09) 0%,transparent 55%);}
 .hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:50px 50px;}
@@ -49,12 +49,12 @@ h1{font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3.4rem);font-wei
 .btn-outline:hover{border-color:var(--cyan);color:var(--cyan);}
 .hero-trust{display:flex;gap:1.5rem;flex-wrap:wrap;}
 .ti{display:flex;align-items:center;gap:.45rem;font-size:.78rem;color:var(--muted);font-weight:500;}
-.ck-icon{width:17px;height:17px;border-radius:50%;background:rgba(0,174,239,.15);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--cyan);flex-shrink:0;}
+.ck-icon{width:17px;height:17px;border-radius:50%;background:rgba(0,174,239,.15);display:flex;align-items:center;justify-content:center;color:var(--cyan);flex-shrink:0;}
 .hero-right{display:flex;justify-content:center;align-items:center;animation:fadeUp .7s .15s ease both;}
 .hcard{background:var(--card);border:1px solid rgba(30,91,255,.22);border-radius:20px;padding:2rem;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.45);position:relative;}
 .hcard::before{content:'';position:absolute;top:-1px;left:30px;right:30px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;}
 .ch{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}
-.ca{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.ca{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ct{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.875rem;}
 .cs-sub{font-size:.72rem;color:var(--muted);margin-top:1px;}
 .cst{margin-left:auto;display:flex;align-items:center;gap:.35rem;font-size:.7rem;color:#25d366;font-weight:700;}
@@ -65,7 +65,7 @@ h1{font-family:'Montserrat',sans-serif;font-size:clamp(2rem,4vw,3.4rem);font-wei
 .sb .l{font-size:.67rem;color:var(--muted);margin-top:2px;}
 .csvc{display:flex;flex-direction:column;gap:.55rem;}
 .csi{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);border-radius:8px;padding:.6rem .8rem;font-size:.78rem;color:var(--muted);}
-.ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0;}
+.ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ico.b{background:rgba(30,91,255,.15);}
 .ico.c{background:rgba(0,174,239,.12);}
 .ico.o{background:rgba(255,122,0,.12);}
@@ -86,14 +86,12 @@ h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-w
 .sc::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));opacity:0;transition:opacity .3s;}
 .sc:hover{border-color:rgba(0,174,239,.3);transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.3);}
 .sc:hover::after{opacity:1;}
-.si2{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.2rem;}
+.si2{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;}
 .si2.b{background:rgba(30,91,255,.12);}
 .si2.c{background:rgba(0,174,239,.1);}
 .si2.o{background:rgba(255,122,0,.1);}
 .sc h3{font-family:'Montserrat',sans-serif;font-size:.975rem;font-weight:700;margin-bottom:.6rem;}
 .sc p{font-size:.85rem;color:var(--muted);line-height:1.7;}
-
-/* PRODUCTS SECTION */
 #products{background:var(--navy);}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;margin-top:3rem;}
 .product-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .3s;position:relative;}
@@ -117,11 +115,8 @@ h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-w
 .product-btn:hover{border-color:var(--cyan);color:var(--cyan);}
 .product-btn.gold{background:linear-gradient(90deg,#FFD700,#FFA500);color:#000;border:none;}
 .product-btn.gold:hover{opacity:.9;transform:translateY(-1px);}
-
-/* ADVANCED SERVICES */
-#advanced-services{background:var(--navy2);}
-
-/* PACKAGES */
+.product-btn.cto{border-color:rgba(255,122,0,.4);color:var(--orange);}
+.product-btn.cto:hover{border-color:var(--orange);background:rgba(255,122,0,.1);}
 #packages{background:var(--navy);}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:1.5rem;margin-top:3rem;}
 .pkg{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all .3s;position:relative;}
@@ -146,7 +141,7 @@ h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-w
 .wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-top:3rem;}
 .wc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:border-color .3s;}
 .wc:hover{border-color:rgba(0,174,239,.25);}
-.wi{font-size:1.6rem;margin-bottom:.9rem;}
+.wi{margin-bottom:.9rem;}
 .wc h4{font-family:'Montserrat',sans-serif;font-size:.93rem;font-weight:700;margin-bottom:.5rem;}
 .wc p{font-size:.84rem;color:var(--muted);line-height:1.65;}
 #contact{background:var(--navy);}
@@ -155,7 +150,7 @@ h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-w
 .contact-info p{font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:2rem;}
 .cinfo-items{display:flex;flex-direction:column;gap:1rem;}
 .cinfo-item{display:flex;align-items:center;gap:.75rem;font-size:.875rem;color:var(--muted);}
-.cinfo-icon{width:38px;height:38px;border-radius:9px;background:rgba(0,174,239,.1);border:1px solid rgba(0,174,239,.2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.cinfo-icon{width:38px;height:38px;border-radius:9px;background:rgba(0,174,239,.1);border:1px solid rgba(0,174,239,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .cinfo-item strong{display:block;color:var(--white);font-weight:600;font-size:.82rem;margin-bottom:1px;}
 .form-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;}
 .form-card::before{content:'';position:absolute;top:-1px;left:20%;right:20%;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:2px;}
@@ -174,7 +169,6 @@ h2{font-family:'Montserrat',sans-serif;font-size:clamp(1.6rem,3vw,2.3rem);font-w
 .btn-submit:hover:not(:disabled){opacity:.9;transform:translateY(-2px);}
 .btn-submit:disabled{opacity:.45;cursor:not-allowed;transform:none;}
 .form-success{display:none;text-align:center;padding:2rem 1rem;}
-.form-success .tick{font-size:3rem;margin-bottom:1rem;}
 .form-success h4{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:.5rem;color:var(--cyan);}
 .form-success p{font-size:.875rem;color:var(--muted);line-height:1.7;}
 .captcha-wrap{margin-bottom:1.1rem;}
@@ -203,7 +197,7 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
-.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}.d6{transition-delay:.6s;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}.d6{transition-delay:.6s;}.d7{transition-delay:.7s;}
 @media(max-width:900px){
   .hero-inner{grid-template-columns:1fr;}
   .hero-right{display:none;}
@@ -286,14 +280,14 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
     <div class="hero-right">
       <div class="hcard">
         <div class="ch">
-          <div class="ca">🖥️</div>
+          <div class="ca"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
           <div><div class="ct">RJ Global Support</div><div class="cs-sub">IT Services Dashboard</div></div>
           <div class="cst"><span class="dot"></span>Online</div>
         </div>
         <div class="cstats">
           <div class="sb"><div class="n">24h</div><div class="l">Response Time</div></div>
           <div class="sb"><div class="n" style="color:var(--orange)">UAE</div><div class="l">Local Team</div></div>
-          <div class="sb"><div class="n">6+</div><div class="l">Live Products</div></div>
+          <div class="sb"><div class="n">7+</div><div class="l">Live Products</div></div>
           <div class="sb"><div class="n" style="color:#25d366">Live</div><div class="l">Support Active</div></div>
         </div>
         <div class="csvc">
@@ -311,14 +305,13 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
   <div class="sbar-in">
     <div class="si-stat"><div class="n">100%</div><div class="l">UAE-Based Team</div></div>
     <div class="si-stat"><div class="n">&lt;24h</div><div class="l">Average Response</div></div>
-    <div class="si-stat"><div class="n">6+</div><div class="l">Live Products</div></div>
+    <div class="si-stat"><div class="n">7+</div><div class="l">Live Products</div></div>
     <div class="si-stat"><div class="n">PDPL</div><div class="l">Compliant by Design</div></div>
     <div class="si-stat"><div class="n">M365</div><div class="l">Certified Setup</div></div>
   </div>
 </div>
 
-<!-- CREDENTIALS & CERTIFICATIONS -->
-
+<!-- CORE SERVICES -->
 <section id="services">
   <div class="sec-in">
     <div class="reveal">
@@ -347,49 +340,37 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
     </div>
     <div class="sgrid">
       <div class="sc reveal d1" style="border-color:rgba(255,122,0,.15);">
-        <div class="si2 o">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
+        <div class="si2 o"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <h3>UAE PDPL Compliance</h3>
         <p>Full PDPL readiness assessment, Data Protection Officer (DPO) as a Service, DPIA frameworks, and ongoing compliance monitoring.</p>
         <div style="margin-top:1rem;font-size:.75rem;color:var(--orange);font-weight:700;font-family:'Montserrat',sans-serif;">PDPL · DPO · GDPR READY</div>
       </div>
       <div class="sc reveal d2" style="border-color:rgba(0,174,239,.15);">
-        <div class="si2 c">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-        </div>
+        <div class="si2 c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
         <h3>AI &amp; Workflow Automation</h3>
         <p>WhatsApp Business API setup, AI chatbot implementation, voice AI agents, and ERP/CRM workflow automation. Automate 70%+ of operational queries.</p>
         <div style="margin-top:1rem;font-size:.75rem;color:var(--cyan);font-weight:700;font-family:'Montserrat',sans-serif;">WHATSAPP API · AI CHATBOT · VOICE AI</div>
       </div>
       <div class="sc reveal d3" style="border-color:rgba(30,91,255,.15);">
-        <div class="si2 b">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        </div>
+        <div class="si2 b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
         <h3>Digital Transformation Advisory</h3>
         <p>C-suite digital strategy, system integration, ERP/CRM consultation, and board-level AI governance reporting. 12+ years UAE &amp; APAC experience.</p>
         <div style="margin-top:1rem;font-size:.75rem;color:var(--blue);font-weight:700;font-family:'Montserrat',sans-serif;">ISO 27001 · AI GOVERNANCE · C-SUITE</div>
       </div>
       <div class="sc reveal d1" style="border-color:rgba(255,122,0,.15);">
-        <div class="si2 o">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
+        <div class="si2 o"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
         <h3>Cybersecurity &amp; ISO 27001</h3>
         <p>ISMS setup and auditing, Zero Trust architecture, Fortinet and Azure security configuration, BCP/DR planning, and ISO 27001 Lead Auditor consultation.</p>
         <div style="margin-top:1rem;font-size:.75rem;color:var(--orange);font-weight:700;font-family:'Montserrat',sans-serif;">FORTINET · AZURE · ZERO TRUST</div>
       </div>
       <div class="sc reveal d2" style="border-color:rgba(0,174,239,.15);">
-        <div class="si2 c">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
+        <div class="si2 c"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <h3>WhatsApp Business Setup</h3>
         <p>Official WhatsApp Business API integration, automated response flows, broadcast messaging, CRM linking, and team inbox management.</p>
         <div style="margin-top:1rem;font-size:.75rem;color:var(--cyan);font-weight:700;font-family:'Montserrat',sans-serif;">API · AUTOMATION · CRM LINKED</div>
       </div>
       <div class="sc reveal d3" style="border-color:rgba(30,91,255,.15);">
-        <div class="si2 b">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-        </div>
+        <div class="si2 b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
         <h3>Enterprise System Integration</h3>
         <p>Connect your ERP, CRM, HR, and finance systems into one unified workflow. API integrations, data migration, and custom automation.</p>
         <div style="margin-top:1rem;font-size:.75rem;color:var(--blue);font-weight:700;font-family:'Montserrat',sans-serif;">ERP · CRM · API INTEGRATION</div>
@@ -404,19 +385,18 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
     <div class="reveal">
       <div class="slbl">Our Products</div>
       <h2>Built by RJ Global. <span class="acc2">Live in Production.</span></h2>
-      <p class="sdesc">We don't just advise - we build. Every product we offer has been tested in the real world first, right here in the UAE.</p>
+      <p class="sdesc">We don't just advise — we build. Every product we offer has been tested in the real world first, right here in the UAE.</p>
     </div>
-
     <div class="products-grid" style="margin-top:3rem;">
 
       <!-- RJG REOS -->
       <div class="product-card reveal d1" style="border-color:rgba(255,215,0,.2);">
         <div class="product-img">
-          <img src="https://www.redjemie.com/rjglobaltech/products/reos.png" alt="RJG REOS" onerror="this.style.background='linear-gradient(135deg,#0D1B2A,#1a2f4a)';this.style.minHeight='220px';this.alt='RJG REOS';"/>
+          <img src="https://www.redjemie.com/rjglobaltech/products/reos.png" alt="RJG REOS" onerror="this.style.minHeight='220px';this.style.display='none';"/>
           <div class="product-badge badge-soon">🚀 COMING SOON</div>
         </div>
         <div class="product-body">
-          <div class="product-name" style="color:#FFD700;">RJG REOS | Real Estate Operating System</div>
+          <div class="product-name" style="color:#FFD700;">RJG REOS — Real Estate Operating System</div>
           <div class="product-desc">The Real Estate Operating System built exclusively for Dubai. CRM, inventory, broker management, contracts, legal, HR, and finance — one intelligent platform. PDPL and DLD-compliant by design.</div>
           <div class="product-tags">
             <span class="tag tag-gold">Dubai RE</span>
@@ -424,14 +404,14 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
             <span class="tag tag-gold">DLD / Oqood</span>
             <span class="tag tag-gold">All-in-One</span>
           </div>
-          <a href="mailto:info@redjemie.com?subject=REOS Early Access" class="product-btn gold">Join the Early Access List →</a>
+          <a href="#contact" onclick="setService('RJG REOS — Early Access')" class="product-btn gold">Join the Early Access List →</a>
         </div>
       </div>
 
       <!-- RDConnect -->
       <div class="product-card reveal d2">
         <div class="product-img">
-          <img src="https://www.redjemie.com/rjglobaltech/products/rdconnect.png" alt="RDConnect" onerror="this.style.background='linear-gradient(135deg,#0D1B2A,#1a2f4a)';this.style.minHeight='220px';"/>
+          <img src="https://www.redjemie.com/rjglobaltech/products/rdconnect.png" alt="RDConnect" onerror="this.style.minHeight='220px';this.style.display='none';"/>
           <div class="product-badge badge-live">● LIVE</div>
         </div>
         <div class="product-body">
@@ -443,14 +423,14 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
             <span class="tag tag-blue">HRMS Ready</span>
             <span class="tag tag-blue">Multi-org</span>
           </div>
-          <a href="mailto:info@redjemie.com?subject=RDConnect Inquiry" class="product-btn">Inquire About RDConnect →</a>
+          <a href="#contact" onclick="setService('RDConnect — Biometric Attendance')" class="product-btn">Inquire About RDConnect →</a>
         </div>
       </div>
 
       <!-- RD ClockSys -->
       <div class="product-card reveal d3">
         <div class="product-img">
-          <img src="https://www.redjemie.com/rjglobaltech/products/clocksys.png" alt="RD ClockSys" onerror="this.style.background='linear-gradient(135deg,#0D1B2A,#1a2f4a)';this.style.minHeight='220px';"/>
+          <img src="https://www.redjemie.com/rjglobaltech/products/clocksys.png" alt="RD ClockSys" onerror="this.style.minHeight='220px';this.style.display='none';"/>
           <div class="product-badge badge-live">● LIVE</div>
         </div>
         <div class="product-body">
@@ -462,14 +442,14 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
             <span class="tag tag-orange">HR Dashboard</span>
             <span class="tag tag-orange">CSV Export</span>
           </div>
-          <a href="mailto:info@redjemie.com?subject=RD ClockSys Inquiry" class="product-btn">Inquire About ClockSys →</a>
+          <a href="#contact" onclick="setService('RD ClockSys — Field Attendance')" class="product-btn">Inquire About ClockSys →</a>
         </div>
       </div>
 
       <!-- RD Digital Business Card -->
       <div class="product-card reveal d4">
         <div class="product-img">
-          <img src="https://www.redjemie.com/rjglobaltech/products/dbc.png" alt="RD Digital Business Card" onerror="this.style.background='linear-gradient(135deg,#0D1B2A,#1a2f4a)';this.style.minHeight='220px';"/>
+          <img src="https://www.redjemie.com/rjglobaltech/products/dbc.png" alt="RD Digital Business Card" onerror="this.style.minHeight='220px';this.style.display='none';"/>
           <div class="product-badge badge-live">● LIVE</div>
         </div>
         <div class="product-body">
@@ -481,14 +461,14 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
             <span class="tag tag-gold">Inventory Embed</span>
             <span class="tag tag-gold">WhatsApp</span>
           </div>
-          <a href="mailto:info@redjemie.com?subject=Digital Business Card Inquiry" class="product-btn">Inquire About DBC →</a>
+          <a href="#contact" onclick="setService('RD Digital Business Card')" class="product-btn">Inquire About DBC →</a>
         </div>
       </div>
 
       <!-- RD Sales Hub -->
       <div class="product-card reveal d5">
         <div class="product-img">
-          <img src="https://www.redjemie.com/rjglobaltech/products/saleshub.png" alt="RD Sales Hub" onerror="this.style.background='linear-gradient(135deg,#0D1B2A,#1a2f4a)';this.style.minHeight='220px';"/>
+          <img src="https://www.redjemie.com/rjglobaltech/products/saleshub.png" alt="RD Sales Hub" onerror="this.style.minHeight='220px';this.style.display='none';"/>
           <div class="product-badge badge-live">● LIVE</div>
         </div>
         <div class="product-body">
@@ -500,26 +480,45 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
             <span class="tag tag-blue">Inventory</span>
             <span class="tag tag-blue">3D WalkThru</span>
           </div>
-          <a href="mailto:info@redjemie.com?subject=RD Sales Hub Inquiry" class="product-btn">Inquire About Sales Hub →</a>
+          <a href="#contact" onclick="setService('RD Sales Hub')" class="product-btn">Inquire About Sales Hub →</a>
+        </div>
+      </div>
+
+      <!-- RD SignGen -->
+      <div class="product-card reveal d6">
+        <div class="product-img">
+          <img src="https://www.redjemie.com/rjglobaltech/products/signgen.png" alt="RD SignGen" onerror="this.style.minHeight='220px';this.style.display='none';"/>
+          <div class="product-badge badge-live">● LIVE</div>
+        </div>
+        <div class="product-body">
+          <div class="product-name" style="color:var(--orange);">RD SignGen</div>
+          <div class="product-desc">Centralized smart email signature platform. Employees generate fully interactive branded signatures in seconds — clickable phone, WhatsApp, website, Google Maps, and social icons. Admins sync updates across all signatures instantly.</div>
+          <div class="product-tags">
+            <span class="tag tag-orange">Instant Sync</span>
+            <span class="tag tag-orange">WhatsApp Link</span>
+            <span class="tag tag-orange">Admin Dashboard</span>
+            <span class="tag tag-orange">Interactive</span>
+          </div>
+          <a href="#contact" onclick="setService('RD SignGen — Email Signature')" class="product-btn">Inquire About SignGen →</a>
         </div>
       </div>
 
       <!-- CTO Forum University -->
-      <div class="product-card reveal d6">
+      <div class="product-card reveal d7" style="border-color:rgba(204,0,0,.2);">
         <div class="product-img">
-          <img src="https://www.redjemie.com/rjglobaltech/products/ctouni.png" alt="CTO Access Forum University" onerror="this.style.background='linear-gradient(135deg,#0D1B2A,#1a2f4a)';this.style.minHeight='220px';"/>
-          <div class="product-badge badge-live">● LIVE</div>
+          <img src="https://www.redjemie.com/rjglobaltech/products/ctouni.png" alt="CTO Access Forum University" onerror="this.style.minHeight='220px';this.style.display='none';"/>
+          <div class="product-badge" style="background:rgba(204,0,0,.15);border:1px solid rgba(204,0,0,.3);color:#ff4444;">● LIVE</div>
         </div>
         <div class="product-body">
-          <div class="product-name" style="color:var(--orange);">CTO Access Forum University</div>
-          <div class="product-desc">UAE and Gulf region's IT leadership community. Expert-led courses, live events, community forums, and a marketplace where professionals earn from their knowledge.</div>
+          <div class="product-name" style="color:#ff4444;">CTO Access Forum University</div>
+          <div class="product-desc">UAE and Gulf region's IT leadership community. Expert-led courses, live events, community forums, and a marketplace where professionals earn from their knowledge. Free to join.</div>
           <div class="product-tags">
-            <span class="tag tag-orange">Free to Join</span>
-            <span class="tag tag-orange">UAE Focused</span>
-            <span class="tag tag-orange">Teach & Earn</span>
-            <span class="tag tag-orange">Certifications</span>
+            <span class="tag" style="background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);color:#ff4444;">Free to Join</span>
+            <span class="tag" style="background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);color:#ff4444;">UAE Focused</span>
+            <span class="tag" style="background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);color:#ff4444;">Teach &amp; Earn</span>
+            <span class="tag" style="background:rgba(204,0,0,.1);border:1px solid rgba(204,0,0,.2);color:#ff4444;">Certifications</span>
           </div>
-          <a href="https://university.redjemie.com" target="_blank" class="product-btn">Visit CTO Forum University →</a>
+          <a href="https://university.redjemie.com" target="_blank" class="product-btn" style="border-color:rgba(204,0,0,.4);color:#ff4444;">Visit CTO Forum University →</a>
         </div>
       </div>
 
@@ -544,7 +543,7 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
       <p class="sdesc">Managed IT support plans for UAE businesses — no hidden fees, no confusing contracts, no lock-ins. Just reliable technology support at a price that works.</p>
       <div style="display:inline-flex;align-items:center;gap:.75rem;background:rgba(0,174,239,.08);border:1px solid rgba(0,174,239,.2);border-radius:8px;padding:.75rem 1.2rem;margin-top:1rem;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        <span style="font-size:.82rem;color:var(--muted);">These packages cover <strong style="color:var(--white);">IT Support &amp; Managed Services</strong> — for product pricing, <a href="mailto:info@redjemie.com" style="color:var(--cyan);text-decoration:none;">contact us directly.</a></span>
+        <span style="font-size:.82rem;color:var(--muted);">These packages cover <strong style="color:var(--white);">IT Support &amp; Managed Services</strong> — for product pricing, <a href="#contact" style="color:var(--cyan);text-decoration:none;">contact us directly.</a></span>
       </div>
     </div>
     <div class="pgrid">
@@ -559,7 +558,7 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
           <li><span class="v">✓</span>Basic device configuration</li>
           <li><span class="v">✓</span>30 days free follow-up support</li>
         </ul>
-        <a class="btnp gh" href="#contact">Get Started →</a>
+        <a class="btnp gh" href="#contact" onclick="setService('Monthly Package (Starter)')">Get Started →</a>
       </div>
       <div class="pkg feat reveal d2">
         <div class="pbadge">Most Popular</div>
@@ -574,7 +573,7 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
           <li><span class="v">✓</span>Monthly security check</li>
           <li><span class="v">✓</span>Priority response within 4 hours</li>
         </ul>
-        <a class="btnp fl" href="#contact">Get Started →</a>
+        <a class="btnp fl" href="#contact" onclick="setService('Monthly Package (Business Care)')">Get Started →</a>
       </div>
       <div class="pkg reveal d3">
         <div class="pname">Pro Care</div>
@@ -589,7 +588,7 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
           <li><span class="v">✓</span>On-site visits (Dubai)</li>
           <li><span class="v">✓</span>Dedicated account manager</li>
         </ul>
-        <a class="btnp gh" href="#contact">Get Started →</a>
+        <a class="btnp gh" href="#contact" onclick="setService('Monthly Package (Pro Care)')">Get Started →</a>
       </div>
     </div>
   </div>
@@ -609,7 +608,7 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
       <div class="wc reveal d3"><div class="wi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h4>Plain Language</h4><p>No confusing tech jargon. We explain what's happening clearly so you always know the status of your systems.</p></div>
       <div class="wc reveal d1"><div class="wi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><h4>Scales With You</h4><p>Start with what you need. Add more support as your business grows. No lock-ins, no penalties, no surprises.</p></div>
       <div class="wc reveal d2"><div class="wi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div><h4>PDPL Compliant</h4><p>All our products and services are designed with UAE PDPL compliance built in — protecting your business and your clients' data.</p></div>
-      <div class="wc reveal d3"><div class="wi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><h4>We Build Too</h4><p>Not just consultants — we build real products currently live in Dubai businesses. 6 products deployed and proven.</p></div>
+      <div class="wc reveal d3"><div class="wi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E5BFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><h4>We Build Too</h4><p>Not just consultants — we build real products currently live in Dubai businesses. 7 products deployed and proven.</p></div>
     </div>
   </div>
 </section>
@@ -618,28 +617,19 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
 <section style="background:var(--navy);padding:4rem 5%;">
   <div class="sec-in">
     <div class="reveal" style="background:var(--card);border:1px solid rgba(255,215,0,.15);border-radius:18px;overflow:hidden;">
-
-      <!-- Award Photo -->
       <div style="width:100%;max-height:400px;overflow:hidden;position:relative;">
         <img src="https://www.redjemie.com/rjglobaltech/award.jpg" alt="Future Workspace Summit & Awards 2025" style="width:100%;height:auto;display:block;object-fit:cover;object-position:center top;" onerror="this.parentElement.style.display='none'"/>
         <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,var(--card) 100%);"></div>
       </div>
-
-      <!-- Award Details -->
       <div style="padding:2rem;display:flex;flex-wrap:wrap;align-items:center;gap:2rem;">
-
-        <!-- Trophy icon -->
         <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
         </div>
-
-        <!-- Award Text -->
         <div style="flex:1;min-width:200px;">
           <div style="font-size:.68rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#FFD700;font-family:'Montserrat',sans-serif;margin-bottom:.4rem;">Industry Recognition</div>
           <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.1rem;color:var(--white);margin-bottom:.3rem;">Excellence in Technology Acceleration</div>
           <div style="font-size:.85rem;color:var(--muted);">Future Workspace Summit &amp; Awards 2025 · Organized by LEAP · UAE</div>
         </div>
-
       </div>
     </div>
   </div>
@@ -659,27 +649,19 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
         <p>Whether you need IT support, PDPL compliance, AI automation, or you're interested in any of our products — send us your details and we'll come back with the best solution.</p>
         <div class="cinfo-items">
           <div class="cinfo-item">
-            <div class="cinfo-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
+            <div class="cinfo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
             <div><strong>Email Us</strong>info@redjemie.com</div>
           </div>
           <div class="cinfo-item">
-            <div class="cinfo-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            </div>
+            <div class="cinfo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
             <div><strong>Website</strong>redjemie.com</div>
           </div>
           <div class="cinfo-item">
-            <div class="cinfo-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            </div>
+            <div class="cinfo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <div><strong>Location</strong>Dubai, United Arab Emirates</div>
           </div>
           <div class="cinfo-item">
-            <div class="cinfo-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
+            <div class="cinfo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
             <div><strong>Response Time</strong>Within 24 hours</div>
           </div>
         </div>
@@ -707,7 +689,9 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
               <option>RD ClockSys — Field Attendance</option>
               <option>RD Digital Business Card</option>
               <option>RD Sales Hub</option>
+              <option>RD SignGen — Email Signature</option>
               <option>CTO Access Forum University</option>
+              <option>Monthly Package (Starter)</option>
               <option>Monthly Package (Business Care)</option>
               <option>Monthly Package (Pro Care)</option>
               <option>Not sure — need advice</option>
@@ -728,7 +712,6 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
           <button class="btn-submit" id="submitBtn" disabled onclick="submitForm()">Send Inquiry →</button>
         </div>
         <div class="form-success" id="formSuccess">
-          <div class="tick">✅</div>
           <h4>Inquiry Received!</h4>
           <p>Thank you! Our team will get back to you within <strong>24 hours</strong>.</p>
         </div>
@@ -756,15 +739,120 @@ footer{background:#070f1a;border-top:1px solid var(--border);padding:2.5rem 5%;}
       <li><a href="#why">Why Us</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <p class="fcopy">© 2025 RJ Global Technologies · Dubai, UAE<br><a href="mailto:info@redjemie.com">info@redjemie.com</a></p>
+    <p class="fcopy">© 2025 RJ Global Technologies · Dubai, UAE<br><a href="mailto:info@redjemie.com">info@redjemie.com</a> · <a href="#" onclick="showPrivacy()" style="color:#00AEEF;">Privacy Policy</a></p>
   </div>
 </footer>
+
+<!-- COOKIE CONSENT BANNER -->
+<div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#070f1a;border-top:1px solid rgba(0,174,239,.2);padding:1.25rem 5%;font-family:'Poppins',sans-serif;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:1rem;">
+    <div style="flex:1;min-width:260px;">
+      <div style="font-size:.8rem;font-weight:700;color:#fff;margin-bottom:.3rem;font-family:'Montserrat',sans-serif;">We use cookies 🍪</div>
+      <div style="font-size:.76rem;color:#8fa3b8;line-height:1.6;">We use essential and analytics cookies to improve your experience. In line with <strong style="color:#fff;">UAE PDPL</strong> and <strong style="color:#fff;">GDPR</strong>, we need your consent before using non-essential cookies. <a href="#" onclick="showPrivacy()" style="color:#00AEEF;text-decoration:none;">Privacy Policy</a> · <a href="#" onclick="showPrivacy()" style="color:#00AEEF;text-decoration:none;">Cookie Policy</a></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:.6rem;flex-shrink:0;">
+      <button onclick="acceptEssential()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:#8fa3b8;padding:.5rem 1rem;border-radius:6px;font-size:.78rem;font-family:'Montserrat',sans-serif;font-weight:600;cursor:pointer;transition:all .2s;">Essential Only</button>
+      <button onclick="acceptAll()" style="background:linear-gradient(90deg,#1E5BFF,#00AEEF);border:none;color:#fff;padding:.5rem 1.2rem;border-radius:6px;font-size:.78rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;transition:all .2s;">Accept All</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY POLICY MODAL -->
+<div id="privacyModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.8);padding:2rem 5%;overflow-y:auto;">
+  <div style="max-width:700px;margin:0 auto;background:#0f2035;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2.5rem;position:relative;">
+    <button onclick="closePrivacy()" style="position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:#8fa3b8;font-size:1.5rem;cursor:pointer;line-height:1;">×</button>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.2rem;color:#fff;margin-bottom:.5rem;">Privacy & Cookie Policy</div>
+    <div style="font-size:.75rem;color:#00AEEF;font-weight:700;margin-bottom:1.5rem;">RJ Global Technologies · Last updated: 2025</div>
+
+    <div style="font-size:.85rem;color:#8fa3b8;line-height:1.8;">
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">1. Who We Are</div>
+      <p style="margin-bottom:1.2rem;">RJ Global Technologies, part of redjemie Visions, operates this website at redjemie.com/rjglobaltech. We are committed to protecting your personal data in accordance with the <strong style="color:#fff;">UAE Personal Data Protection Law (PDPL)</strong> and the <strong style="color:#fff;">EU General Data Protection Regulation (GDPR)</strong>.</p>
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">2. Data We Collect</div>
+      <p style="margin-bottom:.6rem;">When you use our contact form, we collect:</p>
+      <ul style="margin-left:1.2rem;margin-bottom:1.2rem;">
+        <li>Full name</li>
+        <li>Phone number</li>
+        <li>Email address</li>
+        <li>Service interest and message</li>
+        <li>Timestamp of submission</li>
+      </ul>
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">3. How We Use Your Data</div>
+      <p style="margin-bottom:1.2rem;">Your data is used solely to respond to your inquiry. We do not sell, share, or transfer your data to third parties without your explicit consent. Data is processed on the legal basis of <strong style="color:#fff;">legitimate interest</strong> (responding to your inquiry).</p>
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">4. Cookies We Use</div>
+      <p style="margin-bottom:.6rem;"><strong style="color:#fff;">Essential Cookies</strong> — Required for the website to function. Cannot be disabled.</p>
+      <p style="margin-bottom:1.2rem;"><strong style="color:#fff;">Analytics Cookies</strong> — Help us understand how visitors use our site. Only activated with your consent.</p>
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">5. Your Rights</div>
+      <p style="margin-bottom:.6rem;">Under PDPL and GDPR, you have the right to:</p>
+      <ul style="margin-left:1.2rem;margin-bottom:1.2rem;">
+        <li>Access your personal data</li>
+        <li>Request correction or deletion</li>
+        <li>Withdraw consent at any time</li>
+        <li>Lodge a complaint with the relevant authority</li>
+      </ul>
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">6. Data Retention</div>
+      <p style="margin-bottom:1.2rem;">Inquiry data is retained for a maximum of 12 months unless a business relationship is established, in which case it is retained as required by applicable law.</p>
+
+      <div style="font-weight:700;color:#fff;margin-bottom:.4rem;font-family:'Montserrat',sans-serif;">7. Contact Us</div>
+      <p style="margin-bottom:1.5rem;">For any privacy-related requests or concerns, contact our Data Protection Officer at <a href="mailto:info@redjemie.com" style="color:#00AEEF;">info@redjemie.com</a></p>
+
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+        <button onclick="acceptAll();closePrivacy();" style="background:linear-gradient(90deg,#1E5BFF,#00AEEF);border:none;color:#fff;padding:.6rem 1.4rem;border-radius:6px;font-size:.82rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">Accept All Cookies</button>
+        <button onclick="acceptEssential();closePrivacy();" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:#8fa3b8;padding:.6rem 1.2rem;border-radius:6px;font-size:.82rem;font-family:'Montserrat',sans-serif;font-weight:600;cursor:pointer;">Essential Only</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 window.addEventListener('scroll',()=>{document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>20);});
 function toggleMenu(){document.getElementById('mobMenu').classList.toggle('open');}
 const obs=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:0.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// COOKIE CONSENT
+function showCookieBanner(){
+  if(!localStorage.getItem('rjg_cookie_consent')){
+    document.getElementById('cookieBanner').style.display='block';
+  }
+}
+function acceptAll(){
+  localStorage.setItem('rjg_cookie_consent','all');
+  document.getElementById('cookieBanner').style.display='none';
+}
+function acceptEssential(){
+  localStorage.setItem('rjg_cookie_consent','essential');
+  document.getElementById('cookieBanner').style.display='none';
+}
+function showPrivacy(){
+  document.getElementById('privacyModal').style.display='block';
+  document.body.style.overflow='hidden';
+}
+function closePrivacy(){
+  document.getElementById('privacyModal').style.display='none';
+  document.body.style.overflow='';
+}
+// Show banner after 1 second
+setTimeout(showCookieBanner, 1000);
+function setService(val){
+  setTimeout(()=>{
+    const sel=document.getElementById('fservice');
+    if(sel){
+      for(let i=0;i<sel.options.length;i++){
+        if(sel.options[i].value===val||sel.options[i].text===val){
+          sel.selectedIndex=i;
+          break;
+        }
+      }
+    }
+  },300);
+}
+
 (function(){
   let solved=false,dragging=false,startX=0,pieceStartX=0;
   const area=document.getElementById('capArea'),piece=document.getElementById('capPiece'),slot=document.getElementById('capSlot'),hint=document.getElementById('capHint'),ok=document.getElementById('capOk'),btn=document.getElementById('submitBtn');
