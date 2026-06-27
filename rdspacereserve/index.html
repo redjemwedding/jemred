@@ -4,775 +4,673 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="theme-color" content="#080810"/>
-<title>RD Space Reserve — Room Reservation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="theme-color" content="#09090f"/>
+<title>RD Space Reserve</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  :root {
-    --bg:       #080810;
-    --surface:  #0f0f1c;
-    --card:     #13131f;
-    --border:   #1e1e30;
-    --borderHi: #2e2e48;
-    --accent:   #5b5ef4;
-    --accentLt: #7b7ef6;
-    --accentDim:#5b5ef415;
-    --text:     #f0f0fa;
-    --textSub:  #8888aa;
-    --textDim:  #44445a;
-    --green:    #10b981;
-    --greenDim: #10b98115;
-    --amber:    #f59e0b;
-    --amberDim: #f59e0b15;
-    --red:      #ef4444;
-    --redDim:   #ef444415;
-    --blue:     #3b82f6;
-    --blueDim:  #3b82f615;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#09090f;--surf:#0f0f1a;--card:#141420;--bd:#1f1f32;
+  --acc:#5b5ef4;--accl:#8284f7;--accd:rgba(91,94,244,.12);
+  --tx:#f0f0fa;--txs:#7a7a9a;--txd:#3a3a55;
+  --g:#10b981;--gd:rgba(16,185,129,.12);
+  --a:#f59e0b;--ad:rgba(245,158,11,.12);
+  --r:#ef4444;--rd:rgba(239,68,68,.12);
+  --bl:#3b82f6;--bld:rgba(59,130,246,.12);
+}
+
+/* ── RESET & BASE ── */
+html,body{
+  margin:0;padding:0;
+  background:var(--bg);
+  color:var(--tx);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ── SIDEBAR — hidden by default, shown on large screens ── */
+#sidebar{
+  display:none; /* HIDDEN on mobile by default */
+  width:230px;background:var(--surf);border-right:1px solid var(--bd);
+  position:fixed;top:0;left:0;bottom:0;z-index:20;
+  flex-direction:column;
+}
+.s-logo{padding:22px 20px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:11px}
+.s-li{width:36px;height:36px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.s-lt{color:var(--tx);font-weight:800;font-size:14px;letter-spacing:-.3px;line-height:1.1}
+.s-ls{color:var(--acc);font-size:8px;font-weight:700;letter-spacing:1.4px;margin-top:2px}
+.s-nav{flex:1;padding:10px;overflow-y:auto}
+.s-grp{color:var(--txd);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:10px 10px 5px}
+.s-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;border:none;border-radius:9px;color:var(--txs);cursor:pointer;font-size:13px;font-weight:500;text-align:left;margin-bottom:1px;font-family:inherit}
+.s-btn.on,.s-btn:hover{background:var(--accd);color:var(--accl);font-weight:700}
+.s-user{padding:14px 20px;border-top:1px solid var(--bd);display:flex;align-items:center;gap:10px}
+.ava{width:32px;height:32px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;flex-shrink:0}
+
+/* ── TOP BAR (mobile) ── */
+#tbar{
+  display:flex; /* shown on mobile */
+  position:sticky;top:0;z-index:30;
+  background:var(--surf);border-bottom:1px solid var(--bd);
+  padding:12px 16px;
+  padding-top:calc(12px + env(safe-area-inset-top));
+  align-items:center;gap:11px;
+}
+.tb-li{width:30px;height:30px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tb-pg{margin-left:auto;color:var(--txs);font-size:13px;font-weight:600}
+
+/* ── MAIN CONTENT ── */
+#main{
+  margin-left:0; /* no sidebar offset on mobile */
+  min-height:100vh;
+  padding-bottom:calc(70px + env(safe-area-inset-bottom));
+}
+.pg{display:none;padding:18px 16px 20px}
+.pg.on{display:block}
+
+/* ── BOTTOM NAV (mobile) ── */
+#bnav{
+  display:flex; /* shown on mobile */
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--surf);border-top:1px solid var(--bd);
+  z-index:30;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bn-inner{display:flex;width:100%}
+.bn-b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 2px 6px;background:transparent;border:none;color:var(--txd);cursor:pointer;gap:3px;font-family:inherit}
+.bn-b.on{color:var(--accl)}
+.bn-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+.bn-line{width:16px;height:2px;background:var(--acc);border-radius:1px;margin-top:2px}
+
+/* ── DESKTOP (≥1024px) ── */
+@media(min-width:1024px){
+  #sidebar{display:flex}
+  #tbar{display:none}
+  #bnav{display:none}
+  #main{
+    margin-left:230px;
+    padding-bottom:40px;
   }
-  html, body { height: 100%; background: var(--bg); font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; overflow: hidden; }
-  #app { display: flex; height: 100vh; height: 100dvh; }
+  .pg{padding:32px}
+  .stats{grid-template-columns:repeat(4,1fr)!important}
+  .dg{grid-template-columns:1.3fr 1fr!important}
+  .rg{grid-template-columns:repeat(3,1fr)!important}
+  .atw{display:block!important}
+  #admc{display:none!important}
+  #iform.on{display:block!important}
+}
 
-  /* ── SIDEBAR ── */
-  #sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
-  .sidebar-logo { padding: 24px 20px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 11px; }
-  .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg,#5b5ef4,#7c3aed); border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .logo-title { color: var(--text); font-weight: 800; font-size: 15px; letter-spacing: -0.4px; line-height: 1; }
-  .logo-sub { color: var(--accent); font-size: 8px; font-weight: 700; letter-spacing: 1.5px; margin-top: 3px; }
-  .nav-section-label { color: var(--textDim); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; padding: 12px 12px 6px; }
-  nav { flex: 1; padding: 8px 10px; overflow-y: auto; }
-  .nav-btn { width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: transparent; border: none; border-radius: 9px; color: var(--textSub); cursor: pointer; font-size: 13px; font-weight: 500; text-align: left; margin-bottom: 2px; transition: all 0.15s; font-family: inherit; }
-  .nav-btn:hover { background: var(--accentDim); color: var(--accentLt); }
-  .nav-btn.active { background: var(--accentDim); color: var(--accentLt); font-weight: 700; }
-  .nav-btn svg { flex-shrink: 0; }
-  .sidebar-user { padding: 16px 20px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-  .avatar { width: 34px; height: 34px; background: linear-gradient(135deg,#5b5ef4,#7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-  .user-name { color: var(--text); font-size: 13px; font-weight: 600; }
-  .user-role { color: var(--textDim); font-size: 11px; }
+/* ── TYPOGRAPHY ── */
+.eyebrow{color:var(--txs);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
+.ptitle{color:var(--tx);font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:3px}
+.psub{color:var(--txd);font-size:13px;margin-bottom:22px}
 
-  /* ── TOPBAR (mobile) ── */
-  #topbar { display: none; background: var(--surface); border-bottom: 1px solid var(--border); padding: 13px 18px; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50; }
-  .topbar-page { margin-left: auto; color: var(--textSub); font-size: 13px; font-weight: 600; }
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.sc{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px}
+.sc-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.sc-v{color:var(--tx);font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.sc-l{color:var(--txs);font-size:11.5px;font-weight:600}
 
-  /* ── MAIN ── */
-  #main { flex: 1; overflow-y: auto; }
-  .page { display: none; padding: 32px; }
-  .page.active { display: block; }
-  .page-eyebrow { color: var(--textSub); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
-  .page-title { color: var(--text); font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
-  .page-sub { color: var(--textDim); font-size: 13px; margin-bottom: 28px; }
+/* ── PANELS ── */
+.dg{display:grid;grid-template-columns:1fr;gap:14px}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:18px}
+.ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.ph-t{color:var(--tx);font-size:14px;font-weight:700}
+.ph-l{background:none;border:none;color:var(--acc);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px}
+.ri{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.ri:last-child{border-bottom:none}
+.ri-ic{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ri-n{color:var(--tx);font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ri-s{color:var(--txs);font-size:11.5px;margin-top:2px}
 
-  /* ── STATS ── */
-  .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
-  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; }
-  .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-  .stat-value { color: var(--text); font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 5px; letter-spacing: -1px; }
-  .stat-label { color: var(--textSub); font-size: 13px; font-weight: 600; }
+/* ── BADGE ── */
+.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+.b-confirmed{color:var(--g);background:var(--gd)}
+.b-pending{color:var(--a);background:var(--ad)}
+.b-cancelled{color:var(--r);background:var(--rd)}
 
-  /* ── DASHBOARD GRID ── */
-  .dash-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
-  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
-  .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-  .panel-title { color: var(--text); font-size: 14px; font-weight: 700; }
-  .panel-link { color: var(--accent); font-size: 12px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; display: flex; align-items: center; gap: 4px; }
-  .panel-link:hover { color: var(--accentLt); }
-  .row-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .row-item:last-child { border-bottom: none; }
-  .row-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .row-name { color: var(--text); font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .row-sub  { color: var(--textSub); font-size: 12px; margin-top: 2px; }
-  .row-teams { display: flex; align-items: center; gap: 5px; margin-top: 5px; color: #60a5fa; font-size: 12px; font-weight: 600; }
+/* ── ROOMS ── */
+.legend{display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:6px;color:var(--txs);font-size:12px}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rg{display:grid;grid-template-columns:1fr;gap:13px}
+@media(min-width:540px){.rg{grid-template-columns:1fr 1fr}}
 
-  /* ── STATUS BADGE ── */
-  .badge { display: inline-block; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; }
-  .badge-confirmed { color: var(--green); background: var(--greenDim); }
-  .badge-pending   { color: var(--amber); background: var(--amberDim); }
-  .badge-cancelled { color: var(--red);   background: var(--redDim);   }
+.rc{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;overflow:hidden;transition:all .18s}
+.rc.free-room{cursor:pointer}
+.rc.busy-room{opacity:.5}
+.rc.sel{border-color:var(--acc);box-shadow:0 0 0 1px rgba(91,94,244,.18)}
+.rc-stripe{height:4px}
+.rc-stripe.free{background:linear-gradient(90deg,#5b5ef4,#7c3aed)}
+.rc-stripe.busy{background:var(--bd)}
+.rc-body{padding:16px 16px 14px}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.rc-ri{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.avb{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700}
+.rc-name{color:var(--tx);font-size:14px;font-weight:700;letter-spacing:-.2px;margin-bottom:2px}
+.rc-loc{color:var(--txs);font-size:11px;margin-bottom:10px}
+.rc-meta{display:flex;gap:12px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--bd)}
+.rc-mi{display:flex;align-items:center;gap:4px;color:var(--txs);font-size:11px}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.tag{background:var(--surf);border:1px solid var(--bd);color:var(--txs);font-size:10px;padding:2px 7px;border-radius:5px}
+.rc-cta{width:100%;padding:9px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;border:none;cursor:pointer;font-family:inherit}
+.rc-cta.free{background:var(--accd);color:var(--accl);border:1px solid rgba(91,94,244,.18)}
+.rc-cta.busy{background:transparent;color:var(--txd);border:1px solid var(--bd);cursor:default}
+.rc-cta.sel{background:linear-gradient(135deg,#5b5ef4,#7c3aed);color:#fff;border:none}
 
-  /* ── ROOMS GRID ── */
-  .rooms-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
-  .room-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.18s; }
-  .room-card.unavailable { opacity: 0.5; cursor: default; }
-  .room-card.selected { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 0 0 1px #5b5ef430; }
-  .room-card:not(.unavailable):not(.selected):hover { border-color: var(--borderHi); }
-  .room-stripe { height: 4px; }
-  .room-stripe.free { background: linear-gradient(90deg,#5b5ef4,#7c3aed); }
-  .room-stripe.busy { background: var(--border); }
-  .room-body { padding: 20px 20px 16px; }
-  .room-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-  .room-ri { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; }
-  .avail-dot { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-  .avail-dot .dot { width: 6px; height: 6px; border-radius: 50%; }
-  .room-name { color: var(--text); font-size: 15px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 3px; }
-  .room-loc  { color: var(--textSub); font-size: 12px; margin-bottom: 14px; }
-  .room-meta { display: flex; gap: 16px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border); }
-  .room-meta-item { display: flex; align-items: center; gap: 5px; color: var(--textSub); font-size: 12px; }
-  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
-  .tag { background: var(--surface); border: 1px solid var(--border); color: var(--textSub); font-size: 11px; padding: 3px 9px; border-radius: 6px; }
-  .room-cta { width: 100%; padding: 10px; border-radius: 9px; font-size: 13px; font-weight: 700; text-align: center; border: none; cursor: pointer; font-family: inherit; letter-spacing: 0.2px; transition: opacity 0.15s; }
-  .room-cta.free    { background: var(--accentDim); color: var(--accentLt); border: 1px solid #5b5ef425; }
-  .room-cta.busy    { background: transparent; color: var(--textDim); border: 1px solid var(--border); cursor: default; }
-  .room-cta.selected { background: linear-gradient(135deg,#5b5ef4,#7c3aed); color: #fff; border: none; }
+/* ── INLINE FORM (desktop) ── */
+#iform{display:none;background:var(--card);border:1.5px solid rgba(91,94,244,.28);border-radius:14px;padding:24px;margin-top:18px}
+.fh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.fclose{background:var(--surf);border:1px solid var(--bd);color:var(--txs);width:33px;height:33px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tn{background:var(--bld);border:1px solid rgba(59,130,246,.18);border-radius:9px;padding:10px 13px;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:#93c5fd;font-size:12.5px}
+.fg{display:grid;gap:12px;max-width:520px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;color:var(--txs);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
+input,select{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;color:var(--tx);font-size:14px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none}
+input:focus,select:focus{border-color:var(--acc)}
+input::placeholder{color:var(--txd)}
+.btn-p{width:100%;padding:13px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;margin-top:2px}
+.btn-p:disabled{background:var(--bd);color:var(--txd);cursor:not-allowed}
+.btn-s{width:100%;padding:11px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--txs);font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px}
 
-  /* ── INLINE FORM ── */
-  #inline-form { display: none; background: var(--card); border: 1.5px solid #5b5ef440; border-radius: 16px; padding: 28px; margin-top: 20px; }
-  #inline-form.show { display: block; }
-  .form-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; }
-  .form-eyebrow { color: var(--accentLt); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-  .form-title { color: var(--text); font-size: 20px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 3px; }
-  .form-sub { color: var(--textDim); font-size: 13px; }
-  .form-close { background: var(--surface); border: 1px solid var(--border); color: var(--textSub); width: 36px; height: 36px; border-radius: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-  .teams-notice { background: var(--blueDim); border: 1px solid #3b82f620; border-radius: 10px; padding: 11px 14px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; color: #93c5fd; font-size: 13px; }
-  .form-grid { display: grid; gap: 14px; max-width: 560px; }
-  .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  label { display: block; color: var(--textSub); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-  input[type="text"], input[type="date"], select {
-    width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-    padding: 12px 14px; color: var(--text); font-size: 15px; font-family: inherit;
-    outline: none; -webkit-appearance: none; appearance: none; transition: border-color 0.15s;
-  }
-  input[type="text"]:focus, input[type="date"]:focus, select:focus { border-color: var(--accent); }
-  input::placeholder { color: var(--textDim); }
-  .btn-primary { width: 100%; padding: 13px; background: linear-gradient(135deg,#5b5ef4,#7c3aed); border: none; border-radius: 11px; color: #fff; font-weight: 700; font-size: 15px; cursor: pointer; font-family: inherit; letter-spacing: 0.2px; transition: opacity 0.15s; margin-top: 4px; }
-  .btn-primary:hover { opacity: 0.9; }
-  .btn-primary:disabled { background: var(--border); color: var(--textDim); cursor: not-allowed; opacity: 1; }
-  .btn-secondary { width: 100%; padding: 11px; background: transparent; border: 1px solid var(--border); border-radius: 11px; color: var(--textSub); font-weight: 600; font-size: 14px; cursor: pointer; font-family: inherit; margin-top: 8px; }
+/* ── MY BOOKINGS ── */
+.bcard{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px;margin-bottom:10px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.bic{width:42px;height:42px;background:var(--accd);border:1px solid rgba(91,94,244,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bi{flex:1;min-width:0}
+.bt{color:var(--tx);font-size:14px;font-weight:700;margin-bottom:2px}
+.bm{color:var(--txs);font-size:12px}
+.tmlink{display:flex;align-items:center;gap:4px;margin-top:5px;color:#60a5fa;font-size:11.5px;font-weight:600}
+.btn-can{background:transparent;border:1px solid rgba(239,68,68,.32);color:var(--r);font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;cursor:pointer;font-family:inherit}
+.empty{text-align:center;padding:60px 20px;color:var(--txd)}
 
-  /* ── MY BOOKINGS ── */
-  .booking-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; }
-  .booking-icon { width: 46px; height: 46px; background: var(--accentDim); border: 1px solid #5b5ef420; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .booking-info { flex: 1; min-width: 0; }
-  .booking-title { color: var(--text); font-size: 15px; font-weight: 700; margin-bottom: 3px; }
-  .booking-meta  { color: var(--textSub); font-size: 12px; }
-  .btn-cancel { background: transparent; border: 1px solid #ef444440; color: var(--red); font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 9px; cursor: pointer; font-family: inherit; white-space: nowrap; }
-  .empty-state { text-align: center; padding: 80px 0; color: var(--textDim); }
-  .empty-state svg { margin-bottom: 14px; opacity: 0.5; }
-  .empty-state p { font-size: 15px; }
+/* ── ADMIN ── */
+.atw{display:none;background:var(--card);border:1px solid var(--bd);border-radius:13px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--surf)}
+th{padding:11px 15px;color:var(--txd);font-size:10px;font-weight:700;text-align:left;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--bd)}
+td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(--txs);vertical-align:middle}
+.td-m{color:var(--tx);font-weight:600;font-size:13px}
+.abtns{display:flex;gap:5px}
+.btn-ap{background:var(--gd);border:1px solid rgba(16,185,129,.22);color:var(--g);font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px}
+.btn-rj{background:var(--rd);border:1px solid rgba(239,68,68,.22);color:var(--r);font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px}
 
-  /* ── ADMIN TABLE ── */
-  .admin-table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: var(--surface); }
-  th { padding: 13px 18px; color: var(--textDim); font-size: 11px; font-weight: 700; text-align: left; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid var(--border); }
-  td { padding: 15px 18px; border-bottom: 1px solid var(--border); font-size: 13px; }
-  td:first-child { color: var(--text); font-weight: 600; font-size: 14px; }
-  td:not(:first-child) { color: var(--textSub); }
-  .action-btns { display: flex; gap: 6px; }
-  .btn-approve { background: var(--greenDim); border: 1px solid #10b98130; color: var(--green); font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 7px; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 4px; }
-  .btn-reject  { background: var(--redDim);   border: 1px solid #ef444430; color: var(--red);   font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 7px; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 4px; }
+/* ── ADMIN CARDS (mobile) ── */
+#admc{display:block}
+.ac{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:15px;margin-bottom:10px}
+.ac-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px}
+.ac-t{color:var(--tx);font-size:13.5px;font-weight:700}
+.ac-r{color:var(--txs);font-size:11.5px;margin-top:2px}
+.ac-g{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.ac-f{background:var(--surf);border:1px solid var(--bd);border-radius:7px;padding:7px 9px}
+.ac-fl{color:var(--txd);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.ac-fv{color:var(--txs);font-size:12px;font-weight:600;margin-top:2px}
+.ac-a{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 
-  /* ── TOAST ── */
-  #toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); padding: 13px 20px; border-radius: 12px; font-size: 13px; font-weight: 600; z-index: 9999; display: flex; align-items: center; gap: 10px; white-space: nowrap; opacity: 0; transition: all 0.3s; pointer-events: none; backdrop-filter: blur(12px); }
-  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  #toast.success { background: var(--greenDim); border: 1px solid #10b98130; color: var(--green); }
-  #toast.error   { background: var(--redDim);   border: 1px solid #ef444430; color: var(--red);   }
-  #toast.info    { background: var(--accentDim); border: 1px solid #5b5ef430; color: var(--accentLt); }
+/* ── BOTTOM SHEET ── */
+#ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#ov.on{display:block}
+#sheet{
+  display:block;
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--card);
+  border-radius:20px 20px 0 0;
+  z-index:101;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  padding:0 18px calc(24px + env(safe-area-inset-bottom));
+  max-height:88vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+#sheet.on{transform:translateY(0)}
+.sh-handle{width:36px;height:3px;background:var(--bd);border-radius:2px;margin:13px auto 18px}
+.sh-ey{color:var(--accl);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.sh-nm{color:var(--tx);font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px}
+.sh-sb{color:var(--txd);font-size:12.5px;margin-bottom:16px}
+.sh-fg{display:grid;gap:12px}
+.sh-f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-  /* ── BOTTOM SHEET ── */
-  #sheet-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; backdrop-filter: blur(6px); }
-  #sheet-overlay.show { display: block; }
-  #sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-radius: 20px 20px 0 0; padding: 8px 22px 40px; max-height: 92vh; overflow-y: auto; z-index: 201; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); }
-  #sheet.show { transform: translateY(0); }
-  .sheet-handle { width: 36px; height: 3px; background: var(--border); border-radius: 2px; margin: 12px auto 20px; }
-  .sheet-title-row { margin-bottom: 20px; }
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));
+  left:50%;transform:translateX(-50%) translateY(12px);
+  padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;
+  z-index:999;display:flex;align-items:center;gap:8px;
+  white-space:nowrap;opacity:0;transition:all .25s;pointer-events:none;
+}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast.s{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.3);color:var(--g)}
+#toast.e{background:rgba(239,68,68,.18);border:1px solid rgba(239,68,68,.3);color:var(--r)}
+#toast.i{background:rgba(91,94,244,.18);border:1px solid rgba(91,94,244,.3);color:var(--accl)}
 
-  /* ── BOTTOM NAV (mobile) ── */
-  #bottomnav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); z-index: 100; padding-bottom: env(safe-area-inset-bottom, 8px); }
-  .bnav-inner { display: flex; }
-  .bnav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 4px 6px; background: transparent; border: none; color: var(--textDim); cursor: pointer; gap: 4px; font-family: inherit; }
-  .bnav-btn.active { color: var(--accentLt); }
-  .bnav-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-  .bnav-line { width: 18px; height: 2px; background: var(--accent); border-radius: 1px; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1023px) {
-    #sidebar { display: none; }
-    #topbar  { display: flex; }
-    #bottomnav { display: block; }
-    #main { padding-bottom: 70px; }
-    .page { padding: 18px; }
-    .page-title { font-size: 20px; }
-    .stats-grid { grid-template-columns: 1fr 1fr; }
-    .dash-grid  { grid-template-columns: 1fr; }
-    .rooms-grid { grid-template-columns: 1fr 1fr; }
-    .admin-table-wrap { display: none; }
-    #admin-cards { display: block; }
-    #inline-form.show { display: none !important; }
-  }
-  @media (max-width: 639px) {
-    .rooms-grid { grid-template-columns: 1fr; }
-    .booking-card { flex-wrap: wrap; }
-    .btn-cancel { width: 100%; text-align: center; }
-    .form-row2 { grid-template-columns: 1fr; }
-  }
-
-  /* ── ADMIN CARDS (mobile) ── */
-  #admin-cards { display: none; }
-  .admin-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; margin-bottom: 12px; }
-  .admin-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-  .admin-card-title { color: var(--text); font-size: 14px; font-weight: 700; }
-  .admin-card-room  { color: var(--textSub); font-size: 12px; margin-top: 3px; }
-  .admin-card-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-  .admin-card-field { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
-  .admin-card-fl { color: var(--textDim); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-  .admin-card-fv { color: var(--textSub); font-size: 13px; font-weight: 600; margin-top: 2px; }
-  .admin-card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-  /* ── LEGEND ── */
-  .legend { display: flex; gap: 16px; margin-bottom: 20px; }
-  .legend-item { display: flex; align-items: center; gap: 6px; color: var(--textSub); font-size: 12px; }
-  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+@media(min-width:1024px){
+  #toast{bottom:28px}
+}
 </style>
 </head>
 <body>
 
-<div id="app">
-  <!-- SIDEBAR -->
-  <div id="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-      </div>
-      <div>
-        <div class="logo-title">RD Space Reserve</div>
-        <div class="logo-sub">ROOM RESERVATION · BY RJG</div>
-      </div>
+<!-- SIDEBAR (desktop only) -->
+<div id="sidebar">
+  <div class="s-logo">
+    <div class="s-li">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
     </div>
-    <nav>
-      <div class="nav-section-label">Navigation</div>
-      <button class="nav-btn active" data-page="home">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        Dashboard
-      </button>
-      <button class="nav-btn" data-page="rooms">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-        Find a Room
-      </button>
-      <button class="nav-btn" data-page="mine">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        My Bookings
-      </button>
-      <button class="nav-btn" data-page="admin">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-        Admin
-      </button>
-    </nav>
-    <div class="sidebar-user">
-      <div class="avatar">RD</div>
-      <div>
-        <div class="user-name">Red Diola</div>
-        <div class="user-role">Administrator</div>
-      </div>
-    </div>
+    <div><div class="s-lt">RD Space Reserve</div><div class="s-ls">ROOM RESERVATION · RJG</div></div>
   </div>
-
-  <!-- TOPBAR -->
-  <div id="topbar">
-    <div class="logo-icon">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-    </div>
-    <div>
-      <div class="logo-title" style="font-size:14px">RD Space Reserve</div>
-      <div class="logo-sub">BY RJG TECHNOLOGIES</div>
-    </div>
-    <div class="topbar-page" id="topbar-label">Dashboard</div>
+  <div class="s-nav">
+    <div class="s-grp">Navigation</div>
+    <button class="s-btn on" data-pg="home">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </button>
+    <button class="s-btn" data-pg="rooms">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+      Find a Room
+    </button>
+    <button class="s-btn" data-pg="mine">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      My Bookings
+    </button>
+    <button class="s-btn" data-pg="admin">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Admin
+    </button>
   </div>
-
-  <!-- MAIN -->
-  <div id="main">
-
-    <!-- DASHBOARD -->
-    <div class="page active" id="page-home">
-      <p class="page-eyebrow">Workspace Overview</p>
-      <h1 class="page-title">Good morning, Red</h1>
-      <p class="page-sub">Saturday, 27 June 2026</p>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#10b98118;border:1px solid #10b98125">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-          </div>
-          <div class="stat-value">4</div>
-          <div class="stat-label">Available Now</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#5b5ef415;border:1px solid #5b5ef425">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7b7ef6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          </div>
-          <div class="stat-value">2</div>
-          <div class="stat-label">Booked Today</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#3b82f615;border:1px solid #3b82f625">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          </div>
-          <div class="stat-value">5</div>
-          <div class="stat-label">Teams Enabled</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#f59e0b15;border:1px solid #f59e0b25">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="stat-value">1</div>
-          <div class="stat-label">Pending Approval</div>
-        </div>
-      </div>
-
-      <div class="dash-grid">
-        <div class="panel">
-          <div class="panel-header">
-            <span class="panel-title">Today's Schedule</span>
-            <button class="panel-link" onclick="navigate('admin')">All bookings
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
-          <div class="row-item">
-            <div class="row-icon" style="background:#5b5ef415;border:1px solid #5b5ef420">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7b7ef6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            </div>
-            <div style="flex:1;min-width:0">
-              <div class="row-name">Q3 Planning Session</div>
-              <div class="row-sub">Boardroom Alpha · 09:00–10:00</div>
-            </div>
-            <span class="badge badge-confirmed">Confirmed</span>
-          </div>
-          <div class="row-item">
-            <div class="row-icon" style="background:#5b5ef415;border:1px solid #5b5ef420">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7b7ef6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            </div>
-            <div style="flex:1;min-width:0">
-              <div class="row-name">IT Sprint Review</div>
-              <div class="row-sub">Innovation Lab · 14:00–15:30</div>
-            </div>
-            <span class="badge badge-confirmed">Confirmed</span>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-header"><span class="panel-title">Available Now</span></div>
-          <div class="row-item">
-            <div class="row-icon" style="background:#10b98115;border:1px solid #10b98120">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-            </div>
-            <div style="flex:1;min-width:0"><div class="row-name">Boardroom Alpha</div><div class="row-sub">Level 10 · 20 seats</div></div>
-            <button class="panel-link" onclick="navigate('rooms')" style="font-size:11px">Reserve</button>
-          </div>
-          <div class="row-item">
-            <div class="row-icon" style="background:#10b98115;border:1px solid #10b98120">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-            </div>
-            <div style="flex:1;min-width:0"><div class="row-name">Innovation Lab</div><div class="row-sub">Level 8 · 10 seats</div></div>
-            <button class="panel-link" onclick="navigate('rooms')" style="font-size:11px">Reserve</button>
-          </div>
-          <div class="row-item">
-            <div class="row-icon" style="background:#10b98115;border:1px solid #10b98120">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-            </div>
-            <div style="flex:1;min-width:0"><div class="row-name">Training Center</div><div class="row-sub">Level 3 · 30 seats</div></div>
-            <button class="panel-link" onclick="navigate('rooms')" style="font-size:11px">Reserve</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ROOMS -->
-    <div class="page" id="page-rooms">
-      <p class="page-eyebrow">Room Finder</p>
-      <h1 class="page-title">Reserve a Space</h1>
-      <p class="page-sub">Select an available room, then complete your booking details</p>
-
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div> Available</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> Occupied</div>
-        <div class="legend-item"><div class="legend-dot" style="background:#5b5ef4"></div> Selected</div>
-      </div>
-
-      <div class="rooms-grid" id="rooms-grid"></div>
-
-      <!-- Inline form (desktop) -->
-      <div id="inline-form">
-        <div class="form-header">
-          <div>
-            <div class="form-eyebrow">New Reservation</div>
-            <div class="form-title" id="if-room-name">—</div>
-            <div class="form-sub" id="if-room-sub">—</div>
-          </div>
-          <button class="form-close" onclick="deselectRoom()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </div>
-        <div id="teams-notice" class="teams-notice" style="display:none">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
-          A <strong style="margin:0 3px">Microsoft Teams meeting link</strong> will be auto-generated with this booking.
-        </div>
-        <div class="form-grid">
-          <div>
-            <label>Meeting Title *</label>
-            <input type="text" id="f-title" placeholder="e.g. Q3 Strategy Review"/>
-          </div>
-          <div>
-            <label>Date *</label>
-            <input type="date" id="f-date"/>
-          </div>
-          <div class="form-row2">
-            <div><label>Start Time</label>
-              <select id="f-start"></select>
-            </div>
-            <div><label>End Time</label>
-              <select id="f-end"></select>
-            </div>
-          </div>
-          <button class="btn-primary" id="btn-confirm" onclick="confirmBooking()">Confirm Booking</button>
-          <button class="btn-secondary" onclick="deselectRoom()">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MY BOOKINGS -->
-    <div class="page" id="page-mine">
-      <p class="page-eyebrow">Reservations</p>
-      <h1 class="page-title">My Bookings</h1>
-      <p class="page-sub">Your upcoming and recent room reservations</p>
-      <div id="my-bookings-list"></div>
-    </div>
-
-    <!-- ADMIN -->
-    <div class="page" id="page-admin">
-      <p class="page-eyebrow">Management</p>
-      <h1 class="page-title">Admin Panel</h1>
-      <p class="page-sub">All bookings across the organization</p>
-      <div class="admin-table-wrap">
-        <table id="admin-table">
-          <thead>
-            <tr>
-              <th>Meeting Title</th><th>Room</th><th>Requested By</th>
-              <th>Date</th><th>Time</th><th>Teams</th><th>Status</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="admin-tbody"></tbody>
-        </table>
-      </div>
-      <div id="admin-cards"></div>
-    </div>
-  </div><!-- /main -->
-</div><!-- /app -->
-
-<!-- BOTTOM SHEET -->
-<div id="sheet-overlay" onclick="closeSheet()"></div>
-<div id="sheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-title-row">
-    <div class="form-eyebrow">Reserve Room</div>
-    <div class="form-title" id="sh-room-name">—</div>
-    <div class="form-sub" id="sh-room-sub">—</div>
+  <div class="s-user">
+    <div class="ava">RD</div>
+    <div><div style="color:var(--tx);font-size:12.5px;font-weight:600">Red Diola</div><div style="color:var(--txd);font-size:11px">Administrator</div></div>
   </div>
-  <div id="sh-teams-notice" class="teams-notice" style="display:none">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
-    A <strong style="margin:0 3px">Microsoft Teams meeting link</strong> will be auto-generated with this booking.
+</div>
+
+<!-- TOP BAR (mobile only) -->
+<div id="tbar">
+  <div class="tb-li">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
   </div>
   <div>
-    <div style="margin-bottom:14px"><label>Meeting Title *</label><input type="text" id="sh-title" placeholder="e.g. Q3 Strategy Review"/></div>
-    <div style="margin-bottom:14px"><label>Date *</label><input type="date" id="sh-date"/></div>
-    <div class="form-row2" style="margin-bottom:18px">
-      <div><label>Start Time</label><select id="sh-start"></select></div>
-      <div><label>End Time</label><select id="sh-end"></select></div>
+    <div style="color:var(--tx);font-weight:800;font-size:13.5px;letter-spacing:-.2px;line-height:1">RD Space Reserve</div>
+    <div style="color:var(--acc);font-size:8px;font-weight:700;letter-spacing:1.2px;margin-top:1px">BY RJG TECHNOLOGIES</div>
+  </div>
+  <div class="tb-pg" id="tbar-lbl">Dashboard</div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- DASHBOARD -->
+  <div class="pg on" id="pg-home">
+    <div class="eyebrow">Workspace Overview</div>
+    <h1 class="ptitle">Good morning, Red</h1>
+    <p class="psub">Saturday, 27 June 2026</p>
+    <div class="stats">
+      <div class="sc">
+        <div class="sc-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.18)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+        </div>
+        <div class="sc-v">4</div><div class="sc-l">Available Now</div>
+      </div>
+      <div class="sc">
+        <div class="sc-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.18)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <div class="sc-v">2</div><div class="sc-l">Booked Today</div>
+      </div>
+      <div class="sc">
+        <div class="sc-ic" style="background:var(--bld);border:1px solid rgba(59,130,246,.18)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="sc-v">5</div><div class="sc-l">Teams Enabled</div>
+      </div>
+      <div class="sc">
+        <div class="sc-ic" style="background:var(--ad);border:1px solid rgba(245,158,11,.18)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--a)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="sc-v">1</div><div class="sc-l">Pending</div>
+      </div>
     </div>
-    <button class="btn-primary" onclick="confirmSheetBooking()">Confirm Booking</button>
-    <button class="btn-secondary" onclick="closeSheet()">Cancel</button>
+    <div class="dg">
+      <div class="panel">
+        <div class="ph">
+          <span class="ph-t">Today's Schedule</span>
+          <button class="ph-l" onclick="go('admin')">All bookings <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+        <div class="ri">
+          <div class="ri-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.15)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div style="flex:1;min-width:0"><div class="ri-n">Q3 Planning Session</div><div class="ri-s">Boardroom Alpha · 09:00–10:00</div></div>
+          <span class="badge b-confirmed">Confirmed</span>
+        </div>
+        <div class="ri">
+          <div class="ri-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.15)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
+          <div style="flex:1;min-width:0"><div class="ri-n">IT Sprint Review</div><div class="ri-s">Innovation Lab · 14:00–15:30</div></div>
+          <span class="badge b-confirmed">Confirmed</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph"><span class="ph-t">Available Now</span></div>
+        <div class="ri">
+          <div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+          </div>
+          <div style="flex:1;min-width:0"><div class="ri-n">Boardroom Alpha</div><div class="ri-s">Level 10 · 20 seats</div></div>
+          <button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button>
+        </div>
+        <div class="ri">
+          <div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+          </div>
+          <div style="flex:1;min-width:0"><div class="ri-n">Innovation Lab</div><div class="ri-s">Level 8 · 10 seats</div></div>
+          <button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button>
+        </div>
+        <div class="ri">
+          <div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+          </div>
+          <div style="flex:1;min-width:0"><div class="ri-n">Training Center</div><div class="ri-s">Level 3 · 30 seats</div></div>
+          <button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROOMS -->
+  <div class="pg" id="pg-rooms">
+    <div class="eyebrow">Room Finder</div>
+    <h1 class="ptitle">Reserve a Space</h1>
+    <p class="psub">Tap a free room to reserve it</p>
+    <div class="legend">
+      <div class="leg"><div class="dot" style="background:var(--g)"></div>Available</div>
+      <div class="leg"><div class="dot" style="background:var(--r)"></div>Occupied</div>
+      <div class="leg"><div class="dot" style="background:var(--acc)"></div>Selected</div>
+    </div>
+    <div class="rg" id="rg"></div>
+    <div id="iform">
+      <div class="fh">
+        <div>
+          <div style="color:var(--accl);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">New Reservation</div>
+          <div id="if-n" style="color:var(--tx);font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px">—</div>
+          <div id="if-s" style="color:var(--txd);font-size:12.5px">—</div>
+        </div>
+        <button class="fclose" onclick="desel()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="if-tn" class="tn" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
+        A <strong style="margin:0 3px">Microsoft Teams link</strong> will be auto-generated.
+      </div>
+      <div class="fg">
+        <div><label>Meeting Title *</label><input id="f-t" type="text" placeholder="e.g. Q3 Strategy Review"/></div>
+        <div><label>Date *</label><input id="f-d" type="date"/></div>
+        <div class="f2">
+          <div><label>Start Time</label><select id="f-s"></select></div>
+          <div><label>End Time</label><select id="f-e"></select></div>
+        </div>
+        <button class="btn-p" onclick="cDesk()">Confirm Booking</button>
+        <button class="btn-s" onclick="desel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MY BOOKINGS -->
+  <div class="pg" id="pg-mine">
+    <div class="eyebrow">Reservations</div>
+    <h1 class="ptitle">My Bookings</h1>
+    <p class="psub">Your upcoming reservations</p>
+    <div id="blist"></div>
+  </div>
+
+  <!-- ADMIN -->
+  <div class="pg" id="pg-admin">
+    <div class="eyebrow">Management</div>
+    <h1 class="ptitle">Admin Panel</h1>
+    <p class="psub">All bookings across the organization</p>
+    <div class="atw"><table><thead><tr>
+      <th>Title</th><th>Room</th><th>By</th><th>Date</th><th>Time</th><th>Teams</th><th>Status</th><th>Actions</th>
+    </tr></thead><tbody id="atb"></tbody></table></div>
+    <div id="admc"></div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- BOTTOM NAV (mobile only) -->
+<div id="bnav">
+  <div class="bn-inner">
+    <button class="bn-b on" data-pg="home">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="bn-lbl">Dashboard</span><div class="bn-line"></div>
+    </button>
+    <button class="bn-b" data-pg="rooms">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
+      <span class="bn-lbl">Rooms</span>
+    </button>
+    <button class="bn-b" data-pg="mine">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      <span class="bn-lbl">Bookings</span>
+    </button>
+    <button class="bn-b" data-pg="admin">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <span class="bn-lbl">Admin</span>
+    </button>
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
-<div id="bottomnav">
-  <div class="bnav-inner">
-    <button class="bnav-btn active" data-page="home">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      <span class="bnav-label">Dashboard</span>
-      <div class="bnav-line"></div>
-    </button>
-    <button class="bnav-btn" data-page="rooms">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
-      <span class="bnav-label">Rooms</span>
-    </button>
-    <button class="bnav-btn" data-page="mine">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-      <span class="bnav-label">Bookings</span>
-    </button>
-    <button class="bnav-btn" data-page="admin">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-      <span class="bnav-label">Admin</span>
-    </button>
+<!-- BOTTOM SHEET -->
+<div id="ov" onclick="closeSheet()"></div>
+<div id="sheet">
+  <div class="sh-handle"></div>
+  <div class="sh-ey">Reserve Room</div>
+  <div class="sh-nm" id="sh-n">—</div>
+  <div class="sh-sb" id="sh-s">—</div>
+  <div id="sh-tn" class="tn" style="display:none;margin-bottom:12px">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
+    A <strong style="margin:0 3px">Microsoft Teams link</strong> will be auto-generated.
+  </div>
+  <div class="sh-fg">
+    <div><label>Meeting Title *</label><input id="sh-t" type="text" placeholder="e.g. Q3 Strategy Review"/></div>
+    <div><label>Date *</label><input id="sh-d" type="date"/></div>
+    <div class="sh-f2">
+      <div><label>Start Time</label><select id="sh-s2"></select></div>
+      <div><label>End Time</label><select id="sh-e2"></select></div>
+    </div>
+    <button class="btn-p" onclick="cSheet()">Confirm Booking</button>
+    <button class="btn-s" onclick="closeSheet()">Cancel</button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast"></div>
 
 <script>
-const TIMES = ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
-
-const ROOMS = [
-  { id:1, name:"Boardroom Alpha",   floor:"Level 10", building:"Main Tower", cap:20, amenities:["Projector","Video Conference","Whiteboard","Coffee Station"], free:true,  teams:true  },
-  { id:2, name:"Innovation Lab",    floor:"Level 8",  building:"Main Tower", cap:10, amenities:["Display Screen","Whiteboard","Standing Desks"],               free:true,  teams:true  },
-  { id:3, name:"Executive Suite",   floor:"Level 15", building:"Main Tower", cap:8,  amenities:["Video Conference","City View","Catering Available"],           free:false, teams:true  },
-  { id:4, name:"Huddle Room B",     floor:"Level 5",  building:"Annex",      cap:4,  amenities:["Display Screen","Conference Phone"],                           free:true,  teams:false },
-  { id:5, name:"Training Center",   floor:"Level 3",  building:"Annex",      cap:30, amenities:["Dual Projectors","Microphone","Recording"],                    free:true,  teams:true  },
-  { id:6, name:"Strategy War Room", floor:"Level 12", building:"Main Tower", cap:6,  amenities:["Multi-Screen","Whiteboard","Video Conference"],                free:false, teams:true  },
+const T=["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
+const ROOMS=[
+  {id:1,name:"Boardroom Alpha",  floor:"Level 10",bld:"Main Tower",cap:20,tags:["Projector","Video Conf","Whiteboard","Coffee Station"],free:true, tm:true},
+  {id:2,name:"Innovation Lab",   floor:"Level 8", bld:"Main Tower",cap:10,tags:["Display Screen","Whiteboard","Standing Desks"],        free:true, tm:true},
+  {id:3,name:"Executive Suite",  floor:"Level 15",bld:"Main Tower",cap:8, tags:["Video Conf","City View","Catering"],                   free:false,tm:true},
+  {id:4,name:"Huddle Room B",    floor:"Level 5", bld:"Annex",     cap:4, tags:["Display Screen","Conference Phone"],                   free:true, tm:false},
+  {id:5,name:"Training Center",  floor:"Level 3", bld:"Annex",     cap:30,tags:["Dual Projectors","Microphone","Recording"],            free:true, tm:true},
+  {id:6,name:"Strategy War Room",floor:"Level 12",bld:"Main Tower",cap:6, tags:["Multi-Screen","Whiteboard","Video Conf"],              free:false,tm:true},
 ];
-
-let bookings = [
-  { id:1, title:"Q3 Planning Session",     room:"Boardroom Alpha",  time:"09:00–10:00", date:"Today",    who:"Red Diola",    status:"confirmed", teams:true  },
-  { id:2, title:"IT Sprint Review",        room:"Innovation Lab",   time:"14:00–15:30", date:"Today",    who:"Salman Ahmed", status:"confirmed", teams:true  },
-  { id:3, title:"New Hire Orientation",    room:"Training Center",  time:"10:00–12:00", date:"Tomorrow", who:"Rami Al Hassan",status:"pending",  teams:false },
-  { id:4, title:"Board Strategy Briefing", room:"Executive Suite",  time:"11:00–12:00", date:"Tomorrow", who:"Dipen Mehta",  status:"confirmed", teams:true  },
+let BKS=[
+  {id:1,title:"Q3 Planning Session",    room:"Boardroom Alpha", time:"09:00–10:00",date:"Today",   who:"Red Diola",     st:"confirmed",tm:true},
+  {id:2,title:"IT Sprint Review",       room:"Innovation Lab",  time:"14:00–15:30",date:"Today",   who:"Salman Ahmed",  st:"confirmed",tm:true},
+  {id:3,title:"New Hire Orientation",   room:"Training Center", time:"10:00–12:00",date:"Tomorrow",who:"Rami Al Hassan",st:"pending",  tm:false},
+  {id:4,title:"Board Strategy Briefing",room:"Executive Suite", time:"11:00–12:00",date:"Tomorrow",who:"Dipen Mehta",   st:"confirmed",tm:true},
 ];
+let SEL=null,TT=null;
+const PGL={home:"Dashboard",rooms:"Find a Room",mine:"My Bookings",admin:"Admin"};
 
-let selectedRoom = null;
-let toastTimer = null;
+const SVG={
+  cal:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`,
+  bld:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>`,
+  tm:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>`,
+  chk:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+  x:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+};
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-function init() {
-  // Populate time selects
-  ['f-start','f-end','sh-start','sh-end'].forEach(id => {
-    const sel = document.getElementById(id);
-    TIMES.forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; sel.appendChild(o); });
+function init(){
+  // fill time selects
+  ['f-s','f-e','sh-s2','sh-e2'].forEach(id=>{
+    const s=document.getElementById(id);
+    T.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o);});
   });
-  document.getElementById('f-start').value = '09:00';
-  document.getElementById('f-end').value   = '10:00';
-  document.getElementById('sh-start').value = '09:00';
-  document.getElementById('sh-end').value   = '10:00';
-
-  // Nav buttons
-  document.querySelectorAll('[data-page]').forEach(btn => {
-    btn.addEventListener('click', () => navigate(btn.dataset.page));
-  });
-
-  renderRooms();
-  renderMyBookings();
-  renderAdmin();
+  document.getElementById('f-s').value='09:00';
+  document.getElementById('f-e').value='10:00';
+  document.getElementById('sh-s2').value='09:00';
+  document.getElementById('sh-e2').value='10:00';
+  document.querySelectorAll('[data-pg]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.pg)));
+  renderRooms();renderBkgs();renderAdmin();
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
-function navigate(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn, .bnav-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.page === page);
-    // Update bnav line
-    const line = b.querySelector('.bnav-line');
-    if (line) line.style.display = b.dataset.page === page ? 'block' : 'none';
+function go(pg){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-'+pg).classList.add('on');
+  // sidebar buttons
+  document.querySelectorAll('.s-btn').forEach(b=>b.classList.toggle('on',b.dataset.pg===pg));
+  // bottom nav buttons
+  document.querySelectorAll('.bn-b').forEach(b=>{
+    const a=b.dataset.pg===pg;
+    b.classList.toggle('on',a);
+    let l=b.querySelector('.bn-line');
+    if(a){if(!l){l=document.createElement('div');l.className='bn-line';b.appendChild(l);}}
+    else if(l){l.remove();}
   });
-  // Rebuild bnav lines
-  document.querySelectorAll('.bnav-btn').forEach(b => {
-    let line = b.querySelector('.bnav-line');
-    if (b.dataset.page === page) { if (!line) { line = document.createElement('div'); line.className='bnav-line'; b.appendChild(line); } }
-    else { if (line) line.remove(); }
-  });
-
-  document.getElementById('page-' + page).classList.add('active');
-  const labels = { home:'Dashboard', rooms:'Find a Room', mine:'My Bookings', admin:'Admin' };
-  document.getElementById('topbar-label').textContent = labels[page] || '';
-  deselectRoom();
+  document.getElementById('tbar-lbl').textContent=PGL[pg]||'';
+  desel();
+  window.scrollTo({top:0,behavior:'instant'});
+  document.getElementById('main').scrollTop=0;
 }
 
-// ── ROOMS ─────────────────────────────────────────────────────────────────────
-function renderRooms() {
-  const grid = document.getElementById('rooms-grid');
-  grid.innerHTML = '';
-  ROOMS.forEach(r => {
-    const card = document.createElement('div');
-    card.className = 'room-card' + (!r.free?' unavailable':'') + (selectedRoom?.id===r.id?' selected':'');
-    card.id = 'room-card-' + r.id;
-    if (r.free) card.onclick = () => selectRoom(r);
-    const tags = r.amenities.slice(0,3).map(a=>`<span class="tag">${a}</span>`).join('') + (r.amenities.length>3?`<span class="tag">+${r.amenities.length-3}</span>`:'');
-    const teamsTag = r.teams ? `<div class="room-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg><span style="color:#60a5fa">Teams</span></div>` : '';
-    const ctaClass = !r.free?'busy':(selectedRoom?.id===r.id?'selected':'free');
-    const ctaText  = !r.free?'Unavailable':(selectedRoom?.id===r.id?'Selected — Fill Form Below':'Reserve This Room');
-    card.innerHTML = `
-      <div class="room-stripe ${r.free?'free':'busy'}"></div>
-      <div class="room-body">
-        <div class="room-top">
-          <div class="room-ri" style="background:${r.free?'#5b5ef415':'#1e1e30'};border:1px solid ${r.free?'#5b5ef425':'#1e1e30'}">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="${r.free?'#7b7ef6':'#44445a'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><path d="M3 21h18"/></svg>
+function renderRooms(){
+  document.getElementById('rg').innerHTML=ROOMS.map(r=>{
+    const s=SEL&&SEL.id===r.id;
+    const tags=r.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')+(r.tags.length>3?`<span class="tag">+${r.tags.length-3}</span>`:'');
+    const cta=!r.free?'busy':s?'sel':'free';
+    const ctaTxt=!r.free?'Unavailable':s?'Selected — Fill Form Below':'Reserve This Room';
+    return `<div class="rc ${r.free?'free-room':'busy-room'}${s?' sel':''}" ${r.free?`onclick="selR(${r.id})"`:''}id="rc-${r.id}">
+      <div class="rc-stripe ${r.free?'free':'busy'}"></div>
+      <div class="rc-body">
+        <div class="rc-top">
+          <div class="rc-ri" style="background:${r.free?'var(--accd)':'rgba(30,30,50,.5)'};border:1px solid ${r.free?'rgba(91,94,244,.18)':'var(--bd)'}">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="${r.free?'var(--accl)':'var(--txd)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
           </div>
-          <div class="avail-dot" style="background:${r.free?'#10b98115':'#ef444415'};border:1px solid ${r.free?'#10b98130':'#ef444430'}">
-            <div class="dot" style="background:${r.free?'#10b981':'#ef4444'}"></div>
-            <span style="color:${r.free?'#10b981':'#ef4444'}">${r.free?'Available':'Occupied'}</span>
+          <div class="avb" style="background:${r.free?'var(--gd)':'var(--rd)'};border:1px solid ${r.free?'rgba(16,185,129,.22)':'rgba(239,68,68,.22)'}">
+            <div class="dot" style="background:${r.free?'var(--g)':'var(--r)'}"></div>
+            <span style="color:${r.free?'var(--g)':'var(--r)'}">${r.free?'Available':'Occupied'}</span>
           </div>
         </div>
-        <div class="room-name">${r.name}</div>
-        <div class="room-loc">${r.floor} · ${r.building}</div>
-        <div class="room-meta">
-          <div class="room-meta-item">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#44445a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            <span>${r.cap} seats</span>
-          </div>
-          ${teamsTag}
+        <div class="rc-name">${r.name}</div>
+        <div class="rc-loc">${r.floor} · ${r.bld}</div>
+        <div class="rc-meta">
+          <div class="rc-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--txd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>${r.cap} seats</div>
+          ${r.tm?`<div class="rc-mi">${SVG.tm}<span style="color:#60a5fa">Teams</span></div>`:''}
         </div>
         <div class="tags">${tags}</div>
-        <button class="room-cta ${ctaClass}">${ctaText}</button>
-      </div>`;
-    grid.appendChild(card);
-  });
+        <button class="rc-cta ${cta}">${ctaTxt}</button>
+      </div></div>`;
+  }).join('');
 }
 
-function selectRoom(room) {
-  selectedRoom = room;
+function selR(id){
+  SEL=ROOMS.find(r=>r.id===id);
   renderRooms();
-  const isMobile = window.innerWidth < 1024;
-  if (isMobile) {
-    document.getElementById('sh-room-name').textContent = room.name;
-    document.getElementById('sh-room-sub').textContent  = `${room.floor} · ${room.building} · Capacity ${room.cap}`;
-    document.getElementById('sh-teams-notice').style.display = room.teams ? 'flex' : 'none';
-    document.getElementById('sh-title').value = '';
-    document.getElementById('sh-date').value  = '';
-    document.getElementById('sheet-overlay').classList.add('show');
-    setTimeout(() => document.getElementById('sheet').classList.add('show'), 10);
+  const mob=window.innerWidth<1024;
+  if(mob){
+    document.getElementById('sh-n').textContent=SEL.name;
+    document.getElementById('sh-s').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
+    document.getElementById('sh-tn').style.display=SEL.tm?'flex':'none';
+    document.getElementById('sh-t').value='';
+    document.getElementById('sh-d').value='';
+    document.getElementById('ov').classList.add('on');
+    requestAnimationFrame(()=>document.getElementById('sheet').classList.add('on'));
   } else {
-    document.getElementById('if-room-name').textContent = room.name;
-    document.getElementById('if-room-sub').textContent  = `${room.floor} · ${room.building} · Capacity ${room.cap}`;
-    document.getElementById('teams-notice').style.display = room.teams ? 'flex' : 'none';
-    document.getElementById('f-title').value = '';
-    document.getElementById('f-date').value  = '';
-    document.getElementById('inline-form').classList.add('show');
-    document.getElementById('inline-form').scrollIntoView({ behavior:'smooth', block:'nearest' });
+    document.getElementById('if-n').textContent=SEL.name;
+    document.getElementById('if-s').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
+    document.getElementById('if-tn').style.display=SEL.tm?'flex':'none';
+    document.getElementById('f-t').value='';
+    document.getElementById('f-d').value='';
+    document.getElementById('iform').classList.add('on');
+    document.getElementById('iform').scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
 
-function deselectRoom() {
-  selectedRoom = null;
-  document.getElementById('inline-form').classList.remove('show');
-  renderRooms();
-  closeSheet();
+function desel(){SEL=null;document.getElementById('iform').classList.remove('on');renderRooms();closeSheet();}
+function closeSheet(){document.getElementById('sheet').classList.remove('on');document.getElementById('ov').classList.remove('on');}
+
+function addBkg(title,date,s,e,room){
+  BKS.push({id:Date.now(),title,room:room.name,time:`${s}–${e}`,date,who:"Red Diola",st:"confirmed",tm:room.tm});
+  renderBkgs();renderAdmin();
+  toast('Room reserved. Calendar invite dispatched.','s');
+  go('mine');
 }
 
-function closeSheet() {
-  document.getElementById('sheet').classList.remove('show');
-  document.getElementById('sheet-overlay').classList.remove('show');
+function cDesk(){
+  const t=document.getElementById('f-t').value.trim(),d=document.getElementById('f-d').value;
+  if(!t||!d){toast('Please fill in all required fields.','e');return;}
+  addBkg(t,d,document.getElementById('f-s').value,document.getElementById('f-e').value,SEL);
+  desel();
 }
 
-function confirmBooking() {
-  const title = document.getElementById('f-title').value.trim();
-  const date  = document.getElementById('f-date').value;
-  if (!title || !date || !selectedRoom) { showToast('Please fill in all required fields.','error'); return; }
-  addBooking(title, date, document.getElementById('f-start').value, document.getElementById('f-end').value, selectedRoom);
-  deselectRoom();
+function cSheet(){
+  const t=document.getElementById('sh-t').value.trim(),d=document.getElementById('sh-d').value;
+  if(!t||!d){toast('Please fill in all required fields.','e');return;}
+  addBkg(t,d,document.getElementById('sh-s2').value,document.getElementById('sh-e2').value,SEL);
+  closeSheet();SEL=null;renderRooms();
 }
 
-function confirmSheetBooking() {
-  const title = document.getElementById('sh-title').value.trim();
-  const date  = document.getElementById('sh-date').value;
-  if (!title || !date || !selectedRoom) { showToast('Please fill in all required fields.','error'); return; }
-  addBooking(title, date, document.getElementById('sh-start').value, document.getElementById('sh-end').value, selectedRoom);
-  closeSheet();
-  selectedRoom = null;
-  renderRooms();
-}
-
-function addBooking(title, date, start, end, room) {
-  bookings.push({ id: Date.now(), title, room: room.name, time:`${start}–${end}`, date, who:"Red Diola", status:"confirmed", teams: room.teams });
-  renderMyBookings();
-  renderAdmin();
-  showToast('Room reserved. Calendar invite dispatched.', 'success');
-  navigate('mine');
-}
-
-// ── MY BOOKINGS ───────────────────────────────────────────────────────────────
-function renderMyBookings() {
-  const mine = bookings.filter(b => b.who === 'Red Diola');
-  const list = document.getElementById('my-bookings-list');
-  if (mine.length === 0) {
-    list.innerHTML = `<div class="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#44445a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><p>No bookings yet</p></div>`;
-    return;
-  }
-  list.innerHTML = mine.map(b => `
-    <div class="booking-card">
-      <div class="booking-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7b7ef6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+function renderBkgs(){
+  const mine=BKS.filter(b=>b.who==='Red Diola');
+  document.getElementById('blist').innerHTML=mine.length===0
+    ?`<div class="empty"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;opacity:.3"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><p style="font-size:14px;color:var(--txd)">No bookings yet</p></div>`
+    :mine.map(b=>`<div class="bcard">
+      <div class="bic">${SVG.cal}</div>
+      <div class="bi">
+        <div class="bt">${b.title}</div>
+        <div class="bm">${b.room} · ${b.date} · ${b.time}</div>
+        ${b.tm?`<div class="tmlink">${SVG.tm} Teams link available</div>`:''}
       </div>
-      <div class="booking-info">
-        <div class="booking-title">${b.title}</div>
-        <div class="booking-meta">${b.room} · ${b.date} · ${b.time}</div>
-        ${b.teams ? `<div class="row-teams"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>Teams meeting link available</div>` : ''}
-      </div>
-      <span class="badge badge-${b.status}">${b.status}</span>
-      ${b.status!=='cancelled'?`<button class="btn-cancel" onclick="cancelBooking(${b.id})">Cancel</button>`:''}
+      <span class="badge b-${b.st}">${b.st}</span>
+      ${b.st!=='cancelled'?`<button class="btn-can" onclick="canBkg(${b.id})">Cancel</button>`:''}
     </div>`).join('');
 }
 
-function cancelBooking(id) {
-  bookings = bookings.map(b => b.id===id ? {...b, status:'cancelled'} : b);
-  renderMyBookings();
-  renderAdmin();
-  showToast('Booking cancelled.', 'error');
-}
+function canBkg(id){BKS=BKS.map(b=>b.id===id?{...b,st:'cancelled'}:b);renderBkgs();renderAdmin();toast('Booking cancelled.','e');}
 
-// ── ADMIN ─────────────────────────────────────────────────────────────────────
-function renderAdmin() {
-  // Table (desktop)
-  document.getElementById('admin-tbody').innerHTML = bookings.map(b => `
-    <tr>
-      <td>${b.title}</td>
-      <td>${b.room}</td>
-      <td>${b.who}</td>
-      <td>${b.date}</td>
-      <td>${b.time}</td>
-      <td>${b.teams?`<span style="color:#60a5fa;font-weight:600;font-size:12px">Enabled</span>`:`<span style="color:#44445a">—</span>`}</td>
-      <td><span class="badge badge-${b.status}">${b.status}</span></td>
-      <td>${b.status==='pending'?`<div class="action-btns">
-        <button class="btn-approve" onclick="approveBooking(${b.id})">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve
-        </button>
-        <button class="btn-reject" onclick="rejectBooking(${b.id})">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Reject
-        </button>
-      </div>`:'—'}
-      </td>
-    </tr>`).join('');
+function renderAdmin(){
+  document.getElementById('atb').innerHTML=BKS.map(b=>`
+    <tr><td class="td-m">${b.title}</td><td>${b.room}</td><td>${b.who}</td><td>${b.date}</td><td>${b.time}</td>
+    <td>${b.tm?`<span style="color:#60a5fa;font-size:12px;font-weight:600">Enabled</span>`:`<span style="color:var(--txd)">—</span>`}</td>
+    <td><span class="badge b-${b.st}">${b.st}</span></td>
+    <td>${b.st==='pending'?`<div class="abtns"><button class="btn-ap" onclick="appB(${b.id})">${SVG.chk} Approve</button><button class="btn-rj" onclick="rejB(${b.id})">${SVG.x} Reject</button></div>`:'—'}</td></tr>`).join('');
 
-  // Cards (mobile)
-  document.getElementById('admin-cards').innerHTML = bookings.map(b => `
-    <div class="admin-card">
-      <div class="admin-card-header">
-        <div><div class="admin-card-title">${b.title}</div><div class="admin-card-room">${b.room}</div></div>
-        <span class="badge badge-${b.status}">${b.status}</span>
+  document.getElementById('admc').innerHTML=BKS.map(b=>`
+    <div class="ac">
+      <div class="ac-h"><div><div class="ac-t">${b.title}</div><div class="ac-r">${b.room}</div></div><span class="badge b-${b.st}">${b.st}</span></div>
+      <div class="ac-g">
+        <div class="ac-f"><div class="ac-fl">Requested By</div><div class="ac-fv">${b.who}</div></div>
+        <div class="ac-f"><div class="ac-fl">Date</div><div class="ac-fv">${b.date}</div></div>
+        <div class="ac-f"><div class="ac-fl">Time</div><div class="ac-fv">${b.time}</div></div>
+        <div class="ac-f"><div class="ac-fl">Teams</div><div class="ac-fv" style="color:${b.tm?'#60a5fa':'inherit'}">${b.tm?'Enabled':'—'}</div></div>
       </div>
-      <div class="admin-card-grid">
-        <div class="admin-card-field"><div class="admin-card-fl">Requested By</div><div class="admin-card-fv">${b.who}</div></div>
-        <div class="admin-card-field"><div class="admin-card-fl">Date</div><div class="admin-card-fv">${b.date}</div></div>
-        <div class="admin-card-field"><div class="admin-card-fl">Time</div><div class="admin-card-fv">${b.time}</div></div>
-        <div class="admin-card-field"><div class="admin-card-fl">Teams</div><div class="admin-card-fv" style="color:${b.teams?'#60a5fa':'inherit'}">${b.teams?'Enabled':'—'}</div></div>
-      </div>
-      ${b.status==='pending'?`<div class="admin-card-actions">
-        <button class="btn-approve" onclick="approveBooking(${b.id})" style="justify-content:center;padding:10px">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Approve
-        </button>
-        <button class="btn-reject" onclick="rejectBooking(${b.id})" style="justify-content:center;padding:10px">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Reject
-        </button>
-      </div>`:''}
+      ${b.st==='pending'?`<div class="ac-a"><button class="btn-ap" onclick="appB(${b.id})" style="justify-content:center;padding:10px 0">${SVG.chk} Approve</button><button class="btn-rj" onclick="rejB(${b.id})" style="justify-content:center;padding:10px 0">${SVG.x} Reject</button></div>`:''}
     </div>`).join('');
 }
 
-function approveBooking(id) {
-  bookings = bookings.map(b => b.id===id ? {...b, status:'confirmed'} : b);
-  renderAdmin(); renderMyBookings();
-  showToast('Booking approved.', 'success');
-}
-function rejectBooking(id) {
-  bookings = bookings.map(b => b.id===id ? {...b, status:'cancelled'} : b);
-  renderAdmin(); renderMyBookings();
-  showToast('Booking rejected.', 'error');
-}
+function appB(id){BKS=BKS.map(b=>b.id===id?{...b,st:'confirmed'}:b);renderAdmin();renderBkgs();toast('Booking approved.','s');}
+function rejB(id){BKS=BKS.map(b=>b.id===id?{...b,st:'cancelled'}:b);renderAdmin();renderBkgs();toast('Booking rejected.','e');}
 
-// ── TOAST ─────────────────────────────────────────────────────────────────────
-function showToast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.className = `show ${type}`;
-  t.textContent = msg;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.className = '', 3200);
+function toast(msg,type='i'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className=type;
+  void el.offsetWidth;
+  el.classList.add('on');
+  clearTimeout(TT);
+  TT=setTimeout(()=>{el.className='';},3200);
 }
 
 init();
