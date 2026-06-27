@@ -11,109 +11,51 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#09090f;--surf:#0f0f1a;--card:#141420;--bd:#1f1f32;
-  --acc:#5b5ef4;--accl:#8284f7;--accd:rgba(91,94,244,.12);
+  --bg:#09090f;--surf:#0f0f1a;--card:#141420;--bd:#1f1f32;--bhi:#2c2c45;
+  --acc:#5b5ef4;--accl:#8284f7;--accd:rgba(91,94,244,.11);
   --tx:#f0f0fa;--txs:#7a7a9a;--txd:#3a3a55;
-  --g:#10b981;--gd:rgba(16,185,129,.12);
-  --a:#f59e0b;--ad:rgba(245,158,11,.12);
-  --r:#ef4444;--rd:rgba(239,68,68,.12);
-  --bl:#3b82f6;--bld:rgba(59,130,246,.12);
+  --g:#10b981;--gd:rgba(16,185,129,.11);
+  --a:#f59e0b;--ad:rgba(245,158,11,.11);
+  --r:#ef4444;--rd:rgba(239,68,68,.11);
+  --bl:#3b82f6;--bld:rgba(59,130,246,.11);
+  --pu:#8b5cf6;--pud:rgba(139,92,246,.11);
 }
+html,body{margin:0;padding:0;background:var(--bg);color:var(--tx);font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
 
-/* ── RESET & BASE ── */
-html,body{
-  margin:0;padding:0;
-  background:var(--bg);
-  color:var(--tx);
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -webkit-text-size-adjust:100%;
-}
-
-/* ── SIDEBAR — hidden by default, shown on large screens ── */
-#sidebar{
-  display:none; /* HIDDEN on mobile by default */
-  width:230px;background:var(--surf);border-right:1px solid var(--bd);
-  position:fixed;top:0;left:0;bottom:0;z-index:20;
-  flex-direction:column;
-}
+/* ══ SIDEBAR — desktop only ══ */
+#sidebar{display:none;width:230px;background:var(--surf);border-right:1px solid var(--bd);position:fixed;top:0;left:0;bottom:0;z-index:20;flex-direction:column}
 .s-logo{padding:22px 20px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:11px}
 .s-li{width:36px;height:36px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .s-lt{color:var(--tx);font-weight:800;font-size:14px;letter-spacing:-.3px;line-height:1.1}
 .s-ls{color:var(--acc);font-size:8px;font-weight:700;letter-spacing:1.4px;margin-top:2px}
 .s-nav{flex:1;padding:10px;overflow-y:auto}
 .s-grp{color:var(--txd);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;padding:10px 10px 5px}
-.s-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;border:none;border-radius:9px;color:var(--txs);cursor:pointer;font-size:13px;font-weight:500;text-align:left;margin-bottom:1px;font-family:inherit}
+.s-btn{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:transparent;border:none;border-radius:9px;color:var(--txs);cursor:pointer;font-size:13px;font-weight:500;text-align:left;margin-bottom:1px;font-family:inherit;transition:all .15s}
 .s-btn.on,.s-btn:hover{background:var(--accd);color:var(--accl);font-weight:700}
 .s-user{padding:14px 20px;border-top:1px solid var(--bd);display:flex;align-items:center;gap:10px}
 .ava{width:32px;height:32px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800;flex-shrink:0}
 
-/* ── TOP BAR (mobile) ── */
-#tbar{
-  display:flex; /* shown on mobile */
-  position:sticky;top:0;z-index:30;
-  background:var(--surf);border-bottom:1px solid var(--bd);
-  padding:12px 16px;
-  padding-top:calc(12px + env(safe-area-inset-top));
-  align-items:center;gap:11px;
-}
+/* ══ TOP BAR — mobile only ══ */
+#tbar{display:flex;position:sticky;top:0;z-index:30;background:var(--surf);border-bottom:1px solid var(--bd);padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top));align-items:center;gap:11px}
 .tb-li{width:30px;height:30px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .tb-pg{margin-left:auto;color:var(--txs);font-size:13px;font-weight:600}
 
-/* ── MAIN CONTENT ── */
-#main{
-  margin-left:0; /* no sidebar offset on mobile */
-  min-height:100vh;
-  padding-bottom:calc(70px + env(safe-area-inset-bottom));
-}
-.pg{display:none;padding:18px 16px 20px}
+/* ══ MAIN ══ */
+#main{margin-left:0;min-height:100vh;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+.pg{display:none;padding:18px 16px 24px}
 .pg.on{display:block}
-
-/* ── BOTTOM NAV (mobile) ── */
-#bnav{
-  display:flex; /* shown on mobile */
-  position:fixed;bottom:0;left:0;right:0;
-  background:var(--surf);border-top:1px solid var(--bd);
-  z-index:30;
-  padding-bottom:env(safe-area-inset-bottom);
-}
-.bn-inner{display:flex;width:100%}
-.bn-b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 2px 6px;background:transparent;border:none;color:var(--txd);cursor:pointer;gap:3px;font-family:inherit}
-.bn-b.on{color:var(--accl)}
-.bn-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
-.bn-line{width:16px;height:2px;background:var(--acc);border-radius:1px;margin-top:2px}
-
-/* ── DESKTOP (≥1024px) ── */
-@media(min-width:1024px){
-  #sidebar{display:flex}
-  #tbar{display:none}
-  #bnav{display:none}
-  #main{
-    margin-left:230px;
-    padding-bottom:40px;
-  }
-  .pg{padding:32px}
-  .stats{grid-template-columns:repeat(4,1fr)!important}
-  .dg{grid-template-columns:1.3fr 1fr!important}
-  .rg{grid-template-columns:repeat(3,1fr)!important}
-  .atw{display:block!important}
-  #admc{display:none!important}
-  #iform.on{display:block!important}
-}
-
-/* ── TYPOGRAPHY ── */
 .eyebrow{color:var(--txs);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px}
 .ptitle{color:var(--tx);font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:3px}
 .psub{color:var(--txd);font-size:13px;margin-bottom:22px}
 
-/* ── STATS ── */
+/* ══ STATS ══ */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
 .sc{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px}
 .sc-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
 .sc-v{color:var(--tx);font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:4px}
 .sc-l{color:var(--txs);font-size:11.5px;font-weight:600}
 
-/* ── PANELS ── */
+/* ══ PANELS ══ */
 .dg{display:grid;grid-template-columns:1fr;gap:14px}
 .panel{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:18px}
 .ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
@@ -125,22 +67,39 @@ html,body{
 .ri-n{color:var(--tx);font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ri-s{color:var(--txs);font-size:11.5px;margin-top:2px}
 
-/* ── BADGE ── */
+/* ══ BADGE ══ */
 .badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
 .b-confirmed{color:var(--g);background:var(--gd)}
 .b-pending{color:var(--a);background:var(--ad)}
 .b-cancelled{color:var(--r);background:var(--rd)}
 
-/* ── ROOMS ── */
+/* ══ AVAILABILITY GRID ══ */
+.avail-wrap{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px;margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.avail-title{color:var(--tx);font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.avail-grid{display:grid;gap:6px;min-width:320px}
+.avail-row{display:flex;gap:6px;align-items:center}
+.avail-room-lbl{color:var(--txs);font-size:10px;font-weight:600;width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.avail-slots{display:flex;gap:3px;flex:1}
+.avail-slot{height:22px;flex:1;border-radius:4px;cursor:pointer;transition:all .15s;position:relative;min-width:18px}
+.avail-slot.free{background:var(--gd);border:1px solid rgba(16,185,129,.25)}
+.avail-slot.free:hover{background:rgba(16,185,129,.25);border-color:var(--g)}
+.avail-slot.busy{background:var(--rd);border:1px solid rgba(239,68,68,.25);cursor:not-allowed}
+.avail-slot.selected{background:var(--acc);border:1px solid var(--accl)}
+.avail-legend{display:flex;gap:14px;margin-top:10px}
+.avail-leg{display:flex;align-items:center;gap:5px;color:var(--txs);font-size:11px}
+.avail-dot{width:10px;height:10px;border-radius:3px}
+.time-labels{display:flex;gap:3px;padding-left:96px;margin-bottom:4px}
+.time-lbl{flex:1;color:var(--txd);font-size:9px;text-align:center;min-width:18px}
+
+/* ══ ROOMS ══ */
 .legend{display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap}
 .leg{display:flex;align-items:center;gap:6px;color:var(--txs);font-size:12px}
 .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .rg{display:grid;grid-template-columns:1fr;gap:13px}
 @media(min-width:540px){.rg{grid-template-columns:1fr 1fr}}
-
-.rc{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;overflow:hidden;transition:all .18s}
-.rc.free-room{cursor:pointer}
-.rc.busy-room{opacity:.5}
+.rc{background:var(--card);border:1.5px solid var(--bd);border-radius:14px;overflow:hidden;transition:border-color .18s,transform .18s}
+.rc.free-r{cursor:pointer}
+.rc.busy-r{opacity:.5}
 .rc.sel{border-color:var(--acc);box-shadow:0 0 0 1px rgba(91,94,244,.18)}
 .rc-stripe{height:4px}
 .rc-stripe.free{background:linear-gradient(90deg,#5b5ef4,#7c3aed)}
@@ -155,27 +114,53 @@ html,body{
 .rc-mi{display:flex;align-items:center;gap:4px;color:var(--txs);font-size:11px}
 .tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
 .tag{background:var(--surf);border:1px solid var(--bd);color:var(--txs);font-size:10px;padding:2px 7px;border-radius:5px}
-.rc-cta{width:100%;padding:9px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;border:none;cursor:pointer;font-family:inherit}
+.rc-cta{width:100%;padding:9px;border-radius:8px;font-size:12px;font-weight:700;text-align:center;border:none;cursor:pointer;font-family:inherit;transition:opacity .15s}
 .rc-cta.free{background:var(--accd);color:var(--accl);border:1px solid rgba(91,94,244,.18)}
 .rc-cta.busy{background:transparent;color:var(--txd);border:1px solid var(--bd);cursor:default}
 .rc-cta.sel{background:linear-gradient(135deg,#5b5ef4,#7c3aed);color:#fff;border:none}
 
-/* ── INLINE FORM (desktop) ── */
+/* ══ CONFLICT ALERT ══ */
+.conflict-box{background:var(--rd);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:none}
+.conflict-box.show{display:block}
+.conflict-title{color:var(--r);font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.conflict-msg{color:rgba(239,68,68,.8);font-size:12px;margin-bottom:10px}
+.conflict-alts{display:flex;flex-direction:column;gap:6px}
+.conflict-alt{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:8px 12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s}
+.conflict-alt:hover{background:rgba(16,185,129,.18)}
+.conflict-alt-name{color:var(--g);font-size:12px;font-weight:600}
+.conflict-alt-detail{color:rgba(16,185,129,.7);font-size:11px;margin-top:1px}
+.conflict-alt-btn{color:var(--g);font-size:11px;font-weight:700;white-space:nowrap}
+
+/* ══ TEAMS SUGGESTION BANNER ══ */
+.teams-suggest{background:var(--bld);border:1px solid rgba(59,130,246,.22);border-radius:11px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px}
+.teams-suggest-icon{width:36px;height:36px;background:var(--bl);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.teams-suggest-title{color:#93c5fd;font-size:13px;font-weight:700;margin-bottom:3px}
+.teams-suggest-sub{color:rgba(147,197,253,.7);font-size:12px}
+
+/* ══ INLINE FORM ══ */
 #iform{display:none;background:var(--card);border:1.5px solid rgba(91,94,244,.28);border-radius:14px;padding:24px;margin-top:18px}
+#iform.on{display:block}
 .fh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
 .fclose{background:var(--surf);border:1px solid var(--bd);color:var(--txs);width:33px;height:33px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .tn{background:var(--bld);border:1px solid rgba(59,130,246,.18);border-radius:9px;padding:10px 13px;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:#93c5fd;font-size:12.5px}
 .fg{display:grid;gap:12px;max-width:520px}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 label{display:block;color:var(--txs);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px}
-input,select{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;color:var(--tx);font-size:14px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none}
+input,select{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:9px;padding:11px 13px;color:var(--tx);font-size:14px;font-family:inherit;outline:none;-webkit-appearance:none;appearance:none;transition:border-color .15s}
 input:focus,select:focus{border-color:var(--acc)}
 input::placeholder{color:var(--txd)}
-.btn-p{width:100%;padding:13px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;margin-top:2px}
-.btn-p:disabled{background:var(--bd);color:var(--txd);cursor:not-allowed}
+.btn-p{width:100%;padding:13px;background:linear-gradient(135deg,#5b5ef4,#7c3aed);border:none;border-radius:10px;color:#fff;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit;margin-top:2px;transition:opacity .15s}
+.btn-p:disabled{background:var(--bd);color:var(--txd);cursor:not-allowed;opacity:1}
+.btn-p:not(:disabled):active{opacity:.85}
 .btn-s{width:100%;padding:11px;background:transparent;border:1px solid var(--bd);border-radius:10px;color:var(--txs);font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;margin-top:6px}
 
-/* ── MY BOOKINGS ── */
+/* ══ CHECKING ANIMATION ══ */
+.checking{display:none;align-items:center;gap:8px;color:var(--acc);font-size:13px;font-weight:600;padding:12px 0}
+.checking.show{display:flex}
+.spin{width:16px;height:16px;border:2px solid var(--accd);border-top-color:var(--acc);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══ MY BOOKINGS ══ */
 .bcard{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px;margin-bottom:10px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 .bic{width:42px;height:42px;background:var(--accd);border:1px solid rgba(91,94,244,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .bi{flex:1;min-width:0}
@@ -185,7 +170,7 @@ input::placeholder{color:var(--txd)}
 .btn-can{background:transparent;border:1px solid rgba(239,68,68,.32);color:var(--r);font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;cursor:pointer;font-family:inherit}
 .empty{text-align:center;padding:60px 20px;color:var(--txd)}
 
-/* ── ADMIN ── */
+/* ══ ADMIN ══ */
 .atw{display:none;background:var(--card);border:1px solid var(--bd);border-radius:13px;overflow:hidden}
 table{width:100%;border-collapse:collapse}
 thead tr{background:var(--surf)}
@@ -196,7 +181,7 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
 .btn-ap{background:var(--gd);border:1px solid rgba(16,185,129,.22);color:var(--g);font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px}
 .btn-rj{background:var(--rd);border:1px solid rgba(239,68,68,.22);color:var(--r);font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:3px}
 
-/* ── ADMIN CARDS (mobile) ── */
+/* ══ ADMIN CARDS (mobile) ══ */
 #admc{display:block}
 .ac{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:15px;margin-bottom:10px}
 .ac-h{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px}
@@ -208,22 +193,26 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
 .ac-fv{color:var(--txs);font-size:12px;font-weight:600;margin-top:2px}
 .ac-a{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 
-/* ── BOTTOM SHEET ── */
+/* ══ NOTIFICATION CENTRE ══ */
+#notif-panel{display:none;position:fixed;top:0;right:0;bottom:0;width:320px;background:var(--surf);border-left:1px solid var(--bd);z-index:200;padding:20px 18px;overflow-y:auto;-webkit-overflow-scrolling:touch;transition:transform .3s cubic-bezier(.32,.72,0,1)}
+#notif-panel.on{display:block}
+.np-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.np-title{color:var(--tx);font-size:15px;font-weight:700}
+.np-close{background:var(--card);border:1px solid var(--bd);color:var(--txs);width:30px;height:30px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.notif{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:13px 14px;margin-bottom:8px;border-left:3px solid var(--acc)}
+.notif.n-success{border-left-color:var(--g)}
+.notif.n-warn{border-left-color:var(--a)}
+.notif.n-error{border-left-color:var(--r)}
+.notif.n-info{border-left-color:var(--bl)}
+.notif-title{color:var(--tx);font-size:13px;font-weight:700;margin-bottom:3px}
+.notif-msg{color:var(--txs);font-size:12px;line-height:1.4}
+.notif-time{color:var(--txd);font-size:10px;margin-top:6px}
+.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--r);border-radius:50%;font-size:9px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center}
+
+/* ══ BOTTOM SHEET ══ */
 #ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 #ov.on{display:block}
-#sheet{
-  display:block;
-  position:fixed;bottom:0;left:0;right:0;
-  background:var(--card);
-  border-radius:20px 20px 0 0;
-  z-index:101;
-  transform:translateY(100%);
-  transition:transform .3s cubic-bezier(.32,.72,0,1);
-  padding:0 18px calc(24px + env(safe-area-inset-bottom));
-  max-height:88vh;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-}
+#sheet{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-radius:20px 20px 0 0;z-index:101;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);padding:0 18px calc(24px + env(safe-area-inset-bottom));max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #sheet.on{transform:translateY(0)}
 .sh-handle{width:36px;height:3px;background:var(--bd);border-radius:2px;margin:13px auto 18px}
 .sh-ey{color:var(--accl);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
@@ -232,32 +221,49 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
 .sh-fg{display:grid;gap:12px}
 .sh-f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* ── TOAST ── */
-#toast{
-  position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));
-  left:50%;transform:translateX(-50%) translateY(12px);
-  padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;
-  z-index:999;display:flex;align-items:center;gap:8px;
-  white-space:nowrap;opacity:0;transition:all .25s;pointer-events:none;
-}
+/* ══ BOTTOM NAV ══ */
+#bnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surf);border-top:1px solid var(--bd);z-index:30;padding-bottom:env(safe-area-inset-bottom)}
+.bn-inner{display:flex;width:100%}
+.bn-b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 2px 6px;background:transparent;border:none;color:var(--txd);cursor:pointer;gap:3px;font-family:inherit}
+.bn-b.on{color:var(--accl)}
+.bn-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:1px}
+.bn-line{width:16px;height:2px;background:var(--acc);border-radius:1px;margin-top:2px}
+
+/* ══ TOAST ══ */
+#toast{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%) translateY(12px);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:600;z-index:999;white-space:nowrap;opacity:0;transition:all .25s;pointer-events:none;display:flex;align-items:center;gap:8px}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.s{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.3);color:var(--g)}
 #toast.e{background:rgba(239,68,68,.18);border:1px solid rgba(239,68,68,.3);color:var(--r)}
 #toast.i{background:rgba(91,94,244,.18);border:1px solid rgba(91,94,244,.3);color:var(--accl)}
+#toast.w{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.3);color:var(--a)}
 
+/* ══ DESKTOP OVERRIDES ══ */
 @media(min-width:1024px){
+  #sidebar{display:flex}
+  #tbar{display:none}
+  #bnav{display:none}
+  #main{margin-left:230px;padding-bottom:40px}
+  .pg{padding:32px}
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .dg{grid-template-columns:1.3fr 1fr}
+  .rg{grid-template-columns:repeat(3,1fr)}
+  .atw{display:block}
+  #admc{display:none}
+  #iform.on{display:block}
   #toast{bottom:28px}
+  #notif-panel{width:360px}
+}
+@media(min-width:1024px) and (max-width:1279px){
+  .rg{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR (desktop only) -->
+<!-- ══ SIDEBAR ══ -->
 <div id="sidebar">
   <div class="s-logo">
-    <div class="s-li">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-    </div>
+    <div class="s-li"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg></div>
     <div><div class="s-lt">RD Space Reserve</div><div class="s-ls">ROOM RESERVATION · RJG</div></div>
   </div>
   <div class="s-nav">
@@ -281,23 +287,34 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
   </div>
   <div class="s-user">
     <div class="ava">RD</div>
-    <div><div style="color:var(--tx);font-size:12.5px;font-weight:600">Red Diola</div><div style="color:var(--txd);font-size:11px">Administrator</div></div>
+    <div style="flex:1;min-width:0">
+      <div style="color:var(--tx);font-size:12.5px;font-weight:600">Red Diola</div>
+      <div style="color:var(--txd);font-size:11px">Administrator</div>
+    </div>
+    <button onclick="toggleNotif()" style="background:none;border:none;cursor:pointer;position:relative;padding:4px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--txs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <div class="notif-badge" id="notif-count">3</div>
+    </button>
   </div>
 </div>
 
-<!-- TOP BAR (mobile only) -->
+<!-- ══ TOP BAR (mobile) ══ -->
 <div id="tbar">
-  <div class="tb-li">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-  </div>
+  <div class="tb-li"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg></div>
   <div>
     <div style="color:var(--tx);font-weight:800;font-size:13.5px;letter-spacing:-.2px;line-height:1">RD Space Reserve</div>
     <div style="color:var(--acc);font-size:8px;font-weight:700;letter-spacing:1.2px;margin-top:1px">BY RJG TECHNOLOGIES</div>
   </div>
-  <div class="tb-pg" id="tbar-lbl">Dashboard</div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+    <div class="tb-pg" id="tbar-lbl">Dashboard</div>
+    <button onclick="toggleNotif()" style="background:none;border:none;cursor:pointer;position:relative;padding:4px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--txs)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      <div class="notif-badge" id="notif-count-m">3</div>
+    </button>
+  </div>
 </div>
 
-<!-- MAIN -->
+<!-- ══ MAIN ══ -->
 <div id="main">
 
   <!-- DASHBOARD -->
@@ -305,76 +322,52 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
     <div class="eyebrow">Workspace Overview</div>
     <h1 class="ptitle">Good morning, Red</h1>
     <p class="psub">Saturday, 27 June 2026</p>
-    <div class="stats">
-      <div class="sc">
-        <div class="sc-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.18)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-        </div>
-        <div class="sc-v">4</div><div class="sc-l">Available Now</div>
+
+    <!-- Teams Suggestion Banner -->
+    <div class="teams-suggest" style="margin-bottom:18px">
+      <div class="teams-suggest-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
       </div>
-      <div class="sc">
-        <div class="sc-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.18)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        </div>
-        <div class="sc-v">2</div><div class="sc-l">Booked Today</div>
-      </div>
-      <div class="sc">
-        <div class="sc-ic" style="background:var(--bld);border:1px solid rgba(59,130,246,.18)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        </div>
-        <div class="sc-v">5</div><div class="sc-l">Teams Enabled</div>
-      </div>
-      <div class="sc">
-        <div class="sc-ic" style="background:var(--ad);border:1px solid rgba(245,158,11,.18)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--a)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="sc-v">1</div><div class="sc-l">Pending</div>
+      <div style="flex:1">
+        <div class="teams-suggest-title">Microsoft Teams · Room Suggestion</div>
+        <div class="teams-suggest-sub">You have a Teams meeting at 10:00. <strong style="color:#93c5fd">Innovation Lab (Level 8)</strong> is available and seats your 6 attendees perfectly.</div>
+        <button onclick="quickBook(2,'10:00','11:00')" style="margin-top:8px;background:var(--bl);border:none;border-radius:7px;color:#fff;font-size:12px;font-weight:700;padding:6px 14px;cursor:pointer;font-family:inherit">Reserve This Room</button>
       </div>
     </div>
+
+    <div class="stats">
+      <div class="sc"><div class="sc-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.18)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg></div><div class="sc-v">4</div><div class="sc-l">Available Now</div></div>
+      <div class="sc"><div class="sc-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.18)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div class="sc-v">2</div><div class="sc-l">Booked Today</div></div>
+      <div class="sc"><div class="sc-ic" style="background:var(--bld);border:1px solid rgba(59,130,246,.18)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><div class="sc-v">5</div><div class="sc-l">Teams Enabled</div></div>
+      <div class="sc"><div class="sc-ic" style="background:var(--ad);border:1px solid rgba(245,158,11,.18)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--a)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="sc-v">1</div><div class="sc-l">Pending</div></div>
+    </div>
+
+    <!-- Availability Grid -->
+    <div class="avail-wrap">
+      <div class="avail-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Today's Availability — 08:00 to 18:00
+      </div>
+      <div class="time-labels" id="time-labels"></div>
+      <div class="avail-grid" id="avail-grid"></div>
+      <div class="avail-legend">
+        <div class="avail-leg"><div class="avail-dot" style="background:var(--gd);border:1px solid rgba(16,185,129,.25)"></div>Free</div>
+        <div class="avail-leg"><div class="avail-dot" style="background:var(--rd);border:1px solid rgba(239,68,68,.25)"></div>Booked</div>
+        <div class="avail-leg"><div class="avail-dot" style="background:var(--acc)"></div>Your Selection</div>
+      </div>
+    </div>
+
     <div class="dg">
       <div class="panel">
-        <div class="ph">
-          <span class="ph-t">Today's Schedule</span>
-          <button class="ph-l" onclick="go('admin')">All bookings <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-        </div>
-        <div class="ri">
-          <div class="ri-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.15)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          </div>
-          <div style="flex:1;min-width:0"><div class="ri-n">Q3 Planning Session</div><div class="ri-s">Boardroom Alpha · 09:00–10:00</div></div>
-          <span class="badge b-confirmed">Confirmed</span>
-        </div>
-        <div class="ri">
-          <div class="ri-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.15)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          </div>
-          <div style="flex:1;min-width:0"><div class="ri-n">IT Sprint Review</div><div class="ri-s">Innovation Lab · 14:00–15:30</div></div>
-          <span class="badge b-confirmed">Confirmed</span>
-        </div>
+        <div class="ph"><span class="ph-t">Today's Schedule</span><button class="ph-l" onclick="go('admin')">All bookings <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button></div>
+        <div class="ri"><div class="ri-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.15)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div style="flex:1;min-width:0"><div class="ri-n">Q3 Planning Session</div><div class="ri-s">Boardroom Alpha · 09:00–10:00</div></div><span class="badge b-confirmed">Confirmed</span></div>
+        <div class="ri"><div class="ri-ic" style="background:var(--accd);border:1px solid rgba(91,94,244,.15)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><div style="flex:1;min-width:0"><div class="ri-n">IT Sprint Review</div><div class="ri-s">Innovation Lab · 14:00–15:30</div></div><span class="badge b-confirmed">Confirmed</span></div>
       </div>
       <div class="panel">
         <div class="ph"><span class="ph-t">Available Now</span></div>
-        <div class="ri">
-          <div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-          </div>
-          <div style="flex:1;min-width:0"><div class="ri-n">Boardroom Alpha</div><div class="ri-s">Level 10 · 20 seats</div></div>
-          <button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button>
-        </div>
-        <div class="ri">
-          <div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-          </div>
-          <div style="flex:1;min-width:0"><div class="ri-n">Innovation Lab</div><div class="ri-s">Level 8 · 10 seats</div></div>
-          <button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button>
-        </div>
-        <div class="ri">
-          <div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-          </div>
-          <div style="flex:1;min-width:0"><div class="ri-n">Training Center</div><div class="ri-s">Level 3 · 30 seats</div></div>
-          <button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button>
-        </div>
+        <div class="ri"><div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg></div><div style="flex:1;min-width:0"><div class="ri-n">Boardroom Alpha</div><div class="ri-s">Level 10 · 20 seats</div></div><button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button></div>
+        <div class="ri"><div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg></div><div style="flex:1;min-width:0"><div class="ri-n">Innovation Lab</div><div class="ri-s">Level 8 · 10 seats</div></div><button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button></div>
+        <div class="ri"><div class="ri-ic" style="background:var(--gd);border:1px solid rgba(16,185,129,.15)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg></div><div style="flex:1;min-width:0"><div class="ri-n">Training Center</div><div class="ri-s">Level 3 · 30 seats</div></div><button class="ph-l" onclick="go('rooms')" style="font-size:11px">Reserve</button></div>
       </div>
     </div>
   </div>
@@ -383,7 +376,7 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
   <div class="pg" id="pg-rooms">
     <div class="eyebrow">Room Finder</div>
     <h1 class="ptitle">Reserve a Space</h1>
-    <p class="psub">Tap a free room to reserve it</p>
+    <p class="psub">Tap a free room — we'll check availability before confirming</p>
     <div class="legend">
       <div class="leg"><div class="dot" style="background:var(--g)"></div>Available</div>
       <div class="leg"><div class="dot" style="background:var(--r)"></div>Occupied</div>
@@ -397,22 +390,32 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
           <div id="if-n" style="color:var(--tx);font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:2px">—</div>
           <div id="if-s" style="color:var(--txd);font-size:12.5px">—</div>
         </div>
-        <button class="fclose" onclick="desel()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+        <button class="fclose" onclick="desel()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
       <div id="if-tn" class="tn" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
-        A <strong style="margin:0 3px">Microsoft Teams link</strong> will be auto-generated.
+        A <strong style="margin:0 3px">Microsoft Teams link</strong> will be auto-generated and sent to all attendees.
       </div>
       <div class="fg">
         <div><label>Meeting Title *</label><input id="f-t" type="text" placeholder="e.g. Q3 Strategy Review"/></div>
         <div><label>Date *</label><input id="f-d" type="date"/></div>
         <div class="f2">
-          <div><label>Start Time</label><select id="f-s"></select></div>
-          <div><label>End Time</label><select id="f-e"></select></div>
+          <div><label>Start Time</label><select id="f-s" onchange="checkConflict('desk')"></select></div>
+          <div><label>End Time</label><select id="f-e" onchange="checkConflict('desk')"></select></div>
         </div>
-        <button class="btn-p" onclick="cDesk()">Confirm Booking</button>
+        <!-- Checking animation -->
+        <div class="checking" id="desk-checking"><div class="spin"></div>Checking availability with Microsoft Graph...</div>
+        <!-- Conflict alert -->
+        <div class="conflict-box" id="desk-conflict">
+          <div class="conflict-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Room Not Available
+          </div>
+          <div class="conflict-msg" id="desk-conflict-msg">This room is already booked during your selected time.</div>
+          <div style="color:rgba(239,68,68,.7);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Suggested Alternatives</div>
+          <div class="conflict-alts" id="desk-alts"></div>
+        </div>
+        <button class="btn-p" id="desk-confirm-btn" onclick="cDesk()">Confirm Booking</button>
         <button class="btn-s" onclick="desel()">Cancel</button>
       </div>
     </div>
@@ -422,7 +425,7 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
   <div class="pg" id="pg-mine">
     <div class="eyebrow">Reservations</div>
     <h1 class="ptitle">My Bookings</h1>
-    <p class="psub">Your upcoming reservations</p>
+    <p class="psub">Your upcoming and recent reservations</p>
     <div id="blist"></div>
   </div>
 
@@ -431,43 +434,38 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
     <div class="eyebrow">Management</div>
     <h1 class="ptitle">Admin Panel</h1>
     <p class="psub">All bookings across the organization</p>
-    <div class="atw"><table><thead><tr>
-      <th>Title</th><th>Room</th><th>By</th><th>Date</th><th>Time</th><th>Teams</th><th>Status</th><th>Actions</th>
-    </tr></thead><tbody id="atb"></tbody></table></div>
+    <div class="atw"><table><thead><tr><th>Title</th><th>Room</th><th>By</th><th>Date</th><th>Time</th><th>Teams</th><th>Status</th><th>Actions</th></tr></thead><tbody id="atb"></tbody></table></div>
     <div id="admc"></div>
   </div>
 
-</div><!-- /main -->
+</div>
 
-<!-- BOTTOM NAV (mobile only) -->
+<!-- ══ NOTIFICATION PANEL ══ -->
+<div id="notif-panel">
+  <div class="np-h">
+    <div class="np-title">Notifications</div>
+    <button class="np-close" onclick="toggleNotif()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div id="notif-list"></div>
+</div>
+
+<!-- ══ BOTTOM NAV ══ -->
 <div id="bnav">
   <div class="bn-inner">
-    <button class="bn-b on" data-pg="home">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      <span class="bn-lbl">Dashboard</span><div class="bn-line"></div>
-    </button>
-    <button class="bn-b" data-pg="rooms">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>
-      <span class="bn-lbl">Rooms</span>
-    </button>
-    <button class="bn-b" data-pg="mine">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-      <span class="bn-lbl">Bookings</span>
-    </button>
-    <button class="bn-b" data-pg="admin">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-      <span class="bn-lbl">Admin</span>
-    </button>
+    <button class="bn-b on" data-pg="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span class="bn-lbl">Dashboard</span><div class="bn-line"></div></button>
+    <button class="bn-b" data-pg="rooms"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg><span class="bn-lbl">Rooms</span></button>
+    <button class="bn-b" data-pg="mine"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span class="bn-lbl">Bookings</span></button>
+    <button class="bn-b" data-pg="admin"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06-.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span class="bn-lbl">Admin</span></button>
   </div>
 </div>
 
-<!-- BOTTOM SHEET -->
+<!-- ══ BOTTOM SHEET ══ -->
 <div id="ov" onclick="closeSheet()"></div>
 <div id="sheet">
   <div class="sh-handle"></div>
   <div class="sh-ey">Reserve Room</div>
   <div class="sh-nm" id="sh-n">—</div>
-  <div class="sh-sb" id="sh-s">—</div>
+  <div class="sh-sb" id="sh-sb">—</div>
   <div id="sh-tn" class="tn" style="display:none;margin-bottom:12px">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>
     A <strong style="margin:0 3px">Microsoft Teams link</strong> will be auto-generated.
@@ -476,10 +474,17 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
     <div><label>Meeting Title *</label><input id="sh-t" type="text" placeholder="e.g. Q3 Strategy Review"/></div>
     <div><label>Date *</label><input id="sh-d" type="date"/></div>
     <div class="sh-f2">
-      <div><label>Start Time</label><select id="sh-s2"></select></div>
-      <div><label>End Time</label><select id="sh-e2"></select></div>
+      <div><label>Start Time</label><select id="sh-s" onchange="checkConflict('sheet')"></select></div>
+      <div><label>End Time</label><select id="sh-e" onchange="checkConflict('sheet')"></select></div>
     </div>
-    <button class="btn-p" onclick="cSheet()">Confirm Booking</button>
+    <div class="checking" id="sheet-checking"><div class="spin"></div>Checking availability with Microsoft Graph...</div>
+    <div class="conflict-box" id="sheet-conflict">
+      <div class="conflict-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Room Not Available</div>
+      <div class="conflict-msg" id="sheet-conflict-msg">This room is already booked during your selected time.</div>
+      <div style="color:rgba(239,68,68,.7);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Suggested Alternatives</div>
+      <div class="conflict-alts" id="sheet-alts"></div>
+    </div>
+    <button class="btn-p" id="sheet-confirm-btn" onclick="cSheet()">Confirm Booking</button>
     <button class="btn-s" onclick="closeSheet()">Cancel</button>
   </div>
 </div>
@@ -487,72 +492,219 @@ td{padding:13px 15px;border-bottom:1px solid var(--bd);font-size:13px;color:var(
 <div id="toast"></div>
 
 <script>
-const T=["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
+/* ══════════════════════════════════════════════════════════
+   MICROSOFT GRAPH API INTEGRATION LAYER
+   ══════════════════════════════════════════════════════════
+   To connect to real M365, replace these config values:
+
+   const GRAPH_CONFIG = {
+     clientId:  "YOUR_AZURE_APP_CLIENT_ID",
+     tenantId:  "YOUR_AZURE_TENANT_ID",
+     scopes:    ["Calendars.ReadWrite","Place.Read.All","User.Read"],
+   };
+
+   Then replace mock functions below with real Graph calls:
+
+   // Check room availability:
+   GET https://graph.microsoft.com/v1.0/users/{roomEmail}/calendarView
+       ?startDateTime={start}&endDateTime={end}
+
+   // Create booking:
+   POST https://graph.microsoft.com/v1.0/me/events
+   Body: { subject, start, end, location, attendees, isOnlineMeeting: true }
+
+   // Get all rooms:
+   GET https://graph.microsoft.com/v1.0/places/microsoft.graph.room
+
+   // Teams meeting link is auto-generated when isOnlineMeeting: true
+   ══════════════════════════════════════════════════════════ */
+
+const TIMES=["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
+const SLOT_TIMES=["08","09","10","11","12","13","14","15","16","17"];
+
 const ROOMS=[
-  {id:1,name:"Boardroom Alpha",  floor:"Level 10",bld:"Main Tower",cap:20,tags:["Projector","Video Conf","Whiteboard","Coffee Station"],free:true, tm:true},
-  {id:2,name:"Innovation Lab",   floor:"Level 8", bld:"Main Tower",cap:10,tags:["Display Screen","Whiteboard","Standing Desks"],        free:true, tm:true},
-  {id:3,name:"Executive Suite",  floor:"Level 15",bld:"Main Tower",cap:8, tags:["Video Conf","City View","Catering"],                   free:false,tm:true},
-  {id:4,name:"Huddle Room B",    floor:"Level 5", bld:"Annex",     cap:4, tags:["Display Screen","Conference Phone"],                   free:true, tm:false},
-  {id:5,name:"Training Center",  floor:"Level 3", bld:"Annex",     cap:30,tags:["Dual Projectors","Microphone","Recording"],            free:true, tm:true},
-  {id:6,name:"Strategy War Room",floor:"Level 12",bld:"Main Tower",cap:6, tags:["Multi-Screen","Whiteboard","Video Conf"],              free:false,tm:true},
+  {id:1,name:"Boardroom Alpha",  floor:"Level 10",bld:"Main Tower",cap:20,tags:["Projector","Video Conf","Whiteboard","Coffee Station"],free:true, tm:true, email:"boardroom.alpha@company.com"},
+  {id:2,name:"Innovation Lab",   floor:"Level 8", bld:"Main Tower",cap:10,tags:["Display Screen","Whiteboard","Standing Desks"],        free:true, tm:true, email:"innovation.lab@company.com"},
+  {id:3,name:"Executive Suite",  floor:"Level 15",bld:"Main Tower",cap:8, tags:["Video Conf","City View","Catering"],                   free:false,tm:true, email:"exec.suite@company.com"},
+  {id:4,name:"Huddle Room B",    floor:"Level 5", bld:"Annex",     cap:4, tags:["Display Screen","Conference Phone"],                   free:true, tm:false,email:"huddle.b@company.com"},
+  {id:5,name:"Training Center",  floor:"Level 3", bld:"Annex",     cap:30,tags:["Dual Projectors","Microphone","Recording"],            free:true, tm:true, email:"training.center@company.com"},
+  {id:6,name:"Strategy War Room",floor:"Level 12",bld:"Main Tower",cap:6, tags:["Multi-Screen","Whiteboard","Video Conf"],              free:false,tm:true, email:"war.room@company.com"},
 ];
+
+// Mock busy slots per room — in production this comes from Graph calendarView
+const BUSY_SLOTS={
+  1:["09","10"],   // Boardroom Alpha busy 09:00-11:00
+  2:["14","15"],   // Innovation Lab busy 14:00-16:00
+  3:["08","09","10","11","12","13","14","15","16","17"], // Executive Suite all day
+  4:[],
+  5:["10","11"],
+  6:["08","09","10","11","12","13","14","15","16","17"], // War Room all day
+};
+
 let BKS=[
   {id:1,title:"Q3 Planning Session",    room:"Boardroom Alpha", time:"09:00–10:00",date:"Today",   who:"Red Diola",     st:"confirmed",tm:true},
   {id:2,title:"IT Sprint Review",       room:"Innovation Lab",  time:"14:00–15:30",date:"Today",   who:"Salman Ahmed",  st:"confirmed",tm:true},
   {id:3,title:"New Hire Orientation",   room:"Training Center", time:"10:00–12:00",date:"Tomorrow",who:"Rami Al Hassan",st:"pending",  tm:false},
   {id:4,title:"Board Strategy Briefing",room:"Executive Suite", time:"11:00–12:00",date:"Tomorrow",who:"Dipen Mehta",   st:"confirmed",tm:true},
 ];
-let SEL=null,TT=null;
+
+let NOTIFS=[
+  {id:1,type:"n-success",title:"Booking Confirmed",msg:"Boardroom Alpha reserved for Q3 Planning. Teams link sent to 12 attendees.",time:"2 mins ago"},
+  {id:2,type:"n-warn",  title:"Pending Approval",msg:"New Hire Orientation by Rami Al Hassan is awaiting your approval.",time:"1 hour ago"},
+  {id:3,type:"n-info",  title:"Teams Suggestion",msg:"Innovation Lab matches your 10:00 Teams meeting — 6 attendees, Teams-enabled.",time:"Just now"},
+];
+
+let SEL=null,TT=null,conflictTimer=null,hasConflict=false;
 const PGL={home:"Dashboard",rooms:"Find a Room",mine:"My Bookings",admin:"Admin"};
 
-const SVG={
-  cal:`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`,
-  bld:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16"/><path d="M9 21V9h6v12"/><line x1="3" y1="21" x2="21" y2="21"/></svg>`,
-  tm:`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg>`,
-  chk:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
-  x:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-};
-
+/* ══ INIT ══ */
 function init(){
-  // fill time selects
-  ['f-s','f-e','sh-s2','sh-e2'].forEach(id=>{
+  ['f-s','f-e','sh-s','sh-e'].forEach(id=>{
     const s=document.getElementById(id);
-    T.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o);});
+    TIMES.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o);});
   });
   document.getElementById('f-s').value='09:00';
   document.getElementById('f-e').value='10:00';
-  document.getElementById('sh-s2').value='09:00';
-  document.getElementById('sh-e2').value='10:00';
+  document.getElementById('sh-s').value='09:00';
+  document.getElementById('sh-e').value='10:00';
   document.querySelectorAll('[data-pg]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.pg)));
-  renderRooms();renderBkgs();renderAdmin();
+  buildAvailGrid();
+  renderRooms();renderBkgs();renderAdmin();renderNotifs();
 }
 
+/* ══ NAVIGATION ══ */
 function go(pg){
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
   document.getElementById('pg-'+pg).classList.add('on');
-  // sidebar buttons
   document.querySelectorAll('.s-btn').forEach(b=>b.classList.toggle('on',b.dataset.pg===pg));
-  // bottom nav buttons
   document.querySelectorAll('.bn-b').forEach(b=>{
-    const a=b.dataset.pg===pg;
-    b.classList.toggle('on',a);
+    const a=b.dataset.pg===pg;b.classList.toggle('on',a);
     let l=b.querySelector('.bn-line');
     if(a){if(!l){l=document.createElement('div');l.className='bn-line';b.appendChild(l);}}
-    else if(l){l.remove();}
+    else if(l)l.remove();
   });
   document.getElementById('tbar-lbl').textContent=PGL[pg]||'';
   desel();
   window.scrollTo({top:0,behavior:'instant'});
-  document.getElementById('main').scrollTop=0;
 }
 
+/* ══ AVAILABILITY GRID ══ */
+function buildAvailGrid(){
+  // Time labels
+  const tl=document.getElementById('time-labels');
+  tl.innerHTML=SLOT_TIMES.map(h=>`<div class="time-lbl">${h}</div>`).join('');
+  // Grid rows
+  const g=document.getElementById('avail-grid');
+  const visibleRooms=ROOMS.filter(r=>r.id!==3&&r.id!==6); // exclude all-day occupied
+  g.innerHTML=visibleRooms.concat(ROOMS.filter(r=>r.id===3||r.id===6)).map(r=>{
+    const slots=SLOT_TIMES.map(h=>{
+      const busy=BUSY_SLOTS[r.id]&&BUSY_SLOTS[r.id].includes(h);
+      return `<div class="avail-slot ${busy?'busy':'free'}" title="${r.name} ${h}:00 — ${busy?'Booked':'Available'}" onclick="${!busy?`gridBook(${r.id},'${h}:00','${parseInt(h)+1}:00')`:''}"></div>`;
+    }).join('');
+    return `<div class="avail-row"><div class="avail-room-lbl">${r.name.split(' ').slice(0,2).join(' ')}</div><div class="avail-slots">${slots}</div></div>`;
+  }).join('');
+}
+
+function gridBook(roomId,start,end){
+  const room=ROOMS.find(r=>r.id===roomId);
+  if(!room||!room.free)return;
+  SEL=room;go('rooms');
+  setTimeout(()=>{
+    selR(roomId);
+    if(window.innerWidth>=1024){
+      document.getElementById('f-s').value=start;
+      document.getElementById('f-e').value=end;
+    } else {
+      document.getElementById('sh-s').value=start;
+      document.getElementById('sh-e').value=end;
+    }
+  },100);
+}
+
+/* ══ QUICK BOOK (Teams suggestion) ══ */
+function quickBook(roomId,start,end){
+  const room=ROOMS.find(r=>r.id===roomId);
+  if(!room)return;
+  // Simulate instant booking
+  BKS.push({id:Date.now(),title:"Teams Meeting (Auto-Suggested)",room:room.name,time:`${start}–${end}`,date:"Today",who:"Red Diola",st:"confirmed",tm:true});
+  renderBkgs();renderAdmin();
+  addNotif("n-success","Room Reserved via Teams","Innovation Lab booked for 10:00–11:00. Teams link sent to all attendees.","Just now");
+  toast("Room reserved from Teams suggestion. Invite sent.","s");
+}
+
+/* ══ CONFLICT DETECTION ══
+   In production: calls Graph API calendarView to check
+   POST /users/{roomEmail}/calendar/getSchedule
+   Returns busy/free per time slot — no overlap possible ══ */
+function checkConflict(mode){
+  if(!SEL)return;
+  const startEl=mode==='desk'?'f-s':'sh-s';
+  const endEl=mode==='desk'?'f-e':'sh-e';
+  const start=document.getElementById(startEl).value;
+  const checkId=mode==='desk'?'desk':'sheet';
+  const checkEl=document.getElementById(`${checkId}-checking`);
+  const conflictEl=document.getElementById(`${checkId}-conflict`);
+  const confirmBtn=document.getElementById(`${checkId}-confirm-btn`);
+  conflictEl.classList.remove('show');
+  hasConflict=false;
+  confirmBtn.disabled=false;
+  clearTimeout(conflictTimer);
+
+  // Show checking spinner (simulates Graph API call)
+  checkEl.classList.add('show');
+  conflictTimer=setTimeout(()=>{
+    checkEl.classList.remove('show');
+    // Check if slot is busy (mock — replace with Graph API)
+    const h=start.split(':')[0];
+    const busy=BUSY_SLOTS[SEL.id]&&BUSY_SLOTS[SEL.id].includes(h);
+    if(busy){
+      hasConflict=true;
+      confirmBtn.disabled=true;
+      document.getElementById(`${checkId}-conflict-msg`).textContent=
+        `${SEL.name} is already booked at ${start}. Exchange has auto-declined this slot.`;
+      // Build alternatives
+      const alts=ROOMS.filter(r=>r.id!==SEL.id&&r.free&&(!BUSY_SLOTS[r.id]||!BUSY_SLOTS[r.id].includes(h))).slice(0,3);
+      document.getElementById(`${checkId}-alts`).innerHTML=alts.map(r=>`
+        <div class="conflict-alt" onclick="switchRoom(${r.id},'${checkId}')">
+          <div><div class="conflict-alt-name">${r.name}</div><div class="conflict-alt-detail">${r.floor} · ${r.cap} seats${r.tm?' · Teams':''}</div></div>
+          <div class="conflict-alt-btn">Switch →</div>
+        </div>`).join('');
+      conflictEl.classList.add('show');
+      toast(`${SEL.name} is unavailable at ${start} — see alternatives below.`,'e');
+    } else {
+      hasConflict=false;
+      confirmBtn.disabled=false;
+    }
+  },900);
+}
+
+function switchRoom(id,mode){
+  SEL=ROOMS.find(r=>r.id===id);
+  renderRooms();
+  // Update form header
+  if(mode==='desk'){
+    document.getElementById('if-n').textContent=SEL.name;
+    document.getElementById('if-s').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
+    document.getElementById('if-tn').style.display=SEL.tm?'flex':'none';
+  } else {
+    document.getElementById('sh-n').textContent=SEL.name;
+    document.getElementById('sh-sb').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
+    document.getElementById('sh-tn').style.display=SEL.tm?'flex':'none';
+  }
+  document.getElementById(`${mode}-conflict`).classList.remove('show');
+  document.getElementById(`${mode}-confirm-btn`).disabled=false;
+  hasConflict=false;
+  toast(`Switched to ${SEL.name}`,'i');
+}
+
+/* ══ ROOMS ══ */
 function renderRooms(){
   document.getElementById('rg').innerHTML=ROOMS.map(r=>{
     const s=SEL&&SEL.id===r.id;
     const tags=r.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')+(r.tags.length>3?`<span class="tag">+${r.tags.length-3}</span>`:'');
     const cta=!r.free?'busy':s?'sel':'free';
-    const ctaTxt=!r.free?'Unavailable':s?'Selected — Fill Form Below':'Reserve This Room';
-    return `<div class="rc ${r.free?'free-room':'busy-room'}${s?' sel':''}" ${r.free?`onclick="selR(${r.id})"`:''}id="rc-${r.id}">
+    const ctaTxt=!r.free?'Unavailable':s?'Selected':'Reserve This Room';
+    return `<div class="rc ${r.free?'free-r':'busy-r'}${s?' sel':''}" ${r.free?`onclick="selR(${r.id})"`:''}">
       <div class="rc-stripe ${r.free?'free':'busy'}"></div>
       <div class="rc-body">
         <div class="rc-top">
@@ -568,7 +720,7 @@ function renderRooms(){
         <div class="rc-loc">${r.floor} · ${r.bld}</div>
         <div class="rc-meta">
           <div class="rc-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--txd)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>${r.cap} seats</div>
-          ${r.tm?`<div class="rc-mi">${SVG.tm}<span style="color:#60a5fa">Teams</span></div>`:''}
+          ${r.tm?`<div class="rc-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg><span style="color:#60a5fa">Teams</span></div>`:''}
         </div>
         <div class="tags">${tags}</div>
         <button class="rc-cta ${cta}">${ctaTxt}</button>
@@ -582,36 +734,49 @@ function selR(id){
   const mob=window.innerWidth<1024;
   if(mob){
     document.getElementById('sh-n').textContent=SEL.name;
-    document.getElementById('sh-s').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
+    document.getElementById('sh-sb').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
     document.getElementById('sh-tn').style.display=SEL.tm?'flex':'none';
-    document.getElementById('sh-t').value='';
-    document.getElementById('sh-d').value='';
+    document.getElementById('sh-t').value='';document.getElementById('sh-d').value='';
+    document.getElementById('sheet-conflict').classList.remove('show');
+    document.getElementById('sheet-confirm-btn').disabled=false;
     document.getElementById('ov').classList.add('on');
     requestAnimationFrame(()=>document.getElementById('sheet').classList.add('on'));
   } else {
     document.getElementById('if-n').textContent=SEL.name;
     document.getElementById('if-s').textContent=`${SEL.floor} · ${SEL.bld} · Capacity ${SEL.cap}`;
     document.getElementById('if-tn').style.display=SEL.tm?'flex':'none';
-    document.getElementById('f-t').value='';
-    document.getElementById('f-d').value='';
+    document.getElementById('f-t').value='';document.getElementById('f-d').value='';
+    document.getElementById('desk-conflict').classList.remove('show');
+    document.getElementById('desk-confirm-btn').disabled=false;
     document.getElementById('iform').classList.add('on');
     document.getElementById('iform').scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
 
-function desel(){SEL=null;document.getElementById('iform').classList.remove('on');renderRooms();closeSheet();}
+function desel(){SEL=null;hasConflict=false;document.getElementById('iform').classList.remove('on');renderRooms();closeSheet();}
 function closeSheet(){document.getElementById('sheet').classList.remove('on');document.getElementById('ov').classList.remove('on');}
 
+/* ══ ADD BOOKING ══
+   In production: POST /me/events with room as attendee + isOnlineMeeting:true
+   Graph auto-generates Teams link + sends Exchange invites to all attendees ══ */
 function addBkg(title,date,s,e,room){
+  if(hasConflict){toast('Cannot book — room is unavailable at this time.','e');return;}
   BKS.push({id:Date.now(),title,room:room.name,time:`${s}–${e}`,date,who:"Red Diola",st:"confirmed",tm:room.tm});
+  // Update busy slots
+  if(!BUSY_SLOTS[room.id])BUSY_SLOTS[room.id]=[];
+  const h=s.split(':')[0];
+  if(!BUSY_SLOTS[room.id].includes(h))BUSY_SLOTS[room.id].push(h);
+  buildAvailGrid();
   renderBkgs();renderAdmin();
-  toast('Room reserved. Calendar invite dispatched.','s');
+  addNotif("n-success","Booking Confirmed",`${room.name} reserved for "${title}" on ${date} at ${s}–${e}.${room.tm?' Teams link sent to attendees.':''}`,"Just now");
+  toast('Room reserved. Calendar invite dispatched via Exchange.','s');
   go('mine');
 }
 
 function cDesk(){
   const t=document.getElementById('f-t').value.trim(),d=document.getElementById('f-d').value;
   if(!t||!d){toast('Please fill in all required fields.','e');return;}
+  if(hasConflict){toast('Room is unavailable — please select an alternative.','e');return;}
   addBkg(t,d,document.getElementById('f-s').value,document.getElementById('f-e').value,SEL);
   desel();
 }
@@ -619,35 +784,44 @@ function cDesk(){
 function cSheet(){
   const t=document.getElementById('sh-t').value.trim(),d=document.getElementById('sh-d').value;
   if(!t||!d){toast('Please fill in all required fields.','e');return;}
-  addBkg(t,d,document.getElementById('sh-s2').value,document.getElementById('sh-e2').value,SEL);
+  if(hasConflict){toast('Room is unavailable — please select an alternative.','e');return;}
+  addBkg(t,d,document.getElementById('sh-s').value,document.getElementById('sh-e').value,SEL);
   closeSheet();SEL=null;renderRooms();
 }
 
+/* ══ MY BOOKINGS ══ */
 function renderBkgs(){
   const mine=BKS.filter(b=>b.who==='Red Diola');
   document.getElementById('blist').innerHTML=mine.length===0
     ?`<div class="empty"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:12px;opacity:.3"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><p style="font-size:14px;color:var(--txd)">No bookings yet</p></div>`
     :mine.map(b=>`<div class="bcard">
-      <div class="bic">${SVG.cal}</div>
+      <div class="bic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
       <div class="bi">
         <div class="bt">${b.title}</div>
         <div class="bm">${b.room} · ${b.date} · ${b.time}</div>
-        ${b.tm?`<div class="tmlink">${SVG.tm} Teams link available</div>`:''}
+        ${b.tm?`<div class="tmlink"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8a3 3 0 100-6 3 3 0 000 6z"/><path d="M21 21v-2a4 4 0 00-3-3.87"/><path d="M10 8a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-2a4 4 0 014-4h10"/></svg> Teams link available</div>`:''}
       </div>
       <span class="badge b-${b.st}">${b.st}</span>
       ${b.st!=='cancelled'?`<button class="btn-can" onclick="canBkg(${b.id})">Cancel</button>`:''}
     </div>`).join('');
 }
 
-function canBkg(id){BKS=BKS.map(b=>b.id===id?{...b,st:'cancelled'}:b);renderBkgs();renderAdmin();toast('Booking cancelled.','e');}
+function canBkg(id){
+  BKS=BKS.map(b=>b.id===id?{...b,st:'cancelled'}:b);
+  renderBkgs();renderAdmin();
+  addNotif("n-error","Booking Cancelled","Your booking has been cancelled. The room is now available.","Just now");
+  toast('Booking cancelled. Room is now available.','e');
+}
 
+/* ══ ADMIN ══ */
 function renderAdmin(){
+  const chk=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const x=`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
   document.getElementById('atb').innerHTML=BKS.map(b=>`
     <tr><td class="td-m">${b.title}</td><td>${b.room}</td><td>${b.who}</td><td>${b.date}</td><td>${b.time}</td>
     <td>${b.tm?`<span style="color:#60a5fa;font-size:12px;font-weight:600">Enabled</span>`:`<span style="color:var(--txd)">—</span>`}</td>
     <td><span class="badge b-${b.st}">${b.st}</span></td>
-    <td>${b.st==='pending'?`<div class="abtns"><button class="btn-ap" onclick="appB(${b.id})">${SVG.chk} Approve</button><button class="btn-rj" onclick="rejB(${b.id})">${SVG.x} Reject</button></div>`:'—'}</td></tr>`).join('');
-
+    <td>${b.st==='pending'?`<div class="abtns"><button class="btn-ap" onclick="appB(${b.id})">${chk} Approve</button><button class="btn-rj" onclick="rejB(${b.id})">${x} Reject</button></div>`:'—'}</td></tr>`).join('');
   document.getElementById('admc').innerHTML=BKS.map(b=>`
     <div class="ac">
       <div class="ac-h"><div><div class="ac-t">${b.title}</div><div class="ac-r">${b.room}</div></div><span class="badge b-${b.st}">${b.st}</span></div>
@@ -657,20 +831,49 @@ function renderAdmin(){
         <div class="ac-f"><div class="ac-fl">Time</div><div class="ac-fv">${b.time}</div></div>
         <div class="ac-f"><div class="ac-fl">Teams</div><div class="ac-fv" style="color:${b.tm?'#60a5fa':'inherit'}">${b.tm?'Enabled':'—'}</div></div>
       </div>
-      ${b.st==='pending'?`<div class="ac-a"><button class="btn-ap" onclick="appB(${b.id})" style="justify-content:center;padding:10px 0">${SVG.chk} Approve</button><button class="btn-rj" onclick="rejB(${b.id})" style="justify-content:center;padding:10px 0">${SVG.x} Reject</button></div>`:''}
+      ${b.st==='pending'?`<div class="ac-a"><button class="btn-ap" onclick="appB(${b.id})" style="justify-content:center;padding:10px 0">${chk} Approve</button><button class="btn-rj" onclick="rejB(${b.id})" style="justify-content:center;padding:10px 0">${x} Reject</button></div>`:''}
     </div>`).join('');
 }
 
-function appB(id){BKS=BKS.map(b=>b.id===id?{...b,st:'confirmed'}:b);renderAdmin();renderBkgs();toast('Booking approved.','s');}
-function rejB(id){BKS=BKS.map(b=>b.id===id?{...b,st:'cancelled'}:b);renderAdmin();renderBkgs();toast('Booking rejected.','e');}
+function appB(id){
+  BKS=BKS.map(b=>b.id===id?{...b,st:'confirmed'}:b);
+  renderAdmin();renderBkgs();
+  addNotif("n-success","Booking Approved","The booking request has been approved. Calendar invite sent.","Just now");
+  toast('Booking approved. Calendar invite sent.','s');
+}
+function rejB(id){
+  BKS=BKS.map(b=>b.id===id?{...b,st:'cancelled'}:b);
+  renderAdmin();renderBkgs();
+  addNotif("n-error","Booking Rejected","The booking request has been rejected. Requester notified.","Just now");
+  toast('Booking rejected. Requester has been notified.','e');
+}
 
+/* ══ NOTIFICATIONS ══ */
+function addNotif(type,title,msg,time){
+  NOTIFS.unshift({id:Date.now(),type,title,msg,time});
+  renderNotifs();
+  // Update badge
+  const cnt=NOTIFS.length;
+  document.getElementById('notif-count').textContent=cnt>9?'9+':cnt;
+  document.getElementById('notif-count-m').textContent=cnt>9?'9+':cnt;
+}
+function renderNotifs(){
+  document.getElementById('notif-list').innerHTML=NOTIFS.map(n=>`
+    <div class="notif ${n.type}">
+      <div class="notif-title">${n.title}</div>
+      <div class="notif-msg">${n.msg}</div>
+      <div class="notif-time">${n.time}</div>
+    </div>`).join('');
+}
+function toggleNotif(){document.getElementById('notif-panel').classList.toggle('on');}
+
+/* ══ TOAST ══ */
 function toast(msg,type='i'){
   const el=document.getElementById('toast');
-  el.textContent=msg;el.className=type;
-  void el.offsetWidth;
-  el.classList.add('on');
-  clearTimeout(TT);
-  TT=setTimeout(()=>{el.className='';},3200);
+  const icons={s:'✓',e:'✕',i:'·',w:'!'};
+  el.innerHTML=`<span>${icons[type]||'·'}</span>${msg}`;
+  el.className=type;void el.offsetWidth;el.classList.add('on');
+  clearTimeout(TT);TT=setTimeout(()=>{el.className='';},3500);
 }
 
 init();
