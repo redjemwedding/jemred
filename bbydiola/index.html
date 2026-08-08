@@ -333,9 +333,13 @@ async function fetchResults(){
   document.getElementById("girlCount").textContent="…";
   document.getElementById("boyNames").innerHTML="<span style='opacity:.6'>Loading...</span>";
   document.getElementById("girlNames").innerHTML="<span style='opacity:.6'>Loading...</span>";
+  await refreshResultsQuiet();
+}
 
+async function refreshResultsQuiet(){
   try{
-    const res = await fetch(GOOGLE_SCRIPT_URL);
+    // cache-bust with a timestamp so browsers don't serve a stale response
+    const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
     const data = await res.json();
     renderResults(data);
   }catch(e){
@@ -344,6 +348,13 @@ async function fetchResults(){
     document.getElementById("girlNames").innerHTML="";
   }
 }
+
+// Auto-refresh the live tally every 6 seconds while the thanks screen is showing.
+setInterval(()=>{
+  if(screens.thanks.classList.contains("active")){
+    refreshResultsQuiet();
+  }
+}, 6000);
 
 document.getElementById("submitBet").addEventListener("click",async()=>{
   if(!participant.prediction)return;
