@@ -236,16 +236,30 @@ function show(id){
   window.scrollTo(0,0);
 }
 
+const VOTE_KEY = "babyDiolaVoted"; // stores this guest's locked-in choice on their device
 const video = document.getElementById("babyVideo");
-setTimeout(()=>{
-  show("video");
-  video.currentTime = 0;
-  video.play().catch(()=>{});
-}, 12000); // loading screen stays up for 12s so guests can read the intro
 
-// No skip button — guests must watch the video in full.
-// It advances automatically once playback ends.
-video.addEventListener("ended",()=>show("message"));
+function getSavedVote(){
+  try{ return JSON.parse(localStorage.getItem(VOTE_KEY) || "null"); }
+  catch(e){ return null; }
+}
+
+const savedVote = getSavedVote();
+
+if(savedVote){
+  // Already voted on this device — skip straight to their locked result, no re-voting.
+  showLockedResult(savedVote);
+}else{
+  setTimeout(()=>{
+    show("video");
+    video.currentTime = 0;
+    video.play().catch(()=>{});
+  }, 12000); // loading screen stays up for 12s so guests can read the intro
+
+  // No skip button — guests must watch the video in full.
+  // It advances automatically once playback ends.
+  video.addEventListener("ended",()=>show("message"));
+}
 
 document.getElementById("soundBtn").onclick=()=>{
   video.muted=false;
@@ -284,6 +298,14 @@ function confetti(){
     box.appendChild(x);
   }
   setTimeout(()=>box.innerHTML="",4000);
+}
+
+function showLockedResult(vote){
+  document.getElementById("teamText").textContent=vote.prediction==="BOY"?"TEAM BOY!":"TEAM GIRL!";
+  document.getElementById("teamText").className="big-team "+(vote.prediction==="BOY"?"boytxt":"girltxt");
+  document.getElementById("thanksMessage").textContent="You already locked in your bet — no take-backs! 😄 Here's how everyone's voting:";
+  show("thanks");
+  fetchResults();
 }
 
 function renderResults(data){
@@ -338,6 +360,9 @@ document.getElementById("submitBet").addEventListener("click",async()=>{
       });
     }catch(e){console.warn("Google Sheets submission error",e)}
   }
+
+  // Lock this vote to the device — they can't submit again.
+  try{ localStorage.setItem(VOTE_KEY, JSON.stringify(participant)); }catch(e){}
 
   const team=participant.prediction;
   document.getElementById("teamText").textContent=team==="BOY"?"TEAM BOY!":"TEAM GIRL!";
