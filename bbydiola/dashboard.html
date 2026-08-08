@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Diola • Parent Dashboard</title>
+<style>
+:root{
+  --pink:#f45b9c;
+  --blue:#4fa9e8;
+  --navy:#17375f;
+  --shadow:0 18px 45px rgba(23,55,95,.16);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--navy);background:linear-gradient(120deg,#fff1f6,#fff,#effaff);min-height:100vh;padding:24px}
+.wrap{width:min(900px,96%);margin:auto}
+h1{font-size:clamp(26px,6vw,38px);margin:0 0 4px}
+.sub{color:#617b97;margin:0 0 24px}
+.card{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-radius:24px;padding:24px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.9);margin-bottom:20px}
+.gate{max-width:420px;margin:60px auto}
+.gate input{width:100%;border:2px solid #e5edf4;border-radius:14px;padding:14px 16px;font-size:15px;outline:none;margin-top:10px}
+.gate button{width:100%;margin-top:14px;padding:14px;border:0;border-radius:14px;background:linear-gradient(90deg,var(--pink),#ff8db9);color:#fff;font-weight:800;font-size:15px;cursor:pointer}
+.error{color:#e0316f;font-size:13px;margin-top:8px;display:none}
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.stat{padding:18px;border-radius:18px;text-align:center;font-weight:800}
+.stat b{font-size:34px;display:block}
+.stat-boy{background:#e2f5ff;color:#287fc7}.stat-girl{background:#fff0f7;color:#e94e91}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:14px}
+.toolbar .filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 14px;border-radius:999px;border:2px solid #e5edf4;background:#fff;font-weight:700;font-size:13px;cursor:pointer;color:var(--navy)}
+.chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.refresh{padding:8px 14px;border-radius:999px;border:0;background:#fff;box-shadow:0 6px 14px rgba(23,55,95,.12);font-weight:700;font-size:13px;cursor:pointer;color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:10px 12px;color:#7187a0;font-size:12px;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #eef2f6}
+td{padding:12px;border-bottom:1px solid #f1f4f8;vertical-align:top}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-weight:800;font-size:12px}
+.badge.BOY{background:#e2f5ff;color:#287fc7}
+.badge.GIRL{background:#fff0f7;color:#e94e91}
+.name-cell{font-weight:700}
+.msg-cell{color:#3a5674;max-width:340px}
+.time-cell{color:#94a7ba;font-size:12px;white-space:nowrap}
+.empty{text-align:center;padding:40px;color:#94a7ba}
+.loading{text-align:center;padding:40px;color:#94a7ba}
+@media(max-width:650px){
+  table,thead,tbody,th,td,tr{display:block}
+  thead{display:none}
+  tr{background:#fff;border-radius:16px;box-shadow:0 4px 14px rgba(23,55,95,.08);margin-bottom:12px;padding:12px}
+  td{border:0;padding:6px 4px}
+  .msg-cell{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div id="gateView" class="gate card">
+    <h1>Parent Dashboard 🔒</h1>
+    <p class="sub">Enter the access key to view guest predictions and messages.</p>
+    <input type="password" id="keyInput" placeholder="Access key">
+    <button id="unlockBtn">Unlock Dashboard</button>
+    <div class="error" id="gateError">Incorrect key — please try again.</div>
+  </div>
+
+  <div id="dashView" style="display:none">
+    <h1>Baby Diola — Guest Dashboard 👶</h1>
+    <p class="sub">All predictions and messages from your gender reveal page.</p>
+
+    <div class="stats-row">
+      <div class="stat stat-boy">💙 TEAM BOY <b id="boyCount">0</b></div>
+      <div class="stat stat-girl">💗 TEAM GIRL <b id="girlCount">0</b></div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <div class="filters">
+          <button class="chip active" data-filter="ALL">All</button>
+          <button class="chip" data-filter="BOY">Team Boy</button>
+          <button class="chip" data-filter="GIRL">Team Girl</button>
+        </div>
+        <button class="refresh" id="refreshBtn">↻ Refresh</button>
+      </div>
+
+      <div id="tableWrap">
+        <div class="loading">Loading submissions...</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// IMPORTANT: this must match the ADMIN_KEY set in your Code.gs Apps Script.
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOd78s2g8OQ6tq5MI8rqTcebdAjgtxcCIczdS1MEYQkuZlv4jXblUsuMWx0i6jVXE1/exec";
+const SESSION_KEY = "babyDiolaDashboardKey";
+
+let allSubmissions = [];
+let currentFilter = "ALL";
+
+function tryUnlock(key){
+  document.getElementById("gateError").style.display = "none";
+  document.getElementById("gateView").style.display = "none";
+  document.getElementById("dashView").style.display = "block";
+  loadData(key);
+}
+
+document.getElementById("unlockBtn").addEventListener("click", ()=>{
+  const key = document.getElementById("keyInput").value.trim();
+  if(!key){ return; }
+  sessionStorage.setItem(SESSION_KEY, key);
+  tryUnlock(key);
+});
+
+document.getElementById("keyInput").addEventListener("keydown", (e)=>{
+  if(e.key === "Enter") document.getElementById("unlockBtn").click();
+});
+
+document.querySelectorAll(".chip").forEach(chip=>{
+  chip.addEventListener("click", ()=>{
+    document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+    chip.classList.add("active");
+    currentFilter = chip.dataset.filter;
+    renderTable();
+  });
+});
+
+document.getElementById("refreshBtn").addEventListener("click", ()=>{
+  const key = sessionStorage.getItem(SESSION_KEY);
+  if(key) loadData(key);
+});
+
+async function loadData(key){
+  document.getElementById("tableWrap").innerHTML = "<div class='loading'>Loading submissions...</div>";
+  try{
+    const res = await fetch(GOOGLE_SCRIPT_URL + "?key=" + encodeURIComponent(key));
+    const data = await res.json();
+
+    if(!data.submissions){
+      // Wrong key returns the public summary shape instead of submissions — treat as auth failure.
+      sessionStorage.removeItem(SESSION_KEY);
+      document.getElementById("dashView").style.display = "none";
+      document.getElementById("gateView").style.display = "block";
+      document.getElementById("gateError").style.display = "block";
+      return;
+    }
+
+    allSubmissions = data.submissions;
+    const boy = allSubmissions.filter(s=>s.prediction==="BOY").length;
+    const girl = allSubmissions.filter(s=>s.prediction==="GIRL").length;
+    document.getElementById("boyCount").textContent = boy;
+    document.getElementById("girlCount").textContent = girl;
+    renderTable();
+  }catch(e){
+    console.warn("Dashboard load error", e);
+    document.getElementById("tableWrap").innerHTML = "<div class='empty'>Couldn't load data — check your connection and tap Refresh.</div>";
+  }
+}
+
+function renderTable(){
+  const filtered = currentFilter === "ALL"
+    ? allSubmissions
+    : allSubmissions.filter(s=>s.prediction===currentFilter);
+
+  if(filtered.length === 0){
+    document.getElementById("tableWrap").innerHTML = "<div class='empty'>No submissions yet.</div>";
+    return;
+  }
+
+  let html = "<table><thead><tr><th>Guest</th><th>Bet</th><th>Message</th><th>Time</th></tr></thead><tbody>";
+  filtered.forEach(s=>{
+    const time = s.timestamp ? new Date(s.timestamp).toLocaleString() : "";
+    html += `<tr>
+      <td class="name-cell">${escapeHtml(s.name || "—")}</td>
+      <td><span class="badge ${s.prediction}">${s.prediction === "BOY" ? "💙 Boy" : s.prediction === "GIRL" ? "💗 Girl" : "—"}</span></td>
+      <td class="msg-cell">${escapeHtml(s.message || "—")}</td>
+      <td class="time-cell">${time}</td>
+    </tr>`;
+  });
+  html += "</tbody></table>";
+  document.getElementById("tableWrap").innerHTML = html;
+}
+
+function escapeHtml(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Auto-unlock if this browser already entered the key this session.
+const savedKey = sessionStorage.getItem(SESSION_KEY);
+if(savedKey) tryUnlock(savedKey);
+</script>
+</body>
+</html>
