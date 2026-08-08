@@ -129,10 +129,13 @@ document.getElementById("refreshBtn").addEventListener("click", ()=>{
   if(key) loadData(key);
 });
 
-async function loadData(key){
-  document.getElementById("tableWrap").innerHTML = "<div class='loading'>Loading submissions...</div>";
+async function loadData(key, quiet){
+  if(!quiet){
+    document.getElementById("tableWrap").innerHTML = "<div class='loading'>Loading submissions...</div>";
+  }
   try{
-    const res = await fetch(GOOGLE_SCRIPT_URL + "?key=" + encodeURIComponent(key));
+    // cache-bust with a timestamp so browsers/CDNs don't serve a stale response
+    const res = await fetch(GOOGLE_SCRIPT_URL + "?key=" + encodeURIComponent(key) + "&t=" + Date.now());
     const data = await res.json();
 
     if(!data.submissions){
@@ -152,9 +155,20 @@ async function loadData(key){
     renderTable();
   }catch(e){
     console.warn("Dashboard load error", e);
-    document.getElementById("tableWrap").innerHTML = "<div class='empty'>Couldn't load data — check your connection and tap Refresh.</div>";
+    if(!quiet){
+      document.getElementById("tableWrap").innerHTML = "<div class='empty'>Couldn't load data — check your connection and tap Refresh.</div>";
+    }
   }
 }
+
+// Auto-refresh every 8 seconds while the dashboard is unlocked and visible.
+setInterval(()=>{
+  const key = sessionStorage.getItem(SESSION_KEY);
+  const visible = document.getElementById("dashView").style.display !== "none";
+  if(key && visible){
+    loadData(key, true); // quiet = no loading spinner flash, just swap data in
+  }
+}, 8000);
 
 function renderTable(){
   const filtered = currentFilter === "ALL"
