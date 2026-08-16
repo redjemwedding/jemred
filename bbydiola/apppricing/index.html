@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Diola — Gender Reveal Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFFBF4;
+    --navy:#1E2A44;
+    --sky:#7FB8D9;
+    --blush:#F0A8BE;
+    --gold:#C9A063;
+    --line: rgba(30,42,68,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--cream);
+    font-family:'Work Sans', sans-serif;
+    color: var(--navy);
+    display:flex;
+    justify-content:center;
+    padding: 40px 16px;
+  }
+  .card{
+    width:100%;
+    max-width:600px;
+    background: var(--cream);
+    position:relative;
+    overflow:hidden;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  /* top duotone strip - the vote split, this app's signature idea */
+  .vote-strip{
+    height:10px;
+    width:100%;
+    display:flex;
+  }
+  .vote-strip .boy{ background: var(--sky); width:52%; }
+  .vote-strip .girl{ background: var(--blush); width:48%; }
+
+  .content{ padding: 48px 44px 40px; }
+
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color: var(--gold);
+    font-weight:600;
+    margin-bottom:18px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size: 34px;
+    line-height:1.2;
+    letter-spacing:-0.01em;
+    margin-bottom:16px;
+  }
+
+  .lede{
+    font-size:15px;
+    line-height:1.65;
+    color: rgba(30,42,68,0.72);
+    max-width:46ch;
+    margin-bottom:38px;
+  }
+
+  .packages{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    border-top:1px solid var(--line);
+  }
+
+  .package{
+    padding: 28px 0;
+    border-bottom:1px solid var(--line);
+  }
+
+  .package-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:16px;
+    margin-bottom:10px;
+  }
+
+  .package-name{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:500;
+  }
+
+  .package-tag{
+    font-size:10px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color: var(--gold);
+    font-weight:600;
+    border:1px solid var(--gold);
+    padding: 3px 8px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+
+  .package-desc{
+    font-size:13.5px;
+    line-height:1.6;
+    color: rgba(30,42,68,0.65);
+    margin-bottom:18px;
+    max-width:48ch;
+  }
+
+  .includes{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+    margin-bottom:20px;
+  }
+
+  .includes li{
+    font-size:13px;
+    color: var(--navy);
+    padding-left:16px;
+    position:relative;
+    line-height:1.5;
+  }
+
+  .includes li::before{
+    content:'';
+    position:absolute;
+    left:0;
+    top:7px;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background: var(--sky);
+  }
+
+  .prices{
+    display:flex;
+    gap:28px;
+    align-items:baseline;
+  }
+
+  .price-block .amount{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    font-weight:500;
+  }
+
+  .price-block .currency-label{
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color: rgba(30,42,68,0.5);
+    margin-bottom:2px;
+  }
+
+  .addon{
+    padding-top:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+
+  .addon-label{
+    font-size:13px;
+    color: rgba(30,42,68,0.75);
+  }
+
+  .addon-price{
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+
+  .footer-note{
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:12px;
+    line-height:1.7;
+    color: rgba(30,42,68,0.55);
+  }
+
+  .footer-note strong{
+    color: var(--navy);
+    font-weight:600;
+  }
+
+  @media (max-width:480px){
+    .content{ padding: 36px 24px 32px; }
+    h1{ font-size:27px; }
+    .prices{ flex-wrap:wrap; row-gap:10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="vote-strip"><div class="boy"></div><div class="girl"></div></div>
+
+  <div class="content">
+    <div class="eyebrow">Baby Diola — Gender Reveal Experience</div>
+    <h1>Bring everyone into the moment, wherever they are.</h1>
+    <p class="lede">A private prediction site, personalized with your baby's name and ultrasound video — guests vote, send greetings, and watch results live. Two ways to bring it to your celebration. Priced for wherever you're celebrating — pick UAE or Philippines.</p>
+
+    <div class="packages">
+
+      <div class="package">
+        <div class="package-head">
+          <div class="package-name">The App</div>
+          <div class="package-tag">Core</div>
+        </div>
+        <p class="package-desc">The private site itself — for guests joining from anywhere, on their own phones.</p>
+        <ul class="includes">
+          <li>Personalized with your baby's name &amp; ultrasound/scan video</li>
+          <li>Private voting link — Boy or Girl prediction</li>
+          <li>Guest greeting &amp; message wall</li>
+          <li>Live results, updating in real time</li>
+          <li>All greetings compiled and emailed to you after the event</li>
+        </ul>
+        <div class="prices">
+          <div class="price-block">
+            <div class="currency-label">UAE · AED</div>
+            <div class="amount">500</div>
+          </div>
+          <div class="price-block">
+            <div class="currency-label">Philippines · PHP</div>
+            <div class="amount">₱1,800</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="package">
+        <div class="package-head">
+          <div class="package-name">The Complete Experience</div>
+          <div class="package-tag">Full Reveal</div>
+        </div>
+        <p class="package-desc">Everything in The App, plus a live screen for your venue — so the room feels the votes coming in too.</p>
+        <ul class="includes">
+          <li>Everything in The App</li>
+          <li>Personalized welcome video using your baby's name &amp; ultrasound/scan, played for every guest</li>
+          <li>Venue TV / portal screen — live vote count &amp; scrolling messages</li>
+          <li>Custom link with your names</li>
+          <li>All greetings compiled and emailed to you after the event</li>
+        </ul>
+        <div class="prices">
+          <div class="price-block">
+            <div class="currency-label">UAE · AED</div>
+            <div class="amount">900</div>
+          </div>
+          <div class="price-block">
+            <div class="currency-label">Philippines · PHP</div>
+            <div class="amount">₱3,200</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="addon">
+      <div class="addon-label">Add custom domain link (e.g. babyname.reveal.link)</div>
+      <div class="addon-price">AED 100 · ₱300</div>
+    </div>
+
+    <div class="footer-note">
+      <strong>One-time, per event.</strong> No app to download, no account to keep — everyone joins from a single link, and you keep every vote and message afterward.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
