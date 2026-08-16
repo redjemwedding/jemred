@@ -164,23 +164,47 @@
     margin-bottom:2px;
   }
 
+  .addons-section{
+    margin-top:8px;
+  }
+
+  .addons-title{
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color: var(--gold);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+
   .addon{
-    padding-top:22px;
+    padding: 16px 0;
+    border-top:1px solid var(--line);
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    gap:12px;
+    align-items:flex-start;
+    gap:16px;
   }
 
   .addon-label{
     font-size:13px;
-    color: rgba(30,42,68,0.75);
+    font-weight:500;
+    color: var(--navy);
+    margin-bottom:4px;
+  }
+
+  .addon-sublabel{
+    font-size:12px;
+    line-height:1.55;
+    color: rgba(30,42,68,0.6);
+    max-width:38ch;
   }
 
   .addon-price{
     font-size:13px;
     font-weight:600;
     white-space:nowrap;
+    padding-top:1px;
   }
 
   .footer-note{
@@ -268,9 +292,21 @@
 
     </div>
 
-    <div class="addon">
-      <div class="addon-label">Add custom domain link (e.g. babyname.reveal.link)</div>
-      <div class="addon-price">AED 100 · ₱300</div>
+    <div class="addons-section">
+      <div class="addons-title">Add-ons</div>
+
+      <div class="addon">
+        <div class="addon-label">Custom domain link (e.g. babyname.reveal.link)</div>
+        <div class="addon-price">AED 100 · ₱300</div>
+      </div>
+
+      <div class="addon">
+        <div>
+          <div class="addon-label">Event highlight video — 1 min, edited</div>
+          <div class="addon-sublabel">On-site coverage (photo &amp; video) + a 1-minute edited highlight of the reveal moment, with minimal balloon &amp; baby-themed titles. Raw files included.</div>
+        </div>
+        <div class="addon-price">AED 200 · ₱700</div>
+      </div>
     </div>
 
     <div class="footer-note">
