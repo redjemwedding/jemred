@@ -1,440 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Red &amp; Jemalyn — The Wedding</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<style>
-  :root{
-    --ivory:#F6EFE4; --card:#EFE3D0; --ink:#3A2A1E; --accent:#B08968; --gold:#C9A227;
-    --ease-soft: cubic-bezier(.22,.61,.36,1);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0; background:var(--ivory); color:var(--ink); font-family:'Jost',sans-serif; font-weight:300; overflow-x:hidden;}
-  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
-  h1,h2,h3,.display{font-family:'Playfair Display',serif; font-weight:600;}
-  .script{font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500;}
-  .eyebrow{font-family:'Jost',sans-serif; font-size:0.7rem; letter-spacing:0.32em; text-transform:uppercase; color:var(--accent);}
-  .rule{width:44px; height:1px; background:var(--gold); margin:18px auto;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <style>
+        :root {
+            --bg-color: #f7f5f0;
+            --envelope-color: #4a5d4e; /* Elegant Sage Green */
+            --envelope-inside: #3d4f41;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --gold: #d4af37;
+        }
 
-  /* opening curtain */
-  #curtain{position:fixed; inset:0; background:#0c0906; z-index:100; display:flex; align-items:center; justify-content:center;}
-  #curtain span{color:#c9b08a; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.1rem; letter-spacing:0.08em; opacity:0; animation:curtainText 1.8s ease forwards 0.4s;}
-  @keyframes curtainText{ to{opacity:0.9;} }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--bg-color);
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+        }
 
-  /* privacy / consent gate */
-  #gate{ position:fixed; inset:0; z-index:200; background:var(--ivory); display:flex; align-items:center; justify-content:center; padding:32px; }
-  #gate .gate-card{ max-width:420px; text-align:center; }
-  #gate .gate-card img{ width:64px; margin-bottom:18px; opacity:0.9; }
-  #gate h2{ font-size:1.6rem; margin:0 0 4px; }
-  #gate p.gate-copy{ font-size:0.85rem; line-height:1.85; color:#5a4634; margin:16px 0 26px; }
-  #gate a{ color:var(--ink); border-bottom:1px solid var(--gold); text-decoration:none; }
-  #gate .gate-actions{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-  #gate .gate-btn{ padding:13px 30px; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; border:1px solid var(--ink); background:var(--ink); color:var(--ivory); font-family:'Jost',sans-serif; }
-  #gate .gate-btn.ghost{ background:transparent; color:var(--ink); border-color:rgba(58,42,30,0.4); }
-  #gate.hidden{ display:none; }
-  #gate-declined{ position:fixed; inset:0; z-index:200; background:var(--ivory); display:none; align-items:center; justify-content:center; text-align:center; padding:32px; }
-  #gate-declined p{ max-width:340px; font-size:0.9rem; line-height:1.9; color:#5a4634; }
+        /* Envelope Container */
+        .envelope-wrapper {
+            position: relative;
+            width: 450px;
+            height: 300px;
+            background-color: var(--envelope-inside);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            perspective: 1000px;
+        }
 
-  /* dust particles */
-  .dust{position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden;}
-  .dust i{position:absolute; width:2px; height:2px; background:rgba(201,162,39,0.5); border-radius:50%; animation:float linear infinite;}
-  @keyframes float{ from{transform:translateY(0);} to{transform:translateY(-120vh);} }
+        /* Front Flaps & Body */
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            z-index: 3;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-bottom: 150px solid var(--envelope-color);
+            bottom: 0;
+            width: 0;
+            height: 0;
+        }
 
-  /* ===== ENVELOPE SCENE (pinned) ===== */
-  .envelope-spacer{ height:340vh; position:relative; }
-  .envelope-pin{
-    height:100svh; width:100%; position:relative; overflow:hidden;
-    background: radial-gradient(ellipse at 50% 42%, rgba(201,162,39,0.14), transparent 55%), linear-gradient(180deg,#F1E7D4,#E7D6B6);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .camera{ perspective:2200px; }
-  .table-glow{ position:absolute; bottom:8%; width:60%; height:14%; background:radial-gradient(ellipse, rgba(58,42,30,0.16), transparent 70%); filter:blur(6px); }
+        .envelope-wrapper::after {
+            content: '';
+            position: absolute;
+            z-index: 3;
+            border-top: 150px solid transparent;
+            border-bottom: 150px solid transparent;
+            border-left: 225px solid rgba(255, 255, 255, 0.05);
+            bottom: 0;
+            left: 0;
+        }
 
-  .env-wrap{ position:relative; width:min(70vw,360px); aspect-ratio:3/2.05; transform-style:preserve-3d; }
-  .env-body{ position:absolute; inset:0; background:linear-gradient(180deg,#EFE3D0,#E1CFA9); border:1px solid rgba(58,42,30,0.22); box-shadow:0 40px 70px -20px rgba(42,29,20,0.4); }
-  .env-flap{ position:absolute; top:-1px; left:-1px; right:-1px; height:62%; background:linear-gradient(200deg,#F3E6C9,#E7D6B0); border:1px solid rgba(58,42,30,0.22); clip-path:polygon(0 0,100% 0,50% 92%); transform-origin:top center; box-shadow:0 4px 12px rgba(42,29,20,0.15); backface-visibility:hidden; }
-  .seal{ position:absolute; left:50%; top:58%; transform:translate(-50%,-50%); width:48px; height:48px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #E4C877, var(--gold) 60%, #8f7115 100%); box-shadow:0 4px 10px rgba(42,29,20,0.4); display:flex; align-items:center; justify-content:center; }
-  .seal span{ font-family:'Cormorant Garamond',serif; font-style:italic; color:#3d2c10; font-size:0.95rem; }
-  .seal .crack{ position:absolute; inset:0; background:conic-gradient(from 210deg at 50% 50%, transparent 0deg, rgba(20,14,8,0.35) 2deg, transparent 4deg, transparent 190deg, rgba(20,14,8,0.3) 192deg, transparent 194deg); opacity:0; border-radius:50%; }
+        /* Top Lid */
+        .lid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-top: 150px solid var(--envelope-color);
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 4;
+        }
 
-  .invitation{ position:absolute; left:7%; right:7%; bottom:6%; top:16%; background:var(--card); border:1px solid rgba(58,42,30,0.18); box-shadow:0 20px 40px rgba(42,29,20,0.25); display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:14px; }
-  .invitation .names{ font-family:'Playfair Display',serif; font-size:clamp(1rem,4vw,1.35rem); }
-  .invitation .amp{ color:var(--gold); }
-  .invitation .tag{ font-size:0.68rem; letter-spacing:0.24em; color:var(--accent); text-transform:uppercase; margin-top:4px; }
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            top: 135px;
+            left: 205px;
+            width: 40px;
+            height: 40px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-  .leaf-l,.leaf-r{ position:absolute; top:0; bottom:0; width:50%; background:var(--card); border:1px solid rgba(58,42,30,0.16); opacity:0; backface-visibility:hidden; }
-  .leaf-l{ left:0; transform-origin:left center; }
-  .leaf-r{ right:0; transform-origin:right center; }
+        /* Invitation Card */
+        .wedding-card {
+            position: absolute;
+            bottom: 10px;
+            left: 25px;
+            width: 400px;
+            height: 260px;
+            background-color: var(--card-color);
+            z-index: 2;
+            transition: transform 0.6s ease-in-out 0.4s;
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+        }
 
-  .hint{ position:absolute; bottom:44px; left:50%; transform:translateX(-50%); text-align:center; z-index:5; cursor:pointer; background:none; border:none; }
-  .hint .ring{ width:40px; height:40px; margin:0 auto 8px; border-radius:50%; border:1px solid var(--accent); display:flex; align-items:center; justify-content:center; animation:pulse 2.4s ease-in-out infinite; }
-  @keyframes pulse{ 0%,100%{transform:translateY(0); opacity:.7;} 50%{transform:translateY(6px); opacity:1;} }
-  .hint span.label{ font-size:0.66rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent); }
+        .wedding-card h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            color: var(--text-color);
+            font-weight: normal;
+        }
 
-  /* ===== PAGE FLOW ===== */
-  .book{ perspective:2400px; position:relative; z-index:1; background:var(--ivory); }
-  .leaf-page{ min-height:100svh; display:flex; align-items:center; justify-content:center; padding:100px 22px; transform-origin:left center; will-change:transform,opacity; }
-  .leaf-page.right-hinge{ transform-origin:right center; }
-  .leaf-page.alt{ background:linear-gradient(180deg,var(--ivory),#EFE3D0 130%); }
-  .page-inner{ max-width:560px; width:100%; text-align:center; }
+        .wedding-card p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #666;
+            line-height: 1.6;
+        }
 
-  .pair-grid{ display:grid; grid-template-columns:1fr 1fr; gap:26px; text-align:left; }
-  @media (max-width:640px){ .pair-grid{grid-template-columns:1fr;} }
-  .pair-card img{ width:100%; aspect-ratio:4/5; object-fit:cover; border:1px solid rgba(58,42,30,0.15); }
-  .pair-card h3{ margin:14px 0 4px; font-size:1.2rem; }
-  .pair-card p{ font-size:0.9rem; line-height:1.75; color:#5a4634; }
+        .wedding-card .date {
+            font-weight: bold;
+            color: var(--envelope-color);
+            margin-top: 15px;
+        }
 
-  .timeline{ text-align:left; display:flex; flex-direction:column; gap:34px; }
-  .tl-item{ position:relative; padding-left:26px; border-left:1px solid rgba(58,42,30,0.18); }
-  .tl-item::before{ content:''; position:absolute; left:-4.5px; top:4px; width:8px; height:8px; border-radius:50%; background:var(--gold); }
-  .tl-item .tl-date{ font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); }
-  .tl-item h3{ margin:6px 0 8px; font-size:1.1rem; }
-  .tl-item p{ font-size:0.9rem; line-height:1.8; color:#5a4634; margin:0; }
-  .tl-item img{ width:100%; aspect-ratio:4/3; object-fit:cover; margin-top:12px; border:1px solid rgba(58,42,30,0.15); }
+        /* --- Animation States (Triggered by Active Class) --- */
+        
+        /* 1. Open the Lid */
+        .envelope-wrapper.open .lid {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
 
-  .event-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
-  @media (max-width:640px){ .event-grid{grid-template-columns:1fr;} }
-  .event-card{ background:var(--ivory); border:1px solid rgba(58,42,30,0.15); padding:22px; }
-  .event-card img{ width:100%; aspect-ratio:16/10; object-fit:cover; margin-bottom:14px; }
-  .event-card a{ font-size:0.74rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--gold); margin-right:14px; }
+        /* 2. Hide the Wax Seal */
+        .envelope-wrapper.open .wax-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-  .swatches{ display:flex; gap:10px; justify-content:center; margin:16px 0; }
-  .swatch{ width:34px; height:34px; border-radius:4px; border:1px solid rgba(58,42,30,0.15); box-shadow:inset 0 0 8px rgba(0,0,0,0.06); }
-
-  .reminder-list{ text-align:left; display:flex; flex-direction:column; gap:22px; }
-  .reminder-list h3{ font-size:1rem; margin:0 0 6px; }
-  .reminder-list p{ font-size:0.88rem; line-height:1.8; color:#5a4634; margin:0; }
-  .gift-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:20px; text-align:left; }
-  @media (max-width:640px){ .gift-grid{grid-template-columns:1fr;} }
-  .gift-card{ border:1px solid rgba(58,42,30,0.15); padding:16px; }
-  .gift-card .label{ font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); }
-
-  /* gallery album (pinned) */
-  .gallery-spacer{ height:640vh; position:relative; }
-  .gallery-pin{ height:100svh; display:flex; align-items:center; justify-content:center; position:relative; background:var(--ivory); overflow:hidden; }
-  .album{ position:relative; width:min(80vw,420px); aspect-ratio:4/5; perspective:1800px; }
-  .album img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border:6px solid var(--card); box-shadow:0 30px 50px rgba(42,29,20,0.25); backface-visibility:hidden; }
-
-  /* RSVP pinned */
-  .rsvp-spacer{ height:220vh; position:relative; }
-  .rsvp-pin{ height:100svh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,var(--ivory),#EFE3D0); }
-  .ink-line{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(1.3rem,4.6vw,2rem); color:var(--ink); overflow:hidden; white-space:nowrap; border-right:2px solid var(--gold); width:0; margin:0 auto; }
-  .rsvp-btn{ display:inline-block; margin-top:30px; padding:14px 40px; border:1px solid var(--ink); background:var(--ink); color:var(--ivory); font-size:0.76rem; letter-spacing:0.22em; text-transform:uppercase; text-decoration:none; opacity:0; }
-
-  /* ending */
-  .ending{ height:100svh; display:flex; align-items:center; justify-content:center; background:#0c0906; color:#e7d9bb; text-align:center; }
-  .ending .script{ font-size:1.6rem; opacity:0; }
-  .ending .credit{ font-size:0.7rem; letter-spacing:0.1em; color:#9c8a6a; margin-top:18px; opacity:0; }
-</style>
+        /* 3. Slide the Card Up out of the envelope */
+        .envelope-wrapper.open .wedding-card {
+            transform: translateY(-180px);
+            z-index: 5;
+        }
+    </style>
 </head>
 <body>
 
-<!-- ===== PRIVACY / CONSENT GATE ===== -->
-<div id="gate">
-  <div class="gate-card">
-    <img src="https://www.redjemie.com/img/logo1.png" alt="Red & Jemie">
-    <h2 class="display">Red &amp; Jemalyn</h2>
-    <div class="eyebrow" style="margin-top:4px;">Official Wedding Invitation</div>
-    <p class="gate-copy">Welcome. We created this invitation to share our love story and gather your RSVP as we celebrate the beginning of our forever. Your name will only be used for coordinating our wedding guest list and will be deleted after the event. We will never share or use your information for any other purpose. By continuing, you agree to our <a href="https://sites.google.com/view/redjemie-comrsvpsubmitted/privacy-policy" target="_blank">Privacy Policy</a>.</p>
-    <div class="gate-actions">
-      <button class="gate-btn" id="gateAgree">I Agree &amp; Enter</button>
-      <button class="gate-btn ghost" id="gateDecline">I Do Not Agree</button>
-    </div>
-  </div>
-</div>
-<div id="gate-declined">
-  <p>That's completely alright. We understand — thank you for taking the time to visit. Should you change your mind, feel free to return anytime.</p>
-</div>
-
-<div id="curtain"><span>Together with their families</span></div>
-<div class="dust" id="dust"></div>
-
-<!-- ===== ENVELOPE SCENE ===== -->
-<section class="envelope-spacer">
-  <div class="envelope-pin camera" id="envelopePin">
-    <div class="table-glow"></div>
-    <div class="env-wrap" id="envWrap">
-      <div class="invitation" id="invitation">
-        <div class="names">Red <span class="amp">&amp;</span> Jemalyn</div>
-        <div class="tag">08 · 08 · 2025</div>
-      </div>
-      <div class="leaf-l" id="leafL"></div>
-      <div class="leaf-r" id="leafR"></div>
-      <div class="env-flap" id="flap">
-        <div class="seal"><span>R&amp;J</span><div class="crack" id="crack"></div></div>
-      </div>
-      <div class="env-body"></div>
-    </div>
-    <button class="hint" id="hint" aria-label="Open the invitation">
-      <div class="ring"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B08968" stroke-width="1.4"><path d="M12 4v16M6 14l6 6 6-6"/></svg></div>
-      <span class="label">Scroll to Open</span>
-    </button>
-  </div>
-</section>
-
-<!-- ===== PAGE FLOW ===== -->
-<main class="book">
-
-  <section class="leaf-page" id="pTitle">
-    <div class="page-inner">
-      <div class="eyebrow">The Wedding Of</div>
-      <h1 class="display" style="font-size:clamp(2rem,7vw,3.2rem); line-height:1.05;">Redjell Kim<br><span class="script">&amp;</span><br>Jemalyn</h1>
-      <div class="rule"></div>
-      <p style="font-size:0.9rem; line-height:1.9; color:#5a4634; max-width:420px; margin:0 auto;">"Where you go, I will go, and where you stay, I will stay." We joyfully invite you to witness the beginning of our marriage.</p>
-    </div>
-  </section>
-
-  <section class="leaf-page right-hinge alt" id="pPair">
-    <div class="page-inner" style="max-width:700px;">
-      <div class="eyebrow">Groom &amp; Bride</div>
-      <div class="rule"></div>
-      <div class="pair-grid">
-        <div class="pair-card"><img src="https://www.redjemie.com/img/about-1.jpg" alt="Red"><h3>Red</h3><p>A man of faith, strength, and quiet confidence — guided by his belief in God's plan.</p></div>
-        <div class="pair-card"><img src="https://www.redjemie.com/img/about-2.jpg" alt="Jemie"><h3>Jemie</h3><p>Sweet, loving, and endlessly understanding — always there for the people she loves.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="leaf-page" id="pStory">
-    <div class="page-inner" style="max-width:560px;">
-      <div class="eyebrow">Our Love Story</div>
-      <div class="rule"></div>
-      <div class="timeline">
-        <div class="tl-item"><div class="tl-date">2016 · Quezon City</div><h3>Where It All Began</h3><p>A chocolate bar from Bali sparked something special — the first sign we were meant to be.</p><img src="https://www.redjemie.com/img/story-1.jpg" alt=""></div>
-        <div class="tl-item"><div class="tl-date">2019–2023 · Miles Apart</div><h3>Infinite Love, Across Miles</h3><p>Long distance, calls, prayers, and faith — until just before Valentine's 2023, forever began.</p></div>
-        <div class="tl-item"><div class="tl-date">28 Mar 2024 · Paris</div><h3>The Proposal</h3><p>The Eiffel Tower glittered behind us, and with a trembling hand, the answer was yes. #REDtooktherightJEM 💍</p><img src="https://www.redjemie.com/img/story-3.jpg" alt=""></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="leaf-page right-hinge alt" id="pEvent">
-    <div class="page-inner" style="max-width:760px;">
-      <div class="eyebrow">Event Details</div>
-      <div class="rule"></div>
-      <div class="event-grid">
-        <div class="event-card"><img src="https://www.redjemie.com/img/event-1.jpg" alt=""><h3>Church Wedding</h3><p style="margin:2px 0;">Manila Cathedral</p><p style="color:var(--accent); font-size:0.8rem;">3:00 – 4:00 PM</p><div style="margin-top:10px;"><a href="https://www.google.com/maps?q=Manila+Cathedral" target="_blank">Maps</a><a href="https://waze.com/ul/hwdw50b65k" target="_blank">Waze</a></div></div>
-        <div class="event-card"><img src="https://www.redjemie.com/img/event-2.jpg" alt=""><h3>Reception</h3><p style="margin:2px 0;">Le Parc Hall B, Pasay</p><p style="color:var(--accent); font-size:0.8rem;">Evening to follow</p><div style="margin-top:10px;"><a href="https://www.google.com/maps?q=Le+Parc+Events+Hall+B+Pasay+City" target="_blank">Maps</a><a href="https://waze.com/ul/hwdw49nqv8" target="_blank">Waze</a></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="leaf-page" id="pAttire">
-    <div class="page-inner">
-      <div class="eyebrow">Attire</div>
-      <div class="rule"></div>
-      <h3 style="margin-bottom:2px;">Ladies</h3>
-      <p style="font-size:0.9rem; color:#5a4634;">Midi Dress or Long Gown — pastel brown tones</p>
-      <div class="swatches">
-        <span class="swatch" style="background:#E9D2B4"></span><span class="swatch" style="background:#C9A97C"></span>
-        <span class="swatch" style="background:#B08968"></span><span class="swatch" style="background:#8A6A4E"></span>
-        <span class="swatch" style="background:#5A4634"></span>
-      </div>
-      <h3 style="margin:20px 0 2px;">Gentlemen</h3>
-      <p style="font-size:0.9rem; color:#5a4634;">Black Coat &amp; Tie, White Long Sleeve</p>
-    </div>
-  </section>
-
-  <section class="leaf-page right-hinge alt" id="pReminders">
-    <div class="page-inner" style="max-width:560px;">
-      <div class="eyebrow">A Few Kind Reminders</div>
-      <div class="rule"></div>
-      <div class="reminder-list">
-        <div><h3>No Plus One</h3><p>Due to limited seating, only formally confirmed guests can be accommodated.</p></div>
-        <div><h3>Children</h3><p>We can only accommodate children of the immediate family. Apologies for the inconvenience.</p></div>
-        <div><h3>Gift Guide</h3><p>Your presence means the world. If you wish to bless us further, a monetary gift is appreciated.</p></div>
-      </div>
-      <div class="gift-grid">
-        <div class="gift-card"><div class="label">GCash</div><div>Redjell Kim D.</div><div style="color:#5a4634; font-size:0.9rem;">0927 146 9378</div></div>
-        <div class="gift-card"><div class="label">BPI Bank Transfer</div><div>Jemalyn Porlas</div><div style="color:#5a4634; font-size:0.9rem;">3279 130 315</div></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="leaf-page" id="pSquad">
-    <div class="page-inner" style="max-width:700px;">
-      <div class="eyebrow">The Squad</div>
-      <div class="rule"></div>
-      <div class="pair-grid">
-        <div class="pair-card">
-          <img src="https://www.redjemie.com/img/groomsmen-1.jpg" alt="Groomsmen">
-          <h3>Groomsmen</h3>
-          <p>Standing beside Red on the altar, the men who've walked with him through it all.</p>
+    <!-- Click anywhere on the envelope to open -->
+    <div class="envelope-wrapper" onclick="toggleEnvelope()">
+        <div class="lid"></div>
+        <div class="wax-seal">W</div>
+        
+        <div class="wedding-card">
+            <h1>Save the Date</h1>
+            <p>Together with their families</p>
+            <p style="font-size: 18px; color: var(--gold); margin: 10px 0;"><strong>Emma & Alexander</strong></p>
+            <p>invite you to celebrate their wedding</p>
+            <p class="date">OCTOBER 24, 2026</p>
+            <p style="font-size: 12px; letter-spacing: 1px;">THE GRAND CHATEAU</p>
         </div>
-        <div class="pair-card">
-          <img src="https://www.redjemie.com/img/bridesmaid-1.jpg" alt="Bridesmaid">
-          <h3>Bridesmaid</h3>
-          <p>Standing beside Jemie, the women who've been her constant support and friendship.</p>
-        </div>
-      </div>
     </div>
-  </section>
 
-</main>
+    <script>
+        function toggleEnvelope() {
+            const envelope = document.querySelector('.envelope-wrapper');
+            envelope.classList.toggle('open');
+        }
+    </script>
 
-<!-- ===== GALLERY ALBUM (pinned flip) ===== -->
-<section class="gallery-spacer">
-  <div class="gallery-pin">
-    <div class="eyebrow" style="position:absolute; top:64px;">A Few Favorite Moments</div>
-    <div class="album" id="album">
-      <img src="https://www.redjemie.com/img/gallery-1.jpg" style="z-index:10;">
-      <img src="https://www.redjemie.com/img/gallery-2.jpg" style="z-index:9;">
-      <img src="https://www.redjemie.com/img/gallery-3.jpg" style="z-index:8;">
-      <img src="https://www.redjemie.com/img/gallery-4.jpg" style="z-index:7;">
-      <img src="https://www.redjemie.com/img/gallery-5.jpg" style="z-index:6;">
-      <img src="https://www.redjemie.com/img/gallery-6.jpg" style="z-index:5;">
-      <img src="https://www.redjemie.com/img/gallery-7.jpg" style="z-index:4;">
-      <img src="https://www.redjemie.com/img/gallery-8.jpg" style="z-index:3;">
-      <img src="https://www.redjemie.com/img/gallery-9.jpg" style="z-index:2;">
-      <img src="https://www.redjemie.com/img/gallery-10.jpg" style="z-index:1;">
-    </div>
-  </div>
-</section>
-
-<!-- ===== RSVP (pinned, typewriter) ===== -->
-<section class="rsvp-spacer">
-  <div class="rsvp-pin">
-    <div style="text-align:center;">
-      <div class="eyebrow">Kindly Respond</div>
-      <div class="rule"></div>
-      <div class="ink-line" id="inkLine">We hope you'll celebrate with us.</div>
-      <a href="#" class="rsvp-btn" id="rsvpBtn">RSVP Now</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== ENDING ===== -->
-<section class="ending">
-  <div>
-    <div class="script" id="endingText">With Love<br>Redjell Kim &amp; Jemalyn</div>
-    <div class="credit" id="endingCredit">#REDtooktherightJEM</div>
-  </div>
-</section>
-
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-// keep viewport pinned at top while gate is up (no JS overflow lock —
-// that was miscalculating pin ranges before images finished loading)
-window.scrollTo(0,0);
-
-document.getElementById('gateAgree').addEventListener('click', ()=>{
-  document.getElementById('gate').classList.add('hidden');
-  window.scrollTo(0,0);
-  startCurtain();
-});
-document.getElementById('gateDecline').addEventListener('click', ()=>{
-  document.getElementById('gate').classList.add('hidden');
-  document.getElementById('gate-declined').style.display = 'flex';
-});
-
-function startCurtain(){
-  gsap.to('#curtain', { opacity:0, duration:1.2, delay:0.5, ease:'power1.out', onComplete:()=>{ document.getElementById('curtain').style.display='none'; } });
-}
-
-// dust particles
-(function(){
-  const wrap = document.getElementById('dust');
-  for(let i=0;i<26;i++){
-    const d = document.createElement('i');
-    d.style.left = Math.random()*100+'vw';
-    d.style.top = (100+Math.random()*20)+'vh';
-    d.style.animationDuration = (14+Math.random()*10)+'s';
-    d.style.animationDelay = (Math.random()*10)+'s';
-    d.style.opacity = 0.2+Math.random()*0.4;
-    wrap.appendChild(d);
-  }
-})();
-
-// tap fallback: nudges the scroll forward for touch/embedded viewers
-// where a wheel/swipe gesture may not register on a pinned section
-document.getElementById('hint').addEventListener('click', ()=>{
-  window.scrollBy({ top: window.innerHeight * 1.2, behavior:'smooth' });
-});
-
-// idle breathing before scroll engages
-gsap.to('#envWrap', { scale:1.015, duration:2.6, ease:'sine.inOut', yoyo:true, repeat:-1 });
-
-// ===== ENVELOPE MASTER TIMELINE (scrubbed by scroll) =====
-const envTl = gsap.timeline({
-  scrollTrigger:{
-    trigger:'.envelope-spacer',
-    start:'top top',
-    end:'bottom top',
-    scrub:0.6,
-    pin:'.envelope-pin',
-    onUpdate: self => { document.getElementById('hint').style.opacity = self.progress > 0.02 ? 0 : 1; }
-  }
-});
-envTl
-  .to('#crack', { opacity:1, duration:0.15 }, 0.10)
-  .to('#envWrap', { scale:1.04, duration:0.1 }, 0.18)
-  .to('#flap', { rotateX:-178, duration:0.22, ease:'power2.inOut', transformPerspective:900 }, 0.22)
-  .to('#invitation', { y:'-56%', scale:1.06, boxShadow:'0 40px 70px rgba(42,29,20,0.35)', duration:0.22, ease:'power2.out' }, 0.42)
-  .to('.camera', { scale:1.15, duration:0.3, ease:'power1.inOut' }, 0.42)
-  .to('#invitation', { opacity:0, duration:0.12 }, 0.68)
-  .fromTo('#leafL', { opacity:0, rotateY:0 }, { opacity:1, rotateY:-100, duration:0.2, ease:'power2.inOut', immediateRender:false }, 0.7)
-  .fromTo('#leafR', { opacity:0, rotateY:0 }, { opacity:1, rotateY:100, duration:0.2, ease:'power2.inOut', immediateRender:false }, 0.7)
-  .to('.camera', { scale:1, duration:0.15 }, 0.9);
-
-// ===== PAGE TURNS (scrub-linked, alternating hinge) =====
-gsap.utils.toArray('.leaf-page').forEach((page)=>{
-  const rightHinge = page.classList.contains('right-hinge');
-  gsap.fromTo(page,
-    { rotateY: rightHinge ? 16 : -16, opacity:0.15 },
-    {
-      rotateY:0, opacity:1, ease:'none',
-      scrollTrigger:{ trigger:page, start:'top 85%', end:'top 35%', scrub:true }
-    }
-  );
-});
-
-// ===== GALLERY ALBUM FLIP =====
-const albumImgs = gsap.utils.toArray('#album img');
-const galTl = gsap.timeline({
-  scrollTrigger:{ trigger:'.gallery-spacer', start:'top top', end:'bottom top', scrub:0.6, pin:'.gallery-pin' }
-});
-albumImgs.forEach((img,i)=>{
-  if(i === albumImgs.length-1) return;
-  galTl.to(img, { rotateY:-140, transformOrigin:'left center', duration:0.9, ease:'power2.inOut' }, i);
-});
-
-// ===== RSVP TYPEWRITER =====
-const rsvpTl = gsap.timeline({
-  scrollTrigger:{ trigger:'.rsvp-spacer', start:'top top', end:'bottom top', scrub:0.6, pin:'.rsvp-pin' }
-});
-rsvpTl
-  .to('#inkLine', { width:'100%', duration:0.7, ease:'none' }, 0.15)
-  .to('#inkLine', { borderRightColor:'transparent', duration:0.05 }, 0.85)
-  .to('#rsvpBtn', { opacity:1, duration:0.15 }, 0.86);
-
-// ===== ENDING =====
-gsap.timeline({ scrollTrigger:{ trigger:'.ending', start:'top 70%', end:'top 20%', scrub:true } })
-  .to('#endingText', { opacity:1 }, 0)
-  .to('#endingCredit', { opacity:1 }, 0.4);
-
-// ----- CRITICAL: recalculate every pin/scrub range once real image
-// heights are known. Without this, sections after any image shift
-// position after ScrollTrigger already measured them on first paint,
-// and every animation fires at the wrong scroll offset — the
-// "robotic / missing points" symptom.
-const allImgs = Array.from(document.images);
-let loaded = 0;
-function maybeRefresh(){
-  loaded++;
-  if(loaded === allImgs.length){ ScrollTrigger.refresh(); }
-}
-allImgs.forEach(img=>{
-  if(img.complete) maybeRefresh();
-  else{ img.addEventListener('load', maybeRefresh); img.addEventListener('error', maybeRefresh); }
-});
-window.addEventListener('load', ()=> ScrollTrigger.refresh());
-// safety net for slow/hotlinked images
-setTimeout(()=> ScrollTrigger.refresh(), 2500);
-</script>
 </body>
 </html>
