@@ -57,7 +57,7 @@
 
   .env-wrap{ position:relative; width:min(70vw,360px); aspect-ratio:3/2.05; transform-style:preserve-3d; }
   .env-body{ position:absolute; inset:0; background:linear-gradient(180deg,#EFE3D0,#E1CFA9); border:1px solid rgba(58,42,30,0.22); box-shadow:0 40px 70px -20px rgba(42,29,20,0.4); }
-  .env-flap{ position:absolute; top:-1px; left:-1px; right:-1px; height:62%; background:linear-gradient(200deg,#F3E6C9,#E7D6B0); border:1px solid rgba(58,42,30,0.22); clip-path:polygon(0 0,100% 0,50% 92%); transform-origin:top center; box-shadow:0 4px 12px rgba(42,29,20,0.15); }
+  .env-flap{ position:absolute; top:-1px; left:-1px; right:-1px; height:62%; background:linear-gradient(200deg,#F3E6C9,#E7D6B0); border:1px solid rgba(58,42,30,0.22); clip-path:polygon(0 0,100% 0,50% 92%); transform-origin:top center; box-shadow:0 4px 12px rgba(42,29,20,0.15); backface-visibility:hidden; }
   .seal{ position:absolute; left:50%; top:58%; transform:translate(-50%,-50%); width:48px; height:48px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #E4C877, var(--gold) 60%, #8f7115 100%); box-shadow:0 4px 10px rgba(42,29,20,0.4); display:flex; align-items:center; justify-content:center; }
   .seal span{ font-family:'Cormorant Garamond',serif; font-style:italic; color:#3d2c10; font-size:0.95rem; }
   .seal .crack{ position:absolute; inset:0; background:conic-gradient(from 210deg at 50% 50%, transparent 0deg, rgba(20,14,8,0.35) 2deg, transparent 4deg, transparent 190deg, rgba(20,14,8,0.3) 192deg, transparent 194deg); opacity:0; border-radius:50%; }
@@ -67,7 +67,7 @@
   .invitation .amp{ color:var(--gold); }
   .invitation .tag{ font-size:0.68rem; letter-spacing:0.24em; color:var(--accent); text-transform:uppercase; margin-top:4px; }
 
-  .leaf-l,.leaf-r{ position:absolute; top:0; bottom:0; width:50%; background:var(--card); border:1px solid rgba(58,42,30,0.16); opacity:0; }
+  .leaf-l,.leaf-r{ position:absolute; top:0; bottom:0; width:50%; background:var(--card); border:1px solid rgba(58,42,30,0.16); opacity:0; backface-visibility:hidden; }
   .leaf-l{ left:0; transform-origin:left center; }
   .leaf-r{ right:0; transform-origin:right center; }
 
@@ -377,8 +377,8 @@ envTl
   .to('#invitation', { y:'-56%', scale:1.06, boxShadow:'0 40px 70px rgba(42,29,20,0.35)', duration:0.22, ease:'power2.out' }, 0.42)
   .to('.camera', { scale:1.15, duration:0.3, ease:'power1.inOut' }, 0.42)
   .to('#invitation', { opacity:0, duration:0.12 }, 0.68)
-  .fromTo('#leafL', { opacity:1, rotateY:0 }, { opacity:1, rotateY:-100, duration:0.2, ease:'power2.inOut' }, 0.7)
-  .fromTo('#leafR', { opacity:1, rotateY:0 }, { opacity:1, rotateY:100, duration:0.2, ease:'power2.inOut' }, 0.7)
+  .fromTo('#leafL', { opacity:0, rotateY:0 }, { opacity:1, rotateY:-100, duration:0.2, ease:'power2.inOut', immediateRender:false }, 0.7)
+  .fromTo('#leafR', { opacity:0, rotateY:0 }, { opacity:1, rotateY:100, duration:0.2, ease:'power2.inOut', immediateRender:false }, 0.7)
   .to('.camera', { scale:1, duration:0.15 }, 0.9);
 
 // ===== PAGE TURNS (scrub-linked, alternating hinge) =====
