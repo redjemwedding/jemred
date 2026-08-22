@@ -3,180 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation</title>
+    <title>Wedding Invitation - Red & Jemie</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f7f5f0;
-            --envelope-color: #4a5d4e; /* Elegant Sage Green */
-            --envelope-inside: #3d4f41;
-            --card-color: #ffffff;
-            --text-color: #333333;
-            --gold: #d4af37;
+            --bg-canvas: #fcfbfa;
+            --envelope-main: #3a4d39; /* Elegant deep sage green */
+            --envelope-shadow: #2c3a2b;
+            --envelope-lining: #4f6f52;
+            --accent-gold: #c5a880;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --pastel-brown: #a89481; /* Palette reference from requirements */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            background-color: var(--bg-canvas);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: var(--bg-color);
-            font-family: 'Georgia', serif;
-            overflow: hidden;
+            overflow-x: hidden;
+            perspective: 1500px;
         }
 
-        /* Envelope Container */
-        .envelope-wrapper {
+        /* Presentation Wrapper */
+        .scene {
             position: relative;
-            width: 450px;
-            height: 300px;
-            background-color: var(--envelope-inside);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 520px;
+            height: 650px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Interactive Envelope Structure */
+        .envelope-container {
+            position: absolute;
+            width: 480px;
+            height: 340px;
+            background-color: var(--envelope-lining);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12), 0 12px 25px rgba(0,0,0,0.08);
             cursor: pointer;
-            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            bottom: 60px;
         }
 
-        /* Front Flaps & Body */
-        .envelope-wrapper::before {
-            content: '';
-            position: absolute;
-            z-index: 3;
-            border-left: 225px solid transparent;
-            border-right: 225px solid transparent;
-            border-bottom: 150px solid var(--envelope-color);
-            bottom: 0;
-            width: 0;
-            height: 0;
+        .envelope-container:hover {
+            transform: translateY(-5px);
         }
 
-        .envelope-wrapper::after {
-            content: '';
-            position: absolute;
-            z-index: 3;
-            border-top: 150px solid transparent;
-            border-bottom: 150px solid transparent;
-            border-left: 225px solid rgba(255, 255, 255, 0.05);
-            bottom: 0;
-            left: 0;
-        }
-
-        /* Top Lid */
-        .lid {
+        /* 3D Envelope Lid */
+        .envelope-lid {
             position: absolute;
             top: 0;
             left: 0;
             width: 0;
             height: 0;
-            border-left: 225px solid transparent;
-            border-right: 225px solid transparent;
-            border-top: 150px solid var(--envelope-color);
-            transform-origin: top;
-            transition: transform 0.6s ease-in-out;
+            border-left: 240px solid transparent;
+            border-right: 240px solid transparent;
+            border-top: 180px solid var(--envelope-main);
+            transform-origin: top center;
+            transform: rotateX(0deg);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s 0.3s;
             z-index: 4;
+            filter: drop-shadow(0 4px 5px rgba(0,0,0,0.15));
         }
 
-        /* Wax Seal */
+        /* Front Pocket construction */
+        .envelope-base {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 240px solid transparent;
+            border-right: 240px solid transparent;
+            border-bottom: 170px solid var(--envelope-main);
+            z-index: 3;
+        }
+
+        .envelope-sides {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 170px solid transparent;
+            border-bottom: 170px solid transparent;
+            border-left: 240px solid var(--envelope-shadow);
+            z-index: 2;
+            opacity: 0.4;
+        }
+
+        .envelope-sides-right {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 170px solid transparent;
+            border-bottom: 170px solid transparent;
+            border-right: 240px solid var(--envelope-shadow);
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        /* Custom Monogram Wax Seal */
         .wax-seal {
             position: absolute;
-            top: 135px;
-            left: 205px;
-            width: 40px;
-            height: 40px;
-            background-color: var(--gold);
+            top: 150px;
+            left: calc(50% - 32px);
+            width: 64px;
+            height: 64px;
+            background: radial-gradient(circle, #dfba8c 0%, #b39265 100%);
             border-radius: 50%;
             z-index: 5;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: opacity 0.3s ease-in-out;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.4);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
-            font-size: 18px;
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
             font-weight: bold;
+            color: #4a3e2e;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.2);
+            border: 2px dashed rgba(0,0,0,0.1);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        /* Invitation Card */
+        /* One-of-a-kind Multi-layered Wedding Card */
         .wedding-card {
             position: absolute;
-            bottom: 10px;
-            left: 25px;
-            width: 400px;
-            height: 260px;
-            background-color: var(--card-color);
-            z-index: 2;
-            transition: transform 0.6s ease-in-out 0.4s;
-            padding: 30px;
+            left: 20px;
+            bottom: 15px;
+            width: 440px;
+            height: 580px;
+            background-color: #ffffff;
+            z-index: 1;
+            padding: 35px 25px;
             box-sizing: border-box;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) 0.4s, z-index 0.1s 0.4s;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        /* Custom internal scrollbar decoration */
+        .wedding-card::-webkit-scrollbar { width: 4px; }
+        .wedding-card::-webkit-scrollbar-thumb { background-color: var(--accent-gold); }
+
+        /* Typography Styling */
+        .card-border {
+            border: 1px solid var(--accent-gold);
+            height: 100%;
+            width: 100%;
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
         }
 
-        .wedding-card h1 {
-            font-size: 24px;
-            margin: 0 0 10px 0;
-            color: var(--text-color);
-            font-weight: normal;
+        .hashtag {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--pastel-brown);
+            text-transform: uppercase;
+            margin-bottom: 15px;
         }
 
-        .wedding-card p {
+        .main-title {
+            font-family: 'Cinzel', serif;
             font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+        }
+
+        .couple-names {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .couple-names span {
+            display: block;
+            font-size: 18px;
+            color: var(--accent-gold);
             margin: 5px 0;
-            color: #666;
+            font-weight: 300;
+        }
+
+        .request-text {
+            font-size: 11px;
+            font-style: italic;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 30px;
+            max-width: 280px;
+        }
+
+        .section-divider {
+            width: 40px;
+            height: 1px;
+            background-color: var(--accent-gold);
+            margin: 15px 0;
+        }
+
+        .event-datetime {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .event-time {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        /* Locations Structure using CSS Grid */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .location-column {
+            text-align: center;
+            padding: 5px;
+        }
+
+        .loc-title {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .loc-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .loc-city {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* Dress Code Panel */
+        .attire-panel {
+            background-color: #faf8f5;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .attire-title {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .attire-desc {
+            font-size: 11px;
+            color: var(--text-muted);
             line-height: 1.6;
         }
 
-        .wedding-card .date {
-            font-weight: bold;
-            color: var(--envelope-color);
-            margin-top: 15px;
+        .reminder-tag {
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            color: #b33939;
+            margin-top: 10px;
+            font-weight: 500;
         }
 
-        /* --- Animation States (Triggered by Active Class) --- */
-        
-        /* 1. Open the Lid */
-        .envelope-wrapper.open .lid {
+        /* --- Active Open Animation Sequence States --- */
+        .scene.is-open .envelope-lid {
             transform: rotateX(180deg);
             z-index: 1;
         }
 
-        /* 2. Hide the Wax Seal */
-        .envelope-wrapper.open .wax-seal {
+        .scene.is-open .wax-seal {
             opacity: 0;
+            transform: scale(0.7);
             pointer-events: none;
         }
 
-        /* 3. Slide the Card Up out of the envelope */
-        .envelope-wrapper.open .wedding-card {
-            transform: translateY(-180px);
+        .scene.is-open .wedding-card {
+            transform: translateY(-240px);
             z-index: 5;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .scene.is-open .envelope-container {
+            transform: translateY(120px);
+        }
+
+        /* Responsive adaptation */
+        @media (max-width: 500px) {
+            .scene { transform: scale(0.8); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Click anywhere on the envelope to open -->
-    <div class="envelope-wrapper" onclick="toggleEnvelope()">
-        <div class="lid"></div>
-        <div class="wax-seal">W</div>
-        
-        <div class="wedding-card">
-            <h1>Save the Date</h1>
-            <p>Together with their families</p>
-            <p style="font-size: 18px; color: var(--gold); margin: 10px 0;"><strong>Emma & Alexander</strong></p>
-            <p>invite you to celebrate their wedding</p>
-            <p class="date">OCTOBER 24, 2026</p>
-            <p style="font-size: 12px; letter-spacing: 1px;">THE GRAND CHATEAU</p>
-        </div>
-    </div>
-
-    <script>
-        function toggleEnvelope() {
-            const envelope = document.querySelector('.envelope-wrapper');
-            envelope.classList.toggle('open');
-        }
-    </script>
-
-</body>
-</html>
+    <div class="scene" id="invitationScene">
