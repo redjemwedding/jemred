@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSIXRON Laundry Services | Coming Soon</title>
+<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Caveat:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-deep:#050b14;
+  --navy:#0a1a2c;
+  --navy-soft:#0f2338;
+  --cyan:#29c5f6;
+  --cyan-bright:#7fe3ff;
+  --silver:#e6edf3;
+  --muted:#7e93a8;
+  --gold:#d4af37;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--navy-deep);
+  color:var(--silver);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow-x:hidden;
+}
+
+/* ── HEADER ── */
+header{
+  position:relative;
+  z-index:10;
+  padding:24px clamp(20px,6vw,64px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+header .rlogo{display:flex;align-items:center;gap:10px;}
+header .rlogo img{height:30px;width:auto;opacity:0.9;}
+header .rlogo span{
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+header a.back{
+  font-size:13px;
+  color:var(--muted);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:color 0.2s, border-color 0.2s;
+}
+header a.back:hover{color:var(--cyan-bright);border-color:var(--cyan-bright);}
+
+/* ── BUBBLE FIELD (signature) ── */
+.bubbles{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.bubble{
+  position:absolute;
+  bottom:-10%;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, rgba(127,227,255,0.55), rgba(41,197,246,0.05) 70%);
+  box-shadow:0 0 18px rgba(41,197,246,0.25);
+  animation:rise linear infinite;
+}
+@keyframes rise{
+  from{ transform:translateY(0) translateX(0); opacity:0; }
+  10%{ opacity:0.8; }
+  90%{ opacity:0.5; }
+  to{ transform:translateY(-115vh) translateX(var(--drift,20px)); opacity:0; }
+}
+@media (prefers-reduced-motion:reduce){
+  .bubble{ animation:none; display:none; }
+}
+
+/* ── MAIN ── */
+main{
+  position:relative;
+  z-index:2;
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px 80px;
+}
+.stage{
+  max-width:680px;
+  width:100%;
+  text-align:center;
+  position:relative;
+}
+
+.logo-halo{
+  position:relative;
+  width:clamp(190px,30vw,260px);
+  margin:0 auto 36px;
+}
+.logo-halo::before{
+  content:'';
+  position:absolute;
+  inset:-30%;
+  background:radial-gradient(circle, rgba(41,197,246,0.35), transparent 65%);
+  filter:blur(10px);
+  z-index:-1;
+}
+.logo-halo img{
+  width:100%;
+  height:auto;
+  display:block;
+  filter:drop-shadow(0 18px 40px rgba(0,0,0,0.6));
+}
+
+.eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  letter-spacing:0.28em;
+  text-transform:uppercase;
+  color:var(--cyan);
+  margin-bottom:14px;
+}
+
+.tagline{
+  font-family:'Caveat',cursive;
+  font-weight:700;
+  font-size:clamp(30px,5.5vw,44px);
+  color:var(--cyan-bright);
+  line-height:1;
+  margin-bottom:8px;
+  transform:rotate(-1.5deg);
+}
+
+h1{
+  font-family:'Archivo',sans-serif;
+  font-weight:900;
+  font-size:clamp(15px,2vw,17px);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:30px;
+}
+
+/* SERVICE BADGES — echoes the WASH/DRY/FOLD/HANG/STEAM ring in the logo */
+.services{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:clamp(14px,3vw,26px);
+  margin-bottom:40px;
+}
+.service{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  width:74px;
+}
+.service .ring{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  background:radial-gradient(circle at 35% 30%, var(--navy-soft), var(--navy));
+  border:1px solid rgba(127,227,255,0.35);
+  box-shadow:inset 0 0 12px rgba(41,197,246,0.15), 0 0 0 rgba(0,0,0,0);
+  transition:box-shadow 0.25s ease, transform 0.25s ease;
+}
+.service:hover .ring{
+  box-shadow:inset 0 0 12px rgba(41,197,246,0.3), 0 0 18px rgba(41,197,246,0.35);
+  transform:translateY(-3px);
+}
+.service span.label{
+  font-size:10px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  border:1px solid rgba(127,227,255,0.25);
+  padding:8px 18px;
+  border-radius:40px;
+  margin-bottom:34px;
+}
+.status .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);
+  animation:pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:0.4;transform:scale(0.85);}
+  50%{opacity:1;transform:scale(1.2);}
+}
+@media (prefers-reduced-motion:reduce){ .status .dot{animation:none;} }
+
+.cta-row{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-block;
+  padding:14px 34px;
+  border-radius:40px;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  transition:opacity 0.2s, transform 0.2s;
+}
+.btn-primary{
+  background:linear-gradient(135deg, var(--cyan), var(--cyan-bright));
+  color:#03151f;
+}
+.btn-primary:hover{opacity:0.88;transform:translateY(-1px);}
+.btn-ghost{
+  color:var(--silver);
+  border:1px solid rgba(255,255,255,0.15);
+}
+.btn-ghost:hover{border-color:var(--cyan-bright);color:var(--cyan-bright);}
+
+footer{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:22px 20px 30px;
+  font-size:11px;
+  letter-spacing:0.08em;
+  color:rgba(255,255,255,0.25);
+}
+</style>
+</head>
+<body>
+
+<div class="bubbles" id="bubbleField"></div>
+
+<header>
+  <div class="rlogo">
+    <img src="img/logo.png" alt="redjemie Visions">
+    <span>redjemie Visions</span>
+  </div>
+  <a class="back" href="index.html">← Back to redjemie Visions</a>
+</header>
+
+<main>
+  <div class="stage">
+    <div class="logo-halo">
+      <img src="assets/jsixron-laundry-logo.png" alt="JSIXRON Laundry Services">
+    </div>
+
+    <div class="eyebrow">JSIXRON Laundry Services</div>
+    <div class="tagline">"Clean Clothes, Fresh Life!"</div>
+    <h1>Manila &nbsp;·&nbsp; By redjemie.com</h1>
+
+    <div class="services">
+      <div class="service"><div class="ring">🧺</div><span class="label">Wash</span></div>
+      <div class="service"><div class="ring">🌬️</div><span class="label">Dry</span></div>
+      <div class="service"><div class="ring">🧻</div><span class="label">Fold</span></div>
+      <div class="service"><div class="ring">👕</div><span class="label">Hang</span></div>
+      <div class="service"><div class="ring">✨</div><span class="label">Steam</span></div>
+    </div>
+
+    <div class="status"><span class="dot"></span>Opening Soon</div>
+
+    <div class="cta-row">
+      <a href="mailto:info@redjemie.com" class="btn btn-primary">Get Notified</a>
+      <a href="index.html" class="btn btn-ghost">Explore redjemie Visions</a>
+    </div>
+  </div>
+</main>
+
+<footer>© 2025 redjemie Visions · JSIXRON Laundry Services · All rights reserved</footer>
+
+<script>
+(function(){
+  var field = document.getElementById('bubbleField');
+  var count = window.matchMedia('(max-width: 640px)').matches ? 10 : 18;
+  for (var i = 0; i < count; i++){
+    var b = document.createElement('div');
+    b.className = 'bubble';
+    var size = 6 + Math.random() * 22;
+    b.style.width = size + 'px';
+    b.style.height = size + 'px';
+    b.style.left = Math.random() * 100 + '%';
+    b.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+    var duration = 9 + Math.random() * 10;
+    b.style.animationDuration = duration + 's';
+    b.style.animationDelay = (Math.random() * duration) + 's';
+    field.appendChild(b);
+  }
+})();
+</script>
+
+</body>
+</html>
