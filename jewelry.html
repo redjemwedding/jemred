@@ -12,15 +12,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital@1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ivory: #f7f2e7;
-  --ivory-deep: #efe4cd;
+  --ivory: #faf8f3;
+  --ivory-deep: #f1ece2;
   --gold: #b8862f;
-  --gold-bright: #d9ac54;
+  --gold-bright: #c99a3f;
   --burgundy: #7a1f2b;
   --burgundy-deep: #5c141d;
   --ink: #241d17;
-  --muted: #7a6f60;
-  --hairline: rgba(36,29,23,0.14);
+  --muted: #7a7266;
+  --hairline: rgba(36,29,23,0.12);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -35,7 +35,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(to bottom, rgba(247,242,231,0.92), transparent);
+  background: linear-gradient(to bottom, rgba(248,246,241,0.92), transparent);
 }
 .brand-mark { display: flex; align-items: center; gap: 12px; }
 .brand-mark img { height: clamp(32px,4.5vw,40px); width: auto; border-radius: 50%; }
@@ -50,13 +50,12 @@ nav a:hover { color: var(--burgundy); }
 nav { display: none; }
 @media (min-width: 900px) { nav { display: block; } }
 
-/* ── MARBLE TEXTURE MIXIN ── */
+/* ── MARBLE TEXTURE — real generated marble image, not fake CSS lines ── */
 .marble {
-  background:
-    radial-gradient(circle at 15% 10%, rgba(217,172,84,0.16), transparent 42%),
-    radial-gradient(circle at 85% 88%, rgba(122,31,43,0.10), transparent 48%),
-    radial-gradient(circle at 60% 40%, rgba(184,134,47,0.08), transparent 55%),
-    linear-gradient(135deg, #faf6ec, #efe4cd);
+  background-color: #faf8f3;
+  background-image: url('marble-bg.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* ── HERO ── */
@@ -75,7 +74,7 @@ nav { display: none; }
   width: clamp(190px,30vw,260px);
   height: auto;
   border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(184,134,47,0.35), 0 30px 70px rgba(36,29,23,0.18);
+  box-shadow: 0 0 0 1px rgba(184,134,47,0.3), 0 30px 70px rgba(36,29,23,0.15);
   margin-bottom: 34px;
 }
 .hero .eyebrow {
@@ -126,7 +125,7 @@ nav { display: none; }
 }
 .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-bright)); color: #1c1108; }
 .btn-gold:hover { opacity: 0.88; transform: translateY(-1px); }
-.btn-outline { border: 1px solid rgba(36,29,23,0.28); color: var(--ink); }
+.btn-outline { border: 1px solid rgba(36,29,23,0.26); color: var(--ink); }
 .btn-outline:hover { border-color: var(--burgundy); color: var(--burgundy); }
 
 /* ── SECTION SHELL ── */
@@ -208,12 +207,12 @@ nav { display: none; }
 }
 .heritage-frame {
   aspect-ratio: 4/5;
-  border: 1px solid rgba(184,134,47,0.4);
+  border: 1px solid rgba(184,134,47,0.35);
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(122,31,43,0.55);
+  color: rgba(122,31,43,0.5);
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -237,18 +236,18 @@ nav { display: none; }
   aspect-ratio: 3/4;
   border-radius: 6px;
   overflow: hidden;
-  border: 1px solid rgba(184,134,47,0.3);
+  border: 1px solid rgba(184,134,47,0.28);
   display: flex;
   align-items: flex-end;
   padding: 18px;
   transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
-.gallery-item:hover { border-color: var(--burgundy); transform: translateY(-3px); box-shadow: 0 14px 30px rgba(36,29,23,0.12); }
+.gallery-item:hover { border-color: var(--burgundy); transform: translateY(-3px); box-shadow: 0 14px 30px rgba(36,29,23,0.1); }
 .gallery-item .placeholder-tag {
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(122,31,43,0.45);
+  color: rgba(122,31,43,0.42);
   position: absolute;
   top: 16px;
   left: 18px;
@@ -265,7 +264,7 @@ nav { display: none; }
   margin: 0 auto;
   aspect-ratio: 16/9;
   border-radius: 6px;
-  border: 1px solid rgba(184,134,47,0.35);
+  border: 1px solid rgba(184,134,47,0.32);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -289,7 +288,7 @@ nav { display: none; }
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(122,31,43,0.5);
+  color: rgba(122,31,43,0.48);
 }
 
 /* ── VISIT / CONTACT ── */
@@ -309,7 +308,7 @@ nav { display: none; }
 }
 .visit-card {
   background: var(--ivory);
-  border: 1px solid rgba(184,134,47,0.3);
+  border: 1px solid rgba(184,134,47,0.28);
   border-radius: 6px;
   padding: 32px;
 }
@@ -345,7 +344,7 @@ footer {
 }
 .footer-copy {
   font-size: 11px;
-  color: rgba(247,242,231,0.35);
+  color: rgba(248,246,241,0.35);
   letter-spacing: 0.06em;
 }
 </style>
@@ -354,7 +353,7 @@ footer {
 
 <header>
   <div class="brand-mark">
-    <img src="bgd-jewelry-logo.PNG" alt="Binondo Gold Diamond Jewelry">
+    <img src="bgd-jewelry-logo.png" alt="Binondo Gold Diamond Jewelry">
     <span>BGD Jewelry</span>
   </div>
   <nav>
@@ -367,7 +366,7 @@ footer {
 
 <!-- HERO -->
 <section class="hero marble">
-  <img class="hero-logo" src="bgd-jewelry-logo.PNG" alt="Binondo Gold Diamond Jewelry crest">
+  <img class="hero-logo" src="bgd-jewelry-logo.png" alt="Binondo Gold Diamond Jewelry crest">
   <div class="eyebrow">Est. MMXX &nbsp;·&nbsp; Binondo, Manila</div>
   <h1>Binondo Gold<br>Diamond Jewelry</h1>
   <div class="lede">"Finest Quality. Timeless Elegance."</div>
