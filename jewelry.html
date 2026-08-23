@@ -3,132 +3,456 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Coming Soon | redjemie Visions</title>
-
-<!-- FAVICON -->
+<title>BGD Jewelry | Binondo Gold Diamond Jewelry</title>
+<meta name="description" content="Binondo Gold Diamond Jewelry — fine jewelry defined by timeless craftsmanship. Finest quality, timeless elegance. Est. MMXX.">
 <link rel="icon" type="image/png" href="img/logo.png">
 <link rel="apple-touch-icon" href="img/logo.png">
-
-<!-- GOOGLE FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:ital@1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold: #d4af37;
-  --bg: #050505;
-  --text: #f4f4f4;
-  --muted: #bdbdbd;
+  --ivory: #f7f2e7;
+  --ivory-deep: #efe4cd;
+  --gold: #b8862f;
+  --gold-bright: #d9ac54;
+  --burgundy: #7a1f2b;
+  --burgundy-deep: #5c141d;
+  --ink: #241d17;
+  --muted: #7a6f60;
+  --hairline: rgba(36,29,23,0.14);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--ivory); color: var(--ink); }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #111, #000);
-  color: var(--text);
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
+/* ── HEADER ── */
+header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  padding: clamp(16px,4vw,26px) clamp(20px,6vw,72px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(247,242,231,0.92), transparent);
 }
-
-/* ================= CONTAINER ================= */
-.wrapper {
-  text-align: center;
-  padding: 60px 28px;
-  max-width: 520px;
-}
-
-/* LOGO */
-.logo {
-  margin-bottom: 40px;
-}
-
-.logo img {
-  height: 46px;
-  opacity: .9;
-}
-
-/* TITLE */
-h1 {
+.brand-mark { display: flex; align-items: center; gap: 12px; }
+.brand-mark img { height: clamp(32px,4.5vw,40px); width: auto; border-radius: 50%; }
+.brand-mark span {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(34px, 6vw, 46px);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+nav a { margin-left: 30px; font-size: 13px; color: var(--muted); text-decoration: none; letter-spacing: 0.03em; }
+nav a:hover { color: var(--burgundy); }
+nav { display: none; }
+@media (min-width: 900px) { nav { display: block; } }
+
+/* ── MARBLE TEXTURE MIXIN ── */
+.marble {
+  background:
+    radial-gradient(circle at 15% 10%, rgba(217,172,84,0.16), transparent 42%),
+    radial-gradient(circle at 85% 88%, rgba(122,31,43,0.10), transparent 48%),
+    radial-gradient(circle at 60% 40%, rgba(184,134,47,0.08), transparent 55%),
+    linear-gradient(135deg, #faf6ec, #efe4cd);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 140px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-logo {
+  width: clamp(190px,30vw,260px);
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(184,134,47,0.35), 0 30px 70px rgba(36,29,23,0.18);
+  margin-bottom: 34px;
+}
+.hero .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--burgundy);
   margin-bottom: 18px;
 }
-
-/* SUBTEXT */
-p {
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--muted);
-  margin-bottom: 40px;
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: clamp(34px,6vw,58px);
+  line-height: 1.1;
+  max-width: 780px;
+  color: var(--ink);
 }
-
-/* BUTTONS */
-.actions {
+.hero .lede {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(18px,2.6vw,24px);
+  color: var(--gold);
+  margin-top: 20px;
+}
+.hero .desc {
+  max-width: 520px;
+  margin-top: 26px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.hero .cta-row {
   display: flex;
   gap: 16px;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 40px;
 }
-
-.actions a {
+.btn {
+  display: inline-block;
   padding: 14px 34px;
   border-radius: 40px;
-  font-size: 14px;
   text-decoration: none;
-  font-weight: 500;
-  letter-spacing: .4px;
-}
-
-.primary {
-  background: var(--gold);
-  color: #000;
-}
-
-.secondary {
-  border: 1px solid rgba(255,255,255,.25);
-  color: var(--text);
-}
-
-/* FOOTER NOTE */
-.note {
-  margin-top: 50px;
   font-size: 13px;
-  color: #777;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.2s, border-color 0.2s, color 0.2s, background 0.2s;
+}
+.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-bright)); color: #1c1108; }
+.btn-gold:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-outline { border: 1px solid rgba(36,29,23,0.28); color: var(--ink); }
+.btn-outline:hover { border-color: var(--burgundy); color: var(--burgundy); }
+
+/* ── SECTION SHELL ── */
+.section {
+  padding: clamp(70px,12vw,120px) clamp(24px,8vw,90px);
+  position: relative;
+}
+.section-head {
+  max-width: 640px;
+  margin: 0 auto 54px;
+  text-align: center;
+}
+.section-head .eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+  margin-bottom: 14px;
+}
+.section-head h2 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: clamp(28px,4vw,42px);
+  line-height: 1.2;
+  color: var(--ink);
+}
+.section-head p {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.divider {
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto 20px;
+}
+
+/* ── HERITAGE ── */
+.heritage {
+  background: var(--ivory-deep);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+}
+.heritage-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 800px) {
+  .heritage-grid { grid-template-columns: 1fr 1fr; align-items: center; }
+}
+.heritage-copy p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.heritage-stats {
+  display: flex;
+  gap: 36px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+.heritage-stats div b {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--burgundy);
+}
+.heritage-stats div span {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.heritage-frame {
+  aspect-ratio: 4/5;
+  border: 1px solid rgba(184,134,47,0.4);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(122,31,43,0.55);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ── COLLECTIONS GALLERY ── */
+.gallery-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px,2vw,24px);
+}
+@media (min-width: 720px) {
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.gallery-item {
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(184,134,47,0.3);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.gallery-item:hover { border-color: var(--burgundy); transform: translateY(-3px); box-shadow: 0 14px 30px rgba(36,29,23,0.12); }
+.gallery-item .placeholder-tag {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(122,31,43,0.45);
+  position: absolute;
+  top: 16px;
+  left: 18px;
+}
+.gallery-item .cap {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+/* ── VIDEO SHOWCASE ── */
+.video-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  aspect-ratio: 16/9;
+  border-radius: 6px;
+  border: 1px solid rgba(184,134,47,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  text-align: center;
+  padding: 20px;
+}
+.video-wrap .play {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--burgundy);
+  font-size: 20px;
+}
+.video-wrap .placeholder-note {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(122,31,43,0.5);
+}
+
+/* ── VISIT / CONTACT ── */
+.visit {
+  background: var(--ivory-deep);
+  border-top: 1px solid var(--hairline);
+}
+.visit-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 800px) {
+  .visit-grid { grid-template-columns: 1fr 1fr; }
+}
+.visit-card {
+  background: var(--ivory);
+  border: 1px solid rgba(184,134,47,0.3);
+  border-radius: 6px;
+  padding: 32px;
+}
+.visit-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: var(--burgundy);
+}
+.visit-card p, .visit-card a {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--muted);
+  text-decoration: none;
+}
+.visit-card a:hover { color: var(--burgundy); }
+
+/* ── FOOTER ── */
+footer {
+  background: #1c1109;
+  padding: 2.5rem clamp(24px,10vw,90px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--gold-bright);
+  letter-spacing: 0.05em;
+}
+.footer-copy {
+  font-size: 11px;
+  color: rgba(247,242,231,0.35);
+  letter-spacing: 0.06em;
 }
 </style>
 </head>
-
 <body>
 
-<div class="wrapper">
-
-  <!-- LOGO -->
-  <div class="logo">
-    <img src="img/logo.png" alt="redjemie Visions">
+<header>
+  <div class="brand-mark">
+    <img src="bgd-jewelry-logo.png" alt="Binondo Gold Diamond Jewelry">
+    <span>BGD Jewelry</span>
   </div>
+  <nav>
+    <a href="index.html">redjemie Visions</a>
+    <a href="#heritage">Heritage</a>
+    <a href="#collections">Collections</a>
+    <a href="#visit">Visit</a>
+  </nav>
+</header>
 
-  <!-- TITLE -->
-  <h1>Coming Soon</h1>
-
-  <!-- DESCRIPTION -->
-  <p>
-    This business unit under <strong>redjemie Visions</strong>  
-    is currently in development and will be launching soon.
-  </p>
-
-  <!-- ACTIONS -->
-  <div class="actions">
-    <a href="index.html" class="primary">Back to Main Site</a>
+<!-- HERO -->
+<section class="hero marble">
+  <img class="hero-logo" src="bgd-jewelry-logo.png" alt="Binondo Gold Diamond Jewelry crest">
+  <div class="eyebrow">Est. MMXX &nbsp;·&nbsp; Binondo, Manila</div>
+  <h1>Binondo Gold<br>Diamond Jewelry</h1>
+  <div class="lede">"Finest Quality. Timeless Elegance."</div>
+  <p class="desc">Fine jewelry defined by timeless craftsmanship, rooted in Binondo's centuries-old tradition of gold and diamond trade.</p>
+  <div class="cta-row">
+    <a href="#collections" class="btn btn-gold">View Collections</a>
+    <a href="#visit" class="btn btn-outline">Visit the Showroom</a>
   </div>
+</section>
 
-  <!-- FOOTER -->
-  <div class="note">
-    © redjemie Visions. All Rights Reserved.
+<!-- HERITAGE -->
+<section class="section heritage" id="heritage">
+  <div class="heritage-grid">
+    <div class="heritage-copy">
+      <div class="eyebrow" style="text-align:left;">Our Heritage</div>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:600;font-size:clamp(26px,3.5vw,36px);margin-bottom:20px;color:var(--ink);">Crafted in the heart of Binondo</h2>
+      <p>Binondo Gold Diamond Jewelry was founded in the world's oldest Chinatown, a district built on generations of gold and diamond trade. Every piece carries that inheritance: exacting craftsmanship, honest weight, and stones chosen with a trader's eye.</p>
+      <p>Since MMXX, we've served collectors and families who see jewelry not as decoration, but as something passed down.</p>
+      <div class="heritage-stats">
+        <div><b>MMXX</b><span>Founded</span></div>
+        <div><b>18K/24K</b><span>Gold Grades</span></div>
+        <div><b>Binondo</b><span>Manila</span></div>
+      </div>
+    </div>
+    <div class="heritage-frame marble">Heritage / Showroom Photo<br>— place image here —</div>
   </div>
+</section>
 
-</div>
+<!-- COLLECTIONS GALLERY -->
+<section class="section" id="collections">
+  <div class="section-head">
+    <div class="divider"></div>
+    <div class="eyebrow">Collections</div>
+    <h2>Curated for every occasion</h2>
+    <p>Six placeholder slots below — send over your product photos and I'll drop them straight in.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item marble"><span class="placeholder-tag">Image 1</span><span class="cap">Rings</span></div>
+    <div class="gallery-item marble"><span class="placeholder-tag">Image 2</span><span class="cap">Necklaces</span></div>
+    <div class="gallery-item marble"><span class="placeholder-tag">Image 3</span><span class="cap">Bracelets</span></div>
+    <div class="gallery-item marble"><span class="placeholder-tag">Image 4</span><span class="cap">Earrings</span></div>
+    <div class="gallery-item marble"><span class="placeholder-tag">Image 5</span><span class="cap">Bridal Sets</span></div>
+    <div class="gallery-item marble"><span class="placeholder-tag">Image 6</span><span class="cap">Custom Pieces</span></div>
+  </div>
+</section>
+
+<!-- VIDEO SHOWCASE -->
+<section class="section">
+  <div class="section-head">
+    <div class="divider"></div>
+    <div class="eyebrow">In Motion</div>
+    <h2>See the craftsmanship</h2>
+  </div>
+  <div class="video-wrap marble">
+    <div class="play">▶</div>
+    <div class="placeholder-note">Video will be embedded here</div>
+  </div>
+</section>
+
+<!-- VISIT / CONTACT -->
+<section class="section visit" id="visit">
+  <div class="section-head">
+    <div class="divider"></div>
+    <div class="eyebrow">Visit Us</div>
+    <h2>Come see the collection</h2>
+  </div>
+  <div class="visit-grid">
+    <div class="visit-card">
+      <h3>Showroom</h3>
+      <p>Binondo, Manila, Philippines</p>
+      <p style="margin-top:10px;">Exact address to be added</p>
+    </div>
+    <div class="visit-card">
+      <h3>Get in Touch</h3>
+      <p><a href="mailto:info@redjemie.com">info@redjemie.com</a></p>
+      <p style="margin-top:6px;">Phone number to be added</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BGD Jewelry &nbsp;·&nbsp; by redjemie Visions</div>
+  <div class="footer-copy">© 2025 Binondo Gold Diamond Jewelry · All rights reserved</div>
+</footer>
 
 </body>
 </html>
