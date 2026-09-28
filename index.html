@@ -1,585 +1,961 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>redjemie Visions | A Collective of Signature Brands</title>
-<link rel="icon" type="image/png" href="img/logo.png">
-<link rel="apple-touch-icon" href="img/logo.png">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>redjemie Visions | Signature Brands. One Vision.</title>
+<meta name="description" content="A curated group of businesses spanning technology, education, weddings, luxury jewelry, hospitality, trading, and beauty.">
+<meta name="theme-color" content="#050506">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<noscript><style>#loader{display:none!important}.rv{opacity:1!important;transform:none!important;filter:none!important}</style></noscript>
 <style>
-:root {
-  --gold: #d4af37;
-  --bg: #050505;
-  --text: #f4f4f4;
-  --muted: #bdbdbd;
+:root{
+  --gold:#D4AF37;
+  --accent-rgb:212,175,55;
+  --fg:#F5F3EF;
+  --muted:rgba(245,243,239,.74);
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:#050506;color:var(--fg);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:8px}
+.serif{font-family:'Playfair Display',Georgia,'Times New Roman',serif}
 
-/* ── HEADER ── */
-header {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 100;
-  padding: clamp(16px,4vw,28px) clamp(20px,6vw,72px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent);
-}
-.logo img { height: clamp(34px,5vw,44px); width: auto; display: block; }
-nav { display: none; }
-nav a { margin-left: 32px; font-size: 14px; color: var(--muted); text-decoration: none; }
-nav a:hover { color: var(--gold); }
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:300;background:#050506;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,visibility .9s ease}
+#loader.done{opacity:0;visibility:hidden}
+.ld-inner{display:flex;flex-direction:column;align-items:center;gap:18px}
+.ld-mark circle{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1.6s var(--ease) forwards}
+.ld-mark text{opacity:0;animation:fadein .9s .7s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadein{to{opacity:1}}
+.ld-name{font-size:22px;letter-spacing:.14em;opacity:0;animation:fadein .9s .5s ease forwards}
+.ld-bar{width:180px;height:1px;background:rgba(255,255,255,.14);overflow:hidden}
+.ld-bar span{display:block;height:100%;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left}
 
-/* ── SECTIONS ── */
-.section {
-  min-height: 100svh;
-  padding:
-    clamp(110px,18vw,190px)
-    clamp(24px,10vw,160px)
-    clamp(90px,14vw,160px);
-  display: grid;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-.layer { position: absolute; inset: 0; opacity: .95; }
-.content { position: relative; max-width: 560px; }
-.content h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(34px,6vw,56px);
-  line-height: 1.15;
-  margin-bottom: 22px;
-}
-.content p {
-  font-size: clamp(16px,3.8vw,18px);
-  line-height: 1.7;
-  color: var(--muted);
-  margin-bottom: 38px;
-}
-.content a.btn {
-  display: inline-block;
-  padding: 14px 38px;
-  border-radius: 40px;
-  background: var(--gold);
-  color: #000;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-  transition: opacity 0.2s, transform 0.2s;
-}
-.content a.btn:hover { opacity: 0.85; transform: translateY(-1px); }
+/* ---------- fixed layers ---------- */
+.progress{position:fixed;top:0;left:0;width:100%;height:2px;z-index:120;background:linear-gradient(90deg,#D4AF37,#A78BFA,#38D6C8,#4EA1F5,#F06FA0);transform:scaleX(0);transform-origin:left}
+.grain{position:fixed;inset:-50%;width:200%;height:200%;z-index:110;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.1s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-6%,-2%)}80%{transform:translate(5%,4%)}100%{transform:translate(0,0)}}
+#dust{position:fixed;inset:0;width:100%;height:100%;z-index:5;pointer-events:none}
+.glow{position:fixed;left:0;top:0;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;z-index:5;pointer-events:none;opacity:0;transition:opacity .6s ease;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.10),rgba(var(--accent-rgb),.03) 40%,transparent 68%);mix-blend-mode:screen;will-change:transform}
+.ring{position:fixed;left:0;top:0;width:38px;height:38px;margin:-19px 0 0 -19px;border:1px solid rgba(var(--accent-rgb),.5);border-radius:50%;z-index:130;pointer-events:none;opacity:0;transition:opacity .4s ease,width .35s var(--ease),height .35s var(--ease),margin .35s var(--ease),background .35s ease;will-change:transform}
+.ring.big{width:74px;height:74px;margin:-37px 0 0 -37px;background:rgba(var(--accent-rgb),.12)}
+body.has-pointer .glow,body.has-pointer .ring{opacity:1}
 
-/* GEO TAG */
-.geo-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.6);
-  margin-bottom: 1.2rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-}
+/* ---------- top bar ---------- */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) 32px 0;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.mark{display:block;opacity:.92;transition:transform .6s var(--ease)}
+.mark:hover{transform:rotate(-8deg) scale(1.06)}
+.menu-btn{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;cursor:pointer}
 
-/* BADGE — flagship / university */
-.badge {
-  display: inline-block;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.7);
-  border: 1px solid rgba(212,175,55,0.3);
-  padding: 4px 12px;
-  border-radius: 40px;
-  margin-bottom: 1rem;
-  font-family: 'Inter', sans-serif;
-}
+/* ---------- side dots + counter ---------- */
+.dotnav{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:15px}
+.dotnav a{position:relative;width:9px;height:9px;border-radius:50%;background:rgba(245,243,239,.28);transition:background .35s ease,transform .35s var(--ease),box-shadow .35s ease}
+.dotnav a.active{background:rgb(var(--accent-rgb));transform:scale(1.5);box-shadow:0 0 14px rgba(var(--accent-rgb),.9)}
+.dotnav a .tip{position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:500;white-space:nowrap;background:rgba(8,8,10,.88);padding:6px 12px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.dotnav a:hover .tip,.dotnav a:focus-visible .tip{opacity:1}
+.counter{position:fixed;left:32px;bottom:calc(28px + env(safe-area-inset-bottom,0px));z-index:100;display:flex;align-items:baseline;gap:12px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+@keyframes flip{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
+.counter .label{max-width:200px}
 
-/* ── VISUAL IDENTITY ── */
-.hero .layer {
-  background:
-    radial-gradient(circle at top left, #2a2a2a, transparent 55%),
-    linear-gradient(135deg, #0e0e0e, #000);
-}
-.it .layer {
-  background:
-    radial-gradient(circle at top left, rgba(111,140,255,.35), transparent 60%),
-    linear-gradient(135deg, #0c1020, #000);
-}
-.university .layer {
-  background:
-    radial-gradient(circle at top right, rgba(160,100,255,.3), transparent 55%),
-    linear-gradient(135deg, #100c1e, #000);
-}
-.wedding .layer {
-  background:
-    radial-gradient(circle at top right, rgba(212,175,55,.28), transparent 55%),
-    linear-gradient(135deg, #1b1a16, #070706);
-}
-.jewelry .layer {
-  background:
-    radial-gradient(circle at center, rgba(212,175,55,.22), transparent 60%),
-    linear-gradient(135deg, #0f0b07, #000);
-}
-.resort .layer {
-  background:
-    radial-gradient(circle at bottom left, rgba(93,188,210,.28), transparent 60%),
-    linear-gradient(135deg, #08161b, #000);
-}
-.nail .layer {
-  background:
-    radial-gradient(circle at center, rgba(228,140,184,.32), transparent 60%),
-    linear-gradient(135deg, #1a0f15, #000);
-}
-.jsixron .layer {
-  background:
-    radial-gradient(circle at top left, rgba(232,163,61,.28), transparent 55%),
-    linear-gradient(135deg, #14100a, #000);
-}
-.laundry .layer {
-  background:
-    radial-gradient(circle at bottom right, rgba(45,180,230,.3), transparent 55%),
-    linear-gradient(135deg, #081420, #000);
-}
+/* ---------- mobile menu ---------- */
+.mmenu{position:fixed;inset:0;z-index:200;background:rgba(5,5,6,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:'Playfair Display',Georgia,serif;font-size:26px;opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease}
+.mmenu.open{opacity:1;visibility:visible}
+.mmenu .x{position:absolute;top:20px;right:24px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;cursor:pointer}
 
-/* ── FOOTER ── */
-footer {
-  background: #000;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 2.5rem clamp(24px,10vw,160px);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.footer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.footer-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  color: var(--text);
-  letter-spacing: 0.05em;
-}
-.footer-geo {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.5);
-  margin-top: 0.3rem;
-}
-.footer-links {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-.footer-links a {
-  font-size: 12px;
-  color: var(--muted);
-  text-decoration: none;
-  letter-spacing: 0.05em;
-  transition: color 0.2s;
-}
-.footer-links a:hover { color: var(--gold); }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.footer-copy {
-  font-size: 11px;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 0.08em;
-}
-.footer-policy {
-  display: flex;
-  gap: 1.2rem;
-}
-.footer-policy a {
-  font-size: 11px;
-  color: rgba(255,255,255,0.2);
-  text-decoration: none;
-  letter-spacing: 0.06em;
-  transition: color 0.2s;
-}
-.footer-policy a:hover { color: var(--gold); }
+/* ---------- sections ---------- */
+main{display:block}
+.flat{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;padding:0 8vw 15vh;overflow:hidden}
+.bg-layer{position:absolute;inset:-10%;background-size:cover;background-position:center;z-index:0;will-change:transform,filter}
+.flat::before{content:"";position:absolute;inset:0;z-index:1;
+  background:radial-gradient(110% 70% at 78% 18%,rgba(var(--tint),.16),transparent 62%),linear-gradient(180deg,rgba(5,5,6,.28) 0%,rgba(5,5,6,.5) 50%,rgba(5,5,6,.9) 100%)}
+.flat::after{content:"";position:absolute;left:0;right:0;bottom:0;height:24vh;z-index:1;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6))}
+.beam{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.9;
+  background:linear-gradient(105deg,transparent 42%,rgba(var(--tint),.10) 50%,transparent 58%);background-size:260% 100%;background-position:120% 0;animation:beam 11s linear infinite}
+@keyframes beam{to{background-position:-120% 0}}
+.inner{position:relative;z-index:4;max-width:760px;will-change:transform,opacity}
 
-/* ── COOKIE BANNER ── */
-#cookieBanner {
-  position: fixed;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  background: #111;
-  border: 1px solid rgba(212,175,55,0.2);
-  border-radius: 12px;
-  padding: 1.2rem 1.8rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  max-width: 700px;
-  width: calc(100% - 3rem);
-  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-  animation: slideUp 0.5s 0.8s cubic-bezier(0.25,0.46,0.45,0.94) both;
-}
-#cookieBanner.hide { display: none; }
-@keyframes slideUp {
-  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-.cookie-text {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
-  flex: 1;
-}
-.cookie-text a {
-  color: var(--gold);
-  text-decoration: none;
-}
-.cookie-text a:hover { text-decoration: underline; }
-.cookie-btns { display: flex; gap: 0.7rem; flex-shrink: 0; }
-.cookie-accept {
-  background: var(--gold);
-  color: #000;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 40px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: opacity 0.2s;
-}
-.cookie-accept:hover { opacity: 0.85; }
-.cookie-decline {
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 8px 16px;
-  border-radius: 40px;
-  font-size: 12px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: border-color 0.2s, color 0.2s;
-}
-.cookie-decline:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
+/* ---------- door sections: approach, enter, inside, exit ---------- */
+.door{position:relative;height:calc(100vh * (1 + var(--pin,1.6)));height:calc(100svh * (1 + var(--pin,1.6)))}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:flex-end;padding:0 8vw 15vh;background:#050506}
+.wall{position:absolute;inset:-8%;z-index:0;will-change:transform;
+  background:radial-gradient(52% 50% at 50% 50%,rgba(var(--tint),.24),transparent 72%),repeating-linear-gradient(90deg,rgba(255,255,255,.03) 0 1px,transparent 1px 132px),linear-gradient(180deg,#0b0b0e,#050506)}
+.scene{position:absolute;inset:0;z-index:2;will-change:clip-path}
+.veil{position:absolute;inset:0;z-index:1;
+  background:radial-gradient(110% 70% at 78% 18%,rgba(var(--tint),.16),transparent 62%),linear-gradient(180deg,rgba(5,5,6,.26) 0%,rgba(5,5,6,.5) 50%,rgba(5,5,6,.9) 100%)}
+.frame{position:absolute;left:0;top:0;z-index:3;pointer-events:none;border:1.5px solid rgba(var(--tint),.8);
+  box-shadow:0 0 70px rgba(var(--tint),.28),inset 0 0 50px rgba(var(--tint),.16);will-change:transform,width,height}
+.sign{position:absolute;left:0;right:0;top:0;z-index:3;text-align:center;pointer-events:none;will-change:transform,opacity}
+.sign small{display:block;font-size:12px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:rgba(var(--tint),.95);margin-bottom:10px}
+.sign b{display:block;font-family:'Playfair Display',Georgia,serif;font-weight:600;font-size:clamp(1.5rem,3.2vw,2.8rem);letter-spacing:.02em}
+.hint{position:absolute;left:0;right:0;top:0;z-index:3;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);will-change:transform,opacity}
+.hint i{display:block;width:1px;height:38px;background:linear-gradient(180deg,rgba(var(--tint),1),transparent);transform-origin:top;animation:cue 2.2s ease-in-out infinite}
 
-/* ── PRIVACY MODAL ── */
-#privacyModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-#privacyModal.open { display: flex; }
-.modal-box {
-  background: #111;
-  border: 1px solid rgba(212,175,55,0.15);
-  border-radius: 12px;
-  padding: 3rem;
-  max-width: 640px;
-  width: 100%;
-  max-height: 80vh;
-  overflow-y: auto;
-  position: relative;
-}
-.modal-box h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
-.modal-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(212,175,55,0.6);
-  margin-bottom: 1.5rem;
-}
-.modal-box p, .modal-box li {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 0.8rem;
-}
-.modal-box ul { padding-left: 1.2rem; margin-bottom: 0.8rem; }
-.modal-box h3 {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin: 1.5rem 0 0.5rem;
-}
-.modal-close {
-  position: absolute;
-  top: 1.5rem; right: 1.5rem;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: var(--muted);
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex; align-items: center; justify-content: center;
-  transition: border-color 0.2s, color 0.2s;
-}
-.modal-close:hover { border-color: var(--gold); color: var(--gold); }
+.flags{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(212,175,55,.85);margin-bottom:24px}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border:1px solid rgba(212,175,55,.38);border-radius:999px;font-size:12px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:rgba(212,175,55,.92);margin-bottom:22px}
+.inner h1,.inner h2{margin:0 0 22px;font-family:'Playfair Display',Georgia,serif;font-weight:600;line-height:1.04;letter-spacing:-.01em;font-size:clamp(2.4rem,5.2vw,4.7rem)}
+.inner h1{font-size:clamp(2.6rem,6vw,5.4rem)}
+.lede{margin:0 0 36px;font-size:clamp(1rem,1.2vw,1.15rem);line-height:1.75;color:var(--muted);max-width:46ch}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:12px;padding:18px 38px;border-radius:999px;background:var(--gold);color:#101010;font-size:16px;font-weight:500;transition:transform .35s var(--ease),box-shadow .35s ease}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);transition:transform .8s var(--ease)}
+.btn:hover{box-shadow:0 18px 44px rgba(212,175,55,.35)}
+.btn:hover::after{transform:translateX(120%)}
+.btn .arr{display:inline-block;transition:transform .35s var(--ease)}
+.btn:hover .arr{transform:translateX(5px)}
 
-/* ── DESKTOP ── */
-@media (min-width: 900px) { nav { display: block; } }
+/* word split + reveal */
+.w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.14em;margin-bottom:-.14em}
+.wi{display:inline-block;transform:translateY(112%);transition:transform 1.1s var(--ease);transition-delay:calc(var(--i)*80ms + 120ms)}
+.in .wi{transform:none}
+.rv{opacity:0;transform:translateY(34px);filter:blur(8px);transition:opacity .9s ease,transform 1s var(--ease),filter .9s ease;transition-delay:var(--d,0ms)}
+.in .rv{opacity:1;transform:none;filter:none}
 
-/* ── MOBILE COOKIE ── */
-@media (max-width: 600px) {
-  #cookieBanner { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .cookie-btns { width: 100%; }
-  .cookie-accept, .cookie-decline { flex: 1; text-align: center; }
+.cue{position:absolute;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));z-index:2;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted)}
+.cue i{display:block;width:1px;height:46px;background:linear-gradient(180deg,var(--gold),transparent);transform-origin:top;animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+.foot{position:relative;z-index:3;padding:70px 8vw 90px;background:#050506;border-top:1px solid rgba(255,255,255,.08)}
+.foot .name{font-family:'Playfair Display',Georgia,serif;font-size:24px;letter-spacing:.05em;margin-bottom:14px}
+.foot .flags{margin:0 0 22px}
+.foot small{color:rgba(245,243,239,.45);font-size:13px}
+
+
+/* ---------- per brand identity: numbers, overlays, frames ---------- */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shine{0%{background-position:130% 0}60%,100%{background-position:-130% 0}}
+@keyframes foil{to{background-position:-250% 0}}
+@keyframes bob{50%{translate:0 -26px}}
+@keyframes pulse{50%{transform:scale(1.18)}}
+@keyframes flick{0%,90%,100%{opacity:1}91%{opacity:.3}92%{opacity:1}95%{opacity:.5}96%{opacity:1}}
+@keyframes candle{0%,100%{opacity:.85}12%{opacity:1}23%{opacity:.7}41%{opacity:.98}58%{opacity:.75}77%{opacity:1}}
+@keyframes scan{to{top:112%}}
+@keyframes caus{to{background-position:360px 240px,420px 290px}}
+@keyframes floaty{50%{translate:0 -14px}}
+
+
+
+/* hero rays */
+.rays{position:absolute;left:50%;top:66%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.6;
+  background:repeating-conic-gradient(from 0deg,rgba(255,215,120,.09) 0 3deg,transparent 3deg 11deg);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 52%);mask-image:radial-gradient(circle,#000 0,transparent 52%);animation:spin 120s linear infinite}
+
+/* IT: grid, scan line, HUD */
+.it-grid{position:absolute;inset:0;z-index:1;mix-blend-mode:screen;background-image:linear-gradient(rgba(var(--tint),.09) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--tint),.09) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(75% 75% at 50% 45%,#000,transparent);mask-image:radial-gradient(75% 75% at 50% 45%,#000,transparent)}
+.it-scan{position:absolute;left:0;right:0;top:-26%;height:24%;z-index:1;background:linear-gradient(180deg,transparent,rgba(var(--tint),.17),transparent);animation:scan 5.5s linear infinite}
+.hud{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0}
+.it-hud .c{position:absolute;width:34px;height:34px;border:2px solid rgba(var(--tint),.85)}
+.it-hud .tl{top:12vh;left:5vw;border-right:0;border-bottom:0}.it-hud .tr{top:12vh;right:5vw;border-left:0;border-bottom:0}
+.it-hud .bl{bottom:12vh;left:5vw;border-right:0;border-top:0}.it-hud .br{bottom:12vh;right:5vw;border-left:0;border-top:0}
+
+/* CTO: invitation seal */
+.cto-seal{inset:auto;right:6vw;top:13vh;width:clamp(104px,11vw,160px);height:auto;color:rgba(var(--tint),.95)}
+.cto-seal svg{display:block;width:100%;height:auto}
+.cto-seal .ring{transform-box:view-box;transform-origin:100px 100px;animation:spin 28s linear infinite}
+
+/* Wedding: candlelight */
+.wed-candle{position:absolute;inset:0;z-index:1;mix-blend-mode:screen;background:radial-gradient(58% 48% at 84% 30%,rgba(255,190,110,.26),transparent 70%),radial-gradient(40% 40% at 18% 70%,rgba(255,170,90,.12),transparent 70%);animation:candle 3.4s linear infinite}
+
+/* Jewelry: light sweep */
+.jew-shine{position:absolute;inset:0;z-index:1;mix-blend-mode:screen;background:linear-gradient(115deg,transparent 40%,rgba(255,240,190,.2) 48%,rgba(255,255,255,.5) 50%,rgba(255,240,190,.2) 52%,transparent 60%);background-size:300% 100%;animation:shine 6s ease-in-out infinite}
+
+/* Resort: water caustics */
+.res-caustics{position:absolute;inset:-10%;z-index:1;mix-blend-mode:screen;opacity:.5;
+  background:radial-gradient(closest-side,rgba(190,255,245,.38),transparent) 0 0/180px 120px,radial-gradient(closest-side,rgba(120,230,255,.3),transparent) 60px 50px/240px 150px;animation:caus 18s linear infinite}
+.res-haze{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(56,214,200,.10),transparent 45%)}
+
+/* JSIXRON: roller shutter and hazard tape */
+.jsx-shutter{position:absolute;inset:0;z-index:3;will-change:transform;background:repeating-linear-gradient(180deg,#3b372f 0 22px,#1b1915 22px 26px,#4b463d 26px 28px);box-shadow:inset 0 -22px 34px rgba(0,0,0,.65)}
+.jsx-shutter::after{content:"";position:absolute;left:50%;bottom:10px;width:64px;height:8px;margin-left:-32px;border-radius:4px;background:#8a8478}
+
+/* Laundry: porthole glass and swirl */
+.lau-glass{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle at 26% 22%,rgba(255,255,255,.3),transparent 32%),radial-gradient(circle at 72% 80%,rgba(120,190,255,.18),transparent 40%)}
+.lau-swirl{position:absolute;inset:-30%;z-index:1;mix-blend-mode:screen;background:conic-gradient(from 0deg,rgba(120,190,255,0),rgba(120,190,255,.22),rgba(120,190,255,0) 30%,rgba(255,255,255,.12) 55%,rgba(120,190,255,0) 75%);animation:spin 9s linear infinite}
+
+/* Nails: gel gloss */
+.nail-gloss{position:absolute;inset:0;z-index:1;mix-blend-mode:screen;background:linear-gradient(100deg,transparent 40%,rgba(255,200,230,.32) 47%,rgba(255,255,255,.55) 50%,rgba(255,200,230,.32) 53%,transparent 60%);background-size:300% 100%;animation:shine 5s ease-in-out infinite}
+
+/* frames, one per doorway */
+.f-brackets{border:1px solid rgba(var(--tint),.32);background:
+  linear-gradient(rgb(var(--tint)),rgb(var(--tint))) left top/28px 2px no-repeat,linear-gradient(rgb(var(--tint)),rgb(var(--tint))) left top/2px 28px no-repeat,
+  linear-gradient(rgb(var(--tint)),rgb(var(--tint))) right top/28px 2px no-repeat,linear-gradient(rgb(var(--tint)),rgb(var(--tint))) right top/2px 28px no-repeat,
+  linear-gradient(rgb(var(--tint)),rgb(var(--tint))) left bottom/28px 2px no-repeat,linear-gradient(rgb(var(--tint)),rgb(var(--tint))) left bottom/2px 28px no-repeat,
+  linear-gradient(rgb(var(--tint)),rgb(var(--tint))) right bottom/28px 2px no-repeat,linear-gradient(rgb(var(--tint)),rgb(var(--tint))) right bottom/2px 28px no-repeat}
+.f-double::after{content:"";position:absolute;inset:-10px;border:1px solid rgba(var(--tint),.34);border-radius:inherit}
+.f-glow{border:1px solid rgba(255,255,255,.5);box-shadow:0 0 90px rgba(var(--tint),.4),inset 0 0 60px rgba(var(--tint),.18)}
+.f-ring{border:2px solid rgba(240,195,72,.95);box-shadow:0 0 0 7px rgba(5,5,6,.85),0 0 0 8px rgba(240,195,72,.55),0 0 80px rgba(240,195,72,.35),inset 0 0 40px rgba(240,195,72,.2)}
+.f-soft{border:1px solid rgba(var(--tint),.4);box-shadow:0 0 110px rgba(var(--tint),.35),inset 0 0 70px rgba(var(--tint),.16)}
+.f-steel{border:2px solid rgba(180,170,150,.55);box-shadow:inset 0 0 0 2px rgba(0,0,0,.65),0 0 60px rgba(var(--tint),.2)}
+.f-chrome{border:4px solid rgba(214,226,240,.55);box-shadow:inset 0 0 0 2px rgba(255,255,255,.45),inset 0 0 70px rgba(120,190,255,.3),0 0 0 3px rgba(50,60,72,.9),0 0 70px rgba(78,161,245,.4)}
+.it-chips{position:absolute;right:calc(5vw + 52px);top:calc(12vh + 2px);margin:0;padding:0;list-style:none;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.it-chips li{padding:8px 16px;border:1px solid rgba(var(--tint),.45);border-radius:999px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--tint),.95);background:rgba(5,5,6,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transform:translateX(14px);transition:opacity .6s ease,transform .7s var(--ease)}
+.in .it-chips li{opacity:1;transform:none}
+@media (max-width:900px){.it-chips{display:none}.cto-seal{top:11vh;right:22px}}
+.it-chips li:nth-child(1){transition-delay:.8s}.it-chips li:nth-child(2){transition-delay:1.05s}.it-chips li:nth-child(3){transition-delay:1.3s}
+.foot{padding:90px 8vw 50px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1.2fr .8fr;gap:56px;max-width:1200px}
+.foot-brand p{margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.75;max-width:38ch}
+.foot-col{display:flex;flex-direction:column;gap:11px;font-size:15px;color:var(--muted)}
+.foot-col h4{margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.foot-brands{display:grid;grid-template-columns:1fr 1fr;gap:11px 24px;align-content:start}.foot-brands h4{grid-column:1/-1}
+.foot-col a{transition:color .3s ease}.foot-col a:hover{color:var(--fg)}
+.foot-base{margin-top:64px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+@media (max-width:900px){.foot{padding:70px 24px 50px}.foot-grid{grid-template-columns:1fr;gap:38px}}
+.rm .hud{opacity:1!important}
+.counter{gap:14px;align-items:center;font-size:11px;letter-spacing:.3em}
+.counter .line{display:block;width:34px;height:1px;background:rgba(255,255,255,.35)}
+.counter .label{max-width:none}
+.counter .label.flip{animation:flip .7s var(--ease)}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .dotnav{display:none}
+  .menu-btn{display:flex}
+  .topbar{padding-left:22px;padding-right:22px}
+  .flat,.stage{padding:0 24px 17vh}
+  .lede{max-width:none}
+  .counter{left:22px}
+  .btn{padding:17px 32px}
 }
+@media (max-width:520px){ .flags{font-size:11px;gap:10px;letter-spacing:.16em} }
+
+/* ---------- reduced motion ---------- */
+.rm .wi{transform:none!important;transition:none!important}
+.rm .rv{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+.rm .grain,.rm .beam,.rm .cue i,.rm .hint i{animation:none!important}
+.rm .grain{display:none}
+.rm .door{height:auto!important}
+.rm .stage{position:relative;height:100vh;height:100svh}
+.rm .scene{clip-path:none!important}
+.rm .frame,.rm .sign,.rm .hint{display:none}
+.rm html,html.rm{scroll-behavior:auto}
 </style>
 </head>
 <body>
 
-<!-- COOKIE BANNER -->
-<div id="cookieBanner">
-  <div class="cookie-text">
-    We use cookies to improve your experience on redjemie Visions. By continuing, you agree to our
-    <a href="#" onclick="openPrivacy(event)">Privacy Policy</a>.
-    Philippines · Singapore · UAE.
-  </div>
-  <div class="cookie-btns">
-    <button class="cookie-accept" onclick="acceptCookies()">Accept</button>
-    <button class="cookie-decline" onclick="declineCookies()">Decline</button>
-  </div>
-</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="waterwarp" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="14s" values="0.008 0.02;0.013 0.032;0.008 0.02" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="34"/></filter></svg>
 
-<!-- PRIVACY MODAL -->
-<div id="privacyModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closePrivacy()">✕</button>
-    <div class="modal-eyebrow">redjemie Visions · Legal</div>
-    <h2>Privacy Policy</h2>
-    <p>Last updated: June 2025 &nbsp;·&nbsp; Philippines · Singapore · UAE</p>
-
-    <h3>1. Who We Are</h3>
-    <p>redjemie Visions is a collective of signature brands operated by Redjell "Red" Diola, based across the Philippines, Singapore, and the United Arab Emirates. Our brands include RJ Global Technologies, CTO Forum University, redjemie Wedding, BGD Jewelry, redjemie Resort, JSIXRON, JSIXRON Laundry Services, and Nail Art Studio.</p>
-
-    <h3>2. Information We Collect</h3>
-    <p>We may collect personal information including name, email address, phone number, and usage data when you interact with our websites, fill in forms, or contact us directly.</p>
-
-    <h3>3. How We Use Your Information</h3>
-    <ul>
-      <li>To respond to your enquiries and service requests</li>
-      <li>To improve our websites and user experience</li>
-      <li>To send relevant updates with your consent</li>
-      <li>To comply with applicable laws and regulations</li>
-    </ul>
-
-    <h3>4. Cookies</h3>
-    <p>We use essential cookies to ensure our website functions correctly, and optional analytics cookies to understand how visitors use our site. You may accept or decline non-essential cookies via the banner on this page.</p>
-
-    <h3>5. Data Protection — UAE PDPL & GDPR</h3>
-    <p>We are committed to compliance with the UAE Personal Data Protection Law (PDPL), the EU General Data Protection Regulation (GDPR), and applicable data protection laws in the Philippines and Singapore. You have the right to access, correct, or request deletion of your personal data at any time.</p>
-
-    <h3>6. Third-Party Services</h3>
-    <p>We may use trusted third-party services (such as Google Analytics, email platforms) that process data on our behalf. These providers are bound by their own privacy policies and applicable data protection agreements.</p>
-
-    <h3>7. Data Retention</h3>
-    <p>We retain personal data only for as long as necessary for the purposes outlined in this policy, or as required by law.</p>
-
-    <h3>8. Contact Us</h3>
-    <p>For any privacy-related enquiries, please contact our Data Protection Officer:<br>
-    📧 info@redjemie.com &nbsp;·&nbsp; +971 50 632 8968 &nbsp;·&nbsp; redjemie.com</p>
+<div id="loader" role="status" aria-label="Loading">
+  <div class="ld-inner">
+    <svg class="ld-mark" viewBox="0 0 80 80" width="88" height="88" aria-hidden="true">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#D4AF37" stroke-width="1.2" pathLength="100"/>
+      <text x="40" y="50" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-style="italic" font-size="30" fill="#F5F3EF">rv</text>
+    </svg>
+    <div class="ld-name serif">redjemie Visions</div>
+    <div class="ld-bar"><span id="ldLine"></span></div>
   </div>
 </div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">
-    <img src="img/logo.png" alt="redjemie Visions">
-  </div>
-  <nav>
-    <a href="it-training.html">IT & Technology</a>
-    <a href="https://university.redjemie.com" target="_blank">University</a>
-    <a href="wedding.html">Wedding</a>
-    <a href="jewelry.html">BGD Jewelry</a>
-    <a href="resort.html">Resort</a>
-    <a href="https://jsixron.redjemie.com" target="_blank">JSIXRON</a>
-    <a href="laundry.html">JSIXRON Laundry</a>
-    <a href="nail-art.html">Nail Art Studio</a>
-  </nav>
+<div class="progress" id="progress"></div>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<div class="ring" id="ring" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="mark" href="#hero" aria-label="redjemie Visions home">
+    <svg viewBox="0 0 80 80" width="46" height="46" aria-hidden="true">
+      <circle cx="40" cy="40" r="34" fill="none" stroke="#F5F3EF" stroke-opacity=".7" stroke-width="1.4"/>
+      <text x="40" y="50" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-style="italic" font-size="30" fill="#F5F3EF">rv</text>
+    </svg>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F3EF" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+  </button>
 </header>
 
-<!-- HERO -->
-<section class="section hero">
-  <div class="layer"></div>
-  <div class="content">
-    <div class="geo-tag">🇵🇭 Philippines &nbsp;·&nbsp; 🇸🇬 Singapore &nbsp;·&nbsp; 🇦🇪 UAE</div>
-    <h1>Signature Brands.<br>One Vision.</h1>
-    <p>A curated group of businesses spanning technology, education, weddings, luxury jewelry, hospitality, trading, and beauty.</p>
-  </div>
-</section>
+<nav class="dotnav" id="dotnav" aria-label="Sections">
+  <a href="#hero"><span class="tip">Home</span></a>
+  <a href="#it-training"><span class="tip">IT Training &amp; Services</span></a>
+  <a href="#cto"><span class="tip">CTO Forum University</span></a>
+  <a href="#wedding"><span class="tip">Wedding</span></a>
+  <a href="#jewelry"><span class="tip">BGD Jewelry</span></a>
+  <a href="#resort"><span class="tip">Resort</span></a>
+  <a href="#jsixron"><span class="tip">JSIXRON</span></a>
+  <a href="#laundry"><span class="tip">Laundry Services</span></a>
+  <a href="#nails"><span class="tip">Nail Art Studio</span></a>
+</nav>
 
-<!-- IT & TECHNOLOGY — FLAGSHIP -->
-<section class="section it">
-  <div class="layer"></div>
-  <div class="content">
-    <div class="badge">★ Flagship</div>
-    <h1>IT Training<br>& Services</h1>
-    <p>Enterprise IT solutions, AI-powered products, and digital transformation. ISO 27001 · Certified DPO · UAE Tech Summit 2025.</p>
-    <a href="it-training.html" class="btn">Get Started</a>
-  </div>
-</section>
+<div class="counter" aria-hidden="true"><span class="line"></span><span class="label" id="cLabel">Home</span></div>
 
-<!-- CTO FORUM UNIVERSITY -->
-<section class="section university">
-  <div class="layer"></div>
-  <div class="content">
-    <div class="badge">Education</div>
-    <h1>CTO Forum<br>University</h1>
-    <p>An invitation-only e-learning platform for technology leaders. AI governance, digital strategy, and enterprise leadership.</p>
-    <a href="https://university.redjemie.com" target="_blank" class="btn">Enter University</a>
-  </div>
-</section>
+<div class="mmenu" id="mmenu">
+  <button class="x" id="mmClose" aria-label="Close menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F3EF" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></button>
+  <a href="#hero">Home</a>
+  <a href="#it-training">IT Training &amp; Services</a>
+  <a href="#cto">CTO Forum University</a>
+  <a href="#wedding">Wedding</a>
+  <a href="#jewelry">BGD Jewelry</a>
+  <a href="#resort">Resort</a>
+  <a href="#jsixron">JSIXRON</a>
+  <a href="#laundry">Laundry Services</a>
+  <a href="#nails">Nail Art Studio</a>
+</div>
 
-<!-- WEDDING -->
-<section class="section wedding">
-  <div class="layer"></div>
-  <div class="content">
-    <h1>Wedding</h1>
-    <p>Elegant celebrations crafted with precision and emotion.</p>
-    <a href="wedding.html" class="btn">Enter Weddings</a>
-  </div>
-</section>
+<main>
+<!-- Replace each href="#" below with the real page URL of that brand.
+     data-door sets the doorway shape: arch, circle, tall, wide, gate, window.
+     data-mode sets the particle style: dust, code, net, petals, glint, ripple, sparks, bubbles, glitter. -->
 
-<!-- BGD JEWELRY -->
-<section class="section jewelry">
-  <div class="layer"></div>
-  <div class="content">
-    <h1>BGD Jewelry</h1>
-    <p>Fine jewelry defined by timeless craftsmanship.</p>
-    <a href="jewelry.html" class="btn">View Collection</a>
+<section id="hero" class="flat" data-theme="hero" data-mode="dust" data-name="Home" data-color="#D4AF37" style="--tint:212,175,55">
+  <div class="bg-layer" style="background-image:url('images/hero.jpg')"></div>
+  <div class="rays"></div>
+  <div class="beam"></div>
+  <div class="inner">
+    <div class="flags rv" style="--d:0ms"><span>🇵🇭 Philippines</span><span>·</span><span>🇸🇬 Singapore</span><span>·</span><span>🇦🇪 UAE</span></div>
+    <h1 class="split">Signature Brands.<br>One Vision.</h1>
+    <p class="lede rv" style="--d:500ms">A curated group of businesses spanning technology, education, weddings, luxury jewelry, hospitality, trading, and beauty.</p>
+    <a class="btn rv" style="--d:650ms" href="#it-training">Explore the Brands <span class="arr" aria-hidden="true">&rarr;</span></a>
   </div>
+  <div class="cue" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
 </section>
-
-<!-- RESORT -->
-<section class="section resort">
-  <div class="layer"></div>
-  <div class="content">
-    <h1>Resort</h1>
-    <p>Serene destinations designed for rest and indulgence.</p>
-    <a href="resort.html" class="btn">Discover Resort</a>
-  </div>
-</section>
-
-<!-- JSIXRON -->
-<section class="section jsixron">
-  <div class="layer"></div>
-  <div class="content">
-    <div class="badge">Manila</div>
-    <h1>JSIXRON</h1>
-    <p>General trading, industrial supply, barbershop, and laundry, under one Manila-based group. "Your Demand, Our Commitment."</p>
-    <a href="https://jsixron.redjemie.com" target="_blank" class="btn">Enter JSIXRON</a>
-  </div>
-</section>
-
-<!-- JSIXRON LAUNDRY -->
-<section class="section laundry">
-  <div class="layer"></div>
-  <div class="content">
-    <div class="badge">Coming Soon</div>
-    <h1>JSIXRON<br>Laundry Services</h1>
-    <p>Clean clothes, fresh life. Wash, dry, fold, hang, and steam, done right.</p>
-    <a href="laundry.html" class="btn">Learn More</a>
-  </div>
-</section>
-
-<!-- NAIL ART -->
-<section class="section nail">
-  <div class="layer"></div>
-  <div class="content">
-    <h1>Nail Art Studio</h1>
-    <p>Creative beauty delivered with precision and care.</p>
-    <a href="nail-art.html" class="btn">Book a Session</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div>
-      <div class="footer-logo">redjemie Visions</div>
-      <div class="footer-geo">🇵🇭 Philippines &nbsp;·&nbsp; 🇸🇬 Singapore &nbsp;·&nbsp; 🇦🇪 UAE</div>
+<section id="it-training" class="door" data-door="window" data-theme="it" data-mode="dust" data-name="IT Training &amp; Services" data-color="#E0B84A" style="--tint:224,184,74">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/it-training.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="it-grid"></div><div class="it-scan"></div>
+      <div class="hud it-hud"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+        <ul class="it-chips"><li>ISO 27001</li><li>Certified DPO</li><li>UAE Tech Summit 2025</li></ul></div>
     </div>
-    <div class="footer-links">
-      <a href="it-training.html">IT & Technology</a>
-      <a href="https://university.redjemie.com" target="_blank">University</a>
-      <a href="wedding.html">Wedding</a>
-      <a href="jewelry.html">BGD Jewelry</a>
-      <a href="resort.html">Resort</a>
-      <a href="https://jsixron.redjemie.com" target="_blank">JSIXRON</a>
-      <a href="laundry.html">JSIXRON Laundry</a>
-      <a href="nail-art.html">Nail Art</a>
-      <a href="mailto:info@redjemie.com">Contact</a>
+    <div class="frame f-brackets" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Flagship</small><b class="serif">IT Training &amp; Services</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <div class="badge rv" style="--d:0ms">&#9733; Flagship</div>
+      <h2 class="split">IT Training<br>&amp; Services</h2>
+      <p class="lede rv" style="--d:450ms">Enterprise IT solutions, AI-powered products, and digital transformation. ISO 27001 · Certified DPO · UAE Tech Summit 2025.</p>
+      <a class="btn rv" style="--d:600ms" href="#">Get Started <span class="arr" aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2025 redjemie Visions · All rights reserved · info@redjemie.com</div>
-    <div class="footer-policy">
-      <a href="#" onclick="openPrivacy(event)">Privacy Policy</a>
-      <a href="#" onclick="openPrivacy(event)">Cookie Policy</a>
-      <a href="mailto:info@redjemie.com">Contact DPO</a>
+</section>
+<section id="cto" class="door" data-door="tall" data-theme="cto" data-mode="net" data-name="CTO Forum University" data-color="#A78BFA" style="--tint:167,139,250">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/cto-university.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="hud cto-seal"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sealPath" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+        <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-opacity=".5"/><circle cx="100" cy="100" r="58" fill="none" stroke="currentColor" stroke-opacity=".35"/>
+        <g class="ring"><text font-family="Inter, sans-serif" font-size="12" letter-spacing="3.2" fill="currentColor"><textPath href="#sealPath">BY INVITATION ONLY · CTO FORUM UNIVERSITY · </textPath></text></g>
+        <text x="100" y="120" text-anchor="middle" font-family="Playfair Display, Georgia, serif" font-style="italic" font-size="56" fill="currentColor">C</text></svg></div>
+    </div>
+    <div class="frame f-double" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Education</small><b class="serif">CTO Forum University</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <div class="badge rv" style="--d:0ms">Education</div>
+      <h2 class="split">CTO Forum<br>University</h2>
+      <p class="lede rv" style="--d:450ms">An invitation-only e-learning platform for technology leaders. AI governance, digital strategy, and enterprise leadership.</p>
+      <a class="btn rv" style="--d:600ms" href="#">Enter University <span class="arr" aria-hidden="true">&rarr;</span></a>
     </div>
   </div>
+</section>
+<section id="wedding" class="door" data-door="arch" data-theme="wed" data-mode="petals" data-name="Wedding" data-color="#F1C58B" style="--tint:241,197,139">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/weddings.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="wed-candle"></div>
+    </div>
+    <div class="frame f-glow" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Celebrations</small><b class="serif">Wedding</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <h2 class="split">Wedding</h2>
+      <p class="lede rv" style="--d:350ms">Elegant celebrations crafted with precision and emotion.</p>
+      <a class="btn rv" style="--d:500ms" href="#">Enter Weddings <span class="arr" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+<section id="jewelry" class="door" data-door="circle" data-theme="jew" data-mode="glint" data-name="BGD Jewelry" data-color="#F0C348" style="--tint:240,195,72">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/bgd-jewelry.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="jew-shine"></div>
+    </div>
+    <div class="frame f-ring" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Fine Jewelry</small><b class="serif">BGD Jewelry</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <h2 class="split">BGD Jewelry</h2>
+      <p class="lede rv" style="--d:350ms">Fine jewelry defined by timeless craftsmanship.</p>
+      <a class="btn rv" style="--d:500ms" href="#">View Collection <span class="arr" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+<section id="resort" class="door" data-door="wide" data-theme="res" data-mode="ripple" data-name="Resort" data-color="#38D6C8" style="--tint:56,214,200">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/resort.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="res-haze"></div><div class="res-caustics"></div>
+    </div>
+    <div class="frame f-soft" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Hospitality</small><b class="serif">Resort</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <h2 class="split">Resort</h2>
+      <p class="lede rv" style="--d:350ms">Serene destinations designed for rest and indulgence.</p>
+      <a class="btn rv" style="--d:500ms" href="#">Discover Resort <span class="arr" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+<section id="jsixron" class="door" data-door="gate" data-theme="jsx" data-mode="sparks" data-name="JSIXRON" data-color="#E08E3A" style="--tint:224,142,58">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/jsixron-group.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="jsx-shutter"></div>
+    </div>
+    <div class="frame f-steel" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Manila</small><b class="serif">JSIXRON</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <div class="badge rv" style="--d:0ms">Manila</div>
+      <h2 class="split">JSIXRON</h2>
+      <p class="lede rv" style="--d:400ms">General trading, industrial supply, barbershop, and laundry, under one Manila-based group. "Your Demand, Our Commitment."</p>
+      <a class="btn rv" style="--d:550ms" href="https://jsixron.redjemie.com">Enter JSIXRON <span class="arr" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+<section id="laundry" class="door" data-door="circle" data-theme="lau" data-mode="bubbles" data-name="JSIXRON Laundry Services" data-color="#4EA1F5" style="--tint:78,161,245">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/laundry.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="lau-swirl"></div><div class="lau-glass"></div>
+    </div>
+    <div class="frame f-chrome" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Coming Soon</small><b class="serif">JSIXRON Laundry Services</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <div class="badge rv" style="--d:0ms">Coming Soon</div>
+      <h2 class="split">JSIXRON<br>Laundry Services</h2>
+      <p class="lede rv" style="--d:450ms">Clean clothes, fresh life. Wash, dry, fold, hang, and steam, done right.</p>
+      <a class="btn rv" style="--d:600ms" href="#">Learn More <span class="arr" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+<section id="nails" class="door" data-door="arch" data-theme="nail" data-mode="glitter" data-name="Nail Art Studio" data-color="#F06FA0" style="--tint:240,111,160">
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="scene">
+      <div class="bg-layer" style="background-image:url('images/nail-studio.jpg')"></div>
+      <div class="veil"></div>
+      <div class="beam"></div>
+      <div class="nail-gloss"></div>
+    </div>
+    <div class="frame f-glow" aria-hidden="true"></div>
+    <div class="sign" aria-hidden="true"><small>Beauty</small><b class="serif">Nail Art Studio</b></div>
+    <div class="hint" aria-hidden="true"><span>Scroll to enter</span><i></i></div>
+    <div class="inner">
+      <h2 class="split">Nail Art Studio</h2>
+      <p class="lede rv" style="--d:350ms">Creative beauty delivered with precision and care.</p>
+      <a class="btn rv" style="--d:500ms" href="#">Book a Session <span class="arr" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="name">redjemie Visions</div>
+      <p>A curated group of businesses spanning technology, education, weddings, luxury jewelry, hospitality, trading, and beauty.</p>
+    </div>
+    <div class="foot-col foot-brands">
+      <h4>Brands</h4>
+      <a href="#it-training">IT Training &amp; Services</a>
+      <a href="#cto">CTO Forum University</a>
+      <a href="#wedding">Wedding</a>
+      <a href="#jewelry">BGD Jewelry</a>
+      <a href="#resort">Resort</a>
+      <a href="#jsixron">JSIXRON</a>
+      <a href="#laundry">Laundry Services</a>
+      <a href="#nails">Nail Art Studio</a>
+    </div>
+    <div class="foot-col">
+      <h4>Presence</h4>
+      <span>Philippines</span><span>Singapore</span><span>United Arab Emirates</span>
+    </div>
+  </div>
+  <div class="foot-base"><small>&copy; 2026 redjemie Visions. All rights reserved.</small></div>
 </footer>
 
 <script>
-// COOKIE BANNER
-function acceptCookies(){
-  localStorage.setItem('rj_cookie','accepted');
-  document.getElementById('cookieBanner').classList.add('hide');
-}
-function declineCookies(){
-  localStorage.setItem('rj_cookie','declined');
-  document.getElementById('cookieBanner').classList.add('hide');
-}
-// Check if already decided
-if(localStorage.getItem('rj_cookie')){
-  document.getElementById('cookieBanner').classList.add('hide');
-}
+(function () {
+  'use strict';
+  var doc = document, root = doc.documentElement, body = doc.body;
+  var reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var fine = !!(window.matchMedia && matchMedia('(pointer: fine)').matches);
+  if (reduce) { root.classList.add('rm'); body.classList.add('rm'); }
 
-// PRIVACY MODAL
-function openPrivacy(e){
-  e.preventDefault();
-  document.getElementById('privacyModal').classList.add('open');
-}
-function closePrivacy(){
-  document.getElementById('privacyModal').classList.remove('open');
-}
-// Close on backdrop click
-document.getElementById('privacyModal').addEventListener('click',function(e){
-  if(e.target===this) closePrivacy();
-});
-// Close on ESC
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closePrivacy()});
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function hex(h) { h = h.replace('#', ''); return [parseInt(h.substr(0, 2), 16), parseInt(h.substr(2, 2), 16), parseInt(h.substr(4, 2), 16)]; }
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  function lerp(a, b, k) { return a + (b - a) * k; }
+  function sm(x) { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); }
+  function e3(x) { x = clamp(x, 0, 1); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  var secs = [].slice.call(doc.querySelectorAll('.flat,.door'));
+  var dots = [].slice.call(doc.querySelectorAll('.dotnav a'));
+  var progress = doc.getElementById('progress');
+  var cLabel = doc.getElementById('cLabel');
+
+  /* ---------- split headings into words ---------- */
+  [].slice.call(doc.querySelectorAll('.split')).forEach(function (el) {
+    var label = el.textContent.replace(/\s+/g, ' ').trim();
+    var nodes = [].slice.call(el.childNodes), idx = 0;
+    el.innerHTML = '';
+    el.setAttribute('aria-label', label);
+    nodes.forEach(function (n) {
+      if (n.nodeType === 3) {
+        n.textContent.split(/(\s+)/).forEach(function (part) {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { el.appendChild(doc.createTextNode(' ')); return; }
+          var w = doc.createElement('span'); w.className = 'w'; w.setAttribute('aria-hidden', 'true');
+          var wi = doc.createElement('span'); wi.className = 'wi'; wi.style.setProperty('--i', idx++); wi.textContent = part;
+          w.appendChild(wi); el.appendChild(w);
+        });
+      } else { el.appendChild(n); }
+    });
+  });
+
+  /* ---------- section data ---------- */
+  var data = secs.map(function (s) {
+    return {
+      el: s, door: s.classList.contains('door'), kind: s.getAttribute('data-door'),
+      theme: s.getAttribute('data-theme') || 'hero', mode: s.getAttribute('data-mode') || 'dust',
+      stage: s.querySelector('.stage'), scene: s.querySelector('.scene'), wall: s.querySelector('.wall'),
+      bg: s.querySelector('.bg-layer'), frame: s.querySelector('.frame'), sign: s.querySelector('.sign'),
+      hint: s.querySelector('.hint'), inner: s.querySelector('.inner'),
+      shutter: s.querySelector('.jsx-shutter'), huds: [].slice.call(s.querySelectorAll('.hud')),
+      rgb: hex(s.getAttribute('data-color')), name: s.getAttribute('data-name'), shown: false
+    };
+  });
+
+  /* ---------- doorway shapes ---------- */
+  function doorGeo(kind, W, H) {
+    var m = W < 700, w, h, rt, rb;
+    if (kind === 'arch') { w = m ? W * 0.66 : Math.min(W * 0.30, 440); h = Math.min(H * 0.66, w * 1.7); rt = w / 2; rb = 0; }
+    else if (kind === 'circle') { w = h = m ? W * 0.74 : Math.min(H * 0.58, W * 0.36); rt = rb = w / 2; }
+    else if (kind === 'tall') { w = m ? W * 0.46 : Math.min(W * 0.2, 300); h = H * 0.68; rt = rb = 10; }
+    else if (kind === 'wide') { w = m ? W * 0.9 : W * 0.62; h = m ? H * 0.26 : H * 0.38; rt = rb = 10; }
+    else if (kind === 'gate') { w = m ? W * 0.9 : W * 0.7; h = m ? H * 0.3 : H * 0.42; rt = rb = 3; }
+    else { w = m ? W * 0.82 : Math.min(W * 0.44, 640); h = m ? H * 0.42 : H * 0.5; rt = rb = 26; }
+    return { w: w, h: h, rt: rt, rb: rb };
+  }
+
+  /* ---------- loader ---------- */
+  var loader = doc.getElementById('loader'), ldLine = doc.getElementById('ldLine');
+  var ready = false, loaded = doc.readyState === 'complete', t0 = performance.now(), shown = 0;
+  window.addEventListener('load', function () { loaded = true; });
+  function finishLoader() {
+    ready = true; body.classList.add('ready'); loader.classList.add('done');
+    setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 1100);
+  }
+  function loaderTick(now) {
+    if (ready) return;
+    var el = now - t0;
+    shown = Math.min(shown + (loaded ? 2.4 : 0.55), loaded ? 100 : 88);
+    ldLine.style.transform = 'scaleX(' + (shown / 100) + ')';
+    if (shown >= 100 && el > 1900) { finishLoader(); return; }
+    requestAnimationFrame(loaderTick);
+  }
+  if (reduce) { finishLoader(); } else { requestAnimationFrame(loaderTick); }
+
+  /* ---------- pointer ---------- */
+  var mx = 0, my = 0, cx = 0, cy = 0;
+  var px = innerWidth / 2, py = innerHeight / 2, gx = px, gy = py, rx = px, ry = py;
+  var glow = doc.getElementById('glow'), ring = doc.getElementById('ring');
+  if (fine && !reduce) {
+    window.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      px = e.clientX; py = e.clientY;
+      mx = (px / innerWidth) * 2 - 1; my = (py / innerHeight) * 2 - 1;
+      if (!body.classList.contains('has-pointer')) { body.classList.add('has-pointer'); gx = rx = px; gy = ry = py; }
+    }, { passive: true });
+    doc.addEventListener('pointerover', function (e) {
+      var t = e.target.closest ? e.target.closest('a,button') : null;
+      ring.classList.toggle('big', !!t);
+    });
+    [].slice.call(doc.querySelectorAll('.btn')).forEach(function (b) {
+      b.addEventListener('pointermove', function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * 0.22).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height / 2) * 0.32).toFixed(1) + 'px)';
+      });
+      b.addEventListener('pointerleave', function () { b.style.transform = ''; });
+    });
+  }
+
+  /* ---------- particles: one canvas, a different personality per brand ---------- */
+  var cv = doc.getElementById('dust'), g2 = cv.getContext('2d');
+  var W = 0, H = 0, dpr = 1, parts = [], cols = [], ripples = [];
+  var mode = 'dust', modeFade = 1, lastRipple = 0;
+  var GL = '01ABCDEF<>/{}';
+
+  function makeP() {
+    return { x: rnd(0, W), y: rnd(0, H), r: rnd(0.5, 2) * dpr, z: rnd(0.2, 1), vx: rnd(-0.07, 0.07) * dpr, vy: -rnd(0.06, 0.34) * dpr,
+      ph: rnd(0, 6.28), rot: rnd(0, 6.28), vr: rnd(-0.02, 0.02), life: Math.random(), per: rnd(0.004, 0.011), kind: Math.random(), a: rnd(0.04, 0.11) };
+  }
+  function seed() {
+    var mobile = innerWidth < 700, n = mobile ? 36 : 80, i, q;
+    if (mode === 'net') n = mobile ? 34 : 58;
+    else if (mode === 'glint') n = mobile ? 14 : 26;
+    else if (mode === 'petals') n = mobile ? 24 : 46;
+    else if (mode === 'sparks') n = mobile ? 40 : 80;
+    else if (mode === 'bubbles') n = mobile ? 18 : 32;
+    else if (mode === 'glitter') n = mobile ? 40 : 84;
+    else if (mode === 'ripple') n = mobile ? 16 : 30;
+    else if (mode === 'code') n = 0;
+    n = Math.round(n * 0.75);
+    parts = []; cols = []; ripples = [];
+    for (i = 0; i < n; i++) {
+      q = makeP();
+      if (mode === 'net') { q.vx = rnd(-0.16, 0.16) * dpr; q.vy = rnd(-0.16, 0.16) * dpr; q.r = rnd(1, 2.2) * dpr; }
+      else if (mode === 'petals') {
+        if (q.kind < 0.55) { q.r = rnd(10, 34) * dpr; q.vy = -rnd(0.05, 0.2) * dpr; }
+        else { q.r = rnd(3.5, 7) * dpr; q.vy = rnd(0.25, 0.7) * dpr; q.vx = rnd(-0.2, 0.2) * dpr; q.vr = rnd(-0.03, 0.03); }
+      }
+      else if (mode === 'sparks') { q.vy = -rnd(0.8, 2.8) * dpr; q.vx = rnd(-0.25, 0.5) * dpr; q.r = rnd(0.7, 1.8) * dpr; }
+      else if (mode === 'bubbles') { q.r = rnd(6, 34) * dpr; q.vy = -rnd(0.25, 0.9) * dpr; q.vx = 0; }
+      else if (mode === 'glitter') { q.r = rnd(1.6, 4.2) * dpr; q.vy = rnd(0.08, 0.5) * dpr; q.vx = rnd(-0.1, 0.1) * dpr; }
+      else if (mode === 'glint') { q.r = rnd(0.8, 1.7); }
+      parts.push(q);
+    }
+    if (mode === 'code') {
+      var step = (mobile ? 30 : 20) * dpr, x, j, len, chars;
+      for (x = 0; x < W; x += step) {
+        len = Math.floor(rnd(6, 14)); chars = [];
+        for (j = 0; j < len; j++) chars.push(GL.charAt(Math.floor(Math.random() * GL.length)));
+        cols.push({ x: x + rnd(0, step * 0.3), y: rnd(-H, H), v: rnd(0.7, 2.0) * dpr, len: len, chars: chars });
+      }
+    }
+  }
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = cv.width = Math.floor(innerWidth * dpr); H = cv.height = Math.floor(innerHeight * dpr);
+    seed();
+  }
+  function setMode(m) { if (m === mode) return; mode = m; modeFade = 0; seed(); }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function star(x, y, L, a, rgb) {
+    var w = L * 0.09;
+    g2.fillStyle = 'rgba(' + rgb + ',' + a.toFixed(3) + ')';
+    g2.beginPath();
+    g2.moveTo(x, y - L); g2.lineTo(x + w, y - w); g2.lineTo(x + L, y); g2.lineTo(x + w, y + w);
+    g2.lineTo(x, y + L); g2.lineTo(x - w, y + w); g2.lineTo(x - L, y); g2.lineTo(x - w, y - w);
+    g2.closePath(); g2.fill();
+    g2.beginPath(); g2.arc(x, y, L * 0.12, 0, 6.2832); g2.fill();
+  }
+
+  function drawParticles(t, css, dtf, sv) {
+    var i, j, q, a, c, dx, dy, dd;
+    g2.clearRect(0, 0, W, H);
+    if (modeFade < 1) modeFade = Math.min(1, modeFade + 0.025 * dtf);
+    var F = modeFade * 0.7;
+    g2.globalCompositeOperation = 'lighter';
+
+    if (mode === 'code') {
+      var lh = 13 * dpr;
+      g2.font = (11 * dpr) + 'px "IBM Plex Mono",ui-monospace,Menlo,monospace';
+      g2.textAlign = 'center';
+      for (i = 0; i < cols.length; i++) {
+        c = cols[i];
+        c.y += (c.v + sv * 0.3 * dpr) * dtf;
+        if (c.y - c.len * lh > H) { c.y = -rnd(0, H * 0.5); c.v = rnd(0.7, 2.0) * dpr; }
+        if (Math.random() < 0.04) c.chars[Math.floor(Math.random() * c.len)] = GL.charAt(Math.floor(Math.random() * GL.length));
+        for (j = 0; j < c.len; j++) {
+          var yy = c.y - j * lh;
+          if (yy < -lh || yy > H + lh) continue;
+          a = (j === 0 ? 0.85 : (1 - j / c.len) * 0.42) * F;
+          g2.fillStyle = 'rgba(' + css + ',' + a.toFixed(3) + ')';
+          g2.fillText(c.chars[j], c.x, yy);
+        }
+      }
+      return;
+    }
+
+    if (mode === 'net') {
+      var D = 140 * dpr, D2 = D * D, mxp = px * dpr, myp = py * dpr, hasP = body.classList.contains('has-pointer');
+      for (i = 0; i < parts.length; i++) {
+        q = parts[i];
+        q.x += q.vx * dtf; q.y += q.vy * dtf - sv * q.z * dpr * 0.05;
+        if (q.x < -10) q.x = W + 10; else if (q.x > W + 10) q.x = -10;
+        if (q.y < -10) q.y = H + 10; else if (q.y > H + 10) q.y = -10;
+      }
+      g2.lineWidth = dpr;
+      for (i = 0; i < parts.length; i++) {
+        for (j = i + 1; j < parts.length; j++) {
+          dx = parts[i].x - parts[j].x; dy = parts[i].y - parts[j].y; dd = dx * dx + dy * dy;
+          if (dd < D2) {
+            a = (1 - Math.sqrt(dd) / D) * 0.34 * F;
+            g2.strokeStyle = 'rgba(' + css + ',' + a.toFixed(3) + ')';
+            g2.beginPath(); g2.moveTo(parts[i].x, parts[i].y); g2.lineTo(parts[j].x, parts[j].y); g2.stroke();
+          }
+        }
+        if (hasP) {
+          dx = parts[i].x - mxp; dy = parts[i].y - myp; dd = dx * dx + dy * dy;
+          if (dd < D2 * 1.6) {
+            a = (1 - Math.sqrt(dd) / (D * 1.26)) * 0.5 * F;
+            g2.strokeStyle = 'rgba(' + css + ',' + a.toFixed(3) + ')';
+            g2.beginPath(); g2.moveTo(parts[i].x, parts[i].y); g2.lineTo(mxp, myp); g2.stroke();
+          }
+        }
+      }
+      for (i = 0; i < parts.length; i++) {
+        q = parts[i];
+        g2.fillStyle = 'rgba(' + css + ',' + (0.1 * F).toFixed(3) + ')';
+        g2.beginPath(); g2.arc(q.x, q.y, q.r * 4, 0, 6.2832); g2.fill();
+        g2.fillStyle = 'rgba(' + css + ',' + (0.85 * F).toFixed(3) + ')';
+        g2.beginPath(); g2.arc(q.x, q.y, q.r, 0, 6.2832); g2.fill();
+      }
+      return;
+    }
+
+    if (mode === 'ripple') {
+      if (t - lastRipple > 950) { lastRipple = t; ripples.push({ x: rnd(W * 0.1, W * 0.9), y: rnd(H * 0.35, H * 0.95), age: 0 }); if (ripples.length > 6) ripples.shift(); }
+      g2.lineWidth = 1.4 * dpr;
+      for (i = 0; i < ripples.length; i++) {
+        var rp = ripples[i]; rp.age += dtf;
+        var k = rp.age / 200; if (k > 1) continue;
+        for (j = 0; j < 2; j++) {
+          var rr = (k * 240 - j * 26) * dpr; if (rr <= 0) continue;
+          a = Math.pow(1 - k, 1.6) * (j ? 0.28 : 0.5) * F;
+          g2.strokeStyle = 'rgba(' + css + ',' + a.toFixed(3) + ')';
+          g2.beginPath(); g2.ellipse(rp.x, rp.y, rr, rr * 0.36, 0, 0, 6.2832); g2.stroke();
+        }
+      }
+    }
+
+    for (i = 0; i < parts.length; i++) {
+      q = parts[i];
+      if (mode === 'sparks') {
+        q.x += (q.vx + cx * 0.3 * dpr) * dtf; q.y += (q.vy - sv * q.z * dpr * 0.2) * dtf;
+        if (q.y < -20) { q.y = H + rnd(0, 40); q.x = rnd(0, W); }
+        if (q.x > W + 20) q.x = -10; else if (q.x < -20) q.x = W + 10;
+        a = (0.35 + 0.65 * Math.abs(Math.sin(t * 0.01 * q.z + q.ph))) * F * q.z;
+        g2.strokeStyle = 'rgba(' + css + ',' + a.toFixed(3) + ')'; g2.lineWidth = q.r; g2.lineCap = 'round';
+        g2.beginPath(); g2.moveTo(q.x, q.y); g2.lineTo(q.x - q.vx * 7, q.y - q.vy * 7); g2.stroke();
+      } else if (mode === 'bubbles') {
+        q.y += (q.vy - sv * 0.12 * dpr) * dtf; q.x += Math.sin(t * 0.0012 + q.ph) * 0.35 * dpr * dtf;
+        if (q.y < -q.r * 2) { q.y = H + q.r * 2; q.x = rnd(0, W); }
+        g2.lineWidth = 1.2 * dpr;
+        g2.fillStyle = 'rgba(' + css + ',' + (0.05 * F).toFixed(3) + ')';
+        g2.strokeStyle = 'rgba(' + css + ',' + (0.34 * F).toFixed(3) + ')';
+        g2.beginPath(); g2.arc(q.x, q.y, q.r, 0, 6.2832); g2.fill(); g2.stroke();
+        g2.strokeStyle = 'rgba(255,255,255,' + (0.42 * F).toFixed(3) + ')';
+        g2.beginPath(); g2.arc(q.x, q.y, q.r * 0.72, 3.5, 4.5); g2.stroke();
+      } else if (mode === 'glint') {
+        q.life += q.per * dtf;
+        if (q.life > 1) { q.life = 0; q.x = rnd(0, W); q.y = rnd(0, H); q.per = rnd(0.004, 0.011); q.r = rnd(0.8, 1.7); }
+        a = Math.pow(Math.sin(Math.PI * q.life), 3) * F;
+        star(q.x, q.y, q.r * dpr * (8 + 16 * a), a, '255,238,190');
+      } else if (mode === 'glitter') {
+        q.y += (q.vy - sv * 0.1 * dpr) * dtf; q.x += (q.vx + Math.sin(t * 0.001 + q.ph) * 0.15 * dpr) * dtf;
+        if (q.y > H + 10) { q.y = -10; q.x = rnd(0, W); }
+        a = Math.pow(Math.max(0, Math.sin(t * 0.005 * (1 + q.z) + q.ph)), 6) * F;
+        if (a > 0.02) star(q.x, q.y, q.r * 2.2, a, q.kind < 0.4 ? '255,140,190' : (q.kind < 0.7 ? '255,215,120' : '255,255,255'));
+      } else if (mode === 'petals') {
+        if (q.kind < 0.55) {
+          q.x += q.vx * dtf; q.y += q.vy * dtf;
+          if (q.y < -q.r) { q.y = H + q.r; q.x = rnd(0, W); }
+          g2.fillStyle = 'rgba(255,205,150,' + (q.a * F).toFixed(3) + ')';
+          g2.beginPath(); g2.arc(q.x, q.y, q.r, 0, 6.2832); g2.fill();
+        } else {
+          q.rot += q.vr * dtf; q.y += (q.vy - sv * 0.1 * dpr) * dtf; q.x += (q.vx + Math.sin(t * 0.001 + q.ph) * 0.25 * dpr) * dtf;
+          if (q.y > H + 20) { q.y = -20; q.x = rnd(0, W); }
+          g2.save(); g2.translate(q.x, q.y); g2.rotate(q.rot);
+          g2.fillStyle = 'rgba(255,225,232,' + (0.5 * F).toFixed(3) + ')';
+          g2.beginPath(); g2.ellipse(0, 0, q.r, q.r * 0.55, 0, 0, 6.2832); g2.fill(); g2.restore();
+        }
+      } else {
+        q.x += q.vx * dtf + cx * 0.05 * q.z * dpr; q.y += (q.vy - sv * q.z * dpr * 0.35) * dtf;
+        if (q.y < -12) { q.y = H + 12; q.x = rnd(0, W); }
+        if (q.y > H + 12) q.y = -12;
+        if (q.x < -12) q.x = W + 12; else if (q.x > W + 12) q.x = -12;
+        var tw = Math.sin(t * 0.0011 * (0.6 + q.z) + q.ph) * 0.5 + 0.5;
+        a = (0.12 + 0.6 * tw) * q.z * F * (mode === 'ripple' ? 0.55 : 1);
+        g2.fillStyle = 'rgba(' + css + ',' + (a * 0.14).toFixed(3) + ')';
+        g2.beginPath(); g2.arc(q.x, q.y, q.r * 4.2, 0, 6.2832); g2.fill();
+        g2.fillStyle = 'rgba(' + css + ',' + a.toFixed(3) + ')';
+        g2.beginPath(); g2.arc(q.x, q.y, q.r, 0, 6.2832); g2.fill();
+      }
+    }
+  }
+
+  /* ---------- active section ---------- */
+  var cur = [212, 175, 55], tgt = [212, 175, 55], lastCss = '', active = -1;
+  function setActive(i) {
+    active = i; tgt = data[i].rgb;
+    dots.forEach(function (d, k) {
+      var on = k === i; d.classList.toggle('active', on);
+      if (on) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+    });
+    cLabel.textContent = data[i].name;
+    cLabel.classList.remove('flip'); void cLabel.offsetWidth; cLabel.classList.add('flip');
+    setMode(data[i].mode);
+  }
+
+  /* ---------- flat section (hero) ---------- */
+  function flatFrame(d, r, vh) {
+    var p = (vh - r.top) / (r.height + vh);
+    if (ready) {
+      if (!d.shown && p > 0.26 && p < 0.84) { d.shown = true; d.el.classList.add('in'); }
+      else if (d.shown && (p < 0.08 || p > 0.95)) { d.shown = false; d.el.classList.remove('in'); }
+    }
+    if (reduce) return;
+    var near = 1 - Math.min(1, Math.abs(p - 0.5) * 2);
+    d.bg.style.transform = 'translate3d(' + (-cx * 24 * near).toFixed(1) + 'px,' + (-cy * 15 * near).toFixed(1) + 'px,0) scale(' + (1 + p * 0.34).toFixed(4) + ') rotate(' + ((p - 0.5) * 1.3).toFixed(3) + 'deg)';
+    d.bg.style.filter = 'brightness(' + Math.max(0.5, 1 - p * 0.42).toFixed(3) + ')';
+    var ex = clamp((p - 0.62) / 0.26, 0, 1);
+    d.inner.style.opacity = (1 - ex).toFixed(3);
+    d.inner.style.transform = ex > 0 ? 'translate3d(0,' + (-ex * 56).toFixed(1) + 'px,0) scale(' + (1 - ex * 0.05).toFixed(4) + ')' : '';
+    d.inner.style.filter = ex > 0.04 ? 'blur(' + (ex * 7).toFixed(1) + 'px)' : '';
+  }
+
+  /* ---------- doorway section: approach, enter, inside, exit ---------- */
+  function doorFrame(d, r, vh, now) {
+    var sh = d.stage.offsetHeight || vh, Wd = d.stage.clientWidth || innerWidth;
+    var travel = Math.max(1, d.el.offsetHeight - sh);
+    var t = clamp(-r.top / travel, 0, 1);
+
+    if (ready) {
+      if (!d.shown && t > 0.40 && t < 0.80) { d.shown = true; d.el.classList.add('in'); }
+      else if (d.shown && (t < 0.28 || t > 0.88)) { d.shown = false; d.el.classList.remove('in'); }
+    }
+    if (reduce) return;
+
+    var enterE = e3((t - 0.16) / 0.26), exitE = e3((t - 0.74) / 0.24);
+    var e = Math.min(enterE, 1 - exitE);
+    var s = t < 0.16 ? lerp(0.86, 1, 1 - Math.pow(1 - t / 0.16, 3)) : (t > 0.74 ? lerp(1, 0.9, exitE) : 1);
+    var g = doorGeo(d.kind, Wd, sh), dw = g.w * s, dh = g.h * s;
+    var dl = (Wd - dw) / 2, dt = (sh - dh) / 2 - sh * 0.02;
+    var L = lerp(dl, 0, e), T = lerp(dt, 0, e), B = lerp(sh - dt - dh, 0, e);
+    var rt = lerp(g.rt * s, 0, e), rb = lerp(g.rb * s, 0, e);
+
+    d.scene.style.clipPath = 'inset(' + T.toFixed(1) + 'px ' + L.toFixed(1) + 'px ' + B.toFixed(1) + 'px ' + L.toFixed(1) + 'px round ' +
+      rt.toFixed(1) + 'px ' + rt.toFixed(1) + 'px ' + rb.toFixed(1) + 'px ' + rb.toFixed(1) + 'px)';
+
+    var fw = Wd - 2 * L, fh = sh - T - B;
+    var fs = d.frame.style;
+    fs.width = fw.toFixed(1) + 'px'; fs.height = fh.toFixed(1) + 'px';
+    fs.transform = 'translate3d(' + L.toFixed(1) + 'px,' + T.toFixed(1) + 'px,0)';
+    fs.borderRadius = rt.toFixed(1) + 'px ' + rt.toFixed(1) + 'px ' + rb.toFixed(1) + 'px ' + rb.toFixed(1) + 'px';
+    fs.opacity = clamp(1 - (e - 0.7) / 0.3, 0, 1).toFixed(3);
+
+    var cam = t < 0.72 ? 1 + 0.32 * sm(t / 0.72) : 1.32 - 0.24 * sm((t - 0.72) / 0.28);
+    var minS = Math.max(dw / (1.2 * Wd), dh / (1.2 * sh)) + 0.06;
+    var base = lerp(Math.max(0.74, minS), 1, e);
+    var tx = -cx * 26 * e + Math.sin(now * 0.0005) * 7 * e, ty = -cy * 16 * e + Math.cos(now * 0.0004) * 5 * e;
+    var rot = d.theme === 'lau' ? (1 - e) * t * 120 : (t - 0.5) * 1.1 * e;
+    d.bg.style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,0) scale(' + (base * cam).toFixed(4) + ') rotate(' + rot.toFixed(2) + 'deg)';
+    d.bg.style.filter = 'brightness(' + (0.5 + 0.5 * e).toFixed(3) + ')';
+    d.wall.style.transform = 'scale(' + (1 + e * 0.35).toFixed(3) + ')';
+
+    d.sign.style.opacity = clamp(1 - e * 4, 0, 1).toFixed(3);
+    d.sign.style.transform = 'translate3d(0,' + Math.max(74, T - 96).toFixed(1) + 'px,0)';
+    d.hint.style.opacity = (clamp(1 - t / 0.14, 0, 1) * clamp(1 - e * 5, 0, 1)).toFixed(3);
+    d.hint.style.transform = 'translate3d(0,' + (T + fh + 18).toFixed(1) + 'px,0)';
+
+    if (d.shutter) d.shutter.style.transform = 'translate3d(0,' + (-clamp(e * 1.6, 0, 1) * 104).toFixed(2) + '%,0)';
+    if (d.huds.length) {
+      var ho = clamp((e - 0.85) / 0.15, 0, 1).toFixed(3);
+      for (var k = 0; k < d.huds.length; k++) d.huds[k].style.opacity = ho;
+    }
+
+    var ex = clamp((t - 0.74) / 0.08, 0, 1);
+    d.inner.style.opacity = (1 - ex).toFixed(3);
+    d.inner.style.transform = ex > 0 ? 'translate3d(0,' + (-ex * 44).toFixed(1) + 'px,0)' : '';
+    d.inner.style.filter = ex > 0.04 ? 'blur(' + (ex * 6).toFixed(1) + 'px)' : '';
+    d.inner.style.pointerEvents = (t < 0.36 || ex > 0.5) ? 'none' : '';
+  }
+
+  /* ---------- main loop ---------- */
+  var lastY = window.scrollY, sv = 0, lastT = performance.now();
+  function frame(t) {
+    var dtf = Math.min(2.5, (t - lastT) / 16.667) || 1; lastT = t;
+    var vh = innerHeight, i, d, r, act = -1;
+    var sy = window.scrollY || root.scrollTop;
+    var dh = root.scrollHeight - root.clientHeight;
+    progress.style.transform = 'scaleX(' + (dh > 0 ? clamp(sy / dh, 0, 1) : 0).toFixed(4) + ')';
+    sv += ((sy - lastY) - sv) * 0.15; lastY = sy;
+    cx += (mx - cx) * 0.06; cy += (my - cy) * 0.06;
+
+    for (i = 0; i < data.length; i++) {
+      d = data[i]; r = d.el.getBoundingClientRect();
+      if (r.top <= vh * 0.5 && r.bottom > vh * 0.5) act = i;
+      if (r.bottom < -60 || r.top > vh + 60) continue;
+      if (d.door) doorFrame(d, r, vh, t); else flatFrame(d, r, vh);
+    }
+    if (act >= 0 && act !== active) setActive(act);
+
+    for (i = 0; i < 3; i++) cur[i] += (tgt[i] - cur[i]) * 0.07;
+    var css = Math.round(cur[0]) + ',' + Math.round(cur[1]) + ',' + Math.round(cur[2]);
+    if (css !== lastCss) { root.style.setProperty('--accent-rgb', css); lastCss = css; }
+
+    if (!reduce) {
+      if (fine) {
+        gx += (px - gx) * 0.08; gy += (py - gy) * 0.08; rx += (px - rx) * 0.2; ry += (py - ry) * 0.2;
+        glow.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
+        ring.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)';
+      }
+      drawParticles(t, css, dtf, sv);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- navigation: land inside the chosen shop ---------- */
+  function idxById(id) { for (var i = 0; i < data.length; i++) { if (data[i].el.id === id) return i; } return -1; }
+  function goTo(i) {
+    var d = data[i], top = d.el.getBoundingClientRect().top + (window.scrollY || root.scrollTop);
+    if (d.door) top += Math.max(1, d.el.offsetHeight - d.stage.offsetHeight) * 0.5;
+    window.scrollTo({ top: top, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  doc.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!id) { e.preventDefault(); return; }
+    var i = idxById(id);
+    if (i < 0) return;
+    e.preventDefault(); goTo(i);
+  });
+
+  /* ---------- mobile menu ---------- */
+  var mm = doc.getElementById('mmenu'), mb = doc.getElementById('menuBtn');
+  function setMenu(o) { mm.classList.toggle('open', o); mb.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+  mb.addEventListener('click', function () { setMenu(true); });
+  doc.getElementById('mmClose').addEventListener('click', function () { setMenu(false); });
+  [].slice.call(mm.querySelectorAll('a')).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+  doc.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+})();
+
 </script>
 </body>
 </html>
