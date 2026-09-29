@@ -149,7 +149,10 @@
   function load() {
     fetch(API_URL + '?action=public&_=' + Date.now())
       .then(function (r) { return r.json(); })
-      .then(render, function () { if (!$('live').classList.contains('hide')) return; show('fail'); });
+      .then(function (d) {
+        try { if (d && d.ok) localStorage.setItem('umbPub', JSON.stringify(d)); } catch (e) { /* storage not available */ }
+        render(d);
+      }, function () { if (!$('live').classList.contains('hide')) return; show('fail'); });
   }
   $('retry').addEventListener('click', function () { show('loading'); load(); });
 
@@ -245,6 +248,12 @@
     timer = null;
     if (on) timer = setInterval(function () { if (!document.hidden) load(); }, 30000);
   }
+
+  // Show the last saved standings straight away, then update them from the server
+  try {
+    var saved = JSON.parse(localStorage.getItem('umbPub') || 'null');
+    if (saved && saved.ok && saved.published) render(saved);
+  } catch (e) { /* ignore */ }
 
   load();
 </script>
