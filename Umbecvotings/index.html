@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<title>UMBEC Officers Election</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F2747;
+    --blue: #0038A8;
+    --gold: #C9A227;
+    --red: #B3122A;
+    --ink: #1B2430;
+    --muted: #5B6675;
+    --line: #D5DBE4;
+    --bg: #F3F5F9;
+    --card: #FFFFFF;
+    --ok: #1F6F43;
+    --serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+    --sans: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body.lock { overflow: hidden; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 16px; }
+
+  .masthead {
+    background: var(--navy);
+    color: #fff;
+    padding: calc(22px + env(safe-area-inset-top)) 0 20px;
+    border-bottom: 4px solid var(--gold);
+  }
+  .masthead h1 {
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.25;
+    margin: 0 0 6px;
+  }
+  .masthead p { margin: 0; font-size: 15px; color: #C9D3E3; }
+  .facts { margin-top: 14px; display: grid; gap: 4px; font-size: 14px; color: #E6ECF6; }
+  .facts span { color: #9FB0CB; }
+
+  .steps { display: flex; gap: 8px; padding: 16px 0 4px; }
+  .steps div {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    border-top: 3px solid var(--line);
+    padding-top: 8px;
+  }
+  .steps div.on { color: var(--navy); border-top-color: var(--blue); font-weight: 600; }
+  .steps div.done { color: var(--ok); border-top-color: var(--ok); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 16px;
+    margin: 14px 0;
+  }
+  h2 { font-family: var(--serif); font-size: 19px; line-height: 1.3; margin: 0 0 4px; color: var(--navy); }
+  h3 { font-family: var(--serif); font-size: 17px; margin: 0 0 2px; color: var(--navy); }
+  .sub { margin: 0 0 16px; color: var(--muted); font-size: 15px; }
+  .group { margin: 26px 0 0; padding-bottom: 8px; border-bottom: 2px solid var(--navy); }
+
+  .field { margin: 0 0 16px; }
+  label { display: block; font-size: 15px; font-weight: 600; margin: 0 0 6px; color: var(--ink); }
+  input, select {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid #B7C0CE;
+    border-radius: 10px;
+    padding: 12px 14px;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  select {
+    padding-right: 42px;
+    text-overflow: ellipsis;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%230F2747' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0, 56, 168, .18);
+  }
+  .field.bad input, .field.bad select { border-color: var(--red); }
+  .err { display: none; margin: 6px 0 0; font-size: 14px; color: var(--red); }
+  .field.bad .err { display: block; }
+  .idline { min-height: 20px; margin: 6px 2px 0; font-size: 14px; color: var(--muted); }
+  .note { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+
+  .btn {
+    display: block;
+    width: 100%;
+    min-height: 52px;
+    font: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 1.5px solid var(--navy);
+    background: var(--navy);
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 16px;
+  }
+  .btn:active { background: #0A1C36; }
+  .btn:focus-visible { outline: 3px solid rgba(0, 56, 168, .35); outline-offset: 2px; }
+  .btn.alt { background: #fff; color: var(--navy); }
+  .btn[disabled] { opacity: .55; }
+  .row { display: grid; gap: 10px; margin-top: 18px; }
+
+  .bar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    background: #fff;
+    border-top: 1px solid var(--line);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    display: none;
+    z-index: 5;
+  }
+  .bar .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+  .bar .txt { font-size: 14px; color: var(--muted); }
+  .bar .txt b { color: var(--navy); }
+  .meter { height: 6px; background: var(--line); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+  .meter i { display: block; height: 100%; width: 0; background: var(--blue); transition: width .2s ease; }
+  .bar .btn { width: auto; min-height: 46px; padding: 10px 18px; }
+  body.ballot { padding-bottom: 100px; }
+  body.ballot .bar { display: block; }
+
+  .rev { margin: 0; padding: 0; list-style: none; }
+  .rev li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .rev li:last-child { border-bottom: 0; }
+  .rev .p { font-size: 14px; color: var(--muted); }
+  .rev .n { font-weight: 600; }
+  .rev .n small { font-weight: 400; color: var(--muted); }
+  .banner { background: #FBECEE; border: 1px solid #E6B5BC; color: #7A0D1D; border-radius: 10px; padding: 12px 14px; font-size: 15px; margin: 14px 0 0; display: none; }
+  .banner.show { display: block; }
+  .callout { background: #F6F0DB; border: 1px solid #E3D49A; border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #4B3E08; margin: 14px 0 0; }
+
+  .overlay {
+    position: fixed; inset: 0;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 24px;
+    background: rgba(15, 39, 71, .78);
+    z-index: 50;
+  }
+  .overlay.show { display: flex; }
+  .ov-box {
+    width: 100%; max-width: 340px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 22px;
+    text-align: center;
+  }
+  .ov-box h3 { margin: 16px 0 6px; }
+  .ov-box p { margin: 0; font-size: 15px; color: var(--muted); }
+  .spin {
+    width: 46px; height: 46px; margin: 0 auto;
+    border: 4px solid var(--line);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin .9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .receipt { padding: 0; overflow: hidden; }
+  .rc-head { background: var(--navy); color: #fff; padding: 18px 16px 14px; border-bottom: 4px solid var(--gold); }
+  .rc-head .t { font-family: var(--serif); font-weight: 700; font-size: 17px; line-height: 1.3; }
+  .rc-head .s { font-size: 13px; color: #C9D3E3; margin-top: 2px; }
+  .rc-body { padding: 16px; }
+  .okrow { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; }
+  .okrow svg { flex: none; }
+  .okrow h2 { margin: 0; }
+  .rc-ref { margin: 14px 0; padding: 12px 14px; border: 1.5px solid var(--navy); border-radius: 10px; background: #F7F9FC; }
+  .rc-ref .k { font-size: 12px; color: var(--muted); }
+  .rc-ref .v { font-family: var(--serif); font-size: 22px; font-weight: 700; color: var(--navy); letter-spacing: .5px; line-height: 1.3; }
+  .rc-ref .v.sm { font-size: 18px; }
+  .rc-ref .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .rc-meta { display: grid; gap: 6px; margin: 0 0 14px; font-size: 14px; }
+  .rc-meta div { display: grid; grid-template-columns: 96px 1fr; gap: 8px; }
+  .rc-meta dt { color: var(--muted); }
+  .rc-meta dd { margin: 0; font-weight: 500; word-break: break-word; }
+  .rc-title { font-family: var(--serif); font-size: 15px; color: var(--navy); margin: 0 0 4px; padding-bottom: 6px; border-bottom: 2px solid var(--navy); }
+  .rc-row { display: grid; grid-template-columns: 1fr 1.15fr; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--line); font-size: 13.5px; line-height: 1.35; }
+  .rc-row .p { color: var(--muted); }
+  .rc-row .n { font-weight: 600; }
+  .rc-foot { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+
+  .hide { display: none !important; }
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 18px 0 28px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meter i { transition: none; }
+    .spin { animation-duration: 2.4s; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <h1 id="club">United Manila Braves Eagles Club</h1>
+    <p id="year">Election of Club Officers</p>
+    <div class="facts" id="facts"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="steps" id="steps" aria-label="Progress">
+    <div id="st1" class="on">Your details</div>
+    <div id="st2">Ballot</div>
+    <div id="st3">Review</div>
+  </nav>
+
+  <section id="loading" class="card"><p class="sub" style="margin:0">Loading the ballot...</p></section>
+
+  <section id="closed" class="card hide">
+    <h2>Voting is closed</h2>
+    <p class="sub" style="margin:0">The election is not open right now. Please contact your Nomination and Election Committee if you need help.</p>
+  </section>
+
+  <section id="step1" class="card hide">
+    <h2>Voter details</h2>
+    <p class="sub">Enter your details exactly as they appear in the club records.</p>
+
+    <div class="field" id="f_name">
+      <label for="v_name">Full name</label>
+      <input id="v_name" type="text" autocomplete="name" autocapitalize="words" placeholder="Juan D. Dela Cruz">
+      <div class="err">Enter your full name.</div>
+    </div>
+    <div class="field" id="f_email">
+      <label for="v_email">Email address</label>
+      <input id="v_email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" placeholder="name@example.com">
+      <div class="err">Enter a valid email address.</div>
+    </div>
+    <div class="field" id="f_mobile">
+      <label for="v_mobile">Mobile number</label>
+      <input id="v_mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="+63 900 000 0000">
+      <div class="err">Enter a valid mobile number.</div>
+    </div>
+    <div class="field" id="f_id">
+      <label for="v_id">ID number</label>
+      <input id="v_id" type="text" autocomplete="off" autocapitalize="characters" placeholder="Club ID number">
+      <div class="err">Enter your ID number.</div>
+    </div>
+
+    <p class="note">Your details are used only to confirm you are an eligible member and to record one ballot per member.</p>
+    <div class="row"><button class="btn" id="to2" type="button">Continue to ballot</button></div>
+  </section>
+
+  <section id="step2" class="hide">
+    <div class="card" style="margin-bottom:0">
+      <h2>Select your officers</h2>
+      <p class="sub" style="margin:0">Choose one member for each seat. A member picked for one of the main positions is removed from the other main positions. Regional Assemblyman, Alternate Regional Assemblyman and Board of Director can repeat members from other positions.</p>
+    </div>
+    <div id="ballot"></div>
+  </section>
+
+  <section id="step3" class="hide">
+    <div class="card">
+      <h2>Review your ballot</h2>
+      <p class="sub">Check each choice. A submitted ballot cannot be changed.</p>
+      <ul class="rev" id="review"></ul>
+      <div class="callout">Voter: <b id="rv_name"></b><br><span id="rv_meta"></span></div>
+      <div class="banner" id="banner" role="alert"></div>
+      <div class="row">
+        <button class="btn" id="submit" type="button">Submit ballot</button>
+        <button class="btn alt" id="back2" type="button">Back to ballot</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="done" class="hide">
+    <div class="card receipt" id="receipt">
+      <div class="rc-head">
+        <div class="t" id="rc_club"></div>
+        <div class="s" id="rc_year"></div>
+      </div>
+      <div class="rc-body">
+        <div class="okrow">
+          <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="15" fill="#1F6F43"/><path d="M8.5 15.5l4.2 4.2 8.8-9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h2>Ballot received</h2>
+        </div>
+        <p class="sub" style="margin:6px 0 0">Take a screenshot of this receipt now and keep it. It cannot be opened again after you leave this page.</p>
+
+        <div class="rc-ref">
+          <div class="pair">
+            <div><div class="k">Reference number</div><div class="v sm" id="rc_ref"></div></div>
+            <div><div class="k">Verification code</div><div class="v sm" id="rc_code"></div></div>
+          </div>
+        </div>
+
+        <dl class="rc-meta">
+          <div><dt>Submitted</dt><dd id="rc_time"></dd></div>
+          <div><dt>Voter</dt><dd id="rc_name"></dd></div>
+          <div><dt>ID number</dt><dd id="rc_id"></dd></div>
+          <div><dt>Email</dt><dd id="rc_email"></dd></div>
+          <div><dt>Mobile</dt><dd id="rc_mobile"></dd></div>
+        </dl>
+
+        <h3 class="rc-title">Your votes</h3>
+        <div id="rc_list"></div>
+
+        <p class="rc-foot">The Nomination and Election Committee can match the reference number and verification code with the official record.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>Nomination and Election Committee</footer>
+</div>
+
+<div class="bar" id="bar">
+  <div class="in">
+    <div>
+      <div class="txt"><b id="cnt">0</b> of <span id="tot">0</span> seats selected</div>
+      <div class="meter"><i id="meter"></i></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn alt" id="back1" type="button" style="padding:10px 14px">Back</button>
+      <button class="btn" id="to3" type="button">Review</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" role="alertdialog" aria-live="assertive" aria-label="Submitting your ballot">
+  <div class="ov-box">
+    <div class="spin"></div>
+    <h3>Submitting your ballot</h3>
+    <p id="ovmsg">Please keep this page open.</p>
+  </div>
+</div>
+
+<script>
+  // Your Apps Script Web app link (ends in /exec)
+  var API_URL = 'https://script.google.com/macros/s/AKfycbxZSdIysiBqOKqfChjlDKE6JjsExyD_A7oXT-UAXOb1qDds_yulXsKRKbwfe-P9lf7LEQ/exec';
+
+  var S = null;
+  var picks = {};
+  var voter = {};
+  var submitting = false;
+  var slowTimer = null;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function apiGet(action) {
+    return fetch(API_URL + '?action=' + encodeURIComponent(action)).then(function (r) { return r.json(); });
+  }
+  function apiPost(body) {
+    return fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(body)
+    }).then(function (r) { return r.json(); });
+  }
+
+  function loadBallot() {
+    $('loading').classList.remove('hide');
+    $('loading').innerHTML = '<p class="sub" style="margin:0">Loading the ballot...</p>';
+    function fail() {
+      $('loading').innerHTML = '<p class="sub">The ballot could not be loaded. Check your internet and try again.</p><button class="btn" id="retry" type="button">Try again</button>';
+      $('retry').addEventListener('click', loadBallot);
+    }
+    apiGet('init').then(function (data) {
+      if (!data || !data.slots) { fail(); return; }
+      init(data);
+    }, fail);
+  }
+  loadBallot();
+
+  function init(data) {
+    S = data;
+    $('club').textContent = S.club;
+    $('year').textContent = 'Election of Club Officers, ' + S.year;
+    document.title = S.club + ' Election';
+
+    var facts = $('facts');
+    [['Region', S.region], ['Date of election', S.electionDate], ['Venue', S.venue]].forEach(function (f) {
+      if (!f[1]) return;
+      var d = el('div');
+      d.appendChild(el('span', null, f[0] + ': '));
+      d.appendChild(document.createTextNode(f[1]));
+      facts.appendChild(d);
+    });
+
+    $('loading').classList.add('hide');
+    if (!S.open) {
+      $('steps').classList.add('hide');
+      $('closed').classList.remove('hide');
+      return;
+    }
+    buildBallot();
+    $('tot').textContent = S.slots.length;
+    showStep(1);
+  }
+
+  function buildBallot() {
+    var host = $('ballot');
+    var frag = document.createDocumentFragment();
+    var lastGroup = null;
+    var card = null;
+    S.slots.forEach(function (sl) {
+      if (sl.group !== lastGroup) {
+        lastGroup = sl.group;
+        var g = el('div', 'group');
+        g.appendChild(el('h3', null, sl.group));
+        frag.appendChild(g);
+        card = el('div', 'card');
+        card.style.marginTop = '0';
+        card.style.borderTopLeftRadius = '0';
+        card.style.borderTopRightRadius = '0';
+        frag.appendChild(card);
+      }
+      var f = el('div', 'field');
+      f.id = 'f_' + sl.id;
+      var lb = el('label', null, sl.label);
+      lb.setAttribute('for', 'sel_' + sl.id);
+      var sel = document.createElement('select');
+      sel.id = 'sel_' + sl.id;
+      sel.addEventListener('change', function () {
+        picks[sl.id] = sel.value;
+        f.classList.remove('bad');
+        refresh();
+      });
+      var idl = el('div', 'idline');
+      idl.id = 'id_' + sl.id;
+      f.appendChild(lb);
+      f.appendChild(sel);
+      f.appendChild(idl);
+      f.appendChild(el('div', 'err', 'Select a member for this seat.'));
+      card.appendChild(f);
+    });
+    host.appendChild(frag);
+    refresh();
+  }
+
+  function opt(value, text) {
+    var o = document.createElement('option');
+    o.value = value;
+    o.textContent = text;
+    return o;
+  }
+
+  function refresh() {
+    var filled = 0;
+    S.slots.forEach(function (sl) {
+      var sel = $('sel_' + sl.id);
+      var cur = picks[sl.id] || '';
+      if (cur) filled++;
+      var taken = {};
+      S.slots.forEach(function (o) {
+        if (o.id === sl.id || !picks[o.id]) return;
+        if (sl.shared) {
+          if (o.shared && o.title === sl.title) taken[picks[o.id]] = 1;
+        } else if (!o.shared) {
+          taken[picks[o.id]] = 1;
+        }
+      });
+      var frag = document.createDocumentFragment();
+      frag.appendChild(opt('', 'Select a member'));
+      S.members.forEach(function (m) {
+        if (!taken[m.id]) frag.appendChild(opt(m.id, m.name));
+      });
+      sel.innerHTML = '';
+      sel.appendChild(frag);
+      sel.value = cur;
+      $('id_' + sl.id).textContent = cur ? 'ID No. ' + cur : '';
+    });
+    $('cnt').textContent = filled;
+    $('meter').style.width = (S.slots.length ? (filled / S.slots.length * 100) : 0) + '%';
+  }
+
+  function memberById(id) {
+    for (var i = 0; i < S.members.length; i++) if (S.members[i].id === id) return S.members[i];
+    return null;
+  }
+
+  function showStep(n) {
+    ['step1', 'step2', 'step3', 'done'].forEach(function (id) { $(id).classList.add('hide'); });
+    if (n === 4) {
+      $('done').classList.remove('hide');
+      $('steps').classList.add('hide');
+    } else {
+      $('step' + n).classList.remove('hide');
+    }
+    document.body.classList.toggle('ballot', n === 2);
+    ['st1', 'st2', 'st3'].forEach(function (id, i) {
+      $(id).className = (i + 1 === n) ? 'on' : ((i + 1 < n) ? 'done' : '');
+    });
+    window.scrollTo(0, 0);
+  }
+
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var MOBILE = /^\+?[0-9 ()\-]{7,20}$/;
+
+  function check(fid, ok) {
+    $(fid).classList.toggle('bad', !ok);
+    return ok;
+  }
+
+  $('to2').addEventListener('click', function () {
+    var name = $('v_name').value.trim();
+    var email = $('v_email').value.trim();
+    var mobile = $('v_mobile').value.trim();
+    var id = $('v_id').value.trim();
+    var a = check('f_name', name.length >= 3);
+    var b = check('f_email', EMAIL.test(email));
+    var c = check('f_mobile', MOBILE.test(mobile));
+    var d = check('f_id', id.length > 0);
+    if (!(a && b && c && d)) return;
+    voter = { name: name, email: email, mobile: mobile, id: id };
+    showStep(2);
+  });
+
+  $('back1').addEventListener('click', function () { showStep(1); });
+
+  $('to3').addEventListener('click', function () {
+    var firstBad = null;
+    S.slots.forEach(function (sl) {
+      var ok = !!picks[sl.id];
+      $('f_' + sl.id).classList.toggle('bad', !ok);
+      if (!ok && !firstBad) firstBad = sl.id;
+    });
+    if (firstBad) {
+      $('f_' + firstBad).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    var ul = $('review');
+    ul.innerHTML = '';
+    S.slots.forEach(function (sl) {
+      var m = memberById(picks[sl.id]);
+      var li = el('li');
+      li.appendChild(el('div', 'p', sl.label));
+      var n = el('div', 'n', m ? m.name : '');
+      n.appendChild(el('small', null, m ? '  ID No. ' + m.id : ''));
+      li.appendChild(n);
+      ul.appendChild(li);
+    });
+    $('rv_name').textContent = voter.name;
+    $('rv_meta').textContent = voter.email + '  |  ' + voter.mobile + '  |  ID No. ' + voter.id;
+    $('banner').classList.remove('show');
+    showStep(3);
+  });
+
+  $('back2').addEventListener('click', function () { showStep(2); });
+
+  function setBusy(on) {
+    submitting = on;
+    $('overlay').classList.toggle('show', on);
+    document.body.classList.toggle('lock', on);
+    $('submit').disabled = on;
+    $('back2').disabled = on;
+    clearTimeout(slowTimer);
+    if (on) {
+      $('ovmsg').textContent = 'Please keep this page open.';
+      slowTimer = setTimeout(function () {
+        $('ovmsg').textContent = 'Still working. This can take a few seconds on a slow connection.';
+      }, 8000);
+    }
+  }
+
+  $('submit').addEventListener('click', function () {
+    if (submitting) return;
+    $('banner').classList.remove('show');
+    setBusy(true);
+    apiPost({ action: 'submit', voter: voter, picks: picks }).then(
+      function (res) {
+        setBusy(false);
+        if (res && res.ok) {
+          showReceipt(res);
+        } else {
+          showError((res && res.message) || 'Your ballot could not be submitted.');
+        }
+      },
+      function () {
+        setBusy(false);
+        showError('Connection problem. Check your internet, then tap Submit ballot again. If it says a ballot already exists, your first attempt went through.');
+      }
+    );
+  });
+
+  function showError(msg) {
+    var b = $('banner');
+    b.textContent = msg;
+    b.classList.add('show');
+    b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function maskEmail(e) {
+    var i = e.indexOf('@');
+    if (i < 1) return e;
+    var u = e.slice(0, i);
+    return u.charAt(0) + '***' + (u.length > 3 ? u.charAt(u.length - 1) : '') + e.slice(i);
+  }
+  function maskMobile(m) {
+    var digits = m.replace(/\D/g, '');
+    return digits.length > 4 ? '**** ' + digits.slice(-4) : m;
+  }
+
+  function showReceipt(res) {
+    $('rc_club').textContent = S.club;
+    $('rc_year').textContent = 'Official ballot receipt, ' + S.year;
+    $('rc_ref').textContent = res.ref;
+    $('rc_code').textContent = res.code;
+    $('rc_time').textContent = res.stamp;
+    $('rc_name').textContent = voter.name;
+    $('rc_id').textContent = voter.id;
+    $('rc_email').textContent = maskEmail(voter.email);
+    $('rc_mobile').textContent = maskMobile(voter.mobile);
+
+    var list = $('rc_list');
+    list.innerHTML = '';
+    var frag = document.createDocumentFragment();
+    S.slots.forEach(function (sl) {
+      var m = memberById(picks[sl.id]);
+      var r = el('div', 'rc-row');
+      r.appendChild(el('div', 'p', sl.label));
+      r.appendChild(el('div', 'n', m ? m.name : ''));
+      frag.appendChild(r);
+    });
+    list.appendChild(frag);
+    showStep(4);
+  }
+</script>
+</body>
+</html>
