@@ -841,20 +841,25 @@
     if (submitting) return;
     $('banner').classList.remove('show');
     setBusy(true);
-    apiPost({ action: 'submit', voter: voter, picks: picks }).then(
-      function (res) {
-        setBusy(false);
-        if (res && res.ok) {
-          showReceipt(res);
-        } else {
-          showError((res && res.message) || 'Your ballot could not be submitted.');
-        }
-      },
-      function () {
-        setBusy(false);
-        showError('Connection problem. Check your internet, then tap Submit ballot again. If it says a ballot already exists, your first attempt went through.');
+    function handle(res) {
+      setBusy(false);
+      if (res && res.ok) {
+        showReceipt(res);
+      } else {
+        showError((res && res.message) || 'Your ballot could not be submitted.');
       }
-    );
+    }
+    function failed() {
+      setBusy(false);
+      showError('Connection problem. Check your internet, then tap Submit ballot again. If it says a ballot already exists, your first attempt went through.');
+    }
+    // First try a normal send. If that does not get through, send it the other way.
+    apiPost({ action: 'submit', voter: voter, picks: picks }).then(handle, function () {
+      var payload = encodeURIComponent(JSON.stringify({ voter: voter, picks: picks }));
+      fetch(API_URL + '?action=submit&data=' + payload + '&_=' + Date.now())
+        .then(function (res) { return res.json(); })
+        .then(handle, failed);
+    });
   });
 
   function showError(msg) {
