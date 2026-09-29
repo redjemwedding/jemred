@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>UMBEC Election: Contested Races</title>
-<meta name="description" content="Standings for the contested races in the United Manila Braves Eagles Club officers election.">
+<title>UMBEC Election Standings</title>
+<meta name="description" content="Standings for the United Manila Braves Eagles Club officers election.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
@@ -76,6 +76,11 @@
   .race-f b { color: var(--navy); }
   .race-f.tie b { color: var(--red); }
 
+  .chip.ok { background: #DCEFE3; color: #14532D; }
+  .cand.solo { border-left-color: var(--ok); background: #F4FBF6; }
+  .cand.solo .rk { background: var(--ok); color: #fff; }
+  .cand.solo .bar i { background: var(--ok); }
+
   .hide { display: none !important; }
   @media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
 </style>
@@ -88,7 +93,7 @@
       <img data-logo alt="United Manila Braves Eagles Club logo" width="68" height="69">
       <div class="txt">
         <h1 id="club">United Manila Braves Eagles Club</h1>
-        <p id="year">Contested races</p>
+        <p id="year">Election standings</p>
       </div>
     </div>
   </div>
@@ -159,8 +164,8 @@
   function render(d) {
     if (!d || !d.ok) { show('fail'); return; }
     $('club').textContent = d.club;
-    $('year').textContent = 'Contested races, ' + d.year;
-    document.title = d.club + ' Election: Contested Races';
+    $('year').textContent = 'Election standings, ' + d.year;
+    document.title = d.club + ' Election Standings';
 
     if (!d.published) { show('notpub'); scheduleRefresh(true); return; }
     show('live');
@@ -180,23 +185,48 @@
     var host = $('races');
     host.innerHTML = '';
 
-    if (!d.ballots) {
+    var items = d.positions || (d.races || []).map(function (r) { r.type = 'race'; return r; });
+
+    if (!d.ballots || !items.length) {
       host.appendChild(el('div', 'card')).appendChild(el('p', 'sub', 'No votes have been counted yet.'));
-    } else if (!d.races.length) {
-      host.appendChild(el('div', 'card')).appendChild(el('p', 'sub', 'There are no contested races right now.'));
     } else {
-      var h = el('div', 'lead-in', 'Contested races');
-      h.appendChild(el('small', null, 'Only positions with more candidates than seats are shown.'));
+      var h = el('div', 'lead-in', 'Standings by position');
+      h.appendChild(el('small', null, 'Contested positions show each candidate. Unopposed positions show the candidate and the votes received.'));
       lead.appendChild(h);
     }
 
     var frag = document.createDocumentFragment();
-    (d.ballots ? d.races : []).forEach(function (r) {
+    (d.ballots ? items : []).forEach(function (r) {
       var card = el('div', 'card race');
       var head = el('div', 'race-h');
       head.appendChild(el('h3', null, r.title));
       head.appendChild(el('div', 'seat', r.seats > 1 ? r.seats + ' seats' : '1 seat'));
       card.appendChild(head);
+
+      if (r.type === 'solo') {
+        r.candidates.forEach(function (c, i) {
+          var srow = el('div', 'cand solo');
+          srow.appendChild(el('div', 'rk', String(i + 1)));
+          var snm = el('div', 'nm', c.name);
+          snm.appendChild(el('span', 'chip ok', 'Unopposed'));
+          srow.appendChild(snm);
+          var svt = el('div', 'vt');
+          svt.appendChild(el('b', null, String(c.votes)));
+          svt.appendChild(el('small', null, c.pct + '%'));
+          srow.appendChild(svt);
+          var sbar = el('div', 'bar');
+          var sfill = document.createElement('i');
+          sfill.style.width = Math.min(100, Math.round(c.votes / (d.ballots || 1) * 100)) + '%';
+          sbar.appendChild(sfill);
+          srow.appendChild(sbar);
+          card.appendChild(srow);
+        });
+        var pad = el('div');
+        pad.style.height = '10px';
+        card.appendChild(pad);
+        frag.appendChild(card);
+        return;
+      }
 
       var max = r.candidates[0].votes || 1;
       r.candidates.forEach(function (c, i) {
