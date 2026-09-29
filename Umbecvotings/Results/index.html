@@ -43,6 +43,7 @@
   .btn[disabled] { opacity: .55; }
   .err { color: var(--red); font-size: 14px; margin: 10px 0 0; min-height: 20px; }
 
+  /* Progress */
   .big { display: flex; align-items: baseline; gap: 8px; }
   .big b { font-family: var(--serif); font-size: 34px; color: var(--navy); line-height: 1.1; }
   .big span { color: var(--muted); font-size: 15px; }
@@ -54,6 +55,7 @@
   .warn { background: #FBF3D9; border: 1px solid #E3D49A; color: #4B3E08; border-radius: 10px; padding: 12px 14px; font-size: 14px; margin: 14px 0; }
   .warn.red { background: #FBECEE; border-color: #E6B5BC; color: #7A0D1D; }
 
+  /* Ranking */
   .grp { font-family: var(--serif); font-size: 16px; color: var(--navy); margin: 26px 0 0; padding-bottom: 6px; border-bottom: 2px solid var(--navy); }
   .pos { padding: 0; overflow: hidden; }
   .pos-h { padding: 14px 16px 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
@@ -71,12 +73,17 @@
   .chip.tie { background: #F2C1C8; color: #7A0D1D; }
   .empty { padding: 12px 16px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
 
+  /* Turnout tabs */
   .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
   .tabs button { font: inherit; font-size: 15px; font-weight: 600; min-height: 46px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; color: var(--muted); cursor: pointer; }
   .tabs button.on { border-color: var(--navy); background: var(--navy); color: #fff; }
   .names { list-style: none; margin: 0; padding: 0; }
   .names li { padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
   .names li:last-child { border-bottom: 0; }
+
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand img { width: 60px; height: auto; flex: none; display: block; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35)); }
+  .brand .txt { min-width: 0; }
 
   .hide { display: none !important; }
   @media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
@@ -86,13 +93,19 @@
 
 <header class="masthead">
   <div class="wrap" style="padding-bottom:0">
-    <h1>Election results and progress</h1>
-    <p>United Manila Braves Eagles Club, Nomination and Election Committee</p>
+    <div class="brand">
+      <picture><source srcset="logo.webp" type="image/webp"><img src="logo.png" alt="United Manila Braves Eagles Club logo" width="60" height="61"></picture>
+      <div class="txt">
+        <h1>Election results and progress</h1>
+        <p>United Manila Braves Eagles Club, Nomination and Election Committee</p>
+      </div>
+    </div>
   </div>
 </header>
 
 <div class="wrap">
 
+  <!-- PIN gate -->
   <section id="gate" class="card">
     <h2>Committee access</h2>
     <p class="sub">Enter the Results PIN from the Settings sheet.</p>
@@ -101,6 +114,7 @@
     <button class="btn" id="go" type="button">View results</button>
   </section>
 
+  <!-- Dashboard -->
   <section id="dash" class="hide">
 
     <div class="card">
@@ -205,6 +219,7 @@
     $('meter').style.width = Math.min(pct, 100) + '%';
     $('updated').textContent = data.updated;
 
+    // Conflicts
     var c = $('conflicts');
     c.innerHTML = '';
     data.conflicts.forEach(function (x) {
@@ -212,6 +227,7 @@
       c.appendChild(w);
     });
 
+    // Ranking
     var host = $('ranking');
     host.innerHTML = '';
     var frag = document.createDocumentFragment();
