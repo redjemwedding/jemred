@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>UMBEC Election Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F2747;
+    --blue: #0038A8;
+    --gold: #C9A227;
+    --red: #B3122A;
+    --ink: #1B2430;
+    --muted: #5B6675;
+    --line: #D5DBE4;
+    --bg: #F3F5F9;
+    --ok: #1F6F43;
+    --serif: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+    --sans: 'Libre Franklin', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.5; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 16px 40px; }
+
+  .masthead { background: var(--navy); color: #fff; padding: calc(20px + env(safe-area-inset-top)) 0 18px; border-bottom: 4px solid var(--gold); }
+  .masthead h1 { font-family: var(--serif); font-size: 21px; line-height: 1.25; margin: 0 0 4px; }
+  .masthead p { margin: 0; font-size: 14px; color: #C9D3E3; }
+
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 16px; margin: 14px 0; }
+  h2 { font-family: var(--serif); font-size: 18px; margin: 0 0 4px; color: var(--navy); }
+  h3 { font-family: var(--serif); font-size: 16px; margin: 0; color: var(--navy); }
+  .sub { margin: 0 0 14px; color: var(--muted); font-size: 15px; }
+  .note { font-size: 13px; color: var(--muted); }
+
+  input { display: block; width: 100%; min-height: 52px; font: inherit; font-size: 16px; padding: 12px 14px; border: 1.5px solid #B7C0CE; border-radius: 10px; -webkit-appearance: none; appearance: none; letter-spacing: 2px; }
+  input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,56,168,.18); }
+  .btn { display: block; width: 100%; min-height: 52px; font: inherit; font-size: 16px; font-weight: 600; border-radius: 10px; border: 1.5px solid var(--navy); background: var(--navy); color: #fff; cursor: pointer; padding: 12px 16px; margin-top: 12px; }
+  .btn.alt { background: #fff; color: var(--navy); }
+  .btn[disabled] { opacity: .55; }
+  .err { color: var(--red); font-size: 14px; margin: 10px 0 0; min-height: 20px; }
+
+  .big { display: flex; align-items: baseline; gap: 8px; }
+  .big b { font-family: var(--serif); font-size: 34px; color: var(--navy); line-height: 1.1; }
+  .big span { color: var(--muted); font-size: 15px; }
+  .meter { height: 10px; background: var(--line); border-radius: 5px; margin: 12px 0 8px; overflow: hidden; }
+  .meter i { display: block; height: 100%; width: 0; background: var(--blue); transition: width .3s ease; }
+  .topline { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .topline .btn { width: auto; min-height: 40px; padding: 8px 14px; margin: 0; font-size: 14px; }
+
+  .warn { background: #FBF3D9; border: 1px solid #E3D49A; color: #4B3E08; border-radius: 10px; padding: 12px 14px; font-size: 14px; margin: 14px 0; }
+  .warn.red { background: #FBECEE; border-color: #E6B5BC; color: #7A0D1D; }
+
+  .grp { font-family: var(--serif); font-size: 16px; color: var(--navy); margin: 26px 0 0; padding-bottom: 6px; border-bottom: 2px solid var(--navy); }
+  .pos { padding: 0; overflow: hidden; }
+  .pos-h { padding: 14px 16px 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .pos-h .seat { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .cand { display: grid; grid-template-columns: 26px 1fr auto; gap: 8px; align-items: center; padding: 10px 16px; border-top: 1px solid var(--line); border-left: 4px solid transparent; }
+  .cand.lead { border-left-color: var(--gold); background: #FFFBEA; }
+  .cand .rk { color: var(--muted); font-size: 14px; }
+  .cand .nm { font-weight: 600; font-size: 15px; line-height: 1.3; }
+  .cand .nm small { display: block; font-weight: 400; color: var(--muted); font-size: 12.5px; }
+  .cand .vt { font-family: var(--serif); font-weight: 700; font-size: 17px; color: var(--navy); }
+  .bar { grid-column: 2 / 4; height: 5px; background: var(--line); border-radius: 3px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--blue); }
+  .cand.lead .bar i { background: var(--gold); }
+  .chip { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 10px; background: var(--gold); color: #3B2F00; margin-left: 6px; vertical-align: 1px; }
+  .chip.tie { background: #F2C1C8; color: #7A0D1D; }
+  .empty { padding: 12px 16px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .tabs button { font: inherit; font-size: 15px; font-weight: 600; min-height: 46px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; color: var(--muted); cursor: pointer; }
+  .tabs button.on { border-color: var(--navy); background: var(--navy); color: #fff; }
+  .names { list-style: none; margin: 0; padding: 0; }
+  .names li { padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .names li:last-child { border-bottom: 0; }
+
+  .hide { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap" style="padding-bottom:0">
+    <h1>Election results and progress</h1>
+    <p>United Manila Braves Eagles Club, Nomination and Election Committee</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="gate" class="card">
+    <h2>Committee access</h2>
+    <p class="sub">Enter the Results PIN from the Settings sheet.</p>
+    <input id="pin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN">
+    <div class="err" id="gerr" role="alert"></div>
+    <button class="btn" id="go" type="button">View results</button>
+  </section>
+
+  <section id="dash" class="hide">
+
+    <div class="card">
+      <div class="topline">
+        <h2 style="margin:0">Voting progress</h2>
+        <button class="btn alt" id="refresh" type="button">Refresh</button>
+      </div>
+      <div class="big" style="margin-top:12px"><b id="ballots">0</b><span>of <span id="eligible">0</span> members have voted (<span id="pct">0</span>%)</span></div>
+      <div class="meter"><i id="meter"></i></div>
+      <div class="note">Updated <span id="updated"></span>. This page refreshes on its own every 20 seconds.</div>
+    </div>
+
+    <div id="conflicts"></div>
+
+    <div id="ranking"></div>
+
+    <div class="card" style="margin-top:26px">
+      <h2>Turnout</h2>
+      <p class="sub" style="margin-bottom:12px">Who has voted and who has not. Choices are not shown here.</p>
+      <div class="tabs">
+        <button id="tabV" class="on" type="button">Voted (0)</button>
+        <button id="tabP" type="button">Not yet (0)</button>
+      </div>
+      <ul class="names" id="names"></ul>
+    </div>
+
+    <p class="note" style="text-align:center">Gold marks the candidates currently in a winning place for each position. Rankings are provisional until the NOMELEC closes the vote.</p>
+  </section>
+</div>
+
+<script>
+  // Your Apps Script Web app link (ends in /exec)
+  var API_URL = 'https://script.google.com/macros/s/AKfycbxZSdIysiBqOKqfChjlDKE6JjsExyD_A7oXT-UAXOb1qDds_yulXsKRKbwfe-P9lf7LEQ/exec';
+
+  var pin = '';
+  var data = null;
+  var tab = 'v';
+  var loading = false;
+  var timer = null;
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  $('go').addEventListener('click', function () {
+    pin = $('pin').value.trim();
+    if (!pin) { $('gerr').textContent = 'Enter the PIN.'; return; }
+    load(true);
+  });
+  $('pin').addEventListener('keydown', function (e) { if (e.key === 'Enter') $('go').click(); });
+  $('refresh').addEventListener('click', function () { load(false); });
+  $('tabV').addEventListener('click', function () { tab = 'v'; renderNames(); });
+  $('tabP').addEventListener('click', function () { tab = 'p'; renderNames(); });
+
+  function load(first) {
+    if (loading) return;
+    loading = true;
+    if (first) { $('go').disabled = true; $('go').textContent = 'Checking...'; $('gerr').textContent = ''; }
+    $('refresh').disabled = true;
+    fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'results', pin: pin })
+    }).then(function (res) { return res.json(); }).then(
+      function (r) {
+        loading = false;
+        $('refresh').disabled = false;
+        $('go').disabled = false;
+        $('go').textContent = 'View results';
+        if (!r || !r.ok) {
+          if (first) { $('gerr').textContent = (r && r.message) || 'Could not load results.'; }
+          else { clearInterval(timer); location.reload(); }
+          return;
+        }
+        data = r;
+        $('gate').classList.add('hide');
+        $('dash').classList.remove('hide');
+        render();
+        if (!timer) {
+          timer = setInterval(function () { if (!document.hidden) load(false); }, 20000);
+        }
+      },
+      function () {
+        loading = false;
+        $('refresh').disabled = false;
+        $('go').disabled = false;
+        $('go').textContent = 'View results';
+        if (first) $('gerr').textContent = 'Connection problem. Please try again.';
+      }
+    );
+  }
+
+  function render() {
+    var pct = data.eligible ? Math.round(data.ballots / data.eligible * 100) : 0;
+    $('ballots').textContent = data.ballots;
+    $('eligible').textContent = data.eligible;
+    $('pct').textContent = pct;
+    $('meter').style.width = Math.min(pct, 100) + '%';
+    $('updated').textContent = data.updated;
+
+    var c = $('conflicts');
+    c.innerHTML = '';
+    data.conflicts.forEach(function (x) {
+      var w = el('div', 'warn', x.name + ' is currently leading more than one main position: ' + x.titles.join(', ') + '. The committee needs to decide which seat they take.');
+      c.appendChild(w);
+    });
+
+    var host = $('ranking');
+    host.innerHTML = '';
+    var frag = document.createDocumentFragment();
+    var lastGroup = null;
+    data.positions.forEach(function (p) {
+      if (p.group !== lastGroup) {
+        lastGroup = p.group;
+        frag.appendChild(el('div', 'grp', p.group));
+      }
+      var card = el('div', 'card pos');
+      var h = el('div', 'pos-h');
+      h.appendChild(el('h3', null, p.title));
+      h.appendChild(el('div', 'seat', p.seats > 1 ? p.seats + ' seats' : '1 seat'));
+      card.appendChild(h);
+
+      if (p.tie) {
+        var t = el('div', 'warn red', 'Tie at the last winning place. The committee needs to decide.');
+        t.style.margin = '0 16px 12px';
+        card.appendChild(t);
+      }
+      if (!p.rows.length) {
+        card.appendChild(el('div', 'empty', 'No votes yet.'));
+      } else {
+        var max = p.rows[0].votes || 1;
+        p.rows.forEach(function (r, i) {
+          var row = el('div', 'cand' + (r.leader ? ' lead' : ''));
+          row.appendChild(el('div', 'rk', String(i + 1)));
+          var nm = el('div', 'nm', r.name);
+          if (r.tied) nm.appendChild(el('span', 'chip tie', 'Tied'));
+          else if (r.leader) nm.appendChild(el('span', 'chip', 'Leading'));
+          nm.appendChild(el('small', null, 'ID No. ' + r.id));
+          row.appendChild(nm);
+          row.appendChild(el('div', 'vt', String(r.votes)));
+          var bar = el('div', 'bar');
+          var fill = document.createElement('i');
+          fill.style.width = Math.round(r.votes / max * 100) + '%';
+          bar.appendChild(fill);
+          row.appendChild(bar);
+          card.appendChild(row);
+        });
+      }
+      frag.appendChild(card);
+    });
+    host.appendChild(frag);
+
+    renderNames();
+  }
+
+  function renderNames() {
+    $('tabV').textContent = 'Voted (' + data.voted.length + ')';
+    $('tabP').textContent = 'Not yet (' + data.pending.length + ')';
+    $('tabV').className = tab === 'v' ? 'on' : '';
+    $('tabP').className = tab === 'p' ? 'on' : '';
+    var ul = $('names');
+    ul.innerHTML = '';
+    var list = tab === 'v' ? data.voted : data.pending;
+    if (!list.length) {
+      ul.appendChild(el('li', null, tab === 'v' ? 'Nobody has voted yet.' : 'Everyone has voted.'));
+      return;
+    }
+    list.forEach(function (n) { ul.appendChild(el('li', null, n)); });
+  }
+</script>
+</body>
+</html>
