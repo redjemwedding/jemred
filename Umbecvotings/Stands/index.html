@@ -81,6 +81,21 @@
   .cand.solo .rk { background: var(--ok); color: #fff; }
   .cand.solo .bar i { background: var(--ok); }
 
+  .win { padding: 0; overflow: hidden; }
+  .win-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 16px 10px; }
+  .win-h h2 { margin: 0; }
+  .wrow { display: grid; grid-template-columns: 1fr 1.25fr; gap: 10px; padding: 9px 16px; border-top: 1px solid var(--line); font-size: 14.5px; line-height: 1.35; }
+  .wrow .p { color: var(--muted); }
+  .wrow .n { font-weight: 600; }
+  .wrow .n div + div { margin-top: 3px; }
+  .wrow .n .t { color: var(--red); }
+  .wrow .n .none { color: var(--muted); font-weight: 400; }
+  .win-f { padding: 10px 16px 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+
+  /* The word Eagles is always written in the club's script style (font is built into the page) */
+  @font-face { font-family: 'UMBEC Script'; src: url(data:font/woff2;base64,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) format('woff2'); font-weight: 400; font-style: normal; font-display: block; }
+  .eag { font-family: 'UMBEC Script', 'Brush Script MT', 'Snell Roundhand', 'Apple Chancery', 'Segoe Script', cursive; font-style: normal; font-weight: 400; font-size: 1.25em; letter-spacing: -.01em; line-height: 1; white-space: nowrap; -webkit-text-stroke: .3px currentColor; padding: 0 .1em 0 .03em; }
+
   .hide { display: none !important; }
   @media (prefers-reduced-motion: reduce) { .meter i { transition: none; } }
 </style>
@@ -114,11 +129,12 @@
         <h2 style="margin:0">Voter turnout</h2>
         <span class="pill" id="status"></span>
       </div>
-      <div class="big"><b id="ballots">0</b><span>of <span id="eligible">0</span> members have voted (<span id="pct">0</span>%)</span></div>
+      <div class="big"><b id="pct">0%</b><span>of members have voted</span></div>
       <div class="meter"><i id="meter"></i></div>
       <div class="note">Updated <span id="updated"></span></div>
     </div>
 
+    <div id="winners"></div>
     <div id="lead"></div>
     <div id="races"></div>
     <p class="note" id="foot" style="text-align:center"></p>
@@ -139,6 +155,26 @@
   var API_URL = 'https://script.google.com/macros/s/AKfycbxZSdIysiBqOKqfChjlDKE6JjsExyD_A7oXT-UAXOb1qDds_yulXsKRKbwfe-P9lf7LEQ/exec';
 
   var timer = null;
+
+  // Positions in the official order, with the number of seats
+  var POS = [
+    ['President', 1], ['Vice President', 1], ['Secretary', 1], ['Assistant Secretary', 1],
+    ['Treasurer', 1], ['Assistant Treasurer', 1], ['Auditor', 1],
+    ['Information Officer', 1], ['Protocol Officer', 2], ['Peace Officer', 2],
+    ['CARE Chairman', 1], ['COMELEC Officer', 1],
+    ['Tribunal/Grievance Chairman', 1], ['Tribunal/Grievance Vice Chairman', 1],
+    ['Regional Assemblyman', 2], ['Alternate Regional Assemblyman', 2], ['Board of Director', 5]
+  ];
+
+  function winnersOf(r) {
+    if (r.type === 'solo') return { names: r.candidates.map(function (c) { return c.name; }), tie: [] };
+    var sure = [], tie = [];
+    r.candidates.forEach(function (c) {
+      if (c.tied) tie.push(c.name);
+      else if (c.leader) sure.push(c.name);
+    });
+    return { names: sure, tie: tie };
+  }
 
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) {
@@ -170,10 +206,10 @@
     if (!d.published) { show('notpub'); scheduleRefresh(true); return; }
     show('live');
 
-    var pct = d.eligible ? Math.round(d.ballots / d.eligible * 100) : 0;
-    $('ballots').textContent = d.ballots;
-    $('eligible').textContent = d.eligible;
-    $('pct').textContent = pct;
+    // Privacy: only percentages are shown, never how many people voted or how many votes anyone received.
+    var hasVotes = d.hasVotes !== undefined ? d.hasVotes : !!d.ballots;
+    var pct = d.turnoutPct !== undefined ? d.turnoutPct : (d.eligible ? Math.round(d.ballots / d.eligible * 100) : 0);
+    $('pct').textContent = pct + '%';
     $('meter').style.width = Math.min(pct, 100) + '%';
     $('updated').textContent = d.updated;
     var st = $('status');
@@ -187,16 +223,47 @@
 
     var items = d.positions || (d.races || []).map(function (r) { r.type = 'race'; return r; });
 
-    if (!d.ballots || !items.length) {
+    // List of winners, in the official order
+    var wl = $('winners');
+    wl.innerHTML = '';
+    var byTitle = {};
+    items.forEach(function (r) { byTitle[r.title] = r; });
+    var wc = el('div', 'card win');
+    var wh = el('div', 'win-h');
+    wh.appendChild(el('h2', null, d.voting ? 'Current leaders' : 'List of winners'));
+    wh.appendChild(el('span', 'pill ' + (d.voting ? 'open' : 'closed'), d.voting ? 'Voting open' : 'Voting closed'));
+    wc.appendChild(wh);
+    POS.forEach(function (p) {
+      var r = byTitle[p[0]];
+      var row = el('div', 'wrow');
+      row.appendChild(el('div', 'p', p[0] + (p[1] > 1 ? ' (' + p[1] + ' seats)' : '')));
+      var n = el('div', 'n');
+      if (!r || !hasVotes) {
+        n.appendChild(el('div', 'none', 'No votes yet'));
+      } else {
+        var w = winnersOf(r);
+        w.names.forEach(function (name) { n.appendChild(el('div', null, name)); });
+        if (w.tie.length) n.appendChild(el('div', 't', 'Tie: ' + w.tie.join(' / ')));
+        if (!w.names.length && !w.tie.length) n.appendChild(el('div', 'none', 'No votes yet'));
+      }
+      row.appendChild(n);
+      wc.appendChild(row);
+    });
+    wc.appendChild(el('div', 'win-f', d.voting
+      ? 'These are the current leaders and can still change while voting is open.'
+      : 'Not final until confirmed by the Nomination and Election Committee.'));
+    wl.appendChild(wc);
+
+    if (!hasVotes || !items.length) {
       host.appendChild(el('div', 'card')).appendChild(el('p', 'sub', 'No votes have been counted yet.'));
     } else {
       var h = el('div', 'lead-in', 'Standings by position');
-      h.appendChild(el('small', null, 'Contested positions show each candidate. Unopposed positions show the candidate and the votes received.'));
+      h.appendChild(el('small', null, 'Contested positions show each candidate. Unopposed positions show the candidate and the share of ballots received. Only percentages are shown.'));
       lead.appendChild(h);
     }
 
     var frag = document.createDocumentFragment();
-    (d.ballots ? items : []).forEach(function (r) {
+    (hasVotes ? items : []).forEach(function (r) {
       var card = el('div', 'card race');
       var head = el('div', 'race-h');
       head.appendChild(el('h3', null, r.title));
@@ -211,12 +278,11 @@
           snm.appendChild(el('span', 'chip ok', 'Unopposed'));
           srow.appendChild(snm);
           var svt = el('div', 'vt');
-          svt.appendChild(el('b', null, String(c.votes)));
-          svt.appendChild(el('small', null, c.pct + '%'));
+          svt.appendChild(el('b', null, c.pct + '%'));
           srow.appendChild(svt);
           var sbar = el('div', 'bar');
           var sfill = document.createElement('i');
-          sfill.style.width = Math.min(100, Math.round(c.votes / (d.ballots || 1) * 100)) + '%';
+          sfill.style.width = Math.min(100, c.pct) + '%';
           sbar.appendChild(sfill);
           srow.appendChild(sbar);
           card.appendChild(srow);
@@ -228,7 +294,7 @@
         return;
       }
 
-      var max = r.candidates[0].votes || 1;
+      var maxPct = r.candidates[0].pct || 1;
       r.candidates.forEach(function (c, i) {
         if (i > 0) card.appendChild(el('div', 'vs', 'VS'));
         var row = el('div', 'cand' + (c.leader ? ' lead' : ''));
@@ -238,28 +304,34 @@
         else if (c.leader) nm.appendChild(el('span', 'chip', 'Leading'));
         row.appendChild(nm);
         var vt = el('div', 'vt');
-        vt.appendChild(el('b', null, String(c.votes)));
-        vt.appendChild(el('small', null, c.pct + '%'));
+        vt.appendChild(el('b', null, c.pct + '%'));
         row.appendChild(vt);
         var bar = el('div', 'bar');
         var fill = document.createElement('i');
-        fill.style.width = Math.round(c.votes / max * 100) + '%';
+        fill.style.width = (c.rel !== undefined ? c.rel : Math.round(c.pct / maxPct * 100)) + '%';
         bar.appendChild(fill);
         row.appendChild(bar);
         card.appendChild(row);
       });
 
-      var f = el('div', 'race-f' + (r.gap === 0 ? ' tie' : ''));
-      if (r.gap === 0) {
+      var isTie = r.tie !== undefined ? r.tie : r.gap === 0;
+      var gapPct = r.gapPct;
+      if (gapPct === undefined) {
+        var lastWin = r.candidates[Math.min(r.seats, r.candidates.length) - 1], next = r.candidates[r.seats];
+        gapPct = next ? Math.max(0, lastWin.pct - next.pct) : 0;
+      }
+      var pts = gapPct < 1 ? 'less than 1 percentage point' : gapPct + (gapPct === 1 ? ' percentage point' : ' percentage points');
+      var f = el('div', 'race-f' + (isTie ? ' tie' : ''));
+      if (isTie) {
         f.appendChild(el('b', null, 'Tied at the cutoff.'));
         f.appendChild(document.createTextNode(' The committee will confirm the outcome.'));
       } else if (r.seats === 1) {
         f.appendChild(document.createTextNode('Leading by '));
-        f.appendChild(el('b', null, r.gap + (r.gap === 1 ? ' vote' : ' votes')));
+        f.appendChild(el('b', null, pts));
         f.appendChild(document.createTextNode('.'));
       } else {
         f.appendChild(document.createTextNode('Gap at the last winning place: '));
-        f.appendChild(el('b', null, r.gap + (r.gap === 1 ? ' vote' : ' votes')));
+        f.appendChild(el('b', null, pts));
         f.appendChild(document.createTextNode('.'));
       }
       if (r.more > 0) f.appendChild(document.createTextNode(' ' + r.more + ' more ' + (r.more === 1 ? 'candidate' : 'candidates') + ' not shown.'));
@@ -269,6 +341,7 @@
     host.appendChild(frag);
 
     $('foot').textContent = (d.voting ? 'Standings update automatically while voting is open. ' : '') +
+      'Percentages show the share of ballots cast. The number of votes is not shown. ' +
       'Results are not final until confirmed by the Nomination and Election Committee.';
     scheduleRefresh(d.voting);
   }
@@ -282,10 +355,47 @@
   // Show the last saved standings straight away, then update them from the server
   try {
     var saved = JSON.parse(localStorage.getItem('umbPub') || 'null');
-    if (saved && saved.ok && saved.published) render(saved);
+    if (saved && saved.ok && saved.published && saved.turnoutPct !== undefined) render(saved);
   } catch (e) { /* ignore */ }
 
   load();
+
+  /* Writes the word Eagles in the club's script style wherever it appears */
+  (function () {
+    var RE = /\bEagles\b/;
+    function skip(n) {
+      var p = n.parentNode;
+      return !p || /^(SCRIPT|STYLE|TEXTAREA|OPTION|TITLE|SELECT)$/.test(p.nodeName) || (p.closest && p.closest('.eag'));
+    }
+    function wrapText(node) {
+      var parts = node.nodeValue.split(/\b(Eagles)\b/);
+      var frag = document.createDocumentFragment();
+      parts.forEach(function (p) {
+        if (p === 'Eagles') { var s = document.createElement('span'); s.className = 'eag'; s.textContent = p; frag.appendChild(s); }
+        else if (p) frag.appendChild(document.createTextNode(p));
+      });
+      node.parentNode.replaceChild(frag, node);
+    }
+    function scan(root) {
+      var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), list = [], n;
+      while ((n = w.nextNode())) { if (!skip(n) && RE.test(n.nodeValue)) list.push(n); }
+      list.forEach(wrapText);
+    }
+    scan(document.body);
+    new MutationObserver(function (muts) {
+      muts.forEach(function (m) {
+        if (m.target.nodeName === 'SELECT') return;
+        if (m.type === 'characterData') {
+          if (!skip(m.target) && RE.test(m.target.nodeValue)) wrapText(m.target);
+          return;
+        }
+        m.addedNodes.forEach(function (n) {
+          if (n.nodeType === 3) { if (!skip(n) && RE.test(n.nodeValue)) wrapText(n); }
+          else if (n.nodeType === 1 && n.nodeName !== 'OPTION') scan(n);
+        });
+      });
+    }).observe(document.body, { childList: true, subtree: true, characterData: true });
+  })();
 </script>
 </body>
 </html>
