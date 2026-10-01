@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>(function(){var m=document.querySelector('meta[name=viewport]');function f(){var s=Math.min(screen.width,screen.height),p=window.matchMedia('(orientation: portrait)').matches;m.setAttribute('content',(s<440&&p)?'width=440, viewport-fit=cover':'width=device-width, initial-scale=1, viewport-fit=cover');}f();window.addEventListener('orientationchange',function(){setTimeout(f,200);});})();</script>
 <meta name="theme-color" content="#0F2747">
 <title>United Manila Braves Eagles Club</title>
 <meta name="description" content="United Manila Braves Eagles Club, Southern Tagalog Region XXXII, The Fraternal Order of Eagles - Philippine Eagles, Inc. Service Through Strong Brotherhood.">
@@ -77,20 +78,36 @@
   .menu-btn { flex: none; min-width: 48px; min-height: 48px; border: 0; background: transparent; color: #fff; cursor: pointer; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
   .menu-btn svg { display: block; }
   .nav { display: none; }
-  .nav a { color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; padding: 8px 10px; border-radius: 8px; }
-  .nav a:hover { background: rgba(255,255,255,.1); }
 
-  .sheet { position: fixed; inset: 0; z-index: 200; background: var(--navy-deep); display: none; flex-direction: column; padding: calc(env(safe-area-inset-top) + 8px) var(--pad) calc(env(safe-area-inset-bottom) + 16px); overflow-y: auto; }
+  /* grouped menu (wide screens) */
+  .nav .top { position: relative; }
+  .nav .top > a, .nav .top > button { appearance: none; -webkit-appearance: none; background: none; border: 0; font: inherit; font-size: 15px; font-weight: 500; letter-spacing: .01em; color: #fff; padding: 12px 15px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; position: relative; white-space: nowrap; }
+  .nav .top > a::before, .nav .top > button::before { content: ''; position: absolute; left: 15px; right: 15px; bottom: 5px; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .22s ease; }
+  .nav .top > a:hover::before, .nav .top > button:hover::before, .nav .top.on > a::before, .nav .top.on > button::before, .nav .top.open > button::before { transform: scaleX(1); }
+  .nav .chev { width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); opacity: .85; transition: transform .2s ease; }
+  .nav .top.open .chev, .nav .top:hover .chev { transform: rotate(-135deg) translateY(-2px); }
+  .nav .dd { position: absolute; top: 100%; left: 0; min-width: 244px; padding-top: 10px; display: none; z-index: 120; }
+  .nav .dd.right { left: auto; right: 0; }
+  .nav .top:hover .dd, .nav .top:focus-within .dd, .nav .top.open .dd { display: block; }
+  .nav .top.shut .dd { display: none !important; }
+  .nav .dd-in { background: #fff; border-radius: 12px; border-top: 3px solid var(--gold); box-shadow: 0 18px 44px rgba(8, 26, 51, .3); padding: 8px; }
+  .nav .dd-in a { display: block; color: var(--navy); text-decoration: none; padding: 11px 14px; border-radius: 8px; font-weight: 500; font-size: 15px; white-space: nowrap; }
+  .nav .dd-in a:hover, .nav .dd-in a:focus-visible { background: #EEF2F8; }
+
+  /* menu on phones */
+  .sheet { position: fixed; inset: 0; z-index: 200; background: var(--navy-deep); display: none; flex-direction: column; padding: calc(env(safe-area-inset-top) + 8px) var(--pad) calc(env(safe-area-inset-bottom) + 20px); overflow-y: auto; }
   .sheet.open { display: flex; }
-  .sheet-top { display: flex; justify-content: space-between; align-items: center; min-height: 56px; color: #fff; }
-  .sheet-top b { font-family: var(--serif); font-size: 18px; }
-  .sheet a.item { display: block; color: #fff; text-decoration: none; font-family: var(--serif); font-size: clamp(20px, 5.5vw, 26px); padding: 16px 4px; border-bottom: 1px solid rgba(255,255,255,.14); }
+  .sheet-top { display: flex; justify-content: space-between; align-items: center; min-height: 56px; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, .14); margin-bottom: 6px; }
+  .sheet-top b { font-family: var(--serif); font-size: 17px; line-height: 1.2; }
+  .sheet .grp-title { margin: 0; padding: 22px 4px 6px; font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+  .sheet a.item { display: block; color: #fff; text-decoration: none; font-family: var(--serif); font-size: 21px; padding: 14px 4px; border-bottom: 1px solid rgba(255, 255, 255, .1); }
+  .sheet a.item.sub { padding-left: 14px; font-size: 19px; }
   .sheet a.item:active { color: var(--gold); }
 
   @media (min-width: 420px) { .brand small { display: block; } .brand img { width: 50px; } }
   @media (min-width: 960px) {
     .menu-btn { display: none; }
-    .nav { display: flex; gap: 2px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav { display: flex; align-items: center; gap: 4px; }
   }
 
   /* ---------- Hero ---------- */
@@ -217,6 +234,33 @@
   .elinks a:hover { background: var(--navy); color: #fff; }
 
   [hidden] { display: none !important; }
+
+  /* Election access */
+  .elec-grid { display: grid; gap: clamp(14px, 3vw, 24px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); max-width: 960px; margin: 0 auto; }
+  .elec { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; border-top: 5px solid var(--gold); }
+  .elec .ico { width: 46px; height: 46px; border-radius: 12px; background: var(--navy); color: var(--gold-soft); display: flex; align-items: center; justify-content: center; margin-bottom: 2px; }
+  .elec h3 { margin: 0; }
+  .elec p { margin: 0; color: var(--muted); flex: 1; }
+  .elec .pill { display: inline-block; font-size: 12.5px; font-weight: 600; letter-spacing: .02em; color: #6B4E00; background: #FBF1CF; border-radius: 999px; padding: 4px 11px; }
+  .elec .btn { width: 100%; margin-top: 6px; }
+
+  /* Window that shows the election pages without leaving the website */
+  .modal { position: fixed; inset: 0; z-index: 400; display: flex; align-items: center; justify-content: center; padding: 3vh 3vw; background: rgba(6, 20, 41, .74); -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); }
+  .modal-card { width: min(1120px, 100%); height: min(920px, 100%); display: flex; flex-direction: column; background: #fff; border-radius: 16px; overflow: hidden; border-top: 4px solid var(--gold); box-shadow: 0 30px 80px rgba(0, 0, 0, .5); }
+  .modal-bar { flex: none; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 6px 0 18px; background: var(--navy); color: #fff; }
+  .modal-bar b { flex: 1; min-width: 0; font-family: var(--serif); font-size: 17px; line-height: 1.2; }
+  .modal-ext { flex: none; color: var(--gold-soft); font-size: 13.5px; font-weight: 600; text-decoration: none; padding: 8px 4px; white-space: nowrap; }
+  .modal-ext:hover { text-decoration: underline; }
+  .modal-x { flex: none; width: 48px; height: 48px; border: 0; background: transparent; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .modal-x:hover { background: rgba(255, 255, 255, .12); }
+  .modal-body { position: relative; flex: 1; min-height: 0; background: #fff; }
+  .modal-body iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+  .modal-load { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #fff; transition: opacity .3s ease; }
+  .modal-load.done { opacity: 0; pointer-events: none; }
+  .modal-load p { margin: 0; font-size: 14px; color: var(--muted); text-align: center; padding: 0 20px; }
+  .spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid #D9E0EC; border-top-color: var(--gold); animation: spinIt .8s linear infinite; }
+  @keyframes spinIt { to { transform: rotate(360deg); } }
+  @media (max-width: 700px) { .modal { padding: 0; } .modal-card { width: 100%; height: 100%; border-radius: 0; padding-top: env(safe-area-inset-top, 0px); background: var(--navy); } .modal-ext { font-size: 12.5px; } }
 
   /* Opening screen: the three logos appear one after the other, then the website. Tap anywhere to skip. No text. */
   #splash { position: fixed; inset: 0; z-index: 10000; display: flex; align-items: center; justify-content: center; padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 0px); overflow: hidden; touch-action: none; cursor: pointer;
@@ -369,6 +413,21 @@
   <div id="sheetLinks"></div>
 </div>
 
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-card">
+    <div class="modal-bar">
+      <b id="modalTitle"></b>
+      <a id="modalExt" class="modal-ext" href="#" target="_blank" rel="noopener">Open in new tab</a>
+      <button class="modal-x" id="modalClose" type="button" aria-label="Close">
+        <svg width="22" height="22" viewBox="0 0 26 26" aria-hidden="true"><path d="M5 5l16 16M21 5L5 21" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-load" id="modalLoad"><span class="spin"></span><p id="modalSlow" hidden>Taking long? Use Open in new tab.</p></div>
+    </div>
+  </div>
+</div>
+
 <main id="main">
   <section class="hero" id="home" style="padding-bottom:clamp(44px,10vw,96px)">
     <div class="wrap">
@@ -417,21 +476,28 @@
     </div>
   </section>
 
-  <section class="alt" id="about">
+  <section class="alt" id="election" hidden>
+    <div class="wrap">
+      <div class="sec-head reveal"><h2 id="elTitle">Election, Eagle Year 2027</h2><p id="elIntro"></p></div>
+      <div class="elec-grid" id="elecGrid"></div>
+    </div>
+  </section>
+
+  <section id="about">
     <div class="wrap">
       <div class="sec-head reveal"><h2>About the Club</h2></div>
       <div class="cards" id="aboutCards"></div>
     </div>
   </section>
 
-  <section id="videos" hidden>
+  <section class="alt" id="videos" hidden>
     <div class="wrap">
       <div class="sec-head reveal"><h2 id="vidTitle">Prayer and Hymns</h2><p id="vidIntro"></p></div>
       <div class="vids" id="vidList"></div>
     </div>
   </section>
 
-  <section class="alt" id="resources" hidden>
+  <section id="resources" hidden>
     <div class="wrap">
       <div class="sec-head reveal"><h2 id="resTitle">Eagles Resources</h2><p id="resIntro"></p></div>
       <div class="res-tools reveal">
@@ -442,7 +508,7 @@
     </div>
   </section>
 
-  <section id="affiliations">
+  <section class="alt" id="affiliations">
     <div class="wrap">
       <div class="sec-head reveal"><h2>Our Affiliations</h2><p>The Braves belong to a wider brotherhood.</p></div>
       <div class="cards" id="affilCards"></div>
@@ -450,7 +516,7 @@
     </div>
   </section>
 
-  <section class="alt" id="contact">
+  <section id="contact">
     <div class="wrap">
       <div class="sec-head reveal"><h2>Get in Touch</h2></div>
       <div class="contact reveal" id="contactBox"></div>
@@ -613,6 +679,15 @@
       {"name": "Matatag", "names": ["Arjay Ryan Gregory Erce", "Reynaldo Casipit", "Edward Gildon Tugon", {"name": "Angelo Jayson Gamboa", "rip": true}]},
       {"name": "Marangal", "names": ["Alberto Oliveros Jr.", "Roberto Layson", "Jerald Satina", "Jayson Evangelista", "Marco Ian Navarro", "Michael Callada", "Pamfilo Saluya Jr.", "Vincent Ulysses Julian", "Bejie Tuazon"]},
       {"name": "( ... )", "names": ["John John See", "James Sanchez", "Michael De Leon", "Erick Garcia"]}
+    ],
+
+    // Election pages that open in a window on this site (no new tab).
+    electionTitle: 'Election, Eagle Year 2027',
+    electionIntro: 'Vote, follow the standings or open the committee results. Everything opens here, on this page.',
+    election: [
+      { title: 'Voting', text: 'The official ballot page of the UMBEC election.', url: 'https://www.redjemie.com/Umbecvotings', note: '', icon: 'vote' },
+      { title: 'Committee Results', text: 'Full results, turnout and the winners list for the election committee.', url: 'https://www.redjemie.com/Umbecvotings/Results/', note: 'Committee only, PIN required', icon: 'lock' },
+      { title: 'Public Standings', text: 'The public standings of the UMBEC election.', url: 'https://www.redjemie.com/Umbecvotings/Stands/', note: '', icon: 'chart' }
     ],
 
     // Videos shown on the site. A direct .mp4 link plays in the page. A YouTube link is embedded.
@@ -837,26 +912,83 @@
     return box;
   }
 
-  /* ---- menu ---- */
-  var navItems = [['home', 'Home'], ['founder', 'Founder'], ['history', 'History'], ['kuyas', 'Kuya'], ['officers', 'Officers'], ['hall', 'Club Structure'], ['about', 'About'], ['videos', 'Hymns'], ['resources', 'Resources'], ['affiliations', 'Affiliations'], ['contact', 'Contact']];
+  /* ---- menu: a few grouped items instead of eleven tabs ---- */
+  var NAV = [
+    { label: 'Home', href: 'home' },
+    { label: 'Our Story', items: [['founder', 'Founder\u2019s Message'], ['history', 'History'], ['kuyas', 'Our Kuya']] },
+    { label: 'Structure', items: [['officers', 'Officers'], ['hall', 'UMBEC Club Structure'], ['election', 'Election']] },
+    { label: 'Learn', items: [['about', 'About the Club'], ['videos', 'Prayer and Hymns'], ['resources', 'Resources'], ['affiliations', 'Affiliations']] },
+    { label: 'Contact', href: 'contact' }
+  ];
+  function available(id) {
+    if (id === 'resources') return !!(SITE.resources && SITE.resources.length);
+    if (id === 'kuyas') return !!(SITE.batches && SITE.batches.length);
+    if (id === 'videos') return !!(SITE.videos && SITE.videos.length);
+    if (id === 'election') return !!(SITE.election && SITE.election.length);
+    return true;
+  }
   var nav = $('nav'), sheetLinks = $('sheetLinks');
+  var spyIds = [];
+  function closeAllMenus() {
+    Array.prototype.forEach.call(nav.querySelectorAll('.top.open'), function (g) { g.classList.remove('open'); g.querySelector('button').setAttribute('aria-expanded', 'false'); });
+  }
   function buildNav() {
-    nav.innerHTML = ''; sheetLinks.innerHTML = '';
-    navItems.forEach(function (s) {
-      if (s[0] === 'resources' && !(SITE.resources && SITE.resources.length)) return;
-      if (s[0] === 'kuyas' && !(SITE.batches && SITE.batches.length)) return;
-      if (s[0] === 'videos' && !(SITE.videos && SITE.videos.length)) return;
-      var a = el('a', null, s[1]); a.href = '#' + s[0]; nav.appendChild(a);
-      var b = el('a', 'item', s[1]); b.href = '#' + s[0];
-      b.addEventListener('click', closeMenu);
-      sheetLinks.appendChild(b);
+    nav.innerHTML = ''; sheetLinks.innerHTML = ''; spyIds = [];
+    NAV.forEach(function (g, gi) {
+      var items = (g.items || []).filter(function (i) { return available(i[0]); });
+      var single = g.href ? [[g.href, g.label]] : (items.length === 1 ? [[items[0][0], items[0][1]]] : null);
+      var top = el('div', 'top');
+      if (single) {
+        var a = el('a', null, single[0][1]); a.href = '#' + single[0][0]; top.appendChild(a);
+        top.setAttribute('data-ids', single[0][0]); spyIds.push(single[0][0]);
+        var m = el('a', 'item', single[0][1]); m.href = '#' + single[0][0]; m.addEventListener('click', closeMenu); sheetLinks.appendChild(m);
+      } else if (items.length) {
+        var btn = el('button', null, g.label); btn.type = 'button'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-haspopup', 'true');
+        btn.appendChild(el('span', 'chev'));
+        var dd = el('div', 'dd' + (gi >= NAV.length - 2 ? ' right' : '')), inn = el('div', 'dd-in');
+        sheetLinks.appendChild(el('p', 'grp-title', g.label));
+        items.forEach(function (i) {
+          var l = el('a', null, i[1]); l.href = '#' + i[0];
+          l.addEventListener('click', function () { top.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); top.classList.add('shut'); l.blur(); });
+          inn.appendChild(l);
+          var s2 = el('a', 'item sub', i[1]); s2.href = '#' + i[0]; s2.addEventListener('click', closeMenu); sheetLinks.appendChild(s2);
+          spyIds.push(i[0]);
+        });
+        dd.appendChild(inn); top.appendChild(btn); top.appendChild(dd);
+        top.setAttribute('data-ids', items.map(function (i) { return i[0]; }).join(' '));
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = !top.classList.contains('open');
+          closeAllMenus();
+          if (open) { top.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+        });
+        top.addEventListener('mouseleave', function () { top.classList.remove('shut'); });
+      } else return;
+      nav.appendChild(top);
+    });
+    spy();
+  }
+  document.addEventListener('click', function (e) { if (!nav.contains(e.target)) closeAllMenus(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAllMenus(); });
+
+  // the part of the page you are reading is marked in the menu
+  var spyBusy = false;
+  function spy() {
+    spyBusy = false;
+    var current = 'home';
+    spyIds.forEach(function (id) { var s = document.getElementById(id); if (s && !s.hidden && s.getBoundingClientRect().top <= 130) current = id; });
+    Array.prototype.forEach.call(nav.querySelectorAll('.top'), function (g) {
+      g.classList.toggle('on', (' ' + g.getAttribute('data-ids') + ' ').indexOf(' ' + current + ' ') > -1);
     });
   }
+  window.addEventListener('scroll', function () { if (!spyBusy) { spyBusy = true; requestAnimationFrame(spy); } }, { passive: true });
+
   var sheet = $('sheet'), menuBtn = $('menuBtn');
   function openMenu() { sheet.classList.add('open'); menuBtn.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; }
   function closeMenu() { sheet.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; }
   menuBtn.addEventListener('click', openMenu);
   $('menuClose').addEventListener('click', closeMenu);
+  window.addEventListener('resize', function () { if (window.innerWidth >= 960) closeMenu(); });
 
   /* ---- sections. Each one can be drawn again when new content arrives ---- */
   function renderHero() {
@@ -866,7 +998,7 @@
     [SITE.region, SITE.chartered ? 'Chartered ' + SITE.chartered : '', SITE.parent].forEach(function (t) { if (t) chips.appendChild(el('li', null, t)); });
     var cta = $('hCta'); cta.innerHTML = '';
     var b1 = el('a', 'btn solid', 'Meet the members'); b1.href = '#hall'; cta.appendChild(b1);
-    if (SITE.links.standings) { var b2 = el('a', 'btn', 'Election standings'); b2.href = SITE.links.standings; cta.appendChild(b2); }
+    if (SITE.links.standings) { var b2 = el('a', 'btn', 'Election standings'); b2.href = SITE.links.standings; b2.addEventListener('click', function (e) { e.preventDefault(); openModal('Public Standings', SITE.links.standings, b2); }); cta.appendChild(b2); }
     $('fName').textContent = SITE.name;
     $('fTag').textContent = SITE.tagline;
     $('fRegion').textContent = [SITE.region, SITE.parent].filter(Boolean).join(' | ');
@@ -1203,6 +1335,66 @@
     }
   }
 
+  /* ---- window for the election pages ---- */
+  var modal = $('modal'), mBody = modal.querySelector('.modal-body'), mFrame = null, mLoad = $('modalLoad'), mSlow = $('modalSlow'), mOpener = null, mPushed = false, mOpen = false, mTimer = null;
+  function cleanUrl(u) { try { return encodeURI(decodeURI(String(u).trim())); } catch (e) { return String(u).trim(); } }
+  function dropFrame() { if (mFrame && mFrame.parentNode) mFrame.parentNode.removeChild(mFrame); mFrame = null; }
+  function openModal(title, url, opener) {
+    mOpener = opener || null; mOpen = true;
+    $('modalTitle').textContent = title;
+    $('modalExt').href = cleanUrl(url);
+    mLoad.className = 'modal-load'; mSlow.hidden = true;
+    dropFrame();
+    // a new frame each time: it does not add extra steps to the browser history
+    mFrame = document.createElement('iframe');
+    mFrame.id = 'modalFrame'; mFrame.title = title; mFrame.setAttribute('allow', 'clipboard-write; fullscreen');
+    mFrame.addEventListener('load', function () { mLoad.className = 'modal-load done'; clearTimeout(mTimer); });
+    mBody.appendChild(mFrame);
+    mFrame.src = cleanUrl(url);
+    modal.hidden = false; document.body.style.overflow = 'hidden';
+    clearTimeout(mTimer); mTimer = setTimeout(function () { mSlow.hidden = false; }, 8000);
+    try { history.pushState({ umbecModal: 1 }, ''); mPushed = true; } catch (e) { mPushed = false; }
+    $('modalClose').focus();
+  }
+  function closeModal(fromPop) {
+    if (!mOpen) return;
+    mOpen = false; clearTimeout(mTimer);
+    modal.hidden = true; document.body.style.overflow = '';
+    dropFrame();
+    if (mPushed && !fromPop) { mPushed = false; try { history.back(); } catch (e) { /* ignore */ } } else { mPushed = false; }
+    if (mOpener && mOpener.focus) mOpener.focus();
+  }
+  $('modalClose').addEventListener('click', function () { closeModal(false); });
+  modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && mOpen) closeModal(false); });
+  window.addEventListener('popstate', function () { if (mOpen) closeModal(true); });
+
+  var ICONS = {
+    vote: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="12" width="18" height="9" rx="2"/><path d="M8 12V7l4-4 4 4v5"/><path d="M10 16h4"/></svg>',
+    lock: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 15v2"/></svg>',
+    chart: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>'
+  };
+  function renderElection() {
+    var sec = $('election'), grid = $('elecGrid');
+    var items = (SITE.election || []).filter(function (x) { return x.url; });
+    sec.hidden = !items.length;
+    grid.innerHTML = '';
+    if (!items.length) return;
+    $('elTitle').textContent = SITE.electionTitle;
+    $('elIntro').textContent = SITE.electionIntro;
+    items.forEach(function (x) {
+      var c = el('div', 'card elec reveal');
+      var ico = el('span', 'ico'); ico.innerHTML = ICONS[x.icon] || ICONS.vote; c.appendChild(ico);
+      c.appendChild(el('h3', null, x.title));
+      if (x.note) c.appendChild(el('span', 'pill', x.note));
+      if (x.text) c.appendChild(el('p', null, x.text));
+      var b = el('a', 'btn solid', 'Open'); b.href = cleanUrl(x.url);
+      b.addEventListener('click', function (e) { e.preventDefault(); openModal(x.title, x.url, b); });
+      c.appendChild(b);
+      grid.appendChild(c);
+    });
+  }
+
   function renderEagleLinks() {
     var box = $('eagleLinks'); box.innerHTML = '';
     if (!SITE.eagleLinks || !SITE.eagleLinks.length) return;
@@ -1252,7 +1444,7 @@
   toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
   function renderAll() {
-    buildNav(); renderHero(); renderFounder(); renderHistory(); renderKuyas(); renderOfficers(); renderHall(); renderAbout(); renderVideos(); renderResources(); renderAffil(); renderEagleLinks(); renderContact();
+    buildNav(); renderHero(); renderFounder(); renderHistory(); renderKuyas(); renderOfficers(); renderHall(); renderElection(); renderAbout(); renderVideos(); renderResources(); renderAffil(); renderEagleLinks(); renderContact();
     observeReveals();
   }
 
@@ -1300,6 +1492,11 @@
     }
     if (c.about && c.about.length) {
       SITE.about = c.about.map(function (a) { return { title: a.title || '', text: a.text || '' }; });
+    }
+    if (has('election_title')) SITE.electionTitle = s.election_title;
+    if (c.site && 'election_intro' in s) SITE.electionIntro = s.election_intro;
+    if (c.election) {
+      SITE.election = c.election.map(function (x) { return { title: x.title || '', text: x.text || '', url: x.link || '', note: x.note || '', icon: (x.icon || '').toLowerCase() }; }).filter(function (x) { return x.title; });
     }
     if (has('videos_title')) SITE.videosTitle = s.videos_title;
     if (c.site && 'videos_intro' in s) SITE.videosIntro = s.videos_intro;
