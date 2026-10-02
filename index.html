@@ -274,6 +274,23 @@ footer li a:hover{color:#fff}
 @media (prefers-reduced-motion:reduce){
   .hero-shadow{animation:none}
 }
+
+/* Parallel slanted light from the upper left */
+.hero-beams{
+  position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;
+  -webkit-mask-image:radial-gradient(85% 95% at 0% 0%,#000 0%,rgba(0,0,0,.55) 45%,transparent 80%);
+  mask-image:radial-gradient(85% 95% at 0% 0%,#000 0%,rgba(0,0,0,.55) 45%,transparent 80%);
+  background:radial-gradient(40% 45% at 0% 0%,rgba(142,196,252,.20),transparent 70%);
+}
+.hero-beams::before{
+  content:"";position:absolute;inset:-60%;
+  background:
+    repeating-linear-gradient(215deg,transparent 0 96px,rgba(170,210,255,.12) 96px 98px,transparent 98px 190px,rgba(170,210,255,.07) 190px 192px,transparent 192px 300px),
+    repeating-linear-gradient(215deg,transparent 0 150px,rgba(120,175,255,.09) 205px,transparent 260px 420px);
+  animation:beamDrift 70s ease-in-out infinite alternate;
+}
+@keyframes beamDrift{from{transform:translate3d(-3%,-2%,0)}to{transform:translate3d(4%,3%,0)}}
+@media (prefers-reduced-motion:reduce){.hero-beams::before{animation:none}}
 </style>
 </head>
 <body>
@@ -292,6 +309,7 @@ footer li a:hover{color:#fff}
 <main id="top">
   <section class="hero">
     <img class="hero-shadow" src="img/logo-nebula.webp" alt="" aria-hidden="true" width="2000" height="1200">
+    <div class="hero-beams" aria-hidden="true"></div>
     <canvas class="galaxy" aria-hidden="true"></canvas>
     <div class="hero-grid" aria-hidden="true"></div>
     <svg class="emblem" viewBox="0 0 600 600" aria-hidden="true" fill="none" stroke="currentColor">
@@ -668,58 +686,124 @@ footer li a:hover{color:#fff}
   })();
 
 
-  /* Wind ribbons with running lights: faint flowing lines, each carrying a light that travels along it */
-  var ribbons = [];
-  (function () {
-    var n = small ? 7 : 12;
-    for (var i = 0; i < n; i++) {
-      ribbons.push({
-        y: 0.10 + 0.80 * (i + rnd(0.1, 0.9)) / n,
-        a1: rnd(0.025, 0.055), a2: rnd(0.01, 0.025),
-        k1: rnd(0.9, 1.7), k2: rnd(2.2, 3.6),
-        w1: rnd(0.12, 0.26), w2: rnd(0.2, 0.4),
-        p1: rnd(0, 6.28), p2: rnd(0, 6.28),
-        period: rnd(8, 15), off: rnd(0, 15),
-        tail: rnd(180, 300),
-        warm: Math.random() < 0.22
-      });
+  /* Sand writing: a light writes "Zion" in script, and a soft wipe follows close behind, smudging the mark away. */
+  var SCRIPT = [[[0.312,0.292],[0.309,0.299],[0.304,0.309],[0.299,0.32],[0.294,0.331],[0.288,0.34],[0.283,0.347],[0.279,0.352],[0.275,0.356],[0.27,0.36],[0.264,0.365],[0.256,0.37],[0.246,0.376],[0.235,0.381],[0.225,0.386],[0.215,0.39],[0.205,0.392],[0.194,0.394],[0.184,0.394],[0.174,0.393],[0.166,0.39],[0.159,0.383],[0.153,0.373],[0.148,0.363],[0.144,0.352],[0.141,0.34],[0.14,0.331],[0.139,0.323],[0.139,0.313],[0.14,0.303],[0.141,0.292],[0.144,0.278],[0.148,0.263],[0.153,0.248],[0.159,0.232],[0.166,0.219],[0.173,0.206],[0.182,0.196],[0.192,0.186],[0.203,0.177],[0.215,0.169],[0.227,0.163],[0.242,0.157],[0.257,0.152],[0.273,0.148],[0.288,0.145],[0.303,0.144],[0.319,0.142],[0.334,0.142],[0.348,0.144],[0.361,0.145],[0.373,0.148],[0.384,0.152],[0.394,0.157],[0.402,0.163],[0.41,0.169],[0.417,0.177],[0.423,0.185],[0.427,0.194],[0.431,0.205],[0.435,0.219],[0.436,0.235],[0.437,0.255],[0.437,0.277],[0.436,0.298],[0.435,0.316],[0.431,0.332],[0.427,0.346],[0.423,0.36],[0.417,0.373],[0.41,0.39],[0.402,0.408],[0.394,0.428],[0.384,0.448],[0.373,0.469],[0.361,0.487],[0.348,0.503],[0.335,0.519],[0.32,0.532],[0.305,0.546],[0.288,0.56],[0.269,0.576],[0.248,0.592],[0.227,0.608],[0.207,0.623],[0.19,0.634],[0.177,0.642],[0.169,0.648],[0.16,0.652],[0.152,0.656],[0.141,0.658],[0.127,0.66],[0.111,0.661],[0.095,0.661],[0.08,0.66],[0.068,0.658],[0.06,0.656],[0.053,0.652],[0.049,0.647],[0.046,0.641],[0.044,0.634],[0.042,0.625],[0.04,0.615],[0.04,0.604],[0.042,0.594],[0.044,0.585],[0.046,0.578],[0.049,0.573],[0.053,0.568],[0.06,0.564],[0.068,0.56],[0.08,0.559],[0.095,0.558],[0.111,0.558],[0.127,0.559],[0.141,0.56],[0.153,0.564],[0.164,0.569],[0.173,0.574],[0.182,0.58],[0.19,0.585],[0.197,0.59],[0.202,0.594],[0.206,0.598],[0.21,0.603],[0.215,0.61],[0.22,0.617],[0.226,0.626],[0.231,0.635],[0.235,0.647],[0.239,0.658],[0.241,0.672],[0.242,0.686],[0.242,0.701],[0.241,0.717],[0.239,0.731],[0.235,0.747],[0.231,0.762],[0.226,0.777],[0.22,0.792],[0.215,0.805],[0.21,0.816],[0.206,0.825],[0.202,0.834],[0.197,0.843],[0.19,0.854],[0.182,0.868],[0.173,0.884],[0.162,0.9],[0.152,0.915],[0.141,0.927],[0.131,0.936],[0.121,0.943],[0.11,0.948],[0.101,0.951],[0.093,0.952],[0.085,0.95],[0.08,0.947],[0.075,0.941],[0.071,0.935],[0.068,0.927],[0.066,0.919],[0.065,0.91],[0.065,0.901],[0.066,0.89],[0.068,0.878],[0.071,0.865],[0.075,0.851],[0.08,0.835],[0.085,0.82],[0.093,0.805],[0.1,0.79],[0.109,0.776],[0.119,0.761],[0.13,0.746],[0.141,0.731],[0.154,0.717],[0.169,0.701],[0.184,0.686],[0.199,0.672],[0.215,0.658],[0.228,0.648],[0.24,0.638],[0.253,0.63],[0.269,0.62],[0.288,0.61],[0.315,0.595],[0.348,0.578],[0.383,0.561],[0.414,0.547],[0.435,0.536]],[[0.66,0.374],[0.684,0.374]],[[0.589,0.585],[0.597,0.568],[0.609,0.541],[0.623,0.513],[0.633,0.492],[0.637,0.487],[0.633,0.502],[0.623,0.532],[0.609,0.57],[0.597,0.606],[0.589,0.633],[0.585,0.65],[0.584,0.661],[0.585,0.669],[0.586,0.676],[0.589,0.682],[0.592,0.69],[0.597,0.695],[0.602,0.7],[0.608,0.704],[0.613,0.706],[0.618,0.709],[0.622,0.71],[0.626,0.71],[0.631,0.709],[0.637,0.706],[0.646,0.703],[0.656,0.698],[0.667,0.694],[0.677,0.688],[0.686,0.682],[0.692,0.678],[0.697,0.675],[0.7,0.671],[0.705,0.666],[0.71,0.658],[0.719,0.645],[0.731,0.628],[0.743,0.611],[0.752,0.595],[0.76,0.585]],[[0.987,0.245],[0.98,0.244],[0.971,0.244],[0.96,0.243],[0.948,0.244],[0.938,0.245],[0.927,0.248],[0.917,0.253],[0.907,0.258],[0.898,0.264],[0.889,0.269],[0.882,0.274],[0.877,0.278],[0.873,0.282],[0.869,0.287],[0.865,0.294],[0.86,0.302],[0.854,0.311],[0.848,0.322],[0.844,0.332],[0.84,0.343],[0.838,0.352],[0.837,0.362],[0.837,0.372],[0.838,0.381],[0.84,0.391],[0.844,0.402],[0.847,0.412],[0.852,0.423],[0.858,0.432],[0.865,0.44],[0.873,0.448],[0.882,0.453],[0.893,0.458],[0.903,0.462],[0.914,0.465],[0.923,0.467],[0.933,0.468],[0.943,0.468],[0.952,0.467],[0.962,0.465],[0.973,0.461],[0.983,0.456],[0.994,0.452],[1.003,0.446],[1.011,0.44],[1.018,0.435],[1.023,0.431],[1.027,0.427],[1.031,0.423],[1.035,0.416],[1.041,0.408],[1.047,0.398],[1.052,0.388],[1.056,0.377],[1.06,0.367],[1.062,0.357],[1.063,0.348],[1.063,0.338],[1.062,0.328],[1.06,0.319],[1.057,0.308],[1.053,0.298],[1.048,0.287],[1.043,0.277],[1.035,0.269],[1.027,0.262],[1.017,0.256],[1.006,0.25],[0.995,0.246],[0.987,0.245],[0.98,0.246],[0.974,0.25],[0.969,0.256],[0.965,0.262],[0.962,0.269],[0.96,0.277],[0.96,0.287],[0.96,0.298],[0.96,0.308],[0.962,0.319],[0.965,0.328],[0.969,0.339],[0.974,0.349],[0.98,0.359],[0.987,0.367],[0.994,0.374],[1.003,0.38],[1.013,0.385],[1.024,0.389],[1.035,0.391],[1.049,0.394],[1.065,0.394],[1.081,0.394],[1.095,0.394],[1.109,0.391],[1.121,0.388],[1.131,0.384],[1.141,0.378],[1.15,0.373],[1.158,0.367],[1.165,0.362],[1.171,0.356],[1.176,0.351],[1.179,0.346],[1.182,0.343]],[[1.263,0.101],[1.269,0.09],[1.279,0.074],[1.29,0.056],[1.302,0.04],[1.312,0.027],[1.322,0.019],[1.332,0.012],[1.343,0.006],[1.352,0.004],[1.36,0.003],[1.368,0.005],[1.373,0.009],[1.378,0.015],[1.382,0.022],[1.385,0.027],[1.387,0.031],[1.388,0.034],[1.388,0.037],[1.387,0.042],[1.385,0.052],[1.382,0.067],[1.377,0.087],[1.372,0.109],[1.366,0.131],[1.36,0.149],[1.356,0.167],[1.35,0.184],[1.344,0.2],[1.34,0.213],[1.336,0.223]],[[1.36,0.149],[1.364,0.144],[1.368,0.135],[1.373,0.124],[1.378,0.113],[1.385,0.101],[1.394,0.087],[1.403,0.071],[1.414,0.054],[1.424,0.04],[1.434,0.027],[1.444,0.019],[1.453,0.013],[1.464,0.009],[1.473,0.006],[1.483,0.003],[1.493,0.001],[1.504,0.0],[1.514,0.0],[1.523,0.001],[1.531,0.003],[1.539,0.006],[1.544,0.01],[1.549,0.015],[1.553,0.02],[1.556,0.027],[1.558,0.035],[1.559,0.044],[1.559,0.054],[1.558,0.065],[1.556,0.077],[1.552,0.09],[1.547,0.105],[1.541,0.121],[1.535,0.136],[1.531,0.149],[1.53,0.161],[1.529,0.172],[1.529,0.181],[1.53,0.19],[1.531,0.198],[1.535,0.206],[1.54,0.211],[1.545,0.216],[1.551,0.22],[1.556,0.223],[1.56,0.225],[1.565,0.226],[1.569,0.226],[1.574,0.225],[1.581,0.223],[1.59,0.219],[1.6,0.215],[1.61,0.21],[1.621,0.204],[1.63,0.198],[1.635,0.194],[1.64,0.191],[1.644,0.187],[1.648,0.182],[1.654,0.174],[1.663,0.161],[1.674,0.144],[1.685,0.127],[1.696,0.111],[1.703,0.101]]];
+  var STAIRS = [[0.0,1.0],[0.51,1.0],[0.51,0.758],[0.798,0.758],[0.798,0.516],[1.223,0.516],[1.223,0.274],[1.744,0.274]];
+  var ASPECT = 1.744;
+  var tPts = [], tStairs = [], tLen = 0, tSpeed = 120, tVis = 240, tWipe = 46, tPause = 60, tOff = 8;
+  var dust = [], tLast = 0;
+
+  function buildTrace(m) {
+    var hh = Math.min(H * 0.5, m ? 150 : 430);
+    var ww = hh * ASPECT;
+    var bx = W * (m ? 0.5 : 0.45), by = H * (m ? 0.42 : 0.47);
+    var ox = bx - ww / 2, oy = by - hh / 2;
+    var ang = 0, sh = 0.2, ca = Math.cos(ang), sa = Math.sin(ang);   // letters climb like stairs, leaning forward (palihis)
+    tOff = m ? 5 : 8;
+    function tf(x, y) {
+      var dx = x - bx, dy = y - by;
+      dx = dx - dy * sh;
+      return [bx + dx * ca - dy * sa, by + dx * sa + dy * ca];
     }
-  })();
-  function ribbonY(r, x, t) {
-    var u = x / W;
-    return H * (r.y + r.a1 * Math.sin(u * r.k1 * 6.2832 + t * r.w1 * 6.2832 + r.p1) + r.a2 * Math.sin(u * r.k2 * 6.2832 - t * r.w2 * 6.2832 + r.p2));
+    tPts = []; tLen = 0;
+    tStairs = STAIRS.map(function (q) { return tf(ox + q[0] * hh, oy + q[1] * hh); });
+    SCRIPT.forEach(function (st, si) {
+      var pts = st.map(function (q) { return tf(ox + q[0] * hh, oy + q[1] * hh); });
+      for (var i = 0; i < pts.length - 1; i++) {
+        var A = pts[i], B = pts[i + 1], L = Math.hypot(B[0] - A[0], B[1] - A[1]), n = Math.max(1, Math.round(L / 3));
+        for (var k = 0; k < n; k++) tPts.push({ x: A[0] + (B[0] - A[0]) * k / n, y: A[1] + (B[1] - A[1]) * k / n, poly: si });
+      }
+      var last = pts[pts.length - 1];
+      tPts.push({ x: last[0], y: last[1], poly: si });
+    });
+    tLen = tPts.length;
+    dust = [];
   }
-  function drawWind(t) {
-    ctx.globalCompositeOperation = 'lighter';
-    ctx.lineCap = 'round';
-    var step = 26;
-    for (var i = 0; i < ribbons.length; i++) {
-      var r = ribbons[i];
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = r.warm ? 'rgba(245,160,90,.06)' : 'rgba(142,196,252,.07)';
-      ctx.globalAlpha = 1;
+
+  function smooth(x) { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); }
+
+  function drawTrace(t) {
+    if (!tLen) return;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 1.2;
+    ctx.setLineDash([10, 8]); ctx.strokeStyle = 'rgba(160,205,255,.26)'; ctx.globalAlpha = 1;
+    ctx.beginPath();
+    for (var sp = 0; sp < tStairs.length; sp++) { if (sp === 0) ctx.moveTo(tStairs[sp][0], tStairs[sp][1]); else ctx.lineTo(tStairs[sp][0], tStairs[sp][1]); }
+    ctx.stroke(); ctx.setLineDash([]);
+    if (reduce) {                                   // still frame: a faint signature
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 1.2;
+      ctx.strokeStyle = 'rgba(160,205,255,.14)'; ctx.globalAlpha = 1;
       ctx.beginPath();
-      for (var x = -step; x <= W + step; x += step) {
-        var y = ribbonY(r, x, t);
-        if (x === -step) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      for (var z = 0; z < tLen; z++) {
+        var q = tPts[z];
+        if (z === 0 || tPts[z - 1].poly !== q.poly) ctx.moveTo(q.x, q.y); else ctx.lineTo(q.x, q.y);
       }
+      ctx.stroke(); return;
+    }
+
+    var cyc = tLen + tVis + tPause;
+    var h = (t * tSpeed) % cyc;
+    var pen = Math.min(h, tLen - 1), e = h - tVis;
+    var dt = Math.min(0.1, t - tLast); tLast = t;
+
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    var from = Math.max(2, Math.floor(e)), to = Math.min(tLen - 2, Math.floor(pen));
+    var offs = [-tOff, 0, tOff];
+    for (var i = from; i <= to; i++) {
+      var a = tPts[i - 1], b = tPts[i], c = tPts[i + 1];
+      if (a.poly !== b.poly || b.poly !== c.poly) continue;
+      var u = (i - e) / tVis;
+      var keep = smooth((i - e) / tWipe);
+      var press = 0.55 + 0.45 * Math.sin(i * 0.045);
+      var tx = c.x - a.x, ty = c.y - a.y, tl = Math.hypot(tx, ty) || 1, nx = -ty / tl, ny = tx / tl;
+      var px = tPts[i - 1], py = tPts[i];
+      for (var o = 0; o < 3; o++) {                  // three parallel strokes, like a multi-nib pen
+        var off = offs[o], mid = o === 1;
+        ctx.strokeStyle = 'rgba(190,225,255,' + (keep * (0.3 + 0.62 * u) * (mid ? 1 : 0.7)).toFixed(3) + ')';
+        ctx.lineWidth = mid ? (0.9 + 1.2 * press) * (0.6 + 0.6 * u) : (0.7 + 0.5 * press) * (0.6 + 0.6 * u);
+        ctx.beginPath();
+        ctx.moveTo(px.x + nx * off, px.y + ny * off);
+        ctx.lineTo(py.x + nx * off, py.y + ny * off);
+        ctx.stroke();
+      }
+      if (i - e < tWipe * 1.6) {                     // soft smudge where the wipe passes
+        ctx.strokeStyle = 'rgba(120,175,255,' + (0.06 * (1 - smooth((i - e) / (tWipe * 1.6)))).toFixed(3) + ')';
+        ctx.lineWidth = tOff * 2 + 10;
+        ctx.beginPath(); ctx.moveTo(px.x, px.y); ctx.lineTo(py.x, py.y); ctx.stroke();
+      }
+    }
+
+    var ei = Math.floor(e);
+    if (ei >= 1 && ei < tLen) {
+      var w = tPts[ei], wp = tPts[Math.max(0, ei - 1)];
+      ctx.globalAlpha = 0.16;
+      ctx.drawImage(starSprite, w.x - 46, w.y - 46, 92, 92);
+      if (Math.random() < 0.7 && dust.length < 60) {
+        var ang2 = Math.atan2(w.y - wp.y, w.x - wp.x) + rnd(-1.2, 1.2);
+        dust.push({ x: w.x + rnd(-6, 6), y: w.y + rnd(-6, 6), vx: Math.cos(ang2) * rnd(8, 26), vy: Math.sin(ang2) * rnd(8, 26) - 6, life: 1, s: rnd(0.8, 1.8) });
+      }
+    }
+    for (var d = dust.length - 1; d >= 0; d--) {
+      var g = dust[d]; g.life -= dt * 0.7; g.x += g.vx * dt; g.y += g.vy * dt; g.vx *= 0.985; g.vy *= 0.985;
+      if (g.life <= 0) { dust.splice(d, 1); continue; }
+      ctx.globalAlpha = g.life * 0.55; ctx.fillStyle = '#BBD9FF';
+      ctx.fillRect(g.x, g.y, g.s, g.s);
+    }
+
+    // the pen: a big point of light with a glint
+    if (h < tLen) {
+      var pn = tPts[Math.floor(pen)];
+      var pulse = 1 + 0.08 * Math.sin(t * 6);
+      ctx.globalAlpha = 0.9;
+      ctx.drawImage(starSprite, pn.x - 62 * pulse, pn.y - 62 * pulse, 124 * pulse, 124 * pulse);
+      ctx.globalAlpha = 0.55; ctx.strokeStyle = 'rgba(210,235,255,.9)'; ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pn.x - 44, pn.y); ctx.lineTo(pn.x + 44, pn.y);
+      ctx.moveTo(pn.x, pn.y - 44); ctx.lineTo(pn.x, pn.y + 44);
       ctx.stroke();
-      if (reduce) continue;
-      var prog = (((t + r.off) / r.period) % 1);
-      var head = -r.tail + prog * (W + r.tail * 2);
-      var segs = 26, sl = r.tail / segs, col = r.warm ? '255,170,100' : '170,210,255';
-      var px = head, py = ribbonY(r, head, t);
-      for (var j = 1; j <= segs; j++) {
-        var nx = head - j * sl, ny = ribbonY(r, nx, t);
-        var f = 1 - j / segs;
-        ctx.strokeStyle = 'rgba(' + col + ',' + (f * f * 0.55).toFixed(3) + ')';
-        ctx.lineWidth = 0.6 + f * 1.4;
-        ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(nx, ny); ctx.stroke();
-        px = nx; py = ny;
-      }
-      var hy = ribbonY(r, head, t);
-      ctx.globalAlpha = 0.85;
-      ctx.drawImage(starSprite, head - 9, hy - 9, 18, 18);
+      ctx.globalAlpha = 1; ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath(); ctx.arc(pn.x, pn.y, 4.5, 0, 6.2832); ctx.fill();
     }
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
@@ -807,6 +891,7 @@ footer li a:hover{color:#fff}
     hero.style.setProperty('--gx', cx + 'px'); hero.style.setProperty('--gy', cy + 'px');
     R = Math.min(W * (m ? 0.62 : 0.31), H * 0.6);
     placeScorpius(m);
+    buildTrace(m);
     if (reduce) draw(0);
   }
 
@@ -823,7 +908,7 @@ footer li a:hover{color:#fff}
       ctx.fillRect(x, st.y * H, st.s, st.s);
     }
 
-    drawWind(t);
+    drawTrace(t);
 
     var halo = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 1.1);
     halo.addColorStop(0, 'rgba(255,200,140,.55)');
