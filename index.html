@@ -245,7 +245,7 @@ footer li a:hover{color:#fff}
 
 /* Logo */
 .brand{display:inline-flex;align-items:center;gap:12px}
-.brand-logo{width:36px;height:36px;border-radius:9px;flex:none}
+.brand-logo{height:36px;width:auto;max-width:56px;border-radius:0;object-fit:contain;flex:none}
 .hero-mark{
   position:absolute;left:var(--gx,78%);top:var(--gy,47%);transform:translate(-50%,-50%);
   width:clamp(56px,6vw,84px);height:auto;z-index:1;pointer-events:none;
@@ -253,27 +253,6 @@ footer li a:hover{color:#fff}
   animation:fade 2.4s .4s ease both;
 }
 
-/* Giant R&J nebula shadow at the back of the universe */
-.hero-mark{display:none}
-.hero-shadow{
-  position:absolute;left:50%;top:50%;
-  width:min(135vw,1750px);height:auto;max-width:none;
-  transform:translate(-46%,-50%);
-  opacity:.42;z-index:0;pointer-events:none;
-  animation:shadowIn 3.2s ease both,shadowDrift 52s ease-in-out infinite alternate;
-  will-change:transform;
-}
-@keyframes shadowIn{from{opacity:0}to{opacity:.42}}
-@keyframes shadowDrift{
-  from{transform:translate(-47.5%,-51%) scale(1) rotate(-.6deg)}
-  to{transform:translate(-44.5%,-49%) scale(1.06) rotate(.6deg)}
-}
-@media (max-width:899px){
-  .hero-shadow{width:210vw;top:56%}
-}
-@media (prefers-reduced-motion:reduce){
-  .hero-shadow{animation:none}
-}
 
 /* Parallel slanted light from the upper left */
 .hero-beams{
@@ -295,6 +274,7 @@ footer li a:hover{color:#fff}
 /* keep the content readable over the moving light */
 .hero h1{text-shadow:0 2px 26px rgba(5,11,22,.55)}
 .hero .lead{text-shadow:0 1px 16px rgba(5,11,22,.65);color:rgba(243,247,255,.84)}
+
 </style>
 </head>
 <body>
@@ -302,7 +282,7 @@ footer li a:hover{color:#fff}
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="redjemie Visions, back to top"><img class="brand-logo" src="img/logo.png" alt="" width="36" height="36"><span>redjemie Visions</span></a>
+    <a class="brand" href="#top" aria-label="redjemie Visions, back to top"><img class="brand-logo" src="img/logo.png" alt="" width="36" height="36" onerror="this.style.display='none'"><span>redjemie Visions</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#brands">Brands</a>
       <a class="btn btn-sm" href="#contact">Contact</a>
@@ -312,7 +292,6 @@ footer li a:hover{color:#fff}
 
 <main id="top">
   <section class="hero">
-    <img class="hero-shadow" src="img/logo-nebula.webp" alt="" aria-hidden="true" width="2000" height="1200">
     <div class="hero-beams" aria-hidden="true"></div>
     <canvas class="galaxy" aria-hidden="true"></canvas>
     <div class="hero-grid" aria-hidden="true"></div>
@@ -537,7 +516,7 @@ footer li a:hover{color:#fff}
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="brand" href="#top"><img class="brand-logo" src="img/logo.png" alt="" width="36" height="36"><span>redjemie Visions</span></a>
+        <a class="brand" href="#top"><img class="brand-logo" src="img/logo.png" alt="" width="36" height="36" onerror="this.style.display='none'"><span>redjemie Visions</span></a>
         <p>A curated group of businesses spanning technology, education, weddings, luxury jewelry, hospitality, trading, and beauty.</p>
       </div>
       <div>
